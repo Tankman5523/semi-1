@@ -18,7 +18,7 @@ public class Board {
 	STATUS	VARCHAR2(1 BYTE)
 	*/
 	private int boardNo;
-	private int boardWriter;
+	private String boardWriter;
 	private int categoryNo;
 	private String title;
 	private String content;
@@ -34,10 +34,9 @@ public class Board {
 	//생성자
 	public Board() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
-	public Board(int boardNo, int boardWriter, int categoryNo, String title, String content, int count, Date createDate,
+	public Board(int boardNo, String boardWriter, int categoryNo, String title, String content, int count, Date createDate,
 			int liked, int reportCount, String notice, int rpCount, String status) {
 		super();
 		this.boardNo = boardNo;
@@ -55,6 +54,16 @@ public class Board {
 	}
 	
 	
+	//게시판리스트관련 생성자
+	public Board(int boardNo, String boardWriter, String title, int count, Date createDate) {
+		super();
+		this.boardNo = boardNo;
+		this.boardWriter = boardWriter;
+		this.title = title;
+		this.count = count;
+		this.createDate = createDate;
+	}
+
 	//게터세터
 	public int getBoardNo() {
 		return boardNo;
@@ -62,10 +71,10 @@ public class Board {
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;
 	}
-	public int getBoardWriter() {
+	public String getBoardWriter() {
 		return boardWriter;
 	}
-	public void setBoardWriter(int boardWriter) {
+	public void setBoardWriter(String boardWriter) {
 		this.boardWriter = boardWriter;
 	}
 	public int getCategoryNo() {
