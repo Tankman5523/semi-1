@@ -30,7 +30,15 @@ public class Board {
 	private int rpCount;
 	private String status;
 	
+	//사건정보와 묶어서 가져갈 필드(필터검색용)
+	private int ref_pno; //사건종류 번호
+	private String insuranceType; //보험유형
+	private String region; //지역
 	
+	//썸네일용 파일경로 가져가기
+	private String filePath;
+	
+
 	//생성자
 	public Board() {
 		super();
@@ -63,11 +71,67 @@ public class Board {
 		this.count = count;
 		this.createDate = createDate;
 	}
+	
+	//사건영상게시판 리스트 생성자
+	public Board(int boardNo, String boardWriter, String title, int count, Date createDate, int ref_pno,
+			String insuranceType, String region, String filePath) {
+		super();
+		this.boardNo = boardNo;
+		this.boardWriter = boardWriter;
+		this.title = title;
+		this.count = count;
+		this.createDate = createDate;
+		this.ref_pno = ref_pno;
+		this.insuranceType = insuranceType;
+		this.region = region;
+		this.filePath = filePath;
+	}
+	
+	
+	
+	
+	//사건필드 게터세터
+	public int getRef_pno() {
+		return ref_pno;
+	}
+
+	public void setRef_pno(int ref_pno) {
+		this.ref_pno = ref_pno;
+	}
+	
+	public String getInsuranceType() {
+		return insuranceType;
+	}
+	
+	public void setInsuranceType(String insuranceType) {
+		this.insuranceType = insuranceType;
+	}
+	
+	public String getRegion() {
+		return region;
+	}
+	
+	public void setRegion(String region) {
+		this.region = region;
+	}
+	
+	//파일패스 게터세터
+	
+	public String getFilePath() {
+		return filePath;
+	}
+	
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+	
+	
 
 	//게터세터
 	public int getBoardNo() {
 		return boardNo;
 	}
+
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;
 	}
