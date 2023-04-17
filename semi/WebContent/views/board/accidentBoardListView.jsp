@@ -120,6 +120,8 @@
     <title>Document</title>
 </head>
 <body>
+<%@include file="../common/header.jsp" %>
+
 	<!-- 메뉴바 인클루드 하세요 -->
     <div class="outer">
         <div id="accidentBoardHead">
