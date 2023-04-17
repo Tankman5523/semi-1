@@ -1,7 +1,6 @@
 package com.bbbox.board.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,16 +12,16 @@ import com.bbbox.board.model.service.BoardService;
 import com.bbbox.board.model.vo.Board;
 
 /**
- * Servlet implementation class BoardListController
+ * Servlet implementation class BoardDetailController
  */
-@WebServlet("/list.bo")
-public class BoardListController extends HttpServlet {
+@WebServlet("/detail.bo")
+public class BoardDetailController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardListController() {
+    public BoardDetailController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,18 +31,30 @@ public class BoardListController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		ArrayList<Board> list = new BoardService().selectBoardList();
+		int boardNo = Integer.parseInt(request.getParameter("bno"));
+		
+		//조회수 증가부터
+		int result = new BoardService().increaseBoardCount(boardNo);
 		
 		
-		request.setAttribute("boardList", list);
-		request.getRequestDispatcher("views/board/boardListView.jsp").forward(request, response);
-		
+		if(result>0) {
+			Board b = new BoardService().selectBoard(boardNo);
+			
+			
+			request.setAttribute("board", b);
+			
+
+			request.getRequestDispatcher("views/board/boardDetailView.jsp").forward(request, response);
+		}else {
+			System.out.println("조회수 증가 실패");
+		}
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
