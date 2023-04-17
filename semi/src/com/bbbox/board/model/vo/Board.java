@@ -55,19 +55,38 @@ public class Board {
 	
 	
 	//게시판리스트관련 생성자
-	public Board(int boardNo, String boardWriter, String title, int count, Date createDate) {
+	public Board(int boardNo, String boardWriter, String title, int count, Date createDate, int liked, int rpCount) {
 		super();
 		this.boardNo = boardNo;
 		this.boardWriter = boardWriter;
 		this.title = title;
 		this.count = count;
 		this.createDate = createDate;
+		this.liked = liked;
+		this.rpCount = rpCount;
 	}
+	
+	//특정 게시글 하나 조회하는데 관련된 생성자
+	public Board(int boardNo, String boardWriter, String title, String content, int count, Date createDate, int liked,
+			int rpCount) {
+		super();
+		this.boardNo = boardNo;
+		this.boardWriter = boardWriter;
+		this.title = title;
+		this.content = content;
+		this.count = count;
+		this.createDate = createDate;
+		this.liked = liked;
+		this.rpCount = rpCount;
+	}
+	
 
+	
 	//게터세터
 	public int getBoardNo() {
 		return boardNo;
 	}
+
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;
 	}
