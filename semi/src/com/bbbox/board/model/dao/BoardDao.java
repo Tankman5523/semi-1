@@ -120,7 +120,7 @@ public class BoardDao {
 			JDBCTemplate.close(pstmt);
 		}
 		
-		
+		//ㅎㅇ
 		
 		
 		return b;
