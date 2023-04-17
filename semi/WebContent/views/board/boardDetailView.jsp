@@ -4,13 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>메인페이지</title>
+<title>Insert title here</title>
 </head>
 <body>
-<%@include file="views/common/header.jsp" %>
-<%@include file="views/common/menubar.jsp" %>
-	
-	
-
+	왓니?
 </body>
 </html>

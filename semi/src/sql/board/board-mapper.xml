@@ -2,10 +2,29 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 
 <properties>
+	<!-- 일반 게시판 리스트 조회 -->
 	<entry key="selectBoardList">
-		SELECT BOARD_NO, USER_ID, TITLE, COUNT, CREATE_DATE
+		SELECT BOARD_NO, USER_ID, TITLE, COUNT, CREATE_DATE, LIKED, RP_COUNT
 		FROM BOARD B
 		JOIN  MEMBER M ON(BOARD_WRITER = USER_NO)
 		WHERE B.STATUS = 'Y'
+		AND CATEGORY_NO = 1
+		AND NOTICE = 'N'
+	</entry>
+	
+	<!-- 조회수 증가 -->
+	<entry key="increaseBoardCount">
+		UPDATE BOARD
+		SET COUNT = COUNT+1
+		WHERE BOARD_NO = ?
+	</entry>
+	
+	<entry key="selectBoard">
+		SELECT BOARD_NO, USER_ID, TITLE, CONTENT, COUNT, CREATE_DATE, LIKED, RP_COUNT
+		FROM BOARD B
+		JOIN MEMBER M ON(BOARD_WRITER = USER_NO)
+		WHERE B.STATUS = 'Y'
+		AND BOARD_NO = ?
+		AND NOTICE = 'N'
 	</entry>
 </properties>
