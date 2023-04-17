@@ -9,5 +9,7 @@
 <body>
 <%@include file="views/common/menubar.jsp" %>
 	<h1>메인페이지</h1>
+	
+	<a href="list.bo">게시판</a>
 </body>
 </html>

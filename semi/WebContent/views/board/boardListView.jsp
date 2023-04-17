@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.util.ArrayList, com.bbbox.board.model.vo.Board"%>
+<%
+	ArrayList<Board> list = (ArrayList<Board>)request.getAttribute("boardList");
+%>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,13 +50,21 @@
 						</tr>
 	            	</thead>
 	            	<tbody>
+	            	<%if(list.isEmpty()){ %>
+	            		<tr>
+	            			<td colspan="5">작성된 게시글이 없습니다.</td>
+	            		</tr>
+	            	<%}else{ %>
+	            		<%for(Board b : list){ %>
 						<tr>
-							<td>1</td>
-							<td>여기가 자유게시판인가요</td>
-							<td>hoBBangMan</td>
-							<td>2023-04-17</td>
-							<td>2</td>
+							<td><%=b.getBoardNo()%></td>
+							<td><%=b.getContent() %></td>
+							<td><%=b.getBoardWriter() %></td>
+							<td><%=b.getCreateDate() %></td>
+							<td><%=b.getCount() %></td>
 						</tr>
+						<%} %>
+					<%} %>
 					</tbody>
 				</table>
 			</div>
