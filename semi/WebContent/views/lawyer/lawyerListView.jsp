@@ -172,9 +172,7 @@
     </div>
     <script>
     	$("#lawList>div").click(function(){
-    		
     		location.href="<%=contextPath%>/detail.la?lno="+$(this).children("input[name=lno]").val();
-    	
     	});
     </script>
 </body>
