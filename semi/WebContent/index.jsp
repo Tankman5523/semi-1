@@ -7,8 +7,11 @@
 <title>메인페이지</title>
 </head>
 <body>
-<%@include file="views/common/header.jsp" %>
-<%@include file="views/common/menubar.jsp" %>
+
+<%@ include file = "views/common/mainMenu.jsp" %>	
+
+
+
 	
 	
 
