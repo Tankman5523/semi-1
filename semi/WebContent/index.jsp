@@ -10,7 +10,13 @@
 </style>
 </head>
 <body>
-<%@include file="views/common/title.jsp" %>
+
+
+<%@ include file = "views/common/mainMenu.jsp" %>	
+
+
+
+	
 
 </body>
 </html>

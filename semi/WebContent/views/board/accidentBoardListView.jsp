@@ -7,6 +7,7 @@
 <%	
 	ArrayList<Board> blist = (ArrayList<Board>)request.getAttribute("blist");
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
+
 %>    
 <!DOCTYPE html>
 <html>
@@ -116,10 +117,9 @@
     <title>Document</title>
 </head>
 <body>
-<%@include file="../common/header.jsp" %>
 
-	<!-- 메뉴바 인클루드 하세요 -->
-	<%@include file="../common/title.jsp" %>
+<%@include file="../common/mainMenu.jsp" %>
+
 	
     <div class="outer">
         <div id="accidentBoardHead">

@@ -122,8 +122,8 @@
 </head>
 <body>
 	<!-- 메뉴바 인클루드 하세요 -->
-	<%@include file="../common/header.jsp" %>
-	<%@include file="../common/menubar.jsp" %>
+	<%@include file="../common/mainMenu.jsp" %>
+	
     <div class="outer">
         <div id="accidentBoardHead">
             <div class="boardName">
