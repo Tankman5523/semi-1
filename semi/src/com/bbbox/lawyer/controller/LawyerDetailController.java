@@ -1,8 +1,6 @@
 package com.bbbox.lawyer.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,19 +9,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bbbox.lawyer.model.service.LawyerService;
 import com.bbbox.lawyer.model.vo.Lawyer;
-import com.bbbox.lawyer.model.vo.PartCategory;
 
 /**
- * Servlet implementation class LawyerListController
+ * Servlet implementation class LawyerDetailController
  */
-@WebServlet("/list.la")
-public class LawyerListController extends HttpServlet {
+@WebServlet("/detail.la")
+public class LawyerDetailController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LawyerListController() {
+    public LawyerDetailController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,13 +29,13 @@ public class LawyerListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Lawyer> lawList = new LawyerService().selectList();
-		ArrayList<PartCategory> pList = new LawyerService().selectPart();
+		int lno = Integer.parseInt(request.getParameter("lno"));
 		
+		Lawyer law = new LawyerService().selectLawyer(lno);
 		
-		request.setAttribute("lawList", lawList);
-		request.setAttribute("pList", pList);
-		request.getRequestDispatcher("views/lawyer/lawyerListView.jsp").forward(request, response);
+		request.setAttribute("law", law);
+		request.getRequestDispatcher("views/lawyer/lawyerDetailView.jsp").forward(request, response);
+		
 	}
 
 	/**
