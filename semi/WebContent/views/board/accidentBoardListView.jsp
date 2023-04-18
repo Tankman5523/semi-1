@@ -7,9 +7,6 @@
 <%	
 	ArrayList<Board> blist = (ArrayList<Board>)request.getAttribute("blist");
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
-	//임시 컨텍스트패스
-	String contextPath = request.getContextPath();
-
 %>    
 <!DOCTYPE html>
 <html>
@@ -20,11 +17,11 @@
         div{
             border: 1px solid black;
             box-sizing: border-box;
-            margin: auto;
         }
         .outer{
             width: 1200px;
             height: 1200px;
+            margin: auto;
         }
 
         /*헤더 영역*/
@@ -92,6 +89,7 @@
         #accidentBoardList-area>table{
             float: left;
             margin: 14px;
+            border: 1px solid black;
         }
         /*게시글 호버시*/
         #accidentBoardList-area>table:hover{
@@ -100,8 +98,6 @@
         }
         
         .accidentBoardList{
-            border: 1px solid black;
-            
         }
         
         /*썸네일 */
@@ -121,6 +117,8 @@
 </head>
 <body>
 	<!-- 메뉴바 인클루드 하세요 -->
+	<%@include file="../common/title.jsp" %>
+	
     <div class="outer">
         <div id="accidentBoardHead">
             <div class="boardName">
@@ -192,21 +190,22 @@
 	                    </tr>
 	                </table>
 	                <%} %>
-                <%}else{%>
+                <%}else{%><!-- 게시물이 없을시 처리 -->
                 	게시물이 없습니다.
                 <%} %>
             </div>
+            <!-- 페이징바 -->
             <div class="pageMover" align="center">
                	 <%if(pi.getCurrentPage() != 1){ %>
 					<button onclick="location.href='<%=contextPath%>/list.ac?currentPage=<%=pi.getCurrentPage()-1%>'">&lt;</button>
 				<%} %>
 			
 				<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++){ %>
-				<!-- 내가 보고있는 페이지 버튼은 비활성화 하기 -->
+				<!-- 내가 보고있는 페이지 버튼은 비활성화 -->
 					<%if(i != pi.getCurrentPage()){ %>
 						<button onclick="location.href='<%=contextPath%>/list.ac?currentPage=<%=i%>';"><%=i %></button>
-					<%}else{ %> <!-- 내가 보고있는 페이지와 페이징바 버튼의 수가 같아면 i와 currenPage -->
-						<button disabled><%=i %></button>
+					<%}else{ %> <!-- 내가 보고있는 페이지와 페이징바 버튼의 수가 같으면 i와 currenPage -->
+						<button disabled><%=i%></button>
 					<%} %>
 				<%} %>
 				
