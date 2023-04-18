@@ -7,7 +7,6 @@
 <%	
 	ArrayList<Board> blist = (ArrayList<Board>)request.getAttribute("blist");
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
-
 %>    
 <!DOCTYPE html>
 <html>
@@ -175,8 +174,8 @@
 	                 <table class="accidentBoardList">
 	                    <tr>
 	                    	<!-- 테스트용 썸네일 -->
-	                        <td colspan="2"><img src="<%=blist.get(i).getFilePath()%>" alt=""></td>
-	                    
+	                        <td colspan="2"><img src="<%=contextPath%><%=blist.get(i).getFilePath()%>" alt=""></td>
+	                    	
 	                    </tr>
 	                    <tr>
 	                        <td colspan="2"><%=blist.get(i).getTitle()%></td>

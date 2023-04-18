@@ -207,11 +207,11 @@
     <!-- 메뉴바 영역 -->
     <div class="menubar">
             <ul id="navi">
-                <li><a href="">블랙박스 영상</a>
+                <li><a href="<%=contextPath%>/list.ac?currentPage=1">블랙박스 영상</a>
                     <ul>
                         <li><a href="<%=contextPath%>/list.ac?currentPage=1">사건 영상</a></li>
                         <li><a href="<%=contextPath%>/list.rb?currentPage=1">해결 영상</a></li>
-                        <li><a href="">제보 페이지</a></li>
+                        <li><a href="<%=contextPath%>/enroll.ac">제보 페이지</a></li>
                     </ul>
                 </li>    
                 <li><a href="">변호사</a>
