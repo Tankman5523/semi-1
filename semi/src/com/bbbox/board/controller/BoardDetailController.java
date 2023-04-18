@@ -41,8 +41,9 @@ public class BoardDetailController extends HttpServlet {
 		if(result>0) {
 			Board b = new BoardService().selectBoard(boardNo);
 			
+
 			Attachment at = new BoardService().selectAttachment(boardNo);
-			
+
 			
 			request.setAttribute("board", b);
 			

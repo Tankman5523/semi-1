@@ -65,4 +65,45 @@
 		              ORDER BY CREATE_DATE DESC) A)
 		WHERE RNUM BETWEEN ? AND ?
 	</entry>
+	
+	<entry key="insertAccidentBoard">
+		INSERT INTO BOARD(BOARD_NO
+						 ,BOARD_WRITER
+						 ,CATEGORY_NO
+						 ,TITLE
+						 ,CONTENT
+						 ,STATUS)
+		VALUES(SEQ_BNO.NEXTVAL,?,3,?,?,'Y')						 
+	</entry>
+	
+	<!-- 시퀀스 마지막 숫자를 추출해서 방금 등록한 글번호 가져오기 -->
+	<entry key="selectRefBoardNo">
+		SELECT LAST_NUMBER 
+		FROM USER_SEQUENCES 
+		WHERE SEQUENCE_NAME = 'SEQ_BNO'
+	</entry>
+	
+	<entry key="insertAccidentInfo">
+		INSERT INTO ACCIDENT(ACC_NO
+                    ,REF_BNO
+                    ,REF_LNO
+                    ,REF_PNO
+                    ,INSURANCE_TYPE
+                    ,REGION
+                    ,ACC_RATE_ME
+                    ,ACC_RATE_YOU)
+		VALUES(SEQ_ANO.NEXTVAL,?,0,?,?,?,?,?)
+	</entry>
+	
+	<entry key="insertAccidentAttachment">
+		INSERT INTO ATTACHMENT(FILE_NO
+							  ,REF_BNO
+							  ,ORIGIN_NAME
+							  ,CHANGE_NAME
+							  ,FILE_PATH
+							  ,FILE_LEVEL
+							  ,FILE_TYPE)
+		VALUES(SEQ_FNO.NEXTVAL,?,?,?,?,1,2)
+	</entry>
+	
 </properties>

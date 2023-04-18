@@ -127,5 +127,36 @@ public class MemberDao {
 		
 		return count;
 	}
+	
+	//이메일 중복확인 메소드
+	public int selectEmail(Connection conn, String testEmail) {
+		
+		int count =0;
+		
+		ResultSet rset = null;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("selectEmail");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, testEmail);
+			
+			rset=pstmt.executeQuery();
+			
+			if(rset.next()) {
+				count = rset.getInt("COUNT");
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return count;
+	}
 
 }

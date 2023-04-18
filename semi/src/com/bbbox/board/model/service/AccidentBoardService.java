@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.bbbox.board.model.dao.AccidentBoardDao;
+import com.bbbox.board.model.vo.Accident;
 import com.bbbox.board.model.vo.Attachment;
 import com.bbbox.board.model.vo.Board;
 import com.bbbox.common.JDBCTemplate;
@@ -45,5 +46,58 @@ public class AccidentBoardService {
 		
 		return null;
 	}
+	public int insertAccidentBoard(Board b) {
+		//커밋하지말고 정보만 넣어두기
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new AccidentBoardDao().insertAccidentBoard(conn,b);
+		
+		
+		if(result==0) {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+	public int selectRefBoardNo() {
+		//참조할 글번호가져오는 메소드
+		Connection conn = JDBCTemplate.getConnection();
+		int result = new AccidentBoardDao().selectRefBoardNo(conn);
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+	public int insertAccidentInfo(Accident ac) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		int result = new AccidentBoardDao().insertAccidentInfo(conn,ac); 
+		
+		if(result==0) {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+	public int insertAccidentAttachment(Attachment at) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		int result = new AccidentBoardDao().insertAccidentAttachment(conn,at);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+	
+	
 	
 }
