@@ -28,6 +28,9 @@
 </style>
 </head>
 <body>
+
+	<%@include file="../common/mainMenu.jsp" %>
+	
 	<div class="outer">
 		<h2>글작성</h2>
 		

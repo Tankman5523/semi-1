@@ -20,12 +20,12 @@
     
     .outer{
         border: 1px solid black;
-        width: 900px;
+        width: 1200px;
         height: 800px;
         margin: auto;
     }
     .footer{
-		width: 900px;
+		width: 1200px;
         margin: auto;
     }
     
@@ -51,6 +51,9 @@
 </style>
 </head>
 <body>
+	
+	<%@include file="../common/mainMenu.jsp" %>
+	
 	<div class="outer">
  		<div id="header" style="height: 10%">
 		<h2 align="center">일반 게시판</h2>
@@ -82,6 +85,7 @@
 			<script>
 				$("#chat_submit").on("click", function(){
 					
+					<%if(loginUser != null){%>
 					$.ajax({
 						url:"chat.bo",
 						data:{
@@ -95,6 +99,9 @@
 							alert("통신실패");
 						}
 					});
+					<%}else{%>
+					alert("로그인 후 이용해주세요.");
+					<%}%>
 				});
 			</script>
 	
@@ -127,8 +134,9 @@
 					<%} %>
 					</tbody>
 				</table>
-				
+				<%if(loginUser != null){ %>
 				<button onclick="boardWrite()">글쓰기</button>
+				<%} %>
 			</div>
 		</div>
 		
@@ -142,7 +150,7 @@
 					
 					var bno = $(this).children().eq(0).text();
 					
-					location.href = "/semi/detail.bo?bno="+bno;
+					location.href = "<%=contextPath%>/detail.bo?bno="+bno;
 				});
 			});
 		</script>
