@@ -5,8 +5,6 @@
 	
 	Member loginUser = (Member)session.getAttribute("loginUser");
 	
-	System.out.println(loginUser);
-
 	String alertMsg = (String)session.getAttribute("alertMsg");
 %>     
     
@@ -202,7 +200,7 @@
                 </div>
                 <div id="mypage" align = "center">
                     <a href="">마이페이지</a>
-                    <a href="">로그아웃</a>
+                    <a href="<%=contextPath%>/logout.me">로그아웃</a>
                 </div>
             </div>
         </div>

@@ -38,12 +38,25 @@ public class MemberService {
 		
 		return result;
 	}
-
+	
+	//아이디 중복확인
 	public int MemberIdCheck(String checkId) {
 		
 		Connection conn = JDBCTemplate.getConnection();
 		
 		int count = new MemberDao().MemberIdCheck(conn, checkId);
+		
+		JDBCTemplate.close(conn);
+		
+		return count;
+	}
+	
+	//이메일 중복 확인
+	public int selectEmail(String testEmail) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int count = new MemberDao().selectEmail(conn, testEmail);
 		
 		JDBCTemplate.close(conn);
 		
