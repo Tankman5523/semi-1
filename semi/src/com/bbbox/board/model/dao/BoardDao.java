@@ -120,10 +120,33 @@ public class BoardDao {
 			JDBCTemplate.close(pstmt);
 		}
 		
-		System.out.println("안뇽");
+		
 		
 		
 		return b;
+	}
+
+	//좋아요 증가 메소드
+	public int insertLiked(Connection conn, int boardNo) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertLiked");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);			
+		}
+		
+		return result;
 	}
 
 }
