@@ -14,6 +14,7 @@
 		JOIN PART_CATEGORY ON (REF_PNO = PART_NO)
 		WHERE STATUS = 'Y'
 		ORDER BY LAW_NO ASC
+
 	</entry>
 	<!-- 카테고리 리스트 조회 -->
 	<entry key="selectPart">
@@ -39,5 +40,6 @@
 		JOIN PART_CATEGORY P ON (REF_PNO = PART_NO)
 		WHERE M.LAWYER = 'Y'
 		AND LAW_NO = ?
+
 	</entry>
 </properties>
