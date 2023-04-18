@@ -33,4 +33,21 @@
 		SET LIKED = LIKED+1
 		WHERE BOARD_NO = ?
 	</entry>
+	
+	<entry key="insertBoard">
+		INSERT INTO BOARD(BOARD_NO, BOARD_WRITER, CATEGORY_NO, TITLE, CONTENT)
+		VALUES(SEQ_BNO.NEXTVAL, ?, 1, ?, ?)
+	</entry>
+	
+	<entry key="insertAttachment">
+		INSERT INTO ATTACHMENT(FILE_NO, REF_BNO, ORIGIN_NAME, CHANGE_NAME, FILE_PATH, FILE_TYPE)
+		VALUES(SEQ_FNO.NEXTVAL, SEQ_BNO.CURRVAL, ?, ?, ?, 1)
+	</entry>
+	
+	<entry key="selectAttachment">
+		SELECT FILE_NO, REF_BNO, ORIGIN_NAME, CHANGE_NAME, FILE_PATH
+		FROM ATTACHMENT
+		WHERE STATUS = 'Y'
+		AND REF_BNO = ?
+	</entry>
 </properties>

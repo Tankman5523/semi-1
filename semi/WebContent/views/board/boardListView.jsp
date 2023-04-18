@@ -142,7 +142,7 @@
 		
 		<script>
 			function boardWrite(){
-				location.href = "/semi/insert.bo"
+				location.href = "<%=contextPath%>/insert.bo"
 			}
 			
 			$(function(){

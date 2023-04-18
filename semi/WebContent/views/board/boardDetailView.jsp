@@ -76,8 +76,8 @@
 		
 		<%if(loginUser != null && loginUser.getUserId().equals(b.getBoardWriter())){%>
 		<div id="update-area" align="center" style="border:none; padding:10px; hieght:10%;">
-			<button type="" style="margin:5px;">수정하기</button>
-			<button type="" style="margin:5px;">삭제하기</button>
+			<button onclick="location.href='<%=contextPath%>/update.bo?bno=<%=b.getBoardNo()%>'" style="margin:5px;">수정하기</button>
+			<button onclick="location.href='<%=contextPath%>/delete.bo?bno=<%=b.getBoardNo()%>'" style="margin:5px;">삭제하기</button>
 		</div>
 		<%}%>
 	

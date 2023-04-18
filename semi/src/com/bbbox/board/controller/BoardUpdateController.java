@@ -9,20 +9,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bbbox.board.model.service.BoardService;
-import com.bbbox.board.model.vo.Attachment;
 import com.bbbox.board.model.vo.Board;
 
 /**
- * Servlet implementation class BoardDetailController
+ * Servlet implementation class BoardUpdateController
  */
-@WebServlet("/detail.bo")
-public class BoardDetailController extends HttpServlet {
+@WebServlet("/update.bo")
+public class BoardUpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardDetailController() {
+    public BoardUpdateController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,31 +33,23 @@ public class BoardDetailController extends HttpServlet {
 		
 		int boardNo = Integer.parseInt(request.getParameter("bno"));
 		
-		//조회수 증가부터
-		int result = new BoardService().increaseBoardCount(boardNo);
+		
+		//업데이트할 게시글 조회
+		Board b = new BoardService().selectBoard(boardNo);
+		
+		request.setAttribute("board", b);
+		
+		request.getRequestDispatcher("views/board/boardUpdateForm.jsp").forward(request, response);
 		
 		
-		if(result>0) {
-			Board b = new BoardService().selectBoard(boardNo);
-			
-			Attachment at = new BoardService().selectAttachment(boardNo);
-			
-			
-			request.setAttribute("board", b);
-			
-
-			request.getRequestDispatcher("views/board/boardDetailView.jsp").forward(request, response);
-		}else {
-			System.out.println("조회수 증가 실패");
-		}
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+
+		
 	}
 
 }
