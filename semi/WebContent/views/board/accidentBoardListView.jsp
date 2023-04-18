@@ -7,8 +7,6 @@
 <%	
 	ArrayList<Board> blist = (ArrayList<Board>)request.getAttribute("blist");
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
-	//임시 컨텍스트패스
-	String contextPath = request.getContextPath();
 
 %>    
 <!DOCTYPE html>
@@ -120,6 +118,8 @@
     <title>Document</title>
 </head>
 <body>
+	
+	<%@ include file = "../common/menubar.jsp" %>
 	<!-- 메뉴바 인클루드 하세요 -->
     <div class="outer">
         <div id="accidentBoardHead">

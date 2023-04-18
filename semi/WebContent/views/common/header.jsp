@@ -1,5 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import ="com.bbbox.member.model.vo.Member" %>
+<%
+	String contextPath = request.getContextPath();
+	
+	Member loginUser = (Member)session.getAttribute("loginUser");
+	
+	System.out.println(loginUser);
+
+	String alertMsg = (String)session.getAttribute("alertMsg");
+%>        
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -93,6 +103,7 @@
     </style>
 </head>
 <body>
+	<% if(loginUser == null){%>
     <!-- 로그인 전에 보여질 화면 -->
     <div class ="header">
         <div id="header1"></div>
@@ -110,7 +121,7 @@
             </div>
         </div>
     </div>
-    
+     <%}else{%>
     <!-- 로그인 후에 보여질 화면 -->
     <div class ="header">
         <div id="header1"></div>
@@ -129,7 +140,7 @@
             </div>
         </div>
     </div>
-
+	<%} %>
 
 </body>
 </html>
