@@ -14,5 +14,32 @@
 		JOIN PART_CATEGORY ON (REF_PNO = PART_NO)
 		WHERE STATUS = 'Y'
 		ORDER BY LAW_NO ASC
+
+	</entry>
+	<!-- 카테고리 리스트 조회 -->
+	<entry key="selectPart">
+		SELECT *
+		FROM PART_CATEGORY
+		ORDER BY PART_NO
+	</entry>
+	
+	<entry key="selectLawyer">
+		SELECT LAW_NO,
+		       USER_NAME,
+		       PART_NAME,
+		       EXAM,
+		       EXAM_SESSION,
+		       PASS_DATE,
+		       COMPANY_NAME,
+		       COMPANY_ADDRESS,
+		       COMPANY_PN,
+		       LAW_COMMENT,
+		       CAREER
+		FROM LAW_USER L
+		JOIN MEMBER M ON (REF_UNO = USER_NO)
+		JOIN PART_CATEGORY P ON (REF_PNO = PART_NO)
+		WHERE M.LAWYER = 'Y'
+		AND LAW_NO = ?
+
 	</entry>
 </properties>

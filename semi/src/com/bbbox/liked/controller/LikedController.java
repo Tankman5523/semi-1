@@ -1,7 +1,6 @@
-package com.bbbox.lawyer.controller;
+package com.bbbox.liked.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,21 +8,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bbbox.lawyer.model.service.LawyerService;
-import com.bbbox.lawyer.model.vo.Lawyer;
-import com.bbbox.lawyer.model.vo.PartCategory;
+import com.bbbox.board.model.service.BoardService;
+import com.bbbox.liked.model.service.LikedService;
+import com.bbbox.liked.model.vo.Liked;
 
 /**
- * Servlet implementation class LawyerListController
+ * Servlet implementation class LikedController
  */
-@WebServlet("/list.la")
-public class LawyerListController extends HttpServlet {
+@WebServlet("/liked.bo")
+public class LikedController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LawyerListController() {
+    public LikedController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,13 +31,25 @@ public class LawyerListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Lawyer> lawList = new LawyerService().selectList();
-		ArrayList<PartCategory> pList = new LawyerService().selectPart();
+
+		int boardNo = Integer.parseInt(request.getParameter("bno"));
+		int userNo = Integer.parseInt(request.getParameter("uno"));
+		
+		Liked l = new Liked(userNo, boardNo);
+		
+		//좋아요등록
+		int result = new LikedService().insertLiked(l);
+		
+		int result2 = 0;
+		
+		if(result>0) {
+			result2 = new BoardService().insertLiked(boardNo);
+		}
 		
 		
-		request.setAttribute("lawList", lawList);
-		request.setAttribute("pList", pList);
-		request.getRequestDispatcher("views/lawyer/lawyerListView.jsp").forward(request, response);
+		response.getWriter().print(result2);
+		
+	
 	}
 
 	/**

@@ -82,9 +82,9 @@
                 </ul>
 
             </li>    
-            <li><a href="">일반게시판</a>
+            <li><a href="">자유게시판</a>
                 <ul>
-                    <li><a href="">자유 게시판</a></li>
+                    <li><a href="">일반 게시판</a></li>
                     <li><a href="">영상 게시판</a></li>
                 </ul>
             </li>    

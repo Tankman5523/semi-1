@@ -51,4 +51,22 @@ public class BoardService {
 		return b;
 	}
 
+	//좋아요 개수 증가 메소드
+	public int insertLiked(int boardNo) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new BoardDao().insertLiked(conn, boardNo);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);			
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
 }

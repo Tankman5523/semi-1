@@ -5,8 +5,6 @@
 	
 	Member loginUser = (Member)session.getAttribute("loginUser");
 	
-	System.out.println(loginUser);
-
 	String alertMsg = (String)session.getAttribute("alertMsg");
 %>        
     
@@ -108,12 +106,12 @@
     <div class ="header">
         <div id="header1"></div>
         <div id="header2">
-            <a href="">블변의 법칙</a>    
+            <a href="<%=contextPath%>">블변의 법칙</a>    
         </div>
         <div id="header3">
             <div id="login-area" align = "right">
                 <div id = "enroll">
-                    <a href=""> 회원가입 </a>
+                    <a href="<%=contextPath%>/enroll.me"> 회원가입 </a>
                 </div>
                 <div id="login">
                     <a href=""> 로그인 </a>
@@ -135,7 +133,7 @@
                 </div>
                 <div id="mypage" align = "center">
                     <a href="">마이페이지</a>
-                    <a href="">로그아웃</a>
+                    <a href="<%=contextPath%>/logout.me">로그아웃</a>
                 </div>
             </div>
         </div>
