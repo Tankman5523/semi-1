@@ -9,9 +9,6 @@
 	ArrayList<Attachment> alist = (ArrayList<Attachment>)request.getAttribute("alist");
 	ArrayList<Board> blist = (ArrayList<Board>)request.getAttribute("blist");
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
-	
-	//임시 컨텍스트패스
-	String contextPath = request.getContextPath();
 
 %>    
 <!DOCTYPE html>
@@ -23,11 +20,12 @@
         div{
             border: 1px solid black;
             box-sizing: border-box;
-            margin: auto;
+            
         }
         .outer{
             width: 1200px;
             height: 1200px;
+            margin: auto;
         }
 
         /*헤더 영역*/
@@ -124,6 +122,8 @@
 </head>
 <body>
 	<!-- 메뉴바 인클루드 하세요 -->
+	<%@include file="../common/header.jsp" %>
+	<%@include file="../common/menubar.jsp" %>
     <div class="outer">
         <div id="accidentBoardHead">
             <div class="boardName">

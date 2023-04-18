@@ -76,7 +76,7 @@
             </li>    
             <li><a href="">변호사</a>
                 <ul>
-                    <li><a href="">변호사 검색</a></li>
+                    <li><a href="<%=contextPath%>/list.la">변호사 검색</a></li>
                     <li><a href="">소송 가이드</a></li>
                     <li><a href="">상담 게시판</a></li>
                 </ul>

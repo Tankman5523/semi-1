@@ -5,12 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>메인페이지</title>
+<style>
+		
+</style>
 </head>
 <body>
-<%@include file="views/common/header.jsp" %>
-<%@include file="views/common/menubar.jsp" %>
-	
-	
-	
+<%@include file="views/common/title.jsp" %>
+
 </body>
 </html>

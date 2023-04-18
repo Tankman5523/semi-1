@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<!-- 전체 변호사 리스트 조회 -->
+	<entry key="selectList">
+		SELECT LAW_NO,
+		       USER_NAME,
+		       PART_NAME,
+		       COMPANY_NAME,
+		       COMPANY_ADDRESS
+		FROM LAW_USER
+		JOIN MEMBER ON (REF_UNO = USER_NO)
+		JOIN PART_CATEGORY ON (REF_PNO = PART_NO)
+		WHERE STATUS = 'Y'
+		ORDER BY LAW_NO ASC
+	</entry>
+</properties>
