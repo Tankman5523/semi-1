@@ -174,8 +174,15 @@
                     <td><label for="inputEmail">이메일</label></td>
                 </tr>
                 <tr>
-                    <td><input type="email" name = "email" id="inputEmail" > <button type="button">인증하기</button></td>
-                    
+                	<td><input type="text" name="email"id="inputEmail"><button type="button" onclick="doubleChk();">이메일 확인</button></td>
+                </tr>
+				<tr>
+					<td><label id="emailTestResult"></label></td>
+				</tr>
+					<td><input id="authentication" type ="text"><button type="button">인증하기</button></td>
+				<tr>
+                <tr>
+                	<td><label id=emailChk></label></td>
                 </tr>
                 <tr>
                     <td><label for="inputPhone">핸드폰 번호</label><br></td>
@@ -237,9 +244,11 @@
         });
         
         </script>
+        
         <script>
-
+        
             function enroll_test(){
+            	
                 var inputId = $('#userId').val();
                 var userPwd = $('#userPwd').val();
                 var checkPwd = $('#checkPwd').val();
@@ -265,8 +274,46 @@
                 		return false;
                 	}
                 
-            }
-            
+            	}
+                
+            } 	
+        </script>
+        
+        <script type="text/javascript">
+        	/* 이메일 확인  */
+			function doubleChk(){
+				
+					var $email = $('#inputEmail').val();
+					
+						$.ajax({
+							url : "authentication.me",
+							
+							data : {testEmail : $email},
+							
+							type : "post",
+							
+							success : function(result){
+								if(result == 'YYYYY'){
+									if(confirm("이메일 인증 코드 발송 완료!")){
+									
+									}
+								}else{
+									var failMsg = "이미 사용중인 이메일 입니다. 다시 입력해주세요";
+									$('#emailTestResult').html(failMsg);
+									$inputEmail.focus();
+										
+								}
+								
+							},
+							
+							error : function(){
+								console.log("통신 실패");
+							}
+						}); 
+				}
+				
+				
+					
         </script>
         
 </body>

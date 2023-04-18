@@ -27,4 +27,10 @@
 		AND BOARD_NO = ?
 		AND NOTICE = 'N'
 	</entry>
+	
+	<entry key="insertLiked">
+		UPDATE BOARD
+		SET LIKED = LIKED+1
+		WHERE BOARD_NO = ?
+	</entry>
 </properties>

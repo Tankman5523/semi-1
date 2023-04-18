@@ -4,8 +4,6 @@
 	String contextPath = request.getContextPath();
 	
 	Member loginUser = (Member)session.getAttribute("loginUser");
-	
-	//System.out.println(loginUser);
 
 	String alertMsg = (String)session.getAttribute("alertMsg");
 %>     
@@ -202,7 +200,7 @@
                 </div>
                 <div id="mypage" align = "center">
                     <a href="">마이페이지</a>
-                    <a href="">로그아웃</a>
+                    <a href="<%=contextPath%>/logout.me">로그아웃</a>
                 </div>
             </div>
         </div>
@@ -226,10 +224,10 @@
                     </ul>
 
                 </li>    
-                <li><a href="">일반게시판</a>
+                <li><a href="">자유게시판</a>
                     <ul>
-                        <li><a href="">자유 게시판</a></li>
-                        <li><a href="">영상 게시판</a></li>
+                        <li><a href="<%=contextPath%>/list.bo">일반 게시판</a></li>
+                        <li><a href="<%=contextPath%>">영상 게시판</a></li>
                     </ul>
                 </li>    
                 <li><a href="">고객문의</a>

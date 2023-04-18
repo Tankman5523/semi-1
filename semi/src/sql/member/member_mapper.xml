@@ -28,4 +28,10 @@
 
 </entry>
 
+<entry key="selectEmail">
+	SELECT COUNT(*) COUNT
+	FROM MEMBER
+	WHERE EMAIL =?
+	
+</entry>
 </properties>
