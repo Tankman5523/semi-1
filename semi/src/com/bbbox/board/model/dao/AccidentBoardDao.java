@@ -13,8 +13,10 @@ import java.util.Properties;
 import com.bbbox.board.model.vo.Accident;
 import com.bbbox.board.model.vo.Attachment;
 import com.bbbox.board.model.vo.Board;
+import com.bbbox.board.model.vo.Reply;
 import com.bbbox.common.JDBCTemplate;
 import com.bbbox.common.model.vo.PageInfo;
+import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
 
 public class AccidentBoardDao {
 
@@ -259,6 +261,306 @@ public class AccidentBoardDao {
 			pstmt.setString(4, at.getFilePath());
 			
 			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public ArrayList<Board> searchByTitle(Connection conn, String searchFilter, String region, int partType, String insuranceType,
+			String keyword, PageInfo pi) {
+		
+		ArrayList<Board> list = new ArrayList<Board>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = null;
+		
+		//검색필터가 제목일때
+		if(searchFilter.equals("제목")||searchFilter.equals("")) {
+			sql = prop.getProperty("searchByTitle");
+		}else {
+		//검색필터가 작성자일때
+			sql = prop.getProperty("searchByWriter");
+		}
+		
+		int startRow=(pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
+		int endRow=(startRow+pi.getBoardLimit())-1;
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			if(region.equals("")) {
+				pstmt.setString(1, "%"+region+"%");
+			}else {
+				pstmt.setString(1, region);
+			}
+			if(partType!=0) {
+				pstmt.setInt(2, partType);
+			}else {
+				pstmt.setString(2, "%"+""+"%");
+			}
+			if(insuranceType.equals("")) {
+				pstmt.setString(3, "%"+insuranceType+"%");
+			}else {
+			pstmt.setString(3, insuranceType);
+			}
+			pstmt.setString(4, "%"+keyword+"%");
+			pstmt.setInt(5, startRow);
+			pstmt.setInt(6, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Board(rset.getInt("BOARD_NO")
+						   ,rset.getString("USER_ID")
+						   ,rset.getString("TITLE")
+						   ,rset.getInt("COUNT")
+						   ,rset.getDate("CREATE_DATE")
+						   ,rset.getInt("REF_PNO")
+						   ,rset.getString("INSURANCE_TYPE")
+						   ,rset.getString("REGION")
+						   ,rset.getString("PATH")));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return list;
+	}
+/*
+	public ArrayList<Board> searchByWriter(Connection conn, String region, int partType, String insuranceType,
+			String keyword, PageInfo pi) {
+		ArrayList<Board> list = new ArrayList<Board>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("searchByWriter");
+		
+		int startRow=(pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
+		int endRow=(startRow+pi.getBoardLimit())-1;
+			
+		try {
+			pstmt = conn.prepareStatement(sql);
+			if(region.equals("")) {
+				pstmt.setString(1, "%"+region+"%");
+			}else {
+				pstmt.setString(1, region);
+			}
+			
+			if(partType!=0) {
+				pstmt.setInt(2, partType);
+			}else {
+				pstmt.setString(2, "%"+""+"%");
+			}
+			if(insuranceType.equals("")) {
+				pstmt.setString(3, "%"+insuranceType+"%");
+			}else {
+			pstmt.setString(3, insuranceType);
+			}
+			pstmt.setString(4, "%"+keyword+"%");
+			pstmt.setInt(5, startRow);
+			pstmt.setInt(6, endRow);
+			
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Board(rset.getInt("BOARD_NO")
+						   ,rset.getString("USER_ID")
+						   ,rset.getString("TITLE")
+						   ,rset.getInt("COUNT")
+						   ,rset.getDate("CREATE_DATE")
+						   ,rset.getInt("REF_PNO")
+						   ,rset.getString("INSURANCE_TYPE")
+						   ,rset.getString("REGION")
+						   ,rset.getString("PATH")));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return list;
+	}
+	*/
+
+	public Board accidentBoardSelectDetail(Connection conn, int bno) {
+
+		Board b = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("accidentBoardSelectDetail");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, bno);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				b = new Board();
+				b.setBoardNo(rset.getInt("BOARD_NO"));
+				b.setBoardWriter(rset.getString("USER_ID"));
+				b.setTitle(rset.getString("TITLE"));
+				b.setContent(rset.getString("CONTENT"));
+				b.setCount(rset.getInt("COUNT"));
+				b.setCreateDate(rset.getDate("CREATE_DATE"));
+				b.setLiked(rset.getInt("LIKED"));
+				b.setReportCount(rset.getInt("REPORT_COUNT"));
+				b.setRpCount(rset.getInt("RP_COUNT"));
+				//파일경로
+				b.setFilePath(rset.getString("PATH"));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return b;
+	}
+
+	public Accident accidentSelectDetail(Connection conn, int bno) {
+		
+		Accident ac = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("accidentSelectDetail");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bno);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				
+				ac= new Accident(rset.getInt("ACC_NO")
+					           , rset.getInt("REF_PNO")
+					           , rset.getInt("REF_LNO")
+					           , rset.getString("INSURANCE_TYPE")
+					           , rset.getString("REGION")
+					           , rset.getInt("ACC_RATE_ME")
+					           , rset.getInt("ACC_RATE_YOU")
+					           , rset.getString("SOLVE"));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return ac;
+	}
+
+	public ArrayList<Reply> accidentReplySelectDetail(Connection conn, int bno) {
+
+		ArrayList<Reply> rplist = new ArrayList<Reply>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("accidentReplySelectDetail");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bno);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				rplist.add(new Reply(rset.getInt("RP_NO")
+									,rset.getString("")
+									,rset.getString("CONTENT")
+									,rset.getString("CREATE_DATE")));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return rplist;
+	}
+
+	public int deleteAccidentBoard(Connection conn, int bno) {
+		
+		int result=0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteAccidentBoard");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bno);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		
+		return result;
+	}
+
+	public int deleteAccident(Connection conn, int bno) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteAccident");
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, bno);
+			
+			result=pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int deleteAccidentAttachment(Connection conn, int bno) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteAccidentAttachment");
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, bno);
+			
+			result=pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

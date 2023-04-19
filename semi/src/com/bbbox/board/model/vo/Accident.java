@@ -11,11 +11,6 @@ public class Accident {
 	private int accRateYou;//	ACC_RATE_YOU	NUMBER
 	private String solve;//	SOLVE	VARCHAR2(1 BYTE)
 	
-
-	//enroll용 필드
-	
-	
-
 	
 	public Accident() {
 		super();
@@ -26,6 +21,19 @@ public class Accident {
 		super();
 		this.accNo = accNo;
 		this.refBno = refBno;
+		this.refLno = refLno;
+		this.refPno = refPno;
+		this.insuranceType = insuranceType;
+		this.region = region;
+		this.accRateMe = accRateMe;
+		this.accRateYou = accRateYou;
+		this.solve = solve;
+	}
+
+	public Accident(int accNo, int refLno, int refPno, String insuranceType, String region, int accRateMe,
+			int accRateYou, String solve) {
+		super();
+		this.accNo = accNo;
 		this.refLno = refLno;
 		this.refPno = refPno;
 		this.insuranceType = insuranceType;

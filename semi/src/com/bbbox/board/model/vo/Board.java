@@ -88,7 +88,7 @@ public class Board {
 		this.rpCount = rpCount;
 	}
 	
-	
+
 	//사건영상게시판 리스트 생성자
 	public Board(int boardNo, String boardWriter, String title, int count, Date createDate, int ref_pno,
 			String insuranceType, String region, String filePath) {
