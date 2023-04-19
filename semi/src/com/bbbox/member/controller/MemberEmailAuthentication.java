@@ -69,9 +69,9 @@ public class MemberEmailAuthentication extends HttpServlet {
 			//SMTP 서버 정보 설정
 			Properties prop = new Properties();
 			prop.put("mail.stmp.starttls.enable","true");
-			prop.put("mail.stmp.auth","true");
+			prop.put("mail.smtp.port", "465"); 
 			prop.put("mail.smtp.host","smtp.naver.com");
-			prop.put("mail.smtp.port", 465); 
+			prop.put("mail.stmp.auth","true");
 
 			Authenticator auth = new MyAuthentication();
 			Session session = Session.getDefaultInstance(prop, auth);

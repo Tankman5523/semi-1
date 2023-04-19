@@ -34,4 +34,14 @@
 	WHERE EMAIL =?
 	
 </entry>
+<entry key="updateMember">
+	UPDATE MEMBER 
+		SET USER_PWD = ?,
+		USER_NAME =?,
+		PHONE =?,
+		EMAIL =?,
+		ADDRESS =?
+	WHERE USER_ID=?
+	AND STATUS = 'Y'	
+</entry>
 </properties>

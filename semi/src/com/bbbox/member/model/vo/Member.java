@@ -21,6 +21,9 @@ public class Member {
 		super();
 	}
 
+	
+	//회원정보수정 생성자 
+
 
 	public Member(int userNo, String userId, String userPwd, String userName, String phone, String email,
 			String address, Date enrollDate, String status, String admin, String lawyer) {
@@ -38,7 +41,7 @@ public class Member {
 		this.lawyer = lawyer;
 	}
 
-	//회원가입시 사용할 매개변수 생성자
+	//회원가입시 사용할 매개변수 생성자, 회원정보 수정시 사용가능 
 	public Member(String userId, String userPwd, String userName, String phone, String email, String address) {
 		super();
 		this.userId = userId;

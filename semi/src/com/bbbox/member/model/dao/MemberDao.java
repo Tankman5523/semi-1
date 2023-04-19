@@ -79,8 +79,8 @@ public class MemberDao {
 			pstmt.setString(1, insertMember.getUserId());
 			pstmt.setString(2, insertMember.getUserPwd());
 			pstmt.setString(3, insertMember.getUserName());
-			pstmt.setString(4, insertMember.getEmail());
-			pstmt.setString(5, insertMember.getPhone());
+			pstmt.setString(4, insertMember.getPhone());
+			pstmt.setString(5, insertMember.getEmail());
 			pstmt.setString(6, insertMember.getAddress());
 			
 			result = pstmt.executeUpdate();
@@ -157,6 +157,37 @@ public class MemberDao {
 		
 		
 		return count;
+	}
+	
+	//회원정보 수정 메소드 
+	public int updateMember(Connection conn, Member m) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("updateMember");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1,m.getUserPwd());
+			pstmt.setString(2, m.getUserName());
+			pstmt.setString(3, m.getPhone());
+			pstmt.setString(4, m.getEmail());
+			pstmt.setString(5, m.getAddress());
+			pstmt.setString(6, m.getUserId());
+			
+			result = pstmt.executeUpdate();
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
 	}
 
 }
