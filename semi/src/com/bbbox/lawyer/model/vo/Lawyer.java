@@ -2,7 +2,7 @@ package com.bbbox.lawyer.model.vo;
 
 public class Lawyer {
 
-	//편의상 refUno,refPno String으로 변경
+	//편의상 refUno,refPno 자료형을 String으로 변경
 	private int lawNo;
 	private String refUno;
 	private String refPno;

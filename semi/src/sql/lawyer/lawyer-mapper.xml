@@ -9,12 +9,11 @@
 		       PART_NAME,
 		       COMPANY_NAME,
 		       COMPANY_ADDRESS
-		FROM LAW_USER
-		JOIN MEMBER ON (REF_UNO = USER_NO)
-		JOIN PART_CATEGORY ON (REF_PNO = PART_NO)
-		WHERE STATUS = 'Y'
+		FROM LAW_USER L
+		JOIN MEMBER M ON (REF_UNO = USER_NO)
+		JOIN PART_CATEGORY P ON (REF_PNO = PART_NO)
+		WHERE M.STATUS = 'Y'
 		ORDER BY LAW_NO ASC
-
 	</entry>
 	<!-- 카테고리 리스트 조회 -->
 	<entry key="selectPart">
@@ -23,6 +22,7 @@
 		ORDER BY PART_NO
 	</entry>
 	
+	<!-- 선택된 변호사 상세정보 -->
 	<entry key="selectLawyer">
 		SELECT LAW_NO,
 		       USER_NAME,
@@ -40,6 +40,21 @@
 		JOIN PART_CATEGORY P ON (REF_PNO = PART_NO)
 		WHERE M.LAWYER = 'Y'
 		AND LAW_NO = ?
-
+	</entry>
+	
+	<!-- 조건으로 검색한 변호사 리스트 -->
+	<entry key="searchList">
+		SELECT LAW_NO,
+		       USER_NAME,
+		       PART_NAME,
+		       COMPANY_NAME,
+		       COMPANY_ADDRESS
+		FROM LAW_USER L
+		JOIN MEMBER M ON (REF_UNO = USER_NO)
+		JOIN PART_CATEGORY P ON (REF_PNO = PART_NO)
+		WHERE M.STATUS = 'Y'
+		AND USER_NAME LIKE ?
+		AND REF_PNO LIKE ?
+		AND COMPANY_ADDRESS LIKE ?
 	</entry>
 </properties>
