@@ -92,17 +92,7 @@
     </style>
 </head>
 <body>
-    <div class="outer">
-        <div class ="header">
-            <div id="header1"></div>
-            <div id="header2">
-                <a href="">블변의 법칙</a>    
-            </div>
-            <div id="header3">
-            </div>
-        </div>
-    </div>
-    
+	<%@ include file ="../common/header.jsp" %>
     <script type="text/JavaScript">
         /* 아이디 중복확인 */
         
@@ -213,7 +203,7 @@
         /* 취소 버튼 script영역 */
         function reset(){
         	
-        	// location.href ="<%=request.getContextPath()%>";
+        	// location.href ="<%=request.getContextPath()%>/";
         }
         
         /* 비밀번호 확인 script, 비밀번호, 비밀번호 확인 일치 여부  */

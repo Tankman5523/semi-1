@@ -4,12 +4,16 @@
 <properties>
 	<!-- 일반 게시판 리스트 조회 -->
 	<entry key="selectBoardList">
-		SELECT BOARD_NO, USER_ID, TITLE, COUNT, CREATE_DATE, LIKED, RP_COUNT
-		FROM BOARD B
-		JOIN  MEMBER M ON(BOARD_WRITER = USER_NO)
-		WHERE B.STATUS = 'Y'
-		AND CATEGORY_NO = 1
-		AND NOTICE = 'N'
+		SELECT *
+		FROM (SELECT ROWNUM RUM, A.*
+		            FROM (SELECT BOARD_NO, USER_ID, TITLE, COUNT, CREATE_DATE, LIKED, RP_COUNT
+		                        FROM BOARD B
+		                        JOIN MEMBER M ON(BOARD_WRITER=USER_NO)
+		                        AND B.STATUS='Y'
+		                        AND CATEGORY_NO = 1
+		                        AND NOTICE = 'N'
+		                        ORDER BY CREATE_DATE DESC) A)
+		WHERE RUM BETWEEN ? AND ?
 	</entry>
 	
 	<!-- 조회수 증가 -->
@@ -49,5 +53,34 @@
 		FROM ATTACHMENT
 		WHERE STATUS = 'Y'
 		AND REF_BNO = ?
+	</entry>
+	
+	<entry key="boardListCount">
+		SELECT COUNT(*) "COUNT"
+		FROM BOARD
+		WHERE STATUS = 'Y'
+	</entry>
+	
+	<entry key="delAt">
+		DELETE FROM ATTACHMENT
+		WHERE FILE_NO = ?
+	</entry>
+	
+	<entry key="updateBoard">
+		UPDATE BOARD
+		SET TITLE = ?, CONTENT = ?
+		WHERE BOARD_NO = ?
+		AND STATUS = 'Y'
+	</entry>
+	
+	<entry key="updateAttachment">
+		INSERT INTO ATTACHMENT(FILE_NO, REF_BNO, ORIGIN_NAME, CHANGE_NAME, FILE_PATH, FILE_TYPE)
+		VALUES(SEQ_FNO.NEXTVAL, ?, ?, ?, ?, 1)
+	</entry>
+	
+	<entry key="deleteBoard">
+		UPDATE BOARD
+		SET STATUS = 'N'
+		WHERE BOARD_NO = ?
 	</entry>
 </properties>

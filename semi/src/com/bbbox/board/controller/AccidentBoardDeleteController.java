@@ -1,30 +1,25 @@
-package com.bbbox.liked.controller;
+package com.bbbox.board.controller;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONObject;
-
-import com.bbbox.board.model.service.BoardService;
-import com.bbbox.liked.model.service.LikedService;
-import com.bbbox.liked.model.vo.Liked;
+import com.bbbox.board.model.service.AccidentBoardService;
 
 /**
- * Servlet implementation class LikedController
+ * Servlet implementation class AccidentBoardDeleteController
  */
-@WebServlet("/liked.bo")
-public class LikedController extends HttpServlet {
+@WebServlet("/delete.ac")
+public class AccidentBoardDeleteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LikedController() {
+    public AccidentBoardDeleteController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,26 +28,20 @@ public class LikedController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		int boardNo = Integer.parseInt(request.getParameter("bno"));
-		int userNo = Integer.parseInt(request.getParameter("uno"));
 		
-		Liked l = new Liked(userNo, boardNo);
+		int bno = Integer.parseInt(request.getParameter("bno"));
 		
-		//좋아요등록
-		int result = new LikedService().insertLiked(l);
+		System.out.println(bno);
 		
-		int result2 = 0;
+		int result = new AccidentBoardService().deleteAccidentBoard(bno);
 		
 		if(result>0) {
-			//보드에 좋아요카운트 갱신
-			result2 = new BoardService().insertLiked(boardNo);
+			request.getSession().setAttribute("alertMsg", "게시물이 성공적으로 삭제되었습니다.");
+			response.sendRedirect(request.getContextPath()+"/list.ac?currentPage=1");
+		}else {
+			request.setAttribute("errorMsg", "게시물 삭제 실패");
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
-
-		
-		response.getWriter().print(result2);
-
-	
 	}
 
 	/**

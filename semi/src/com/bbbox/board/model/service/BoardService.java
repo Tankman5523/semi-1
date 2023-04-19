@@ -7,15 +7,16 @@ import com.bbbox.board.model.dao.BoardDao;
 import com.bbbox.board.model.vo.Attachment;
 import com.bbbox.board.model.vo.Board;
 import com.bbbox.common.JDBCTemplate;
+import com.bbbox.common.model.vo.PageInfo;
 
 public class BoardService {
 	
 	//등록된 게시글리스트 조회
-	public ArrayList<Board> selectBoardList() {
+	public ArrayList<Board> selectBoardList(PageInfo pi) {
 		
 		Connection conn = JDBCTemplate.getConnection();
 		
-		ArrayList<Board> list = new BoardDao().selectBoardList(conn);
+		ArrayList<Board> list = new BoardDao().selectBoardList(conn, pi);
 		
 		JDBCTemplate.close(conn);
 		
@@ -107,5 +108,81 @@ public class BoardService {
 		
 		return at;
 	}
+
+	//총 게시글 개수
+	public int boardListCount() {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new BoardDao().boardListCount(conn);
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
+	//첨부파일 아예 삭제해버리기
+	public int delAt(int fno) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new BoardDao().delAt(conn, fno);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);			
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+	
+	//게시글 업데이트!
+	public int updateBoard(Board b, Attachment at) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result1 = new BoardDao().updateBoard(conn, b);
+		
+		int result2 = 0;
+		
+		if(at != null) {
+			result2 = new BoardDao().updateAttachment(conn, at, b.getBoardNo());
+		}else {
+			result2 = 1;
+		}
+		
+		if(result1>0 && result2>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result1*result2;
+	}
+
+	//게시글 삭제
+	public int deleteBoard(int bno) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new BoardDao().deleteBoard(conn, bno);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);			
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
+
 
 }
