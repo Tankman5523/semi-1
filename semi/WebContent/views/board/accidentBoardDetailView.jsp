@@ -153,6 +153,13 @@
                                 <span>제보자 | <%=b.getBoardWriter()%></span>
                                 <span>지역 | <%=ac.getRegion()%></span>
                             </div>
+                            <%if(loginUser!=null) {%>
+	                            <div id="updateBtnArea" style="text-align:right;">
+	                            	<!-- 나중에 이미지로 바꿔서 onclick 이벤트 -->
+	                            	<input type="button" value="게시글 수정" onclick="location.href='<%=contextPath%>/update.ac?bno='+<%=b.getBoardNo()%>">
+	                            	<input type="button" value="게시글 삭제" onclick="location.href='<%=contextPath%>/delete.ac?bno='+<%=b.getBoardNo()%>">
+	                            </div>
+                            <%} %>
                         </div>
                         <!-- 과실비율 -->
                         <div class="rate">

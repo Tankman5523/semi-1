@@ -136,6 +136,25 @@ public class AccidentBoardService {
 		
 		return rplist;
 	}
+	public int deleteAccidentBoard(int bno) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new AccidentBoardDao().deleteAccidentBoard(conn,bno);
+		
+		int result2=0;
+		int result3=0;
+		
+		result2 = new AccidentBoardDao().deleteAccident(conn,bno);
+		result3 = new AccidentBoardDao().deleteAccidentAttachment(conn,bno);
+		
+		if(result>0&&result2>0&&result3>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		return result*result2*result3;
+	}
 
 	
 	

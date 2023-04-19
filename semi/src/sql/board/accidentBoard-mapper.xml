@@ -209,5 +209,25 @@
 		ORDER BY CREATE_DATE DESC 
 	</entry>
 	
+	<entry key="deleteAccidentBoard">
+		UPDATE BOARD 
+		SET STATUS='N'
+		WHERE BOARD_NO = ?
+		AND STATUS='Y'
+	</entry>
+	
+	<entry key="deleteAccident">
+		UPDATE ACCIDENT 
+		SET STATUS='N'
+		WHERE REF_BNO = ?
+		AND STATUS='Y'
+	</entry>
+	
+	<entry key="deleteAccidentAttachment">
+		UPDATE ATTACHMENT
+		SET STATUS='N'
+		WHERE REF_BNO = ?
+		AND STATUS='Y'
+	</entry>
 	
 </properties>

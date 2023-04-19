@@ -505,4 +505,70 @@ public class AccidentBoardDao {
 		
 		return rplist;
 	}
+
+	public int deleteAccidentBoard(Connection conn, int bno) {
+		
+		int result=0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteAccidentBoard");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bno);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		
+		return result;
+	}
+
+	public int deleteAccident(Connection conn, int bno) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteAccident");
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, bno);
+			
+			result=pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int deleteAccidentAttachment(Connection conn, int bno) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteAccidentAttachment");
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, bno);
+			
+			result=pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
 }
