@@ -14,8 +14,8 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import com.bbbox.board.model.service.BoardService;
 import com.bbbox.board.model.vo.Attachment;
 import com.bbbox.board.model.vo.Board;
+import com.bbbox.common.model.vo.MyFileRenamePolicy;
 import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 /**
  * Servlet implementation class BoardInsertController
@@ -57,7 +57,7 @@ public class BoardInsertController extends HttpServlet {
 			String savePath = request.getSession().getServletContext().getRealPath("/resources/1_board/");
 			
 
-			MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize, "UTF-8", new DefaultFileRenamePolicy());
+			MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyFileRenamePolicy());
 
 			
 			//보드테이블에 등록할 정보
@@ -85,7 +85,7 @@ public class BoardInsertController extends HttpServlet {
 			if(result>0) {
 				request.getSession().setAttribute("alertMsg", "게시글 작성 성공");
 				
-				response.sendRedirect(request.getContextPath()+"/list.bo");
+				response.sendRedirect(request.getContextPath()+"/list.bo?currentPage=1");
 			}else {
 				if(at!=null) {
 					new File(savePath+at.getChangeName()).delete();
