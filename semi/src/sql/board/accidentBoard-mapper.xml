@@ -39,7 +39,6 @@
 		FROM ATTACHMENT
 		WHERE STATUS='Y'
 		AND FILE_LEVEL =1 
-		
 	</entry>
 	
 	<entry key="selectResolvedBoardList">
@@ -105,5 +104,110 @@
 							  ,FILE_TYPE)
 		VALUES(SEQ_FNO.NEXTVAL,?,?,?,?,1,2)
 	</entry>
+	
+	<entry key="searchByTitle">
+		SELECT *
+		FROM   (SELECT ROWNUM RNUM,A.*
+	      		FROM (SELECT BOARD_NO
+							,USER_ID
+							,TITLE
+							,COUNT
+							,CREATE_DATE
+							,REF_PNO
+							,INSURANCE_TYPE
+							,REGION
+							,FILE_PATH||CHANGE_NAME PATH
+						FROM BOARD B
+						JOIN MEMBER M ON(BOARD_WRITER = USER_NO)
+						JOIN ACCIDENT A ON(BOARD_NO=A.REF_BNO)
+						JOIN ATTACHMENT AT ON(BOARD_NO=AT.REF_BNO)
+						WHERE B.STATUS = 'Y'
+						AND CATEGORY_NO = 3
+						AND SOLVE='N'
+						AND NOTICE='N'
+						AND REGION LIKE ?
+						AND REF_PNO LIKE ?
+						AND INSURANCE_TYPE LIKE ?
+						AND TITLE LIKE ?
+		              ORDER BY CREATE_DATE DESC) A)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="searchByWriter">
+		SELECT *
+		FROM   (SELECT ROWNUM RNUM,A.*
+	      		FROM (SELECT BOARD_NO
+							,USER_ID
+							,TITLE
+							,COUNT
+							,CREATE_DATE
+							,REF_PNO
+							,INSURANCE_TYPE
+							,REGION
+							,FILE_PATH||CHANGE_NAME PATH
+						FROM BOARD B
+						JOIN MEMBER M ON(BOARD_WRITER = USER_NO)
+						JOIN ACCIDENT A ON(BOARD_NO=A.REF_BNO)
+						JOIN ATTACHMENT AT ON(BOARD_NO=AT.REF_BNO)
+						WHERE B.STATUS = 'Y'
+						AND CATEGORY_NO = 3
+						AND SOLVE='N'
+						AND NOTICE='N'
+						AND REGION LIKE ?
+						AND REF_PNO LIKE ?
+						AND INSURANCE_TYPE LIKE ?
+						AND USER_ID LIKE ?
+		              ORDER BY CREATE_DATE DESC) A)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="accidentBoardSelectDetail">
+			<!-- 게시글정보 -->
+		SELECT BOARD_NO
+			,USER_ID
+			,TITLE
+			,CONTENT
+			,COUNT
+			,CREATE_DATE
+			,LIKED
+			,REPORT_COUNT
+			,RP_COUNT
+			<!-- 첨부파일정보 -->
+			,FILE_PATH||CHANGE_NAME PATH
+		FROM BOARD B
+		JOIN MEMBER M ON(BOARD_WRITER = USER_NO)
+		JOIN ATTACHMENT AT ON(BOARD_NO = REF_BNO)
+		WHERE BOARD_NO = ? 
+		AND B.STATUS = 'Y'
+		AND CATEGORY_NO = 3
+		AND NOTICE='N'
+	</entry>
+	<entry key="accidentSelectDetail">
+		<!-- 사고정보 -->
+	  SELECT ACC_NO
+			,REF_PNO
+			,REF_LNO
+			,INSURANCE_TYPE
+			,REGION
+			,ACC_RATE_ME
+			,ACC_RATE_YOU
+			,SOLVE
+	  FROM ACCIDENT
+	  WHERE REF_BNO = ? 
+	  AND SOLVE='N'
+	</entry>
+	
+	<entry key="accidentReplySelectDetail">
+		SELECT RP_NO
+			  ,USER_ID
+			  ,CONTENT
+			  ,CREATE_DATE
+		FROM REPLY R
+		JOIN MEMBER M ON(USER_NO = RP_WRITER)
+		WHERE RP_BNO = ?
+		AND R.STATUS = 'Y'
+		ORDER BY CREATE_DATE DESC 
+	</entry>
+	
 	
 </properties>
