@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bbbox.board.model.service.BoardService;
 import com.bbbox.board.model.vo.Board;
+import com.bbbox.common.model.vo.PageInfo;
 
 /**
  * Servlet implementation class BoardListController
@@ -32,11 +33,31 @@ public class BoardListController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		ArrayList<Board> list = new BoardService().selectBoardList();
 		
+		int listCount = new BoardService().boardListCount();	
+		int currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		int pageLimit = 5;
+		int boardLimit = 10;
+		int maxPage = (int)Math.ceil((double)listCount / boardLimit);		
+		int startPage=((int)Math.floor((currentPage-1)/pageLimit)) * pageLimit+1;
+		int endPage = startPage+pageLimit-1;
 		
-		request.setAttribute("boardList", list);
-		request.getRequestDispatcher("views/board/boardListView.jsp").forward(request, response);
+		if(endPage>maxPage) {
+			endPage=maxPage; 
+		}
+		
+		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
+		
+		ArrayList<Board> list = new BoardService().selectBoardList(pi);
+		
+		if(list != null) {
+			request.setAttribute("pageInfo", pi);
+			request.setAttribute("boardList", list);			
+			request.getRequestDispatcher("views/board/boardListView.jsp").forward(request, response);
+		}else {
+			System.out.println("게시글 리스트조회 실패");
+		}
+		
 		
 	}
 

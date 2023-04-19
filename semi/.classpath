@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
@@ -12,3 +13,4 @@
 	<classpathentry kind="lib" path="/Users/yangheejae/Desktop/세미프로젝트/lib/javax.mail.jar"/>
 	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>
+

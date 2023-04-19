@@ -50,7 +50,11 @@ public class AccidentBoardListController extends HttpServlet {
 		listCount = new AccidentBoardService().selectBoardListCount();
 		
 		//현재 페이지
-		currentPage=Integer.parseInt(request.getParameter("currentPage"));
+		if(request.getParameter("currentPage")==null) {
+			currentPage=1;
+		}else{
+			currentPage=Integer.parseInt(request.getParameter("currentPage"));
+		}
 		
 		//pageLimit : 페이지 하단에 보여질 페이징 바의 페이지 최대개수 (목록단위)
 		pageLimit = 15;
@@ -79,10 +83,10 @@ public class AccidentBoardListController extends HttpServlet {
 		if(blist!=null) {
 			request.setAttribute("pi", pi);
 			request.setAttribute("blist", blist);
-			request.getRequestDispatcher("views/board/accidentBoardListView.jsp").forward(request, response);;
+			request.getRequestDispatcher("views/board/accidentBoardListView.jsp").forward(request, response);
 		}else {
 			request.setAttribute("errorMsg", "사건게시판 조회 실패");
-			request.getRequestDispatcher(request.getContextPath()).forward(request, response);;
+			request.getRequestDispatcher(request.getContextPath()).forward(request, response);
 		}
 	}
 

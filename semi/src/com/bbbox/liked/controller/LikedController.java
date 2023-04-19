@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONObject;
+
 import com.bbbox.board.model.service.BoardService;
 import com.bbbox.liked.model.service.LikedService;
 import com.bbbox.liked.model.vo.Liked;
@@ -43,12 +45,13 @@ public class LikedController extends HttpServlet {
 		int result2 = 0;
 		
 		if(result>0) {
+			//보드에 좋아요카운트 갱신
 			result2 = new BoardService().insertLiked(boardNo);
 		}
-		
+
 		
 		response.getWriter().print(result2);
-		
+
 	
 	}
 

@@ -17,11 +17,19 @@ public class Reply {
 	private String status;
 	
 	
-	
 	public Reply() {
 		super();
 	}
 	
+	//게시글 댓글 조회구문
+	public Reply(int rpNo, String rpWriter, String content, String createDate) {
+		super();
+		this.rpNo = rpNo;
+		this.rpWriter = rpWriter;
+		this.content = content;
+		this.createDate = createDate;
+	}
+
 	public Reply(int rpNo, int refBno, String rpWriter, String content, String createDate, String status) {
 		super();
 		this.rpNo = rpNo;
@@ -31,8 +39,6 @@ public class Reply {
 		this.createDate = createDate;
 		this.status = status;
 	}
-	
-	
 	
 	public int getRpNo() {
 		return rpNo;
@@ -70,8 +76,6 @@ public class Reply {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
-	
 	
 	@Override
 	public String toString() {

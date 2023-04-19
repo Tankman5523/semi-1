@@ -7,7 +7,6 @@
 <%	
 	ArrayList<Board> blist = (ArrayList<Board>)request.getAttribute("blist");
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
-
 %>    
 <!DOCTYPE html>
 <html>
@@ -18,11 +17,11 @@
         div{
             border: 1px solid black;
             box-sizing: border-box;
-            margin: auto;
         }
         .outer{
             width: 1200px;
             height: 1200px;
+            margin: auto;
         }
 
         /*헤더 영역*/
@@ -90,6 +89,7 @@
         #accidentBoardList-area>table{
             float: left;
             margin: 14px;
+            border: 1px solid black;
         }
         /*게시글 호버시*/
         #accidentBoardList-area>table:hover{
@@ -98,8 +98,6 @@
         }
         
         .accidentBoardList{
-            border: 1px solid black;
-            
         }
         
         /*썸네일 */
@@ -118,50 +116,58 @@
     <title>Document</title>
 </head>
 <body>
+
+<%@include file="../common/mainMenu.jsp" %>
+
 	
-	<%@ include file = "../common/menubar.jsp" %>
-	<!-- 메뉴바 인클루드 하세요 -->
     <div class="outer">
         <div id="accidentBoardHead">
             <div class="boardName">
                 <p>사건 영상 게시판</p>
             </div>
             <div class="search">
-                <form action="">
+                <form action="search.ac">
                     <div class="typeFilter">
                         <select name="region" id="region">
-                            <option value="none">지역별</option>
+                            <option value="">지역별</option>
                             <option value="서울">서울</option>
                             <option value="경기">경기</option>
+                            <option value="경기">충청</option>
+                            <option value="경기">전라</option>
+                            <option value="경기">경상</option>
+                            <option value="강원">강원</option>
+                            <option value="제주">제주</option>
                         </select>
-                        <select name="type" id="type">
-                            <option value="none">사건유형</option>
-                            <option value="대인">대인</option>
-                            <option value="대물">대물</option>
+                        <select name="partType" id="type">
+                            <option value="0">사건유형</option>
+                            <option value="1">대인</option>
+                            <option value="2">대물</option>
+                            <option value="3">음주운전</option>
+                            <option value="4">뺑소니</option>
                         </select>
-                        <select name="insurence" id="insurence">
-                            <option value="과실처리">과실처리</option>
+                        <select name="insurance" id="insurance">
+                            <option value="">과실처리</option>
                             <option value="비보험">비보험</option>
                             <option value="보험">보험</option>
                         </select>
                     </div>
                     <div>
+                    <!-- 
                         <div class="sort">
-                            <input type="radio" name="searchSort" id="sortRecommend"><label for="sortRecommend">추천순</label>
-                            <input type="radio" name="searchSort" id="sortView"><label for="sortView">조회순</label>
-                            <input type="radio" name="searchSort" id="sortNew"><label for="sortNew">최신순</label>
-                        </div>
+                            <input type="radio" name="searchSort" id="sortRecommend" value="recommend"><label for="sortRecommend">추천순</label>
+                            <input type="radio" name="searchSort" id="sortView" value="view"><label for="sortView">조회순</label>
+                            <input type="radio" name="searchSort" id="sortNew" value="date"><label for="sortNew">최신순</label>
+                        </div> -->
                         <div class="searchInput">
                             <div class="searchFilter">
-                                <select name="" id="">
-                                    <option value="">필터</option>
+                                <select name="title_writer" id="filter">
                                     <option value="제목">제목</option>
                                     <option value="제보자">제보자</option>
                                 </select>
                             </div>
                             <div class="searchBar">
-                                    <div style="width: 15%; height: 23px;"><button type="submit" style="height: 100%;">?</button></div>
-                                    <div style="width: 85%;"><input type="text" placeholder="검색어를 입력해주세요" required></div>
+                                    <div style="width: 15%; height: 23px;"><button type="submit" style="height: 100%; width:100%"><img src="<%=contextPath%>/resources/common/search.png" style="height:100%;width:100%;"></button></div>
+                                    <div style="width: 85%;"><input type="text" name="keyword" placeholder="검색어를 입력해주세요" required></div>
                             </div>
                         </div>
                      </div>
@@ -171,12 +177,12 @@
         <div id="accidentBoardbody">
             <div id="accidentBoardList-area">
 				<%if(blist!=null){ %>
-	            	<%for(int i=0;i<blist.size();i++){ %>
-	                 <table class="accidentBoardList">
+	            	<%for(int i=0;i<blist.size();i++){ %>  
+	                 <table class="accidentBoardList" onclick="location.href='<%=contextPath%>/detail.ac?bno='+<%=blist.get(i).getBoardNo()%>">
 	                    <tr>
 	                    	<!-- 테스트용 썸네일 -->
-	                        <td colspan="2"><img src="<%=blist.get(i).getFilePath()%>" alt=""></td>
-	                    
+	                        <td colspan="2"><img src="<%=contextPath%><%=blist.get(i).getFilePath()%>" alt="" ></td>
+	                    	
 	                    </tr>
 	                    <tr>
 	                        <td colspan="2"><%=blist.get(i).getTitle()%></td>
@@ -192,21 +198,22 @@
 	                    </tr>
 	                </table>
 	                <%} %>
-                <%}else{%>
+                <%}else{%><!-- 게시물이 없을시 처리 -->
                 	게시물이 없습니다.
                 <%} %>
             </div>
+            <!-- 페이징바 -->
             <div class="pageMover" align="center">
                	 <%if(pi.getCurrentPage() != 1){ %>
 					<button onclick="location.href='<%=contextPath%>/list.ac?currentPage=<%=pi.getCurrentPage()-1%>'">&lt;</button>
 				<%} %>
 			
 				<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++){ %>
-				<!-- 내가 보고있는 페이지 버튼은 비활성화 하기 -->
+				<!-- 내가 보고있는 페이지 버튼은 비활성화 -->
 					<%if(i != pi.getCurrentPage()){ %>
 						<button onclick="location.href='<%=contextPath%>/list.ac?currentPage=<%=i%>';"><%=i %></button>
-					<%}else{ %> <!-- 내가 보고있는 페이지와 페이징바 버튼의 수가 같아면 i와 currenPage -->
-						<button disabled><%=i %></button>
+					<%}else{ %> <!-- 내가 보고있는 페이지와 페이징바 버튼의 수가 같으면 i와 currenPage -->
+						<button disabled><%=i%></button>
 					<%} %>
 				<%} %>
 				

@@ -2,7 +2,6 @@
     pageEncoding="UTF-8" import ="com.bbbox.member.model.vo.Member" %>
 <%
 	String contextPath = request.getContextPath();
-	
 	Member loginUser = (Member)session.getAttribute("loginUser");
 
 	String alertMsg = (String)session.getAttribute("alertMsg");
@@ -214,16 +213,16 @@
     <!-- 메뉴바 영역 -->
     <div class="menubar">
             <ul id="navi">
-                <li><a href="">블랙박스 영상</a>
+                <li><a href="<%=contextPath%>/list.ac?currentPage=1">블랙박스 영상</a>
                     <ul>
                         <li><a href="<%=contextPath%>/list.ac?currentPage=1">사건 영상</a></li>
                         <li><a href="<%=contextPath%>/list.rb?currentPage=1">해결 영상</a></li>
-                        <li><a href="">제보 페이지</a></li>
+                        <li><a href="<%=contextPath%>/enroll.ac">제보 페이지</a></li>
                     </ul>
                 </li>    
                 <li><a href="">변호사</a>
                     <ul>
-                        <li><a href="">변호사 검색</a></li>
+                        <li><a href="<%=contextPath %>/list.la">변호사 검색</a></li>
                         <li><a href="">소송 가이드</a></li>
                         <li><a href="">상담 게시판</a></li>
                     </ul>
@@ -231,7 +230,7 @@
                 </li>    
                 <li><a href="">자유게시판</a>
                     <ul>
-                        <li><a href="<%=contextPath%>/list.bo">일반 게시판</a></li>
+                        <li><a href="<%=contextPath%>/list.bo?currentPage=1">일반 게시판</a></li>
                         <li><a href="<%=contextPath%>">영상 게시판</a></li>
                     </ul>
                 </li>    

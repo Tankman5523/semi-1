@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bbbox.lawyer.model.service.LawyerService;
 import com.bbbox.lawyer.model.vo.Lawyer;
+import com.bbbox.lawyer.model.vo.PartCategory;
 
 /**
  * Servlet implementation class LawyerListController
@@ -31,9 +32,12 @@ public class LawyerListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Lawyer> list = new LawyerService().selectList();
+		ArrayList<Lawyer> lawList = new LawyerService().selectList();
+		ArrayList<PartCategory> pList = new LawyerService().selectPart();
 		
-		request.setAttribute("LawList", list);
+		
+		request.setAttribute("lawList", lawList);
+		request.setAttribute("pList", pList);
 		request.getRequestDispatcher("views/lawyer/lawyerListView.jsp").forward(request, response);
 	}
 
