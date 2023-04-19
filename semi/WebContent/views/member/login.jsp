@@ -7,7 +7,9 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인페이지</title>
-
+<!-- 카카오 로그인 script -->
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
+  integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
     <style>
         div{
             border : 1px solid black;
@@ -103,7 +105,7 @@
     <div class="login-form">
         <br>
         <h1 align="center">로그인</h1>
-        <form id="login-area" action="<%=contextPath %>/login.me" method="post">
+        <form id="login-area" action="<%=contextPath%>/login.me" method="post">
             <table>
                 <tr> 
                     <td><label for="inputId">아이디</label></td>
@@ -125,6 +127,10 @@
                     <button type="submit">로그인</button>
                 </div>
                 <div>
+                	<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=405e99a60ff40f242008ab5a0bca8d36
+                			&redirect_uri=http://localhost:8888/semi/kakaologin.me?cmd=callback&">
+                	<img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="218" height="45"
+   						 alt="카카오 로그인 버튼" /></a>
                     <button type="button">카카오로그인</button> 
                 </div>
                 <div>
@@ -132,6 +138,59 @@
                 </div>
 		   </div>
         </form>
+        
+       <script>
+       /* 카카오 로그인  */
+       //초기화 함수 호출 
+        Kakao.init('f472cfc784f413f280466bde3fe97c4f');
+       	Kakao.isInitialized();
+       
+       	//초기화 확인
+       	console.log(Kakao.isInitialized());
+
+       	//로그인 시도
+       	function kakaoLogin(){
+	       	
+       		Kakao.Auth.authorize()({
+       			
+	       		success : function (authObj){
+	       			console.log(authObj); //access 토큰 값 
+	       			Kakao.Auth.setAccessToken(authObj.access_token); //access토큰값 저장 
+	       			
+	       			getInfo(); //사용자 정보 조회 메소드 호출
+	       			
+	       		},
+	       		fail :function (err){
+	       			console.log(err);
+	       		}
+	       	});
+       		
+	       	
+       		//엑세스 토큰 발급 후 사용자 정보 받아올 함수 실행 
+	       	function getInfo(){
+       			//API호출하기 
+       			Kakao.API.request({
+       				url : 'v2/user/me',
+       				
+       				success : function(res){
+       					console.log(res);
+       					//이메일, 닉네임 
+       					var email = res.kakao_account.email;
+       					var nickname = res.kakao_account.profile.nickname;
+
+       					console.log(email, nickname); //확인용 
+       					
+       				},
+       				
+       				fail :function(error){
+       					alert('카카오 로그인에 실패하였습니다. 관리자에게 문의하세요' + JSON.stringify(error));
+       				}
+       				
+       			});
+       		}	
+       	}
+       	
+       </script>
 	</div>
         <br><br><br><br>
 </body>
