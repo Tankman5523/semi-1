@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.bbbox.board.model.vo.Board"%>
+    pageEncoding="UTF-8" import="com.bbbox.board.model.vo.Board, com.bbbox.board.model.vo.Attachment"%>
 <%
 	Board b = (Board)request.getAttribute("board");
+	Attachment at = (Attachment)request.getAttribute("at");
 %>
 <!DOCTYPE html>
 <html>
@@ -35,10 +36,10 @@
 	<%@include file="../common/mainMenu.jsp" %>
 	
 	<div class="outer">
-		<h2 align="center" style="height:10%">글작성</h2>
+		<h2 align="center" style="height:10%">수정 페이지</h2>
 		
-		<form action="insert.bo" method="post" id="updateForm-area" enctype="multipart/form-data">
-			<input type="hidden" name="userNo" value="<%=loginUser.getUserNo()%>">
+		<form action="update.bo" method="post" id="updateForm-area" enctype="multipart/form-data">
+			<input type="hidden" name="boardNo" value="<%=b.getBoardNo()%>">
 			<table align="center" border="1" style="width:80%; height:70%;">
 				<tr>
 					<th>제목</th>
@@ -50,14 +51,19 @@
 				<tr>
 					<th>내용</th>
 					<td>
-						<textarea rows="10" cols="30" name="content" style="resize:none; width:80%; height:100%;" required value="<%=b.getContent()%>"></textarea>
+						<textarea rows="10" cols="30" name="content" style="resize:none; width:80%; height:100%;" required><%=b.getContent()%></textarea>
 					</td>
 				</tr>
 				
 				<tr>
 					<th>첨부파일</th>
 					<td>
-						<input type="file" name="upFile" value="<%=%>">
+					<%if(at == null){ %>
+							<input type="file" name="upFile">
+						<%}else{ %>
+							<a href="<%=contextPath+at.getFilePath()+at.getChangeName()%>"><%=at.getOriginName()%></a>
+							<button type="button" id="delAt">삭제</button>
+						<%} %>
 					</td>
 				</tr>
 			</table>
@@ -68,5 +74,15 @@
 		</form>
 	
 	</div>
+	
+	<%if(at != null){%>
+		 <script>
+		 	$(function(){
+		 		$("#delAt").on("click", function(){
+		 			location.href = "<%=contextPath%>/atDel?fno=<%=at.getFileNo()%>&bno=<%=b.getBoardNo()%>";
+		 		});
+		 	});
+		 </script>
+	 <%} %>
 </body>
 </html>

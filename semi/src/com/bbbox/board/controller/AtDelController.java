@@ -1,5 +1,6 @@
-package com.bbbox.liked.controller;
+package com.bbbox.board.controller;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -8,23 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONObject;
-
 import com.bbbox.board.model.service.BoardService;
-import com.bbbox.liked.model.service.LikedService;
-import com.bbbox.liked.model.vo.Liked;
+import com.bbbox.board.model.vo.Attachment;
 
 /**
- * Servlet implementation class LikedController
+ * Servlet implementation class AtDelController
  */
-@WebServlet("/liked.bo")
-public class LikedController extends HttpServlet {
+@WebServlet("/atDel")
+public class AtDelController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LikedController() {
+    public AtDelController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,25 +32,30 @@ public class LikedController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		int boardNo = Integer.parseInt(request.getParameter("bno"));
-		int userNo = Integer.parseInt(request.getParameter("uno"));
+		int fno = Integer.parseInt(request.getParameter("fno"));
+		int bno = Integer.parseInt(request.getParameter("bno"));
 		
-		Liked l = new Liked(userNo, boardNo);
+//		System.out.println("fno"+fno);
+//		System.out.println("bno"+bno);
 		
-		//좋아요등록
-		int result = new LikedService().insertLiked(l);
+		Attachment at = new BoardService().selectAttachment(bno);
 		
-		int result2 = 0;
+//		System.out.println(at);
+//		System.out.println(at.getFilePath());
+		
+		String savePath = request.getSession().getServletContext().getRealPath("/resources/1_board/");
+		new File(savePath+at.getChangeName()).delete();
+		
+		int result = new BoardService().delAt(fno);
 		
 		if(result>0) {
-			//보드에 좋아요카운트 갱신
-			result2 = new BoardService().insertLiked(boardNo);
+			
+			response.sendRedirect(request.getContextPath()+"/update.bo?bno="+bno);
+		}else {
+			request.setAttribute("errorMsg", "안될리가 없지만 혹시 모르니");
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
-
 		
-		response.getWriter().print(result2);
-
-	
 	}
 
 	/**

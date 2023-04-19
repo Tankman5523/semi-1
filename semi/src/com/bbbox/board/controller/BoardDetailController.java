@@ -46,7 +46,7 @@ public class BoardDetailController extends HttpServlet {
 
 			
 			request.setAttribute("board", b);
-			
+			request.setAttribute("at", at);
 
 			request.getRequestDispatcher("views/board/boardDetailView.jsp").forward(request, response);
 		}else {
