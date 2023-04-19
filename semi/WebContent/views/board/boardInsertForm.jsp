@@ -8,14 +8,14 @@
 <style>
 	.outer{
         border: 1px solid black;
-        width: 900px;
+        width: 1200px;
         height: 450px;
         margin: auto;
     }
     
     #insertForm-area>#submit-area{
-    	text-align: right;
-    	margin-right: 80px; 
+    	text-align: center;
+    	margin: 15px; 
     }
     
     #insertForm-area>table *{
@@ -32,22 +32,22 @@
 	<%@include file="../common/mainMenu.jsp" %>
 	
 	<div class="outer">
-		<h2>글작성</h2>
+		<h2 align="center" style="height:10%">글작성</h2>
 		
 		<form action="insert.bo" method="post" id="insertForm-area" enctype="multipart/form-data">
-			<input type="hidden" name="userId" value="">
-			<table align="center" border="1">
+			<input type="hidden" name="userNo" value="<%=loginUser.getUserNo()%>">
+			<table align="center" border="1" style="width:80%; height:70%;">
 				<tr>
 					<th>제목</th>
 					<td>
-						<input type="text" name="title" style="width: 500px;" required placeholder="제목을 입력해주세요.">
+						<input type="text" name="title" style="width: 80%;" required placeholder="제목을 입력해주세요.">
 					</td>
 				</tr>
 				
 				<tr>
 					<th>내용</th>
 					<td>
-						<textarea rows="10" cols="30" name="content" style="resize:none; width:500px;" required placeholder="내용을 입력하세요."></textarea>
+						<textarea rows="10" cols="30" name="content" style="resize:none; width:80%; height:100%;" required placeholder="내용을 입력하세요."></textarea>
 					</td>
 				</tr>
 				
@@ -59,8 +59,7 @@
 				</tr>
 			</table>
 			
-			<br><br>
-			<div id="submit-area">
+			<div id="submit-area" style="border:none; padding:10px; hieght:10%;">
 				<button type="submit">작성하기</button>
 			</div>
 		</form>

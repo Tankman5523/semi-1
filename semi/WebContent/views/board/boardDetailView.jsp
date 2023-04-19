@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.bbbox.board.model.vo.Board"%>
+    pageEncoding="UTF-8" import="com.bbbox.board.model.vo.Board, com.bbbox.board.model.vo.Attachment"%>
 <%
 	Board b = (Board)request.getAttribute("board");
+	Attachment at = (Attachment)request.getAttribute("at");
 %>
 <!DOCTYPE html>
 <html>
@@ -47,7 +48,7 @@
 				<th>제목</th>
 				<td width="400" colspan="5"><%=b.getTitle()%></td>
 			</tr>
-			<tr style="text-align: right">
+			<tr style="text-align: right" id="list-value">
 				<th>작성자</th>
 				<td><%=b.getBoardWriter()%></td>
 				<th>작성일</th>
@@ -60,7 +61,12 @@
 			<tr>
 				<th>내용</th>
 				<td colspan="7">
-					<p style="height:200px"><%=b.getContent()%></p>
+					<%if(at != null){ %>
+						<img src="<%=contextPath+at.getFilePath()+at.getChangeName()%>">
+					<%} %>
+					<p style="height:200px">
+					<%=b.getContent()%>
+					</p>
 				</td>
 			</tr>
 			
@@ -76,8 +82,8 @@
 		
 		<%if(loginUser != null && loginUser.getUserId().equals(b.getBoardWriter())){%>
 		<div id="update-area" align="center" style="border:none; padding:10px; hieght:10%;">
-			<button type="" style="margin:5px;">수정하기</button>
-			<button type="" style="margin:5px;">삭제하기</button>
+			<button onclick="location.href='<%=contextPath%>/update.bo?bno=<%=b.getBoardNo()%>'" style="margin:5px;">수정하기</button>
+			<button onclick="location.href='<%=contextPath%>/delete.bo?bno=<%=b.getBoardNo()%>'" style="margin:5px;">삭제하기</button>
 		</div>
 		<%}%>
 	

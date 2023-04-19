@@ -18,16 +18,16 @@ import com.bbbox.common.model.vo.MyFileRenamePolicy;
 import com.oreilly.servlet.MultipartRequest;
 
 /**
- * Servlet implementation class BoardInsertController
+ * Servlet implementation class BoardUpdateController
  */
-@WebServlet("/insert.bo")
-public class BoardInsertController extends HttpServlet {
+@WebServlet("/update.bo")
+public class BoardUpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardInsertController() {
+    public BoardUpdateController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,16 +36,29 @@ public class BoardInsertController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		request.getRequestDispatcher("views/board/boardInsertForm.jsp").forward(request, response);
-	
+		
+		int boardNo = Integer.parseInt(request.getParameter("bno"));
+		
+		
+		//업데이트할 게시글 조회
+		Board b = new BoardService().selectBoard(boardNo);
+		
+		Attachment at = new BoardService().selectAttachment(boardNo);
+		
+//		System.out.println(b);
+		request.setAttribute("board", b);
+		request.setAttribute("at", at);
+		
+		request.getRequestDispatcher("views/board/boardUpdateForm.jsp").forward(request, response);
+		
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		
 		request.setCharacterEncoding("UTF-8");
 		
 		if(ServletFileUpload.isMultipartContent(request)) {
@@ -61,12 +74,12 @@ public class BoardInsertController extends HttpServlet {
 
 			
 			//보드테이블에 등록할 정보
-			String userNo = multiRequest.getParameter("userNo");
+			int boardNo = Integer.parseInt(multiRequest.getParameter("boardNo"));
 			String title = multiRequest.getParameter("title");
 			String content = multiRequest.getParameter("content");
 			
 			Board b = new Board();
-			b.setBoardWriter(userNo);
+			b.setBoardNo(boardNo);;
 			b.setTitle(title);
 			b.setContent(content);
 			
@@ -80,10 +93,10 @@ public class BoardInsertController extends HttpServlet {
 				at.setFilePath("/resources/1_board/");
 			}
 			
-			int result = new BoardService().insertBoard(b,at);
+			int result = new BoardService().updateBoard(b,at);
 			
 			if(result>0) {
-				request.getSession().setAttribute("alertMsg", "게시글 작성 성공");
+				request.getSession().setAttribute("alertMsg", "수정 완료");
 				
 				response.sendRedirect(request.getContextPath()+"/list.bo?currentPage=1");
 			}else {
@@ -96,7 +109,8 @@ public class BoardInsertController extends HttpServlet {
 			
 			
 		}
-	
+
+		
 	}
 
 }

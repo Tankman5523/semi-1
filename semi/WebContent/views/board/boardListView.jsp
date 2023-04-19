@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.ArrayList, com.bbbox.board.model.vo.Board"%>
+    pageEncoding="UTF-8" import="java.util.ArrayList, com.bbbox.board.model.vo.Board, com.bbbox.common.model.vo.PageInfo"%>
 <%
 	ArrayList<Board> list = (ArrayList<Board>)request.getAttribute("boardList");
+	PageInfo pi = (PageInfo)request.getAttribute("pageInfo");
 %>    
 <!DOCTYPE html>
 <html>
@@ -56,13 +57,14 @@
 	
 	<div class="outer">
  		<div id="header" style="height: 10%">
-		<h2 align="center">일반 게시판</h2>
+		<h2 align="center" style="border: none;">일반 게시판</h2>
 		</div>
 
-		<div id="content" style="height: 70%">
+		<div id="content" style="height: 90%">
     
-			<div id="sort-area" align="right"style="margin:10px;">
-				<input type="text" style="height: 100%; width: 400px">
+			<div id="sort-area" align="right"style="height: 10%;">
+			
+				<input type="text" style="width: 400px; margin-top: 25px;">
 				<button>검색</button>
 				<input type="radio" name="sort" id="resent"><label for="resent">최신순</label>
 				<input type="radio" name="sort" id="recommend"><label for="recommend">추천순</label>
@@ -70,43 +72,50 @@
 				
 			</div>
 	
-			<div id="content_1" style="display: inline-block; width: 20%; height: 70%;">
-				<form id="chat-area">
+			<div id="content_1" style="display: inline-block; width: 20%; height: 90%;">
+				<div id="chat-area">
 			    	<div style="height: 80%">			    	
 			    		<textarea style="resize: none;" id="chat_output" readonly></textarea>
 			    	</div>
+			    	<div id="loginInfo" style="height: 10%;">
+			    		<%if(loginUser != null){ %>
+			    			<span><%=loginUser.getUserId() %>님</span>
+			    		<%}else{ %>
+			    			<span>로그인 후 이용해 주세요.</span>
+			    		<%} %>
+			    	</div>
 		    		<div style="height: 10%">
-			    		<input type="text" id="chat_input" required>
+		    			<%if(loginUser != null){ %>
+			    		<input type="text" id="chat_input" required placeholder="메세지를 입력하세요.">
+			    		<%}else{ %>
+			    		<input type="text" id="chat_input" required readonly placeholder="메세지를 입력하세요.">
+			    		<%} %>
 		    		</div>
-			    	<button id="chat_submit" style="height: 10%">채팅 입력</button>
-				</form>
+				</div>
 			</div>
 			
 			<script>
-				$("#chat_submit").on("click", function(){
-					
-					<%if(loginUser != null){%>
-					$.ajax({
-						url:"chat.bo",
-						data:{
-							inputText:$("#chat_input").val()
-						},
-						success:function(result){
-							
-							
-						},
-						error:function(){
-							alert("통신실패");
-						}
-					});
-					<%}else{%>
-					alert("로그인 후 이용해주세요.");
-					<%}%>
+				$("#chat_input").on("keydown", function(e){
+					if(e.keyCode == 13){
+						$.ajax({
+							url:"chat.bo",
+							data:{
+								
+							},
+							success:function(){
+								
+								
+							},
+							error:function(){
+								alert("통신실패");
+							}
+						});
+					}
 				});
 			</script>
 	
-			<div id="content_2" style="display: inline-block; width: 80%;">
-				<table border="1" style="width:100%; box-sizing:border-box;">
+			<div id="content_2" style="display: inline-block; width: 80%; height:90%;">
+				<table border="1" style="width:100%; height:60%; box-sizing:border-box;">
 					<thead>
 						<tr>
 							<th width="50">글번호</th>
@@ -134,15 +143,38 @@
 					<%} %>
 					</tbody>
 				</table>
+				
+				<div id="page-area" align="center" style="height:20%; border: none;">
+					<div style="margin-top: 20px; border:none;">
+						<%if(pi.getCurrentPage()!=1){ %>
+				 		<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()-1%>'">prev</button>
+						 <%} %>
+						 
+						 <%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++){ %>
+						 	<%if(i != pi.getCurrentPage()){ %>
+						 		<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=i%>'"><%=i%></button>			 		
+						 	<%}else{ %>
+						 		<button disabled><%=i%></button>
+						 	<%} %>
+						 <%} %>
+						 
+						 <%if(pi.getCurrentPage()!=pi.getMaxPage()){ %>
+						 	<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()+1%>'">next</button>
+						 <%} %>
+					</div>
+				</div>
+				
+				<div id="btn-area" style="height:20%; border:none;" align="right">
 				<%if(loginUser != null){ %>
-				<button onclick="boardWrite()">글쓰기</button>
+					<button onclick="boardWrite()" style="margin: 10px">글쓰기</button>
 				<%} %>
+				</div>
 			</div>
 		</div>
 		
 		<script>
 			function boardWrite(){
-				location.href = "/semi/insert.bo"
+				location.href = "<%=contextPath%>/insert.bo"
 			}
 			
 			$(function(){
