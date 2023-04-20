@@ -273,24 +273,25 @@
         	/* 이메일 확인  */
 			function doubleChk(){
 				
-					var $email = $('#inputEmail').val();
+					var $email = $('#inputEmail');
 					
 						$.ajax({
 							url : "authentication.me",
 							
-							data : {testEmail : $email},
+							data : {testEmail : $email.val()},
 							
 							type : "post",
 							
-							success : function(result){
+							success : function(result, authKey){
 								if(result == 'YYYYY'){
 									if(confirm("이메일 인증 코드 발송 완료!")){
 									
+									console.log(authkey);
 									}
 								}else{
 									var failMsg = "이미 사용중인 이메일 입니다. 다시 입력해주세요";
 									$('#emailTestResult').html(failMsg);
-									$inputEmail.focus();
+									$email.focus();
 										
 								}
 								

@@ -64,14 +64,13 @@ public class MemberEmailAuthentication extends HttpServlet {
 
 		}else{ //이메일 사용가능 - 인증 메일 보내기 
 			
-			response.getWriter().print("YYYYY");
 			
 			//SMTP 서버 정보 설정
 			Properties prop = new Properties();
-			prop.put("mail.stmp.starttls.enable","true");
-			prop.put("mail.smtp.port", "465"); 
+			prop.put("mail.smtp.starttls.enable","true");
+			prop.put("mail.smtp.auth","true");
+			prop.put("mail.smtp.port", "587"); 
 			prop.put("mail.smtp.host","smtp.naver.com");
-			prop.put("mail.stmp.auth","true");
 
 			Authenticator auth = new MyAuthentication();
 			Session session = Session.getDefaultInstance(prop, auth);
@@ -115,9 +114,11 @@ public class MemberEmailAuthentication extends HttpServlet {
 				System.out.println(AuthenticationKey); //난수 확인용 
 				
 				//메일 내용
-				msg.setText("인증 번호는 :" + temp);
+				msg.setText("인증 번호 : [" + temp +"] 를 인증번호란에 입력해 주세요.");
 				msg.setHeader("content-Type","text/html");
 				
+				response.getWriter().print("YYYYY");
+
 				javax.mail.Transport.send(msg);
 				
 			} catch (MessagingException e) {

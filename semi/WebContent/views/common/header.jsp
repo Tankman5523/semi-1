@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" %>
+    pageEncoding="UTF-8" import="com.bbbox.member.model.vo.Member" %>
 <%
 	String contextPath = request.getContextPath();
 	
