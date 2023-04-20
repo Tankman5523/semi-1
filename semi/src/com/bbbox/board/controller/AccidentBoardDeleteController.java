@@ -42,6 +42,7 @@ public class AccidentBoardDeleteController extends HttpServlet {
 			request.setAttribute("errorMsg", "게시물 삭제 실패");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
+		//변경용
 	}
 
 	/**
