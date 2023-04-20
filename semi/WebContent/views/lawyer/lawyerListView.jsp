@@ -72,7 +72,7 @@
         margin: auto;
         width: 60%;
         margin-top: 50px;
-        background-color: rgb(255, 220, 225);
+        background-color: rgb(237, 238, 253);
         cursor: pointer;
     }
 
