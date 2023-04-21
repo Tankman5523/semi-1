@@ -41,7 +41,7 @@ public class Member {
 		this.lawyer = lawyer;
 	}
 
-	//회원가입시 사용할 매개변수 생성자, 회원정보 수정시 사용가능 
+	//회원가입시 사용할 매개변수 생성자
 	public Member(String userId, String userPwd, String userName, String phone, String email, String address) {
 		super();
 		this.userId = userId;
@@ -52,7 +52,14 @@ public class Member {
 		this.address = address;
 	}
 	
-	
+	//아이디 비밀번호 찾기,이메일 중복시 사용할 매개변수 생성자 
+	public Member(String userId, String userPwd) {
+		super();
+		this.userId = userId;
+		this.userPwd = userPwd;
+	}
+
+
 	public int getUserNo() {
 		return userNo;
 	}

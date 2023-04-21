@@ -39,6 +39,7 @@ public class MemberEnrollController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		request.setCharacterEncoding("UTF-8");
 		
 		//입력정보 가져오기
@@ -49,8 +50,11 @@ public class MemberEnrollController extends HttpServlet {
 		String phone = request.getParameter("phone");
 		String address = request.getParameter("address");
 		
-		Member insertMember = new Member(inputId,inputPwd,inputName,email,phone,address);
 		
+		Member insertMember = new Member(inputId,inputPwd,inputName,phone,email,address);
+		
+		System.out.println(insertMember);
+
 		int result = new MemberService().insertMember(insertMember);
 		
 		if(result>0) {
@@ -59,7 +63,7 @@ public class MemberEnrollController extends HttpServlet {
 			
 		}else {
 			request.setAttribute("errorMsg", "회원가입에 실패하였습니다. 다시 시도해주세요.");
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+			request.getRequestDispatcher(request.getContextPath()).forward(request, response);
 		}
 		
 	

@@ -64,11 +64,24 @@ public class BoardInsertController extends HttpServlet {
 			String userNo = multiRequest.getParameter("userNo");
 			String title = multiRequest.getParameter("title");
 			String content = multiRequest.getParameter("content");
+			int notice = Integer.parseInt(multiRequest.getParameter("notice"));
 			
-			Board b = new Board();
-			b.setBoardWriter(userNo);
-			b.setTitle(title);
-			b.setContent(content);
+			Board b = null;
+			
+			if(notice>0) {
+				b = new Board();
+				b.setBoardWriter(userNo);
+				b.setTitle(title);
+				b.setContent(content);
+				b.setNotice("Y");
+			}else {
+				b = new Board();
+				b.setBoardWriter(userNo);
+				b.setTitle(title);
+				b.setContent(content);
+				b.setNotice("N");
+			}
+			
 			
 			//첨부파일 초기값 세팅
 			Attachment at = null;
