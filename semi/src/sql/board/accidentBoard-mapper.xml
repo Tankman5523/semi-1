@@ -20,6 +20,7 @@
 							,INSURANCE_TYPE
 							,REGION
 							,FILE_PATH||CHANGE_NAME PATH
+							,CHANGE_NAME
 						FROM BOARD B
 						JOIN MEMBER M ON(BOARD_WRITER = USER_NO)
 						JOIN ACCIDENT A ON(BOARD_NO=A.REF_BNO)
@@ -41,6 +42,13 @@
 		AND FILE_LEVEL =1 
 	</entry>
 	
+	<entry key="selectResolvedBoardListCount">
+		SELECT COUNT(*) COUNT
+		FROM BOARD
+		WHERE STATUS='Y'
+		AND CATEGORY_NO = 4
+	</entry>
+	
 	<entry key="selectResolvedBoardList">
 		SELECT *
 		FROM   (SELECT ROWNUM RNUM,A.*
@@ -53,12 +61,13 @@
 							,INSURANCE_TYPE
 							,REGION
 							,FILE_PATH||CHANGE_NAME PATH
+							,CHANGE_NAME
 						FROM BOARD B
 						JOIN MEMBER M ON(BOARD_WRITER = USER_NO)
 						JOIN ACCIDENT A ON(BOARD_NO=A.REF_BNO)
 						JOIN ATTACHMENT AT ON(BOARD_NO=AT.REF_BNO)
 						WHERE B.STATUS = 'Y'
-						AND CATEGORY_NO = 3
+						AND CATEGORY_NO = 4
 						AND SOLVE='Y'
 						AND NOTICE='N'
 		              ORDER BY CREATE_DATE DESC) A)
@@ -117,6 +126,7 @@
 							,INSURANCE_TYPE
 							,REGION
 							,FILE_PATH||CHANGE_NAME PATH
+							,CHANGE_NAME
 						FROM BOARD B
 						JOIN MEMBER M ON(BOARD_WRITER = USER_NO)
 						JOIN ACCIDENT A ON(BOARD_NO=A.REF_BNO)
@@ -145,6 +155,7 @@
 							,INSURANCE_TYPE
 							,REGION
 							,FILE_PATH||CHANGE_NAME PATH
+							,CHANGE_NAME
 						FROM BOARD B
 						JOIN MEMBER M ON(BOARD_WRITER = USER_NO)
 						JOIN ACCIDENT A ON(BOARD_NO=A.REF_BNO)
@@ -174,6 +185,7 @@
 			,RP_COUNT
 			<!-- 첨부파일정보 -->
 			,FILE_PATH||CHANGE_NAME PATH
+			,CHANGE_NAME
 		FROM BOARD B
 		JOIN MEMBER M ON(BOARD_WRITER = USER_NO)
 		JOIN ATTACHMENT AT ON(BOARD_NO = REF_BNO)
@@ -229,5 +241,92 @@
 		WHERE REF_BNO = ?
 		AND STATUS='Y'
 	</entry>
+	
+	<entry key="updateAccidentBoard">
+		UPDATE BOARD
+		SET TITLE=?,CONTENT=?
+		WHERE BOARD_NO = ?
+		AND STATUS='Y'
+	</entry>
+	
+	<entry key="updateAccidentInfo">
+		UPDATE ACCIDENT
+		SET REF_PNO=?
+		   ,INSURANCE_TYPE=?
+		   ,REGION=?
+		   ,ACC_RATE_ME=?
+		   ,ACC_RATE_YOU=?
+		WHERE REF_BNO =?
+		AND STATUS='Y'
+	</entry>
+	
+	<entry key="updateAccidentAttachment">
+		UPDATE ATTACHMENT
+		SET ORIGIN_NAME=?
+		   ,CHANGE_NAME=?
+		   ,FILE_PATH=?
+		WHERE REF_BNO=?
+		AND STATUS='Y'
+	
+	</entry>
+	
+	<entry key="resolvedBoardSelectDetail">
+		SELECT BOARD_NO
+			,USER_ID
+			,TITLE
+			,CONTENT
+			,COUNT
+			,CREATE_DATE
+			,LIKED
+			,REPORT_COUNT
+			,RP_COUNT
+			<!-- 첨부파일정보 -->
+			,FILE_PATH||CHANGE_NAME PATH
+			,CHANGE_NAME
+		FROM BOARD B
+		JOIN MEMBER M ON(BOARD_WRITER = USER_NO)
+		JOIN ATTACHMENT AT ON(BOARD_NO = REF_BNO)
+		WHERE BOARD_NO = ? 
+		AND B.STATUS = 'Y'
+		AND CATEGORY_NO = 4
+		AND NOTICE='N'
+	</entry>
+	
+	<entry key="resolvedAccidentSelectDetail">
+			<!-- 사고정보 -->
+	  SELECT ACC_NO
+			,REF_PNO
+			,REF_LNO
+			,INSURANCE_TYPE
+			,REGION
+			,ACC_RATE_ME
+			,ACC_RATE_YOU
+			,SOLVE
+	  FROM ACCIDENT
+	  WHERE REF_BNO = ? 
+	  AND SOLVE='Y'
+	</entry>
+	<!-- accidentReply랑 코드 겹침 / 나중에 정리  -->	
+	<entry key="resolvedReplySelectDetail">
+		SELECT RP_NO
+			  ,USER_ID
+			  ,CONTENT
+			  ,CREATE_DATE
+		FROM REPLY R
+		JOIN MEMBER M ON(USER_NO = RP_WRITER)
+		WHERE RP_BNO = ?
+		AND R.STATUS = 'Y'
+		ORDER BY CREATE_DATE DESC 
+	</entry>
+	
+	<entry key="resolvedBoardReviewSelectDetail">
+		SELECT AR_NO,REF_ACCNO,CORRECT_RATE_ME,CORRECT_RATE_YOU,CONTENT,USER_NAME
+		FROM ACCI_REVIEW AR
+		JOIN LAW_USER LAW USING (LAW_NO)
+		JOIN MEMBER M ON (USER_NO=REF_UNO)
+		WHERE REF_ACCNO=?
+		AND AR.STATUS ='Y' 
+	</entry>
+	
 	
 </properties>

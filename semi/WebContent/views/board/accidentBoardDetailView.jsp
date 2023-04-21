@@ -136,15 +136,19 @@
         <div class="accidentBoardDetailBody">
             <div class="bodyLeft">
                 <div class="videoArea">
-                    <img src="" id="video"></img>
+                    <video src="<%=contextPath%>/resources/accident_board_file/video1.mp4" controls poster="" id="video"></video>
                 </div>
                 <div class="contentArea">
                     <div class="infoArea">
                         <div class="detail">
                             <div class="title">
                                 <span><%=b.getTitle()%></span>
-                                <span>#미해결</span>
-                                <span>#보험</span>
+                                <%if(ac.getSolve().equals("N")) {%>
+                                	<span>#미해결</span>
+                                <%}else{ %>
+                                	<span>#해결</span>
+                                <%} %>
+                                <span>#<%=ac.getInsuranceType()%></span>
                             </div>
                             <div class="info">
                                 <span>제보일 | <%=b.getCreateDate()%></span>
@@ -153,12 +157,24 @@
                                 <span>제보자 | <%=b.getBoardWriter()%></span>
                                 <span>지역 | <%=ac.getRegion()%></span>
                             </div>
-                            <%if(loginUser!=null) {%>
-	                            <div id="updateBtnArea" style="text-align:right;">
-	                            	<!-- 나중에 이미지로 바꿔서 onclick 이벤트 -->
-	                            	<input type="button" value="게시글 수정" onclick="location.href='<%=contextPath%>/update.ac?bno='+<%=b.getBoardNo()%>">
-	                            	<input type="button" value="게시글 삭제" onclick="location.href='<%=contextPath%>/delete.ac?bno='+<%=b.getBoardNo()%>">
-	                            </div>
+                            <%if(loginUser!=null){ %>
+	                            <%if(loginUser.getUserId().equals(b.getBoardWriter())||loginUser.getAdmin().equals("Y")) {%>
+	                        
+		                            <div id="updateBtnArea" style="text-align:right;">
+		                            	<!-- 나중에 이미지로 바꿔서 onclick 이벤트 -->
+		                            	<input type="button" value="게시글 수정" onclick="location.href='<%=contextPath%>/update.ac?bno='+<%=b.getBoardNo()%>">
+		                            	<input type="button" value="게시글 삭제" onclick="location.href='<%=contextPath%>/delete.ac?bno='+<%=b.getBoardNo()%>">
+		                            </div>
+	                            <%} %>
+                            <%} %>
+                            <%if(loginUser.getLawyer().equals("Y")){ %>
+                            	<div id="accidentReviewBtn">
+                            		<form action="enroll.ar">
+                            			<input type="hidden" name="bno" value="<%=b.getBoardNo()%>">
+                            			<input type="hidden" name="accNo" value="<%=ac.getAccNo()%>">
+                            			<input type="submit" value="해결완료하려면 리뷰를 작성하세요">
+                            		</form>
+                            	</div>
                             <%} %>
                         </div>
                         <!-- 과실비율 -->
@@ -223,7 +239,7 @@
 	                    </div>
                     <%} %>
                 </div>
-                <div class="recommendArea">?</div>
+                <div class="recommendArea">광고맨</div>
             </div>
         </div>
        

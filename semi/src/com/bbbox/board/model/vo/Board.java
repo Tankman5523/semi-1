@@ -37,6 +37,8 @@ public class Board {
 	
 	//썸네일용 파일경로 가져가기
 	private String filePath;
+	private String changeName;
+
 	
 
 	//생성자
@@ -91,7 +93,7 @@ public class Board {
 
 	//사건영상게시판 리스트 생성자
 	public Board(int boardNo, String boardWriter, String title, int count, Date createDate, int ref_pno,
-			String insuranceType, String region, String filePath) {
+			String insuranceType, String region, String filePath, String changeName) {
 		super();
 		this.boardNo = boardNo;
 		this.boardWriter = boardWriter;
@@ -102,6 +104,7 @@ public class Board {
 		this.insuranceType = insuranceType;
 		this.region = region;
 		this.filePath = filePath;
+		this.changeName = changeName;
 	}
 	
 	
@@ -141,14 +144,22 @@ public class Board {
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
 	}
+	//변경된 첨부파일 이름 게터세터
 	
+	public String getChangeName() {
+		return changeName;
+	}
 	
+	public void setChangeName(String changeName) {
+		this.changeName = changeName;
+	}
 
 	
 	//게터세터
 	public int getBoardNo() {
 		return boardNo;
 	}
+
 
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;

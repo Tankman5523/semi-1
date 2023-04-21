@@ -47,7 +47,7 @@ public class ResolvedBoardListController extends HttpServlet {
 		int endPage; //페이지 하단에 보여질 페이징 바의 끝 수
 		
 		//전체 글 갯수 구하는 메소드
-		listCount = new AccidentBoardService().selectBoardListCount();
+		listCount = new AccidentBoardService().selectResolvedBoardListCount();
 		
 		//현재 페이지
 		currentPage=Integer.parseInt(request.getParameter("currentPage"));
@@ -76,7 +76,7 @@ public class ResolvedBoardListController extends HttpServlet {
 		
 		ArrayList<Board> blist = new AccidentBoardService().selectResolvedBoardList(pi);
 		
-		System.out.println(blist);
+		
 		if(blist!=null) {
 			request.setAttribute("pi", pi);
 			request.setAttribute("blist", blist);

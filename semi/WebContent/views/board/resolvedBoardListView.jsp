@@ -6,7 +6,6 @@
     pageEncoding="UTF-8"%>
     
 <%	
-	ArrayList<Attachment> alist = (ArrayList<Attachment>)request.getAttribute("alist");
 	ArrayList<Board> blist = (ArrayList<Board>)request.getAttribute("blist");
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
 
@@ -133,37 +132,44 @@
                 <form action="">
                     <div class="typeFilter">
                         <select name="region" id="region">
-                            <option value="none">지역별</option>
+                            <option value="">지역별</option>
                             <option value="서울">서울</option>
                             <option value="경기">경기</option>
+                            <option value="충청">충청</option>
+                            <option value="전라">전라</option>
+                            <option value="경상">경상</option>
+                            <option value="강원">강원</option>
+                            <option value="제주">제주</option>
                         </select>
-                        <select name="type" id="type">
-                            <option value="none">사건유형</option>
-                            <option value="대인">대인</option>
-                            <option value="대물">대물</option>
+                        <select name="partType" id="type">
+                           <option value="0">사건유형</option>
+                            <option value="1">대인</option>
+                            <option value="2">대물</option>
+                            <option value="3">음주운전</option>
+                            <option value="4">뺑소니</option>
                         </select>
-                        <select name="insurence" id="insurence">
-                            <option value="과실처리">과실처리</option>
-                            <option value="비보험">비보험</option>
+                        <select name="insurance" id="insurance">
+                            <option value="">과실처리</option>
+                            <option value="합의">합의</option>
                             <option value="보험">보험</option>
                         </select>
                     </div>
                     <div>
+                    <!-- 
                         <div class="sort">
                             <input type="radio" name="searchSort" id="sortRecommend"><label for="sortRecommend">추천순</label>
                             <input type="radio" name="searchSort" id="sortView"><label for="sortView">조회순</label>
                             <input type="radio" name="searchSort" id="sortNew"><label for="sortNew">최신순</label>
-                        </div>
+                        </div> -->
                         <div class="searchInput">
                             <div class="searchFilter">
-                                <select name="" id="">
-                                    <option value="">필터</option>
+                                <select name="title_writer" id="filter">
                                     <option value="제목">제목</option>
                                     <option value="제보자">제보자</option>
                                 </select>
                             </div>
                             <div class="searchBar">
-                                    <div style="width: 15%; height: 23px;"><button type="submit" style="height: 100%;">?</button></div>
+                                    <div style="width: 15%; height: 23px;"><button type="submit" style="height: 100%;width:100%">?</button></div>
                                     <div style="width: 85%;"><input type="text" placeholder="검색어를 입력해주세요" required></div>
                             </div>
                         </div>
@@ -175,7 +181,7 @@
             <div id="accidentBoardList-area">
 				<%if(blist!=null){ %>
 	            	<%for(int i=0;i<blist.size();i++){ %>
-	                 <table class="accidentBoardList">
+	                 <table class="accidentBoardList" onclick="location.href='<%=contextPath%>/detail.rb?bno='+<%=blist.get(i).getBoardNo()%>" >
 	                    <tr>
 	                    
 	                        <td colspan="2"><img src="<%=blist.get(i).getFilePath()%>" alt=""></td>
@@ -199,6 +205,7 @@
                 	게시물이 없습니다.
                 <%} %>
             </div>
+             <!-- 페이징바 -->
             <div class="pageMover" align="center">
             <%if(blist!=null){ %>
                	 <%if(pi.getCurrentPage() != 1){ %>

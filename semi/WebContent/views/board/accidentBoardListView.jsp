@@ -132,9 +132,9 @@
                             <option value="">지역별</option>
                             <option value="서울">서울</option>
                             <option value="경기">경기</option>
-                            <option value="경기">충청</option>
-                            <option value="경기">전라</option>
-                            <option value="경기">경상</option>
+                            <option value="충청">충청</option>
+                            <option value="전라">전라</option>
+                            <option value="경상">경상</option>
                             <option value="강원">강원</option>
                             <option value="제주">제주</option>
                         </select>
@@ -147,7 +147,7 @@
                         </select>
                         <select name="insurance" id="insurance">
                             <option value="">과실처리</option>
-                            <option value="비보험">비보험</option>
+                            <option value="합의">합의</option>
                             <option value="보험">보험</option>
                         </select>
                     </div>
@@ -166,7 +166,7 @@
                                 </select>
                             </div>
                             <div class="searchBar">
-                                    <div style="width: 15%; height: 23px;"><button type="submit" style="height: 100%; width:100%"><img src="<%=contextPath%>/resources/common/search.png" style="height:100%;width:100%;"></button></div>
+                                    <div style="width: 15%; height: 23px;"><button type="submit" style="height: 100%; width:100%">?</button></div>
                                     <div style="width: 85%;"><input type="text" name="keyword" placeholder="검색어를 입력해주세요" required></div>
                             </div>
                         </div>
