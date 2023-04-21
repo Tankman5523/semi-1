@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bbbox.board.model.service.AccidentBoardService;
+import com.bbbox.board.model.service.BoardService;
 import com.bbbox.board.model.vo.Accident;
 import com.bbbox.board.model.vo.Board;
 import com.bbbox.board.model.vo.Reply;
@@ -36,22 +37,27 @@ public class AccidentBoardDetailController extends HttpServlet {
 
 		int bno = Integer.parseInt(request.getParameter("bno"));
 		
-		//게시판정보 + 첨부파일 경로
-		Board b = new AccidentBoardService().accidentBoardSelectDetail(bno);
-		//사건정보
-		Accident ac = new AccidentBoardService().accidentSelectDetail(bno);
-		//댓글정보
-		ArrayList<Reply> rplist = new AccidentBoardService().accidentReplySelectDetail(bno);
+		//조회수 카운팅
+		int result = new BoardService().increaseBoardCount(bno);
 		
-		if(b!=null&&ac!=null&&rplist!=null) {//성공
-			request.setAttribute("board", b);
-			request.setAttribute("accident", ac);
-			request.setAttribute("rplist", rplist);
+		if(result>0) {
+			//게시판정보 + 첨부파일 경로
+			Board b = new AccidentBoardService().accidentBoardSelectDetail(bno);
+			//사건정보
+			Accident ac = new AccidentBoardService().accidentSelectDetail(bno);
+			//댓글정보
+			ArrayList<Reply> rplist = new AccidentBoardService().accidentReplySelectDetail(bno);
 			
-			request.getRequestDispatcher("views/board/accidentBoardDetailView.jsp").forward(request, response);
-		}else {//실패
-			request.setAttribute("errorMsg", "게시물 조회 실패");
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+			if(b!=null&&ac!=null&&rplist!=null) {//성공
+				request.setAttribute("board", b);
+				request.setAttribute("accident", ac);
+				request.setAttribute("rplist", rplist);
+				
+				request.getRequestDispatcher("views/board/accidentBoardDetailView.jsp").forward(request, response);
+			}else {//실패
+				request.setAttribute("errorMsg", "게시물 조회 실패");
+				request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+			}
 		}
 	}
 
