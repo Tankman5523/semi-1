@@ -100,10 +100,10 @@ public class AccidentBoardService {
 		
 		return result;
 	}
-	public ArrayList<Board> searchByTitle(String searchFilter, String region, int partType, String insuranceType, String keyword, PageInfo pi) {
+	public ArrayList<Board> searchAccidentBoard(String searchFilter, String region, int partType, String insuranceType, String keyword, int categoryNo, PageInfo pi) {
 		Connection conn = JDBCTemplate.getConnection();
 		
-		ArrayList<Board> list = new AccidentBoardDao().searchByTitle(conn,searchFilter,region,partType,insuranceType,keyword,pi);
+		ArrayList<Board> list = new AccidentBoardDao().searchAccidentBoard(conn,searchFilter,region,partType,insuranceType,keyword,categoryNo,pi);
 		
 		JDBCTemplate.close(conn);
 		
@@ -240,6 +240,56 @@ public class AccidentBoardService {
 		JDBCTemplate.close(conn);
 		
 		return ar;
+	}
+	public int insertAccidentReview(AccidentReview ar) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new AccidentBoardDao().insertAccidentReview(conn,ar);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+	public int selectLawNoByUno(int uno) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int lawNo = new AccidentBoardDao().selectLawNoByUno(conn,uno);
+		
+		JDBCTemplate.close(conn);
+		
+		return lawNo;
+	}
+	public int shiftBoard(int bno, int accNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new AccidentBoardDao().updateBoardCategory(conn,bno);
+		
+		int result2 = new AccidentBoardDao().updateSolve(conn,accNo);
+		
+		if(result>0&&result2>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		return result*result2;
+	}
+	public ArrayList<Board> resolvedBoardSearch(String searchFilter, String region, int partType,
+			String insuranceType, String keyword, int categoryNo, PageInfo pi) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Board> list = new AccidentBoardDao().searchAccidentBoard(conn, searchFilter, region, partType, insuranceType, keyword, categoryNo, pi);
+		
+		JDBCTemplate.close(conn);
+		
+		return list;
 	}
 
 	

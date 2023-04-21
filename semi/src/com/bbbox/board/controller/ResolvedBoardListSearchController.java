@@ -16,14 +16,14 @@ import com.bbbox.common.model.vo.PageInfo;
 /**
  * Servlet implementation class AccidentBoardListSearchController
  */
-@WebServlet("/search.ac")
-public class AccidentBoardListSearchController extends HttpServlet {
+@WebServlet("/search.rb")
+public class ResolvedBoardListSearchController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AccidentBoardListSearchController() {
+    public ResolvedBoardListSearchController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -44,7 +44,7 @@ public class AccidentBoardListSearchController extends HttpServlet {
 		int endPage; //페이지 하단에 보여질 페이징 바의 끝 수
 		
 		//전체 글 갯수 구하는 메소드
-		listCount = new AccidentBoardService().selectBoardListCount();
+		listCount = new AccidentBoardService().selectResolvedBoardListCount();
 		
 		//현재 페이지
 		if(request.getParameter("currentPage")==null) {
@@ -75,8 +75,8 @@ public class AccidentBoardListSearchController extends HttpServlet {
 		//정보 객체에 넣기
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		
-		//게시판 종류 
-		int categoryNo = Integer.parseInt(request.getParameter("categoryNo"));
+		//게시판 종류
+		int categoryNo = 4;
 		
 		//필터값 추출
 		String region = request.getParameter("region"); 
@@ -89,23 +89,12 @@ public class AccidentBoardListSearchController extends HttpServlet {
 		String keyword = request.getParameter("keyword");
 		ArrayList<Board> list = null;
 		
-		//코드 하나로 묶기
-		/*
-		if(searchFilter.equals("제목")||searchFilter.equals("")) {//제목으로 검색일 경우
-			//제목으로 검색 메소드
-			list = new AccidentBoardService().searchByTitle(region,partType,insuranceType,keyword,pi);
-		}else {//제보자명으로 검색일 경우
-			//제보자명으로 검색 메소드
-			list = new AccidentBoardService().searchByWriter(region,partType,insuranceType,keyword,pi);
-		}*/
-		
-		
-		list = new AccidentBoardService().searchAccidentBoard(searchFilter,region,partType,insuranceType,keyword,categoryNo,pi);
+		list = new AccidentBoardService().resolvedBoardSearch(searchFilter,region,partType,insuranceType,keyword,categoryNo,pi);
 		
 		if(list!=null) {
 			request.setAttribute("pi", pi);
 			request.setAttribute("blist", list);
-			request.getRequestDispatcher("views/board/accidentBoardListView.jsp").forward(request, response);
+			request.getRequestDispatcher("views/board/resolvedBoardListView.jsp").forward(request, response);
 		}else {
 			request.setAttribute("errorMsg", "사건게시판 조회 실패");
 			request.getRequestDispatcher(request.getContextPath()).forward(request, response);

@@ -63,7 +63,9 @@ public class AccidentBoardDao {
 								   ,rset.getString("INSURANCE_TYPE")
 								   ,rset.getString("REGION")
 								   ,rset.getString("PATH")
-								   ,rset.getString("CHANGE_NAME")));
+								   ,rset.getString("CHANGE_NAME")
+								   ,rset.getInt("CATEGORY_NO")));
+				
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -158,7 +160,8 @@ public class AccidentBoardDao {
 								   ,rset.getString("INSURANCE_TYPE")
 								   ,rset.getString("REGION")
 								   ,rset.getString("PATH")
-								   ,rset.getString("CHANGE_NAME")));
+								   ,rset.getString("CHANGE_NAME")
+								   ,rset.getInt("CATEGORY_NO")));
 			}
 			
 		} catch (SQLException e) {
@@ -275,8 +278,8 @@ public class AccidentBoardDao {
 		return result;
 	}
 
-	public ArrayList<Board> searchByTitle(Connection conn, String searchFilter, String region, int partType, String insuranceType,
-			String keyword, PageInfo pi) {
+	public ArrayList<Board> searchAccidentBoard(Connection conn, String searchFilter, String region, int partType, String insuranceType,
+			String keyword, int categoryNo, PageInfo pi) {
 		
 		ArrayList<Board> list = new ArrayList<Board>();
 		
@@ -286,10 +289,10 @@ public class AccidentBoardDao {
 		
 		//검색필터가 제목일때
 		if(searchFilter.equals("제목")||searchFilter.equals("")) {
-			sql = prop.getProperty("searchByTitle");
+			sql = prop.getProperty("searchAccidentBoardByTitle");
 		}else {
 		//검색필터가 작성자일때
-			sql = prop.getProperty("searchByWriter");
+			sql = prop.getProperty("searchAccidentBoardByWriter");
 		}
 		
 		int startRow=(pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
@@ -314,8 +317,9 @@ public class AccidentBoardDao {
 			pstmt.setString(3, insuranceType);
 			}
 			pstmt.setString(4, "%"+keyword+"%");
-			pstmt.setInt(5, startRow);
-			pstmt.setInt(6, endRow);
+			pstmt.setInt(5, categoryNo);
+			pstmt.setInt(6, startRow);
+			pstmt.setInt(7, endRow);
 			
 			rset = pstmt.executeQuery();
 			
@@ -817,4 +821,97 @@ public class AccidentBoardDao {
 		
 		return ar;
 	}
+
+	public int insertAccidentReview(Connection conn, AccidentReview ar) {
+
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertAccidentReview");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ar.getRefAccNo());
+			pstmt.setInt(2, ar.getLawNo());
+			pstmt.setInt(3, ar.getCorrectRateMe());
+			pstmt.setInt(4, ar.getCorrectRateYou());
+			pstmt.setString(5, ar.getContent());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int selectLawNoByUno(Connection conn, int uno) {
+		
+		int lawNo=0;
+		PreparedStatement pstmt = null; 
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectLawNoByUno");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, uno);
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				lawNo=rset.getInt("LAW_NO");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return lawNo;
+	}
+
+	public int updateBoardCategory(Connection conn, int bno) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateBoardCategory");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bno);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int updateSolve(Connection conn, int accNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateSolve");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, accNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	
 }

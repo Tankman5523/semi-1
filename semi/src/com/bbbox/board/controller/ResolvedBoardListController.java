@@ -50,7 +50,11 @@ public class ResolvedBoardListController extends HttpServlet {
 		listCount = new AccidentBoardService().selectResolvedBoardListCount();
 		
 		//현재 페이지
-		currentPage=Integer.parseInt(request.getParameter("currentPage"));
+		if(request.getParameter("currentPage")==null) {
+			currentPage=1;
+		}else{
+			currentPage=Integer.parseInt(request.getParameter("currentPage"));
+		}
 		
 		//pageLimit : 페이지 하단에 보여질 페이징 바의 페이지 최대개수 (목록단위)
 		pageLimit = 15;

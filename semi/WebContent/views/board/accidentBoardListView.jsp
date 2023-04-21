@@ -7,6 +7,7 @@
 <%	
 	ArrayList<Board> blist = (ArrayList<Board>)request.getAttribute("blist");
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
+	
 %>    
 <!DOCTYPE html>
 <html>
@@ -127,6 +128,7 @@
             </div>
             <div class="search">
                 <form action="search.ac">
+                	<input type="hidden" name="categoryNo" value="3">
                     <div class="typeFilter">
                         <select name="region" id="region">
                             <option value="">지역별</option>

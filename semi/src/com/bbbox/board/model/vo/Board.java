@@ -107,6 +107,22 @@ public class Board {
 		this.changeName = changeName;
 	}
 	
+	//검색을 위한 리스트 생성자
+	public Board(int boardNo, String boardWriter, String title, int count, Date createDate, int ref_pno,
+			String insuranceType, String region, String filePath, String changeName,int categoryNo) {
+		super();
+		this.boardNo = boardNo;
+		this.boardWriter = boardWriter;
+		this.title = title;
+		this.count = count;
+		this.createDate = createDate;
+		this.ref_pno = ref_pno;
+		this.insuranceType = insuranceType;
+		this.region = region;
+		this.filePath = filePath;
+		this.changeName = changeName;
+		this.categoryNo = categoryNo;
+	}
 	
 	
 	

@@ -129,7 +129,7 @@
                 <p>해결된 영상 게시판</p>
             </div>
             <div class="search">
-                <form action="">
+                <form action="search.rb">
                     <div class="typeFilter">
                         <select name="region" id="region">
                             <option value="">지역별</option>
@@ -170,7 +170,7 @@
                             </div>
                             <div class="searchBar">
                                     <div style="width: 15%; height: 23px;"><button type="submit" style="height: 100%;width:100%">?</button></div>
-                                    <div style="width: 85%;"><input type="text" placeholder="검색어를 입력해주세요" required></div>
+                                    <div style="width: 85%;"><input type="text" name="keyword" placeholder="검색어를 입력해주세요" required></div>
                             </div>
                         </div>
                      </div>
@@ -184,7 +184,7 @@
 	                 <table class="accidentBoardList" onclick="location.href='<%=contextPath%>/detail.rb?bno='+<%=blist.get(i).getBoardNo()%>" >
 	                    <tr>
 	                    
-	                        <td colspan="2"><img src="<%=blist.get(i).getFilePath()%>" alt=""></td>
+	                        <td colspan="2"><img src="<%=contextPath%><%=blist.get(i).getFilePath()%>" alt=""></td>
 	                    
 	                    </tr>
 	                    <tr>

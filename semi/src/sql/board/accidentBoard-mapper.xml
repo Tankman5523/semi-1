@@ -21,6 +21,7 @@
 							,REGION
 							,FILE_PATH||CHANGE_NAME PATH
 							,CHANGE_NAME
+							,CATEGORY_NO
 						FROM BOARD B
 						JOIN MEMBER M ON(BOARD_WRITER = USER_NO)
 						JOIN ACCIDENT A ON(BOARD_NO=A.REF_BNO)
@@ -62,6 +63,7 @@
 							,REGION
 							,FILE_PATH||CHANGE_NAME PATH
 							,CHANGE_NAME
+							,CATEGORY_NO
 						FROM BOARD B
 						JOIN MEMBER M ON(BOARD_WRITER = USER_NO)
 						JOIN ACCIDENT A ON(BOARD_NO=A.REF_BNO)
@@ -114,7 +116,7 @@
 		VALUES(SEQ_FNO.NEXTVAL,?,?,?,?,1,2)
 	</entry>
 	
-	<entry key="searchByTitle">
+	<entry key="searchAccidentBoardByTitle">
 		SELECT *
 		FROM   (SELECT ROWNUM RNUM,A.*
 	      		FROM (SELECT BOARD_NO
@@ -132,18 +134,17 @@
 						JOIN ACCIDENT A ON(BOARD_NO=A.REF_BNO)
 						JOIN ATTACHMENT AT ON(BOARD_NO=AT.REF_BNO)
 						WHERE B.STATUS = 'Y'
-						AND CATEGORY_NO = 3
-						AND SOLVE='N'
 						AND NOTICE='N'
 						AND REGION LIKE ?
 						AND REF_PNO LIKE ?
 						AND INSURANCE_TYPE LIKE ?
 						AND TITLE LIKE ?
+						AND CATEGORY_NO = ?<!-- 3,4 -->
 		              ORDER BY CREATE_DATE DESC) A)
 		WHERE RNUM BETWEEN ? AND ?
 	</entry>
 	
-	<entry key="searchByWriter">
+	<entry key="searchAccidentBoardByWriter">
 		SELECT *
 		FROM   (SELECT ROWNUM RNUM,A.*
 	      		FROM (SELECT BOARD_NO
@@ -161,13 +162,12 @@
 						JOIN ACCIDENT A ON(BOARD_NO=A.REF_BNO)
 						JOIN ATTACHMENT AT ON(BOARD_NO=AT.REF_BNO)
 						WHERE B.STATUS = 'Y'
-						AND CATEGORY_NO = 3
-						AND SOLVE='N'
 						AND NOTICE='N'
 						AND REGION LIKE ?
 						AND REF_PNO LIKE ?
 						AND INSURANCE_TYPE LIKE ?
 						AND USER_ID LIKE ?
+						AND CATEGORY_NO = ?<!-- 3 -->
 		              ORDER BY CREATE_DATE DESC) A)
 		WHERE RNUM BETWEEN ? AND ?
 	</entry>
@@ -328,5 +328,31 @@
 		AND AR.STATUS ='Y' 
 	</entry>
 	
+	<entry key="selectLawNoByUno">
+		SELECT LAW_NO
+		FROM MEMBER
+		JOIN LAW_USER ON (USER_NO=REF_UNO)
+		WHERE USER_NO=?
+	</entry>
+	
+	<entry key="insertAccidentReview">
+		INSERT INTO ACCI_REVIEW(AR_NO,REF_ACCNO,LAW_NO,CORRECT_RATE_ME,CORRECT_RATE_YOU,CONTENT)
+		VALUES(SEQ_ARNO.NEXTVAL,?,?,?,?,?)
+	</entry>
+	
+	<entry key="updateBoardCategory">
+		UPDATE BOARD
+		SET CATEGORY_NO=4
+		WHERE BOARD_NO = ?
+		AND STATUS = 'Y'
+		
+	</entry>
+	
+	<entry key="updateSolve">
+		UPDATE ACCIDENT
+		SET SOLVE = 'Y'
+		WHERE ACC_NO = ?
+		AND STATUS = 'Y'
+	</entry>
 	
 </properties>

@@ -1,3 +1,4 @@
+<%@page import="com.bbbox.board.model.vo.AccidentReview"%>
 <%@page import="com.bbbox.board.model.vo.Reply"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.bbbox.board.model.vo.Accident"%>
@@ -8,14 +9,14 @@
 	Board b = (Board)request.getAttribute("board");
 	Accident ac = (Accident)request.getAttribute("accident");
 	ArrayList<Reply> rplist = (ArrayList<Reply>)request.getAttribute("rplist");
+	AccidentReview ar = (AccidentReview)request.getAttribute("review");
+	
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<!-- font-awesome Copy Link Tag (아이콘 CDN) -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<title>제보영상 게시글</title>
+<title>Insert title here</title>
 <style>
         div{
             border: 1px solid black;
@@ -61,7 +62,7 @@
 
         /*게시글 영역*/
         .contentArea{
-            height: 40%;
+            height: 30%;
         }
         .contentArea>div{
             width: 100%;
@@ -74,11 +75,10 @@
             height: 100%;
         }
         .detail{
-            width: 75%;
+            width: 80%;
         }
         .rate{
-            width: 25%;
-            
+            width: 20%;
         }
         .rate table{
             margin: auto;
@@ -86,7 +86,7 @@
             border: 1px solid gray;
             height: 100%;
             width: 100%;
-            font-size:20px;
+            font-size: 20px;
         }
         .rate>table>*{
             border: 1px solid gray;
@@ -94,12 +94,39 @@
         .title{
             height: 40%;
         }
+        .info{
+            height: 60%;
+        }
 
         .content{
             height: 60%;
         }
 
+        /*리뷰 영역*/
+        .reviewArea{
+            height: 10%;
+        }
+        .reviewArea>div{
+            float: left;
+            height: 100%;
+        }
+        .reviewContent{
+            width: 80%;
+        }
+        .correctRate{
+            width: 20%;
+        }
+        .correctRate table{
+            margin: auto;
+            text-align: center;
+            border: 1px solid gray;
+            height: 100%;
+            width: 100%;
+            font-size: 20px;
+        }
 
+
+        /*댓글작성영역*/
         .replyWriteArea{
             height: 10%;
         }
@@ -125,20 +152,21 @@
         .recommendArea{
             height: 40%;
         }
+
+
         
     </style>
 </head>
 <body>
 <%@include file="../common/mainMenu.jsp" %>
-
     <div class="outer">
         <div class="accidentBoardDetailHeader">
-            <h1>사건제보영상</h1>
+            <h1>해결된 영상</h1>
         </div>
         <div class="accidentBoardDetailBody">
             <div class="bodyLeft">
                 <div class="videoArea">
-                    <video src="<%=contextPath%>/resources/accident_board_file/video1.mp4" controls poster="" id="video"></video>
+                   <video src="<%=contextPath%>/resources/accident_board_file/video1.mp4" controls poster="" id="video"></video>
                 </div>
                 <div class="contentArea">
                     <div class="infoArea">
@@ -154,41 +182,14 @@
                             </div>
                             <div class="info">
                                 <span>제보일 | <%=b.getCreateDate()%></span>
-                                <span>조회수 | <%=b.getCount() %></span>
+                                <span>조회수 | <%=b.getCount()%></span>
                                 <span>신고수 | <%=b.getReportCount()%> </span>
-                                <%if(b.getReportCount()>10){ %>
-                                	<span><i class="fa-solid fa-diamond-exclamation" style="color: #e6d519;"></i></span>
-                                <%}else if(b.getReportCount()>20){ %>
-                                	<i class="fa-solid fa-diamond-exclamation" style="color: #f80d0d;"></i>
-                                <%} %>
+                                
                                 <br>
                                 <span>제보자 | <%=b.getBoardWriter()%></span>
                                 <span>지역 | <%=ac.getRegion()%></span>
                             </div>
-                            <%if(loginUser!=null){ %>
-	                            <%if(loginUser.getUserId().equals(b.getBoardWriter())||loginUser.getAdmin().equals("Y")) {%>
-	                        
-		                            <div id="updateBtnArea" style="text-align:right;">
-		                            	<!-- 나중에 이미지로 바꿔서 onclick 이벤트 -->
-		                            	<input type="button" value="게시글 수정" onclick="location.href='<%=contextPath%>/update.ac?bno='+<%=b.getBoardNo()%>">
-		                            	<input type="button" value="게시글 삭제" onclick="location.href='<%=contextPath%>/delete.ac?bno='+<%=b.getBoardNo()%>">
-		                            </div>
-	                            <%} %>
-                            <%} %>
-                            <%if(loginUser!=null){ %>
-	                            <%if(loginUser.getLawyer().equals("Y")){ %>
-	                            	<div id="accidentReviewBtn">
-	                            		<form action="enroll.ar">
-	                            			<input type="hidden" name="oldFileChangeName" value="<%=b.getChangeName()%>">
-	                            			<input type="hidden" name="bno" value="<%=b.getBoardNo()%>">
-	                            			<input type="hidden" name="accNo" value="<%=ac.getAccNo()%>">
-	                            			<input type="submit" value="해결완료하려면 리뷰를 작성하세요">
-	                            		</form>
-	                            	</div>
-	                            <%} %>
-	                        <%} %>
                         </div>
-                        <!-- 과실비율 -->
                         <div class="rate">
                             <table>
                                 <tr>
@@ -196,61 +197,61 @@
                                     <th>상대방</th>
                                 </tr>
                                 <tr>
-                                    <td><%=ac.getAccRateMe() %></td>
-                                    <td><%=ac.getAccRateYou() %></td>
+                                    <td>5</td>
+                                    <td>5</td>
                                 </tr>
                             </table>
                         </div>
                     </div>
-                    <!-- 글내용 -->
                     <div class="content">
                         <span><%=b.getContent()%></span>
                     </div>
                 </div>
-                <!-- 댓글작성 영역 -->
-                
+                <div class="reviewArea">
+                    <div class="reviewContent">
+                        <span><%=ar.getLawName() %> 변호사</span><br>
+                        <span><%=ar.getContent() %> </span>
+                    </div>
+                    <div class="correctRate">
+                        <table>
+                            <tr>
+                                <th>제보자</th>
+                                <th>상대방</th>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>5</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
                 <div class="replyWriteArea">
-                <%if(loginUser!=null){ %>
                     <table>
                         <tr>
                             <th>작성자</th>
                         </tr>
                         <tr>
-                            <td><%=loginUser.getUserId()%></td>
+                            <td>아이디</td>
                         </tr>
                     </table>
                     <textarea name="" id="" cols="70" rows="5" style="resize: none;" placeholder="댓글을 입력해주세요."></textarea>
                     <input type="submit" value="댓글작성">
-                <%}else{ %>
-                	<table>
-                        <tr>
-                            <th>작성자</th>
-                        </tr>
-                        <tr>
-                            <td>비회원</td>
-                        </tr>
-                    </table>
-                    <textarea name="" id="" cols="70" rows="5" style="resize: none;" placeholder="로그인한 유저만 이용 가능합니다." readonly></textarea>
-                    <input type="submit" value="댓글작성" disabled>
-                <%} %>    
                 </div>
             </div>
             <div class="bodyRight">
                 <div class="replyViewArea">
-                    <%for(int i=0;i<rplist.size();i++){ %>
-	                    <div>
-	                        <table>
-	                            <tr>
-	                                <th><%=rplist.get(i).getRpWriter()%></th>
-	                            </tr>
-	                            <tr>
-	                                <td><%=rplist.get(i).getContent() %></td>
-	                            </tr>
-	                        </table>
-	                    </div>
-                    <%} %>
+                    <div>
+                        <table>
+                            <tr>
+                                <th>아이디</th>
+                            </tr>
+                            <tr>
+                                <td>댓글내용</td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
-                <div class="recommendArea">광고맨</div>
+                <div class="recommendArea">광고나해라</div>
             </div>
         </div>
        
