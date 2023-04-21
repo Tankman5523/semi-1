@@ -33,7 +33,14 @@ public class Reply {
 	}
 	
 	
-	
+	public Reply(int rpNo, String rpWriter, String content, String createDate) {
+		super();
+		this.rpNo = rpNo;
+		this.rpWriter = rpWriter;
+		this.content = content;
+		this.createDate = createDate;
+	}
+
 	public int getRpNo() {
 		return rpNo;
 	}
