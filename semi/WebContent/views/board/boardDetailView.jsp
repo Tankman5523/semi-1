@@ -17,6 +17,11 @@
         margin: auto;
     }
     
+    .comment{
+    	border: 1px solid black;
+    	width: 1200px;
+    	margin: auto;
+    }
     #insertForm-area>#submit-area{
     	text-align: right;
     	margin-right: 80px; 
@@ -26,7 +31,9 @@
     	margin: 10px;
     }
     
-    #insertForm-area>table
+    #reply-area tfoot>tr{
+    	height: 40px;
+    }
     
     
 </style>
@@ -64,7 +71,7 @@
 					<%if(at != null){ %>
 						<img src="<%=contextPath+at.getFilePath()+at.getChangeName()%>">
 					<%} %>
-					<p style="height:200px">
+					<p>
 					<%=b.getContent()%>
 					</p>
 				</td>
@@ -90,7 +97,35 @@
 	
 	</div>
 	
+	<div class="comment">
+		<div id="reply-area" align="center">
+			<table border="1" style="width:70%; text-align:center;">
+				<thead>
+					<tr>
+						<th colspan="3" style="font-size: 20px; border:none;">댓글</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td style="border:none;"></td>
+						<td><textarea id="reply_input" rows="4" cols="60" style="resize: none; padding: 0px; height:100%; width:100%" placeholder="댓글을 입력하세요."></textarea></td>
+						<td style="border:none;"><button id="reply_btn" >댓글 등록</button></td>
+					</tr>
+				</tbody>
+				<tfoot>
+				
+				</tfoot>
+			</table>
+		</div>
+	</div>
+	
+	
 	<script>
+		
+		$(function(){
+			viewRpList();
+		});
+		//좋아요버튼 눌렀을대 발생
 		$(function(){
 			$("#good").on("click", function(){
 				<%if(loginUser == null){%>
@@ -114,8 +149,77 @@
 						}
 					});
 				<%}%>
-			})
+			});
 		});
+		
+		$(function(){
+			//댓글입력영역에서 엔터눌렀을때 이벤트
+			$("#reply_input").on("keydown", function(e){
+				if(e.keyCode == 13){
+					e.preventDefault(); //엔터키의 기본동작을 취소하는 조치
+					$("#reply_btn").click();
+				}
+			});
+			
+			$("#reply_btn").on("click", function(){
+				
+			<%if(loginUser != null){%>
+				console.log($("#reply_input").val());
+				
+				$.ajax({
+					url:"insertRp",
+					data:{
+						bno:<%=b.getBoardNo()%>,
+						content:$("#reply_input").val(),
+					},
+					success:function(result){
+						if(result>0){
+							alert("댓글 등록 성공");
+							$("#reply_input").val("");
+							
+							viewRpList();
+						}else{
+							alert("댓글 등록 실패");
+						}
+					},
+					error:function(){
+						console.log("댓글 등록 통신 실패");
+					}
+				});
+			<%}else{%>
+				alert("로그인 후 이용해주세요.");
+				$("#reply_input").val("");
+			<%}%>
+			});			
+		});
+		
+		//댓글 리스트
+		function viewRpList(){
+			$.ajax({
+				url:"listRp",
+				data:{
+					bno:<%=b.getBoardNo()%>
+				},
+				success:function(list){
+					var str = "";
+					
+					for(var i in list){
+						
+						str += "<tr><td>"+list[i].rpWriter+"</td>"
+								  +"<td style='text-align:left; padding-left: 5px;'>"+list[i].content+"</td>"
+								  +"<td>"+list[i].createDate+"</td></tr>";
+					}
+					
+					$("#reply-area>table>tfoot").html(str);
+					
+				},
+				error:function(){
+					console.log("댓글리스트 조회 통신 실패");
+				}
+			});
+		}
 	</script>
+	
+	<%@include file="../common/footer.jsp" %>
 </body>
 </html>

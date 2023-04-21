@@ -2,7 +2,7 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 
 <properties>
-	<!-- 일반 게시판 리스트 조회 -->
+	<!-- 일반 게시글 리스트 조회 -->
 	<entry key="selectBoardList">
 		SELECT *
 		FROM (SELECT ROWNUM RUM, A.*
@@ -14,6 +14,17 @@
 		                        AND NOTICE = 'N'
 		                        ORDER BY CREATE_DATE DESC) A)
 		WHERE RUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 공지사항 리스트 조회  -->
+	<entry key="selectNoticeList">
+		SELECT BOARD_NO, USER_ID, TITLE, COUNT, CREATE_DATE, LIKED, RP_COUNT
+        FROM BOARD B
+        JOIN MEMBER M ON(BOARD_WRITER=USER_NO)
+        AND B.STATUS='Y'
+        AND CATEGORY_NO = 1
+        AND NOTICE = 'Y'
+        ORDER BY CREATE_DATE DESC
 	</entry>
 	
 	<!-- 조회수 증가 -->
@@ -39,8 +50,8 @@
 	</entry>
 	
 	<entry key="insertBoard">
-		INSERT INTO BOARD(BOARD_NO, BOARD_WRITER, CATEGORY_NO, TITLE, CONTENT)
-		VALUES(SEQ_BNO.NEXTVAL, ?, 1, ?, ?)
+		INSERT INTO BOARD(BOARD_NO, BOARD_WRITER, CATEGORY_NO, TITLE, CONTENT, NOTICE)
+		VALUES(SEQ_BNO.NEXTVAL, ?, 1, ?, ?, ?)
 	</entry>
 	
 	<entry key="insertAttachment">
@@ -82,5 +93,20 @@
 		UPDATE BOARD
 		SET STATUS = 'N'
 		WHERE BOARD_NO = ?
+	</entry>
+	
+	<!-- 댓글등록  -->
+	<entry key="insertRp">
+		INSERT INTO REPLY(RP_NO, REF_BNO, RP_WRITER, CONTENT)
+		VALUES(SEQ_RPNO.NEXTVAL, ?, ?, ?)
+	</entry>
+	
+	<!-- 댓글조회 -->
+	<entry key="selectRpList">
+		SELECT RP_NO, USER_ID, CONTENT, TO_CHAR(CREATE_DATE, 'YY-MM-DD HH24:MI:SS') "CREATE_DATE"
+		FROM REPLY R
+		JOIN MEMBER M ON(RP_WRITER = USER_NO)
+		WHERE R.STATUS = 'Y'
+		AND REF_BNO = ?
 	</entry>
 </properties>

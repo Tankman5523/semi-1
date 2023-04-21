@@ -36,6 +36,13 @@
 		
 		<form action="insert.bo" method="post" id="insertForm-area" enctype="multipart/form-data">
 			<input type="hidden" name="userNo" value="<%=loginUser.getUserNo()%>">
+			
+			<%if(loginUser != null && loginUser.getAdmin().equals("Y")){ %>
+			<input type="checkbox" name="notice" id="notice" value="1"><label for="notice">공지사항 등록</label>
+            <%}else{ %>
+            <input type="hidden" name="notice" value="0">
+            <%} %>
+            
 			<table align="center" border="1" style="width:80%; height:70%;">
 				<tr>
 					<th>제목</th>
