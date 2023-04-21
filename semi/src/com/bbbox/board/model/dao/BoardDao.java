@@ -12,6 +12,7 @@ import java.util.Properties;
 
 import com.bbbox.board.model.vo.Attachment;
 import com.bbbox.board.model.vo.Board;
+import com.bbbox.board.model.vo.Reply;
 import com.bbbox.common.JDBCTemplate;
 import com.bbbox.common.model.vo.PageInfo;
 
@@ -169,6 +170,7 @@ public class BoardDao {
 			pstmt.setInt(1, Integer.parseInt(b.getBoardWriter()));
 			pstmt.setString(2, b.getTitle());
 			pstmt.setString(3, b.getContent());
+			pstmt.setString(4, b.getNotice());
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -362,6 +364,98 @@ public class BoardDao {
 		}
 		
 		return result;
+	}
+
+	//공지사항 리스트 조회
+	public ArrayList<Board> selectNoticeList(Connection conn) {
+		
+		ArrayList<Board> list = new ArrayList<>();
+		
+		ResultSet rset = null;
+		Statement stmt = null;
+		
+		String sql = prop.getProperty("selectNoticeList");
+		
+		try {
+			
+			stmt = conn.createStatement();
+			
+			
+			rset = stmt.executeQuery(sql);
+			
+			while(rset.next()) {
+				list.add(new Board(rset.getInt("BOARD_NO"),
+								   rset.getString("USER_ID"),
+								   rset.getString("TITLE"),
+								   rset.getInt("COUNT"),
+								   rset.getDate("CREATE_DATE"),
+								   rset.getInt("LIKED"),
+								   rset.getInt("RP_COUNT")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+		}
+		
+		return list;
+	}
+
+	//댓글등록
+	public int insertRp(Connection conn, int uno, int bno, String content) {
+
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertRp");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bno);
+			pstmt.setInt(2, uno);
+			pstmt.setString(3, content);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		
+		return result;
+	}
+
+	//댓글 리스트 조회
+	public ArrayList<Reply> selectRpList(Connection conn, int bno) {
+		
+		ArrayList<Reply> list = new ArrayList<>();
+		
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("selectRpList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bno);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Reply(rset.getInt("RP_NO"),
+								   rset.getString("USER_ID"),
+								   rset.getString("CONTENT"),
+								   rset.getString("CREATE_DATE")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return list;
 	}
 
 	

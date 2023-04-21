@@ -50,7 +50,14 @@ public class BoardListController extends HttpServlet {
 		
 		ArrayList<Board> list = new BoardService().selectBoardList(pi);
 		
+		ArrayList<Board> nlist = null;
+		nlist = new BoardService().selectNoticeList();
+		
 		if(list != null) {
+			
+			if(nlist != null) {
+				request.setAttribute("noticeList", nlist);
+			}
 			request.setAttribute("pageInfo", pi);
 			request.setAttribute("boardList", list);			
 			request.getRequestDispatcher("views/board/boardListView.jsp").forward(request, response);

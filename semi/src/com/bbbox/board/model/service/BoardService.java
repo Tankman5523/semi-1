@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.bbbox.board.model.dao.BoardDao;
 import com.bbbox.board.model.vo.Attachment;
 import com.bbbox.board.model.vo.Board;
+import com.bbbox.board.model.vo.Reply;
 import com.bbbox.common.JDBCTemplate;
 import com.bbbox.common.model.vo.PageInfo;
 
@@ -181,6 +182,48 @@ public class BoardService {
 		JDBCTemplate.close(conn);
 		
 		return result;
+	}
+
+	//공지사항 조회
+	public ArrayList<Board> selectNoticeList() {
+
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Board> list = new BoardDao().selectNoticeList(conn);
+		
+		JDBCTemplate.close(conn);
+		
+		return list;
+	}
+
+	//댓글 등록
+	public int insertRp(int uno, int bno, String content) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new BoardDao().insertRp(conn, uno, bno, content);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);			
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
+	//댓글 리스트 조회
+	public ArrayList<Reply> selectRpList(int bno) {
+
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Reply> list = new BoardDao().selectRpList(conn, bno);
+		
+		JDBCTemplate.close(conn);
+		
+		return list;
 	}
 
 
