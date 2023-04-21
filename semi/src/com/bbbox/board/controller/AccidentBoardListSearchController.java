@@ -8,25 +8,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.bbbox.board.model.service.AccidentBoardService;
-import com.bbbox.board.model.service.BoardService;
-import com.bbbox.board.model.vo.Attachment;
 import com.bbbox.board.model.vo.Board;
 import com.bbbox.common.model.vo.PageInfo;
 
 /**
- * Servlet implementation class AccidentBoardListController
+ * Servlet implementation class AccidentBoardListSearchController
  */
-@WebServlet("/list.ac")
-public class AccidentBoardListController extends HttpServlet {
+@WebServlet("/search.ac")
+public class AccidentBoardListSearchController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AccidentBoardListController() {
+    public AccidentBoardListSearchController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -74,20 +71,43 @@ public class AccidentBoardListController extends HttpServlet {
 		if(endPage>maxPage) {//끝수가 총 페이지 수보다 크다면, 해당 수를 총 페이지 수로 바꿔주기
 			endPage=maxPage; 
 		}
+		
 		//정보 객체에 넣기
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
-		//현재 페이지에 보여질 개수 매개변수로 넣기
+
 		
-		ArrayList<Board> blist = new AccidentBoardService().selectAccidentBoardList(pi);
+		//필터값 추출
+		String region = request.getParameter("region"); 
+		int partType = Integer.parseInt(request.getParameter("partType"));
+		String insuranceType = request.getParameter("insurance");
 		
-		if(blist!=null) {
+		
+		//검색방식
+		String searchFilter = request.getParameter("title_writer");
+		String keyword = request.getParameter("keyword");
+		ArrayList<Board> list = null;
+		
+		//코드 하나로 묶기
+		/*
+		if(searchFilter.equals("제목")||searchFilter.equals("")) {//제목으로 검색일 경우
+			//제목으로 검색 메소드
+			list = new AccidentBoardService().searchByTitle(region,partType,insuranceType,keyword,pi);
+		}else {//제보자명으로 검색일 경우
+			//제보자명으로 검색 메소드
+			list = new AccidentBoardService().searchByWriter(region,partType,insuranceType,keyword,pi);
+		}*/
+		
+		list = new AccidentBoardService().searchByTitle(searchFilter,region,partType,insuranceType,keyword,pi);
+		if(list!=null) {
 			request.setAttribute("pi", pi);
-			request.setAttribute("blist", blist);
+			request.setAttribute("blist", list);
 			request.getRequestDispatcher("views/board/accidentBoardListView.jsp").forward(request, response);
 		}else {
 			request.setAttribute("errorMsg", "사건게시판 조회 실패");
 			request.getRequestDispatcher(request.getContextPath()).forward(request, response);
 		}
+		
+		
 	}
 
 	/**

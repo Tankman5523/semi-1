@@ -62,16 +62,17 @@ public class MemberEmailAuthentication extends HttpServlet {
 		if(result>0) { //이메일 중복
 			response.getWriter().print("NNNNN");
 
-		}else{ //이메일 사용가능 - 인증 메일 보내기 
+		}else{ //이메일 사용가능 - 인증 메일 보내기
 			
 			response.getWriter().print("YYYYY");
 			
 			//SMTP 서버 정보 설정
 			Properties prop = new Properties();
 			prop.put("mail.stmp.starttls.enable","true");
-			prop.put("mail.stmp.auth","true");
+			prop.put("mail.smtp.port", "465"); 
 			prop.put("mail.smtp.host","smtp.naver.com");
-			prop.put("mail.smtp.port", 465); 
+			prop.put("mail.stmp.auth","true");
+
 
 			Authenticator auth = new MyAuthentication();
 			Session session = Session.getDefaultInstance(prop, auth);
@@ -132,8 +133,8 @@ class MyAuthentication extends Authenticator{
 		PasswordAuthentication account;
 		 
 		public MyAuthentication() {
-			String id = "mmute96@naver.com";
-			String password = "dmadkrgkwk77";
+			String id = "dlstmxk12@naver.com";
+			String password = "Kh981216.";
 			account = new PasswordAuthentication(id,password);
 			
 		}

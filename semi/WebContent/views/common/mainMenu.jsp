@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
- <title>헤더+메뉴바</title>
+ <title>MainMenu</title>
 
 	<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 
@@ -194,11 +194,16 @@
         </div>
         <div id="header3">
             <div id="user-info">
-                <div id = "username">
-                    <b><%=loginUser.getUserName()%></b>
+                 <div id = "username">
+					<%if(loginUser.getLawyer().equals("Y")){ %>
+						<b>변호사</b> <br> <!-- 추후 변경(이미지 대체) -->
+						<b><%=loginUser.getUserName()%> 님</b>						
+					<%}else{ %>                	
+                    <b><%=loginUser.getUserName()%> 님</b>
+                    <%} %>
                 </div>
                 <div id="mypage" align = "center">
-                    <a href="">마이페이지</a>
+                    <a href="<%=contextPath%>/myPage.me">마이페이지</a>
                     <a href="<%=contextPath%>/logout.me">로그아웃</a>
                 </div>
             </div>

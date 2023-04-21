@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import ="com.bbbox.member.model.vo.Member" %>
+    pageEncoding="UTF-8" import="com.bbbox.member.model.vo.Member"%>
 <%
 	String contextPath = request.getContextPath();
 	
@@ -100,6 +100,18 @@
 
     </style>
 </head>
+<script>
+		var msg = "<%=alertMsg%>";
+		
+		if(msg != "null"){
+			alert(msg);	
+			
+			<% session.removeAttribute("alertMsg"); %>
+		}
+		
+	
+	</script>
+
 <body>
 	<% if(loginUser == null){%>
     <!-- 로그인 전에 보여질 화면 -->
@@ -114,7 +126,7 @@
                     <a href="<%=contextPath%>/enroll.me"> 회원가입 </a>
                 </div>
                 <div id="login">
-                    <a href=""> 로그인 </a>
+                    <a href="<%=contextPath%>/login.me"> 로그인 </a>
                 </div>
             </div>
         </div>
@@ -124,15 +136,20 @@
     <div class ="header">
         <div id="header1"></div>
         <div id="header2">
-            <a href="">블변의 법칙</a>    
+            <a href="<%=contextPath%>">블변의 법칙</a>    
         </div>
         <div id="header3">
             <div id="user-info">
                 <div id = "username">
-                    <b>홍길동</b>
+					<%if(loginUser.getLawyer().equals("Y")){ %>
+						<b>변호사</b> <br> <!-- 추후 변경(이미지 대체) -->
+						<b><%=loginUser.getUserName()%> 님</b>						
+					<%}else{ %>                	
+                    <b><%=loginUser.getUserName()%> 님</b>
+                    <%} %>
                 </div>
                 <div id="mypage" align = "center">
-                    <a href="">마이페이지</a>
+                    <a href="<%=contextPath%>/myPage.me">마이페이지</a>
                     <a href="<%=contextPath%>/logout.me">로그아웃</a>
                 </div>
             </div>

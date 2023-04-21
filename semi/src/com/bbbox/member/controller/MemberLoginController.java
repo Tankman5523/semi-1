@@ -47,11 +47,12 @@ public class MemberLoginController extends HttpServlet {
 		
 		String userPwd = request.getParameter("userPwd");
 		
+		System.out.println(userId);
+		
 		//입력한 유저 정보에대한 회원 정보 조회해오기
 		Member loginUser = new MemberService().loginMember(userId, userPwd);
 		
 		//조회해온 loginUser 정보 Session에 담기
-		
 		
 		if(loginUser !=null) { //로그인 성공
 		

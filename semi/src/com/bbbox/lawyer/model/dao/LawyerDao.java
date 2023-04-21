@@ -132,4 +132,57 @@ public class LawyerDao {
 		return law;
 	}
 
+	public ArrayList<Lawyer> searchList(Connection conn, String nameKey, String cateKey, String localKey) {
+		
+		ArrayList<Lawyer> lawList = new ArrayList<>();
+		
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("searchList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+		
+			//이름 값
+			if(nameKey.equals("")) {
+				pstmt.setString(1, "%%");
+			}else {
+				pstmt.setString(1, "%"+nameKey+"%");
+			}
+			
+			//분야 값
+			if(cateKey.equals("전체")) {
+				pstmt.setString(2, "%%");
+			}else {
+				pstmt.setString(2, "%"+cateKey+"%");
+			}
+			
+			//지역 값
+			if(localKey.equals("전체")) {
+				pstmt.setString(3, "%%");
+			}else {
+				pstmt.setString(3, "%"+localKey+"%");
+			}
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				lawList.add(new Lawyer(rset.getInt("LAW_NO"),
+									rset.getString("USER_NAME"),
+									rset.getString("PART_NAME"),
+									rset.getString("COMPANY_NAME"),
+									rset.getString("COMPANY_ADDRESS")));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return lawList;
+	}
+
 }
