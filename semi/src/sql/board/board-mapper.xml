@@ -9,7 +9,7 @@
 		            FROM (SELECT BOARD_NO, USER_ID, TITLE, COUNT, CREATE_DATE, LIKED, RP_COUNT
 		                        FROM BOARD B
 		                        JOIN MEMBER M ON(BOARD_WRITER=USER_NO)
-		                        AND B.STATUS='Y'
+		                        WHERE B.STATUS='Y'
 		                        AND CATEGORY_NO = 1
 		                        AND NOTICE = 'N'
 		                        ORDER BY CREATE_DATE DESC) A)
@@ -107,5 +107,50 @@
 		JOIN MEMBER M ON(RP_WRITER = USER_NO)
 		WHERE R.STATUS = 'Y'
 		AND REF_BNO = ?
+	</entry>
+	
+	<!-- 제목키워드에 의한 게시글리스트 -->
+	<entry key="searchTitle">
+		SELECT *
+		FROM (SELECT ROWNUM RUM, A.*
+		      FROM (SELECT BOARD_NO, USER_ID, TITLE, COUNT, CREATE_DATE, LIKED, RP_COUNT
+                    FROM BOARD B
+                    JOIN MEMBER M ON(BOARD_WRITER=USER_NO)
+                    WHERE B.STATUS='Y'
+                    AND CATEGORY_NO = 1
+                    AND NOTICE = 'N'
+                    AND TITLE LIKE '%'||?||'%' 
+                    ORDER BY CREATE_DATE DESC) A)
+		WHERE RUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 글키워드에 의한 게시글리스트 -->
+	<entry key="searchContent">
+		SELECT *
+		FROM (SELECT ROWNUM RUM, A.*
+		      FROM (SELECT BOARD_NO, USER_ID, TITLE, COUNT, CREATE_DATE, LIKED, RP_COUNT
+                    FROM BOARD B
+                    JOIN MEMBER M ON(BOARD_WRITER=USER_NO)
+                    WHERE B.STATUS='Y'
+                    AND CATEGORY_NO = 1
+                    AND NOTICE = 'N'
+                    AND CONTENT LIKE '%'||?||'%' 
+                    ORDER BY CREATE_DATE DESC) A)
+		WHERE RUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 유저키워드에 의한 게시글리스트 -->
+	<entry key="searchUser">
+		SELECT *
+		FROM (SELECT ROWNUM RUM, A.*
+		      FROM (SELECT BOARD_NO, USER_ID, TITLE, COUNT, CREATE_DATE, LIKED, RP_COUNT
+                    FROM BOARD B
+                    JOIN MEMBER M ON(BOARD_WRITER=USER_NO)
+                    WHERE B.STATUS='Y'
+                    AND CATEGORY_NO = 1
+                    AND NOTICE = 'N'
+                    AND USER_ID LIKE '%'||?||'%' 
+                    ORDER BY CREATE_DATE DESC) A)
+		WHERE RUM BETWEEN ? AND ?
 	</entry>
 </properties>

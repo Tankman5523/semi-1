@@ -1,11 +1,16 @@
 package com.bbbox.board.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.bbbox.board.model.service.BoardService;
+import com.bbbox.board.model.vo.Board;
 
 /**
  * Servlet implementation class SearchController
@@ -26,8 +31,15 @@ public class SearchController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+//		String kind = request.getParameter("kind");
+//		String keyword = request.getParameter("keyword");
+//		
+//		System.out.println(kind);
+//		System.out.println(keyword);
+//		
+//		ArrayList<Board> list = new BoardService().searchBoardList(kind, keyword);
+//		
 	}
 
 	/**

@@ -458,6 +458,54 @@ public class BoardDao {
 		return list;
 	}
 
+	//키워드에 연관된 게시글리스트 조회
+	public ArrayList<Board> selectBoardList(Connection conn, PageInfo pi, String kind, String keyword) {
+
+		ArrayList<Board> list = new ArrayList<>();
+		
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		
+		String sql = null;
+		
+		if(kind.equals("title")) {
+			sql = prop.getProperty("searchTitle");
+		}else if(kind.equals("content")){
+			sql = prop.getProperty("searchContent");
+		}else if(kind.equals("userId")) {
+			sql = prop.getProperty("searchUser");
+		}
+		
+		try {
+			int start=(pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
+			int end=(start+pi.getBoardLimit())-1;
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, keyword);
+			pstmt.setInt(2, start);
+			pstmt.setInt(3, end);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Board(rset.getInt("BOARD_NO"),
+								   rset.getString("USER_ID"),
+								   rset.getString("TITLE"),
+								   rset.getInt("COUNT"),
+								   rset.getDate("CREATE_DATE"),
+								   rset.getInt("LIKED"),
+								   rset.getInt("RP_COUNT")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return list;
+	}
+
 	
 
 }
