@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.bbbox.board.model.dao.AccidentBoardDao;
 import com.bbbox.board.model.vo.Accident;
+import com.bbbox.board.model.vo.AccidentReview;
 import com.bbbox.board.model.vo.Attachment;
 import com.bbbox.board.model.vo.Board;
 import com.bbbox.board.model.vo.Reply;
@@ -45,14 +46,15 @@ public class AccidentBoardService {
 		Connection conn = JDBCTemplate.getConnection();
 		ArrayList<Board> blist = new AccidentBoardDao().selectResolvedBoardList(conn,pi);
 		
-		return null;
+		JDBCTemplate.close(conn);
+		
+		return blist;
 	}
 	public int insertAccidentBoard(Board b) {
 		//커밋하지말고 정보만 넣어두기
 		Connection conn = JDBCTemplate.getConnection();
 		
 		int result = new AccidentBoardDao().insertAccidentBoard(conn,b);
-		
 		
 		if(result==0) {
 			JDBCTemplate.rollback(conn);
@@ -98,10 +100,10 @@ public class AccidentBoardService {
 		
 		return result;
 	}
-	public ArrayList<Board> searchByTitle(String searchFilter, String region, int partType, String insuranceType, String keyword, PageInfo pi) {
+	public ArrayList<Board> searchAccidentBoard(String searchFilter, String region, int partType, String insuranceType, String keyword, int categoryNo, PageInfo pi) {
 		Connection conn = JDBCTemplate.getConnection();
 		
-		ArrayList<Board> list = new AccidentBoardDao().searchByTitle(conn,searchFilter,region,partType,insuranceType,keyword,pi);
+		ArrayList<Board> list = new AccidentBoardDao().searchAccidentBoard(conn,searchFilter,region,partType,insuranceType,keyword,categoryNo,pi);
 		
 		JDBCTemplate.close(conn);
 		
@@ -154,6 +156,140 @@ public class AccidentBoardService {
 		}
 		
 		return result*result2*result3;
+	}
+	public int updateAccidentBoard(Board b, Accident ac) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new AccidentBoardDao().updateAccidentBoard(conn,b);
+		int result2 = new AccidentBoardDao().updateAccidentInfo(conn,ac);
+		
+		System.out.println(result);
+		System.out.println(result2);
+		
+		if(result>0&&result2>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		return result*result2;
+	}
+	public int updateAccidentAttachment(Attachment at) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new AccidentBoardDao().updateAccidentAttachment(conn,at);		
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		return result;
+	}
+	
+	public int selectResolvedBoardListCount() {
+		Connection conn =JDBCTemplate.getConnection();
+		
+		int result = new AccidentBoardDao().selectResolvedBoardListCount(conn);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+	public Board resolvedBoardSelectDetail(int bno) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		Board b = new AccidentBoardDao().resolvedBoardSelectDetail(conn,bno);
+		
+		JDBCTemplate.close(conn);
+		
+		return b;
+	}
+	public Accident resolvedAccidentSelectDetail(int bno) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		Accident ac = new AccidentBoardDao().resolvedAccidentSelectDetail(conn,bno);
+		
+		JDBCTemplate.close(conn);
+		
+		return ac;
+	}
+	public ArrayList<Reply> resolvedReplySelectDetail(int bno) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Reply> rplist = new AccidentBoardDao().resolvedReplySelectDetail(conn,bno);
+		
+		JDBCTemplate.close(conn);
+		
+		return rplist;
+	}
+	public AccidentReview resolvedBoardReviewSelectDetail(int accNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		AccidentReview ar = new AccidentBoardDao().resolvedBoardReviewSelectDetail(conn,accNo);
+		
+		JDBCTemplate.close(conn);
+		
+		return ar;
+	}
+	public int insertAccidentReview(AccidentReview ar) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new AccidentBoardDao().insertAccidentReview(conn,ar);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+	public int selectLawNoByUno(int uno) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int lawNo = new AccidentBoardDao().selectLawNoByUno(conn,uno);
+		
+		JDBCTemplate.close(conn);
+		
+		return lawNo;
+	}
+	public int shiftBoard(int bno, int accNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new AccidentBoardDao().updateBoardCategory(conn,bno);
+		
+		int result2 = new AccidentBoardDao().updateSolve(conn,accNo);
+		
+		if(result>0&&result2>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		return result*result2;
+	}
+	public ArrayList<Board> resolvedBoardSearch(String searchFilter, String region, int partType,
+			String insuranceType, String keyword, int categoryNo, PageInfo pi) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Board> list = new AccidentBoardDao().searchAccidentBoard(conn, searchFilter, region, partType, insuranceType, keyword, categoryNo, pi);
+		
+		JDBCTemplate.close(conn);
+		
+		return list;
 	}
 
 	

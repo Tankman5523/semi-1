@@ -138,7 +138,8 @@ public class AccidentEnrollFormController extends HttpServlet {
 							}
 							
 							//게시판으로 보내기
-							System.out.println("최종성공");
+							//System.out.println("최종성공");
+							request.getSession().setAttribute("alertMsg", "게시물이 성공적으로 등록되었습니다.");
 							response.sendRedirect(request.getContextPath()+"/list.ac?currentPage=1");
 						}else {
 							//오류로 없는 파일객체가 들어가서 실패
