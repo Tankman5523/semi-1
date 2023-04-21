@@ -226,6 +226,19 @@ public class BoardService {
 		return list;
 	}
 
+	//키워드에 연관된 게시글리스트 조회
+	public ArrayList<Board> selectBoardList(PageInfo pi, String kind, String keyword) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Board> list = new BoardDao().selectBoardList(conn, pi, kind, keyword);
+		
+		JDBCTemplate.close(conn);
+		
+		return list;
+
+	}
+
 
 
 }
