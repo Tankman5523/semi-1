@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import com.bbbox.common.JDBCTemplate;
+import com.bbbox.lawyer.model.vo.Counsel;
 import com.bbbox.lawyer.model.vo.Lawyer;
 import com.bbbox.lawyer.model.vo.PartCategory;
 
@@ -117,8 +118,6 @@ public class LawyerDao {
 								 rset.getString("LAW_COMMENT"),
 								 rset.getString("CAREER"));
 			}
-			
-			System.out.println(law);
 					
 			
 		} catch (SQLException e) {
@@ -183,6 +182,147 @@ public class LawyerDao {
 		}
 		
 		return lawList;
+	}
+
+	//현재 찜하기 여부 체크하기 위한 메소드
+	public int dibsCheck(Connection conn, int lawNo, int userNo) {
+		int count = 0;
+		ResultSet rset =  null;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("dibsCheck");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, lawNo);
+			pstmt.setInt(2, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				count = rset.getInt("COUNT");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return count;
+	}
+
+	public int dibsUpdate(Connection conn, String heart, int lawNo, int userNo) {
+		
+		int count = 0;
+		PreparedStatement pstmt = null;
+		String sql = "";
+		if(heart.equals("emptyHeart")) { //빈하트였다면 찜하기 등록
+			sql = prop.getProperty("insertDibs");
+		}else { //채워진하트였다면  찜하기 삭제
+			sql = prop.getProperty("deleteDibs");
+			
+		}
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, lawNo);
+			pstmt.setInt(2, userNo);
+			
+			count = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return count;
+	}
+
+	public int insertCounsel(Connection conn, Counsel c) {
+
+		int count = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertCounsel");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(c.getRefLno()));
+			pstmt.setInt(2, Integer.parseInt(c.getCsWriter()));
+			pstmt.setString(3, c.getCsTitle());
+			pstmt.setString(4, c.getCsContent());
+			
+			count = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return count;
+	}
+
+	public ArrayList<Lawyer> lawOptionChange(Connection conn, String partName) {
+		ArrayList<Lawyer> lawList = new ArrayList<>();
+		
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("partOptionChange");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, partName);
+			
+			rset =  pstmt.executeQuery();
+			
+			while(rset.next()) {
+				lawList.add(new Lawyer(rset.getInt("LAW_NO"),
+									   rset.getString("USER_NAME")));
+			};
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return lawList;
+	}
+
+	public PartCategory partOptionChange(Connection conn, String lawNo) {
+		PartCategory part = null;
+		
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("lawOptionChange");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(lawNo));
+			
+			rset =  pstmt.executeQuery();
+			
+			if(rset.next()) {
+				part = new PartCategory(rset.getInt("PART_NO"),
+						   rset.getString("PART_NAME"));
+			};
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return part;
 	}
 
 }

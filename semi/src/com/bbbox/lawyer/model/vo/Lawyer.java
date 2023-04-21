@@ -20,6 +20,15 @@ public class Lawyer {
 	}
 	
 	
+	//분야별 변호사 리스트 조회 (상담폼 카테고리용)
+	public Lawyer(int lawNo, String refUno) {
+		super();
+		this.lawNo = lawNo;
+		this.refUno = refUno;
+	}
+
+
+
 	//변호사 전체 리스트 조회용
 	public Lawyer(int lawNo, String refUno, String refPno, String companyName, String companyAddress) {
 		super();
