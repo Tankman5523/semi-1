@@ -8,6 +8,7 @@
 	Board b = (Board)request.getAttribute("board");
 	Accident ac = (Accident)request.getAttribute("accident");
 	ArrayList<Reply> rplist = (ArrayList<Reply>)request.getAttribute("rplist");
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -209,7 +210,7 @@
                 </div>
                 <!-- 댓글작성 영역 -->
                 
-                <div class="replyWriteArea">
+                <div class="replyWriteArea" >
                 <%if(loginUser!=null){ %>
                     <table>
                         <tr>
@@ -219,8 +220,8 @@
                             <td><%=loginUser.getUserId()%></td>
                         </tr>
                     </table>
-                    <textarea name="" id="" cols="70" rows="5" style="resize: none;" placeholder="댓글을 입력해주세요."></textarea>
-                    <input type="submit" value="댓글작성">
+                    <textarea name="" id="reply_input" cols="70" rows="5" style="resize: none;" placeholder="댓글을 입력해주세요."></textarea>
+                    <input type="button" id="reply_btn" value="댓글등록">
                 <%}else{ %>
                 	<table>
                         <tr>
@@ -230,30 +231,86 @@
                             <td>비회원</td>
                         </tr>
                     </table>
-                    <textarea name="" id="" cols="70" rows="5" style="resize: none;" placeholder="로그인한 유저만 이용 가능합니다." readonly></textarea>
-                    <input type="submit" value="댓글작성" disabled>
+                    <textarea name="" id="" cols="70" rows="5" style="resize: none;" placeholder="로그인한 유저만 이용 가능합니다." disabled></textarea>
+                    <input type="button" value="댓글작성" disabled>
                 <%} %>    
                 </div>
             </div>
             <div class="bodyRight">
-                <div class="replyViewArea">
-                    <%for(int i=0;i<rplist.size();i++){ %>
-	                    <div>
-	                        <table>
-	                            <tr>
-	                                <th><%=rplist.get(i).getRpWriter()%></th>
-	                            </tr>
-	                            <tr>
-	                                <td><%=rplist.get(i).getContent() %></td>
-	                            </tr>
-	                        </table>
-	                    </div>
-                    <%} %>
+                <div id="replyViewArea">
+                    <table>
+                    	
+                    </table>
+	                
                 </div>
                 <div class="recommendArea">광고맨</div>
             </div>
         </div>
-       
     </div>
+	        <script>
+	        	//디테일 넘어왔을때 댓글 최신화
+		        $(function(){
+					viewRpList();
+				});
+	        
+	        	$(function(){
+	        		$("#reply_input").on("keydown",function(e){
+	        			//엔터키를 눌렀을때
+	        			if(e.keyCode ==13){
+	        				e.preventDefault(); //줄바꿈기능을 제거하고 
+	        				$("#reply_btn").click(); //버튼의 submit과 동일한기능 추가
+	        			}
+	        		});
+	        		
+	        		$("#reply_btn").on("click",function(){
+	        			<%if(loginUser !=null){%>
+	        				$.ajax({
+	        					url:"insertRp",
+	        					data:{
+	        						bno:<%=b.getBoardNo()%>,
+	        						content:$("#reply_input").val()
+	        					},
+	        					success:function(result){
+	        						if(result>0){
+	        							alert("댓글 등록 성공");
+	        							//완료되면 댓글창 비워주기
+	        							$("#reply_input").val("");
+	        							
+	        							//댓글 리스트 최신화
+	        							viewRpList();
+	        						}else{
+	        							alert("댓글 등록 실패");
+	        						}
+	        					},
+	        					error:function(){
+	        						alert("댓글 등록 통신 실패");
+	        					}
+	        				});
+	        			<%}%>
+	        		});
+	        	});
+	        	
+	        	function viewRpList(){
+	        		$.ajax({
+	        			url:"listRp",
+	        			data:{
+    						bno:<%=b.getBoardNo()%>
+    					},
+	        			success:function(list){
+	        				var str = "";
+	        				
+	        				for(var i in list){
+	        					str += "<tr><td>"+list[i].rpWriter+"</td>"
+								  +"<td style='text-align:left; padding-left: 5px;'>"+list[i].content+"</td>"
+								  +"<td>"+list[i].createDate+"</td></tr>";
+	        				}
+	        				$("#replyViewArea>table").html(str);
+	        			},
+	        			error:function(){
+	    					console.log("댓글리스트 조회 통신 실패");
+	    				}
+	        		});
+	        	}
+	        </script>
 </body>
 </html>
