@@ -129,9 +129,9 @@ public class MemberDao {
 	}
 	
 	//이메일 중복확인 메소드
-	public int selectEmail(Connection conn, String testEmail) {
+	public Member selectEmail(Connection conn, String testEmail) {
 		
-		int count =0;
+		Member m = null;
 		
 		ResultSet rset = null;
 		
@@ -147,16 +147,19 @@ public class MemberDao {
 			rset=pstmt.executeQuery();
 			
 			if(rset.next()) {
-				count = rset.getInt("COUNT");
+				m = new Member(rset.getString("USER_ID"),
+							   rset.getString("USER_PWD"));
 			}
 			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
 		}
 		
-		
-		return count;
+		return m;
 	}
 	
 	//회원정보 수정 메소드 
@@ -184,6 +187,34 @@ public class MemberDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	//비밀번호 변경 메소드
+	public int updatePwd(Connection conn, String email, String tempPwd) {
+
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("updatePwd");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, tempPwd);
+			pstmt.setString(2, email);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			
 			JDBCTemplate.close(pstmt);
 		}
 		
