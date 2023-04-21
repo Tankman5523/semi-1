@@ -26,13 +26,13 @@
         width: 100%;
     }
     #head{
-        height: 10%;
+        height: 15%;
     }
     #search{
         height: 5%;
     }
     #content{
-        height: 85%;
+        height: 80%;
     }
     #content>div{
         height: 100%;
@@ -59,7 +59,7 @@
     #search_form{
         width: 80%;
         height: 100%;
-        margin: auto;
+        margin-left: 200px;
     }
     #search_form>div{
         height: 100%;
@@ -72,7 +72,8 @@
         margin: auto;
         width: 60%;
         margin-top: 50px;
-        background-color: rgb(237, 238, 253);
+        margin-bottom: 50px;
+        background-color: lightblue;
         cursor: pointer;
     }
 
@@ -92,6 +93,10 @@
     img{
         width: 100%;
         height: 100%;
+    }
+    p{
+    	margin: 0;
+    	padding-top: 20px
     }
 
 </style>
