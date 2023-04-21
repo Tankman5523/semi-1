@@ -40,7 +40,6 @@
 		JOIN MEMBER M ON(BOARD_WRITER = USER_NO)
 		WHERE B.STATUS = 'Y'
 		AND BOARD_NO = ?
-		AND NOTICE = 'N'
 	</entry>
 	
 	<entry key="insertLiked">

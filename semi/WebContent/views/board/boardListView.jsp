@@ -52,6 +52,12 @@
     	font-size: 15px;
     }
     
+    #notice_line:hover{
+    	cursor: pointer;
+    	color: gray;
+    }
+    
+    
 </style>
 </head>
 <body>
@@ -133,12 +139,10 @@
 							<th width="80">작성일</th>
 							<th width="40">조회수</th>
 						</tr>
-	            	</thead>
-	            	<tbody>
 	            	<%if(!nlist.isEmpty()){ %>
 	            		<%for(Board b : nlist){ %>
-	            		<tr>
-							<td>공지</td>
+	            		<tr id="notice_line">
+							<td>공지<input type="hidden" name="bno" value="<%=b.getBoardNo() %>"></td>
 							<td style="text-align: left; padding-left: 5px;"><%=b.getTitle()%></td>
 							<td><%=b.getBoardWriter()%></td>
 							<td><%=b.getCreateDate()%></td>
@@ -146,6 +150,8 @@
 						</tr>
 	            		<%} %>
 	            	<%} %>
+	            	</thead>
+	            	<tbody>
 	            	<%if(list.isEmpty()){ %>
 	            		<tr>
 	            			<td colspan="5">작성된 게시글이 없습니다.</td>
@@ -197,12 +203,24 @@
 				location.href = "<%=contextPath%>/insert.bo"
 			}
 			
+			//일반 게시글
 			$(function(){
 				$("tbody>tr").on("click", function(){
 					
 					var bno = $(this).children().eq(0).text();
 					
 					location.href = "<%=contextPath%>/detail.bo?bno="+bno;
+				});
+			});
+			
+			//공지 게시글
+			$(function(){
+				$("#notice_line").on("click", function(){
+					
+					var bno = $("#notice_line input[type=hidden]").val();
+					
+					location.href = "<%=contextPath%>/detail.bo?bno="+bno;
+					
 				});
 			});
 		</script>

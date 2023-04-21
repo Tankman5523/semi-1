@@ -56,7 +56,7 @@ public class ReplyController extends HttpServlet {
 
 			ArrayList<Reply> rpList = new BoardService().selectRpList(bno);
 			
-			System.out.println(rpList);
+//			System.out.println(rpList);
 			
 			response.setContentType("json/application; charset=UTF-8");
 			new Gson().toJson(rpList, response.getWriter());
