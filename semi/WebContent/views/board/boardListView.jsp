@@ -3,6 +3,7 @@
 <%
 	ArrayList<Board> list = (ArrayList<Board>)request.getAttribute("boardList");
 	PageInfo pi = (PageInfo)request.getAttribute("pageInfo");
+	ArrayList<Board> nlist = (ArrayList<Board>)request.getAttribute("noticeList");
 %>    
 <!DOCTYPE html>
 <html>
@@ -25,10 +26,7 @@
         height: 800px;
         margin: auto;
     }
-    .footer{
-		width: 1200px;
-        margin: auto;
-    }
+
     
     #content_1,#content_2{
     	float: left;
@@ -49,6 +47,17 @@
     	height: 100%;
     }
     
+    #board-list tr{
+    	height: 30px;
+    	font-size: 15px;
+    }
+    
+    #notice_line:hover{
+    	cursor: pointer;
+    	color: gray;
+    }
+    
+    
 </style>
 </head>
 <body>
@@ -63,9 +72,12 @@
 		<div id="content" style="height: 90%">
     
 			<div id="sort-area" align="right"style="height: 10%;">
-			
-				<input type="text" style="width: 400px; margin-top: 25px;">
-				<button>검색</button>
+
+				<form action="search" id="search-area" style="border: none;">
+					<input type="text" id="search-text" name="input" style="width: 300px; height:100%;">
+					<button type="submit">검색</button>
+				</form>
+				
 				<input type="radio" name="sort" id="resent"><label for="resent">최신순</label>
 				<input type="radio" name="sort" id="recommend"><label for="recommend">추천순</label>
 				<input type="radio" name="sort" id="viewed"><label for="viewed">조회순</label>
@@ -95,12 +107,14 @@
 			</div>
 			
 			<script>
+				<%if(loginUser != null){%>
 				$("#chat_input").on("keydown", function(e){
 					if(e.keyCode == 13){
 						$.ajax({
-							url:"chat.bo",
+							url:"chat",
 							data:{
-								
+								uno:<%=loginUser.getUserNo()%>,
+								message:$("#chat_input").val()
 							},
 							success:function(){
 								
@@ -112,18 +126,30 @@
 						});
 					}
 				});
+				<%}%>
 			</script>
-	
+			
 			<div id="content_2" style="display: inline-block; width: 80%; height:90%;">
-				<table border="1" style="width:100%; height:60%; box-sizing:border-box;">
+				<table border="1" style="width:100%; box-sizing:border-box; text-align: center" id="board-list">
 					<thead>
 						<tr>
-							<th width="50">글번호</th>
-							<th width="300">제목</th>
-							<th width="100">작성자</th>
-							<th width="100">작성일</th>
-							<th width="50">조회수</th>
+							<th width="40">글번호</th>
+							<th width="420">제목</th>
+							<th width="80">작성자</th>
+							<th width="80">작성일</th>
+							<th width="40">조회수</th>
 						</tr>
+	            	<%if(!nlist.isEmpty()){ %>
+	            		<%for(Board b : nlist){ %>
+	            		<tr id="notice_line">
+							<td>공지<input type="hidden" name="bno" value="<%=b.getBoardNo() %>"></td>
+							<td style="text-align: left; padding-left: 5px;"><%=b.getTitle()%></td>
+							<td><%=b.getBoardWriter()%></td>
+							<td><%=b.getCreateDate()%></td>
+							<td><%=b.getCount()%></td>
+						</tr>
+	            		<%} %>
+	            	<%} %>
 	            	</thead>
 	            	<tbody>
 	            	<%if(list.isEmpty()){ %>
@@ -134,7 +160,7 @@
 	            		<%for(Board b : list){ %>
 						<tr>
 							<td><%=b.getBoardNo()%></td>
-							<td><%=b.getTitle()%></td>
+							<td style="text-align: left; padding-left: 5px;"><%=b.getTitle()%></td>
 							<td><%=b.getBoardWriter()%></td>
 							<td><%=b.getCreateDate()%></td>
 							<td><%=b.getCount()%></td>
@@ -164,7 +190,7 @@
 					</div>
 				</div>
 				
-				<div id="btn-area" style="height:20%; border:none;" align="right">
+				<div id="btn-area" style="height:10%; border:none;" align="right">
 				<%if(loginUser != null){ %>
 					<button onclick="boardWrite()" style="margin: 10px">글쓰기</button>
 				<%} %>
@@ -177,6 +203,7 @@
 				location.href = "<%=contextPath%>/insert.bo"
 			}
 			
+			//일반 게시글
 			$(function(){
 				$("tbody>tr").on("click", function(){
 					
@@ -185,27 +212,23 @@
 					location.href = "<%=contextPath%>/detail.bo?bno="+bno;
 				});
 			});
+			
+			//공지 게시글
+			$(function(){
+				$("#notice_line").on("click", function(){
+					
+					var bno = $("#notice_line input[type=hidden]").val();
+					
+					location.href = "<%=contextPath%>/detail.bo?bno="+bno;
+					
+				});
+			});
 		</script>
 
 
 	</div>
-	<div class="footer">
-		<div id="footer_1">
-			<a href="">이용약관</a> |
-			<a href="">개인정보취급방침</a> |
-			<a href="">인재채용</a> |
-			<a href="">고객센터</a>
-		</div>
-        
-		<div id="footer_2">
-			<p id="p1">
-	                
-			</p>
-			<p id="p2" align="center">
-				Create By 블변의 법칙 Team
-			</p>
-		</div>	
-	</div>
+	
+	<%@include file="../common/footer.jsp" %>
 	
 	<script>
 		$(function(){

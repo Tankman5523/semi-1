@@ -40,6 +40,7 @@ public class Reply {
 		this.status = status;
 	}
 	
+
 	public int getRpNo() {
 		return rpNo;
 	}

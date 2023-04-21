@@ -31,7 +31,7 @@ public class MemberLoginController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//로그인폼으로 위임
-		request.getRequestDispatcher("/views/member/login.jsp").forward(request, response);
+		request.getRequestDispatcher("/views/member/loginPage.jsp").forward(request, response);
 		
 	
 	}
@@ -53,9 +53,8 @@ public class MemberLoginController extends HttpServlet {
 		Member loginUser = new MemberService().loginMember(userId, userPwd);
 		
 		//조회해온 loginUser 정보 Session에 담기
-		
 		if(loginUser !=null) { //로그인 성공
-		
+			
 			
 			request.getSession().setAttribute("loginUser", loginUser);
 			request.getSession().setAttribute("alertMsg", "성공적으로 로그인이 완료되었습니다.");
@@ -68,8 +67,9 @@ public class MemberLoginController extends HttpServlet {
 			
 		}else { //로그인 실패
 			
-			request.setAttribute("errorPage", "로그인에 실패하였습니다. 다시 시도해주세요");
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+			request.setAttribute("errorMsg", "로그인에 실패하였습니다. 다시 시도해주세요");
+			
+			request.getRequestDispatcher("views/member/loginPage.jsp").forward(request, response);
 		
 		}
 		
