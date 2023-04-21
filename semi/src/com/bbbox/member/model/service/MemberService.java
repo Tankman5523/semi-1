@@ -52,16 +52,17 @@ public class MemberService {
 	}
 	
 	//이메일 중복 확인
-	public int selectEmail(String testEmail) {
+	public Member selectEmail(String testEmail) {
 		
 		Connection conn = JDBCTemplate.getConnection();
 		
-		int count = new MemberDao().selectEmail(conn, testEmail);
+		Member m = new MemberDao().selectEmail(conn, testEmail);
 		
 		JDBCTemplate.close(conn);
 		
-		return count;
+		return m;
 	}
+
 	
 	//회원정보 수정 메소드
 	public int updateMember(Member m) {
@@ -77,6 +78,22 @@ public class MemberService {
 		}
 		
 		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	public int updatePwd(String email, String tempPwd) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new MemberDao().updatePwd(conn, email, tempPwd);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+	
 		return result;
 	}
 

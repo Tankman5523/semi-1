@@ -18,7 +18,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bbbox.member.model.service.MemberService;
+import com.bbbox.member.model.vo.AuthKey;
+import com.google.gson.Gson;
 
 /**
  * Servlet implementation class MemberEmailAuthentication
@@ -49,92 +50,90 @@ public class MemberEmailAuthentication extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		
-		String testEmail = request.getParameter("testEmail");
+		String sendEmail = request.getParameter("sendEmail");
+		
+		System.out.println(sendEmail); //잘 넘어오는지 확인하기
 		
 		
-		
-		System.out.println(testEmail); //잘 넘어오는지 확인하기
-		
-		//이메일 중복 확인
-		
-		int result = new MemberService().selectEmail(testEmail);
-		
-		if(result>0) { //이메일 중복
-			response.getWriter().print("NNNNN");
-
-		}else{ //이메일 사용가능 - 인증 메일 보내기
-			
-			response.getWriter().print("YYYYY");
-			
-			//SMTP 서버 정보 설정
-			Properties prop = new Properties();
-			prop.put("mail.stmp.starttls.enable","true");
-			prop.put("mail.smtp.port", "465"); 
-			prop.put("mail.smtp.host","smtp.naver.com");
-			prop.put("mail.stmp.auth","true");
+		//SMTP 서버 정보 설정
+		Properties prop = new Properties();
+		prop.put("mail.smtp.starttls.enable","true");
+		prop.put("mail.smtp.auth","true");
+		prop.put("mail.smtp.port", "587"); 
+		prop.put("mail.smtp.host","smtp.naver.com");
 
 
-			Authenticator auth = new MyAuthentication();
-			Session session = Session.getDefaultInstance(prop, auth);
-			MimeMessage msg = new MimeMessage(session);
+		Authenticator auth = new MyAuthentication();
+		Session session = Session.getDefaultInstance(prop, auth);
+		MimeMessage msg = new MimeMessage(session);
+		
+		try{
+			msg.setSentDate(new Date());	
+			InternetAddress from = new InternetAddress();
 			
-			try {
-				msg.setSentDate(new Date());	
-				InternetAddress from = new InternetAddress();
+			from = new InternetAddress("bb_box<mmute96@naver.com>");
+			msg.setFrom(from);
+			
+			InternetAddress to = new InternetAddress(sendEmail);
+			msg.setRecipient(Message.RecipientType.TO, to);
+			
+			//메일 제목 
+			msg.setSubject("안녕하세요 블변의법칙 인증 메일입니다", "UTF-8");
+		
+	
+			//인증번호 생성하기
+			StringBuffer temp = new StringBuffer();
+			
+			Random ran = new Random();
+			for(int i = 0 ; i <10; i++) {
 				
-				from = new InternetAddress("sender<mmute96@naver.com>");
-				msg.setFrom(from);
+				int ranIndex = ran.nextInt(3);
 				
-				InternetAddress to = new InternetAddress(request.getParameter("testEmail"));
-				msg.setRecipient(Message.RecipientType.TO, to);
-				
-				//메일 제목 
-				msg.setSubject("안녕하세요 블변의법칙 인증 메일입니다", "UTF-8");
-				
-				//인증번호 생성하기
-				StringBuffer temp = new StringBuffer();
-				
-				Random ran = new Random();
-				for(int i = 0 ; i <10; i++) {
+				switch(ranIndex) {
+				case 0 : //a-z
+					temp.append((char)((int)(ran.nextInt(26))+97)); break;
 					
-					int ranIndex = ran.nextInt(3);
+				case 1 : //A-Z
+					temp.append((char)((int)(ran.nextInt(26))+65)); break;
 					
-					switch(ranIndex) {
-					case 0 : //a-z
-						temp.append((char)((int)(ran.nextInt(26))+97)); break;
-						
-					case 1 : //A-Z
-						temp.append((char)((int)(ran.nextInt(26))+65)); break;
-						
-					case 2 : //0-9
-						
-						temp.append(ran.nextInt(10)); break;
+				case 2 : //0-9
+					
+					temp.append(ran.nextInt(10)); break;
 					}
-				}
+			}
+				String AuthenticationKey = temp.toString(); //난수 스트링화 
 				
-				String AuthenticationKey = temp.toString();
 				System.out.println(AuthenticationKey); //난수 확인용 
 				
+				//jsp로 넘기기
+				response.setContentType("json/application; charset=UTF-8");
+				
+				AuthKey key = new AuthKey("Y", AuthenticationKey);
+				
+				Gson gson = new Gson();
+				//gson.toJson(응답객체, 스트림);
+				
+				gson.toJson(key, response.getWriter()); //변환시 전달되는 키값은 vo의 필드명으로 지정한다
+				
 				//메일 내용
-				msg.setText("인증 번호는 :" + temp);
+				msg.setText("이메일 확인 인증 번호는 [" + temp +"] 입니다. 인증번호란에 정확히 입력해 주세요.");
 				msg.setHeader("content-Type","text/html");
 				
-				javax.mail.Transport.send(msg);
-				
-			} catch (MessagingException e) {
+				javax.mail.Transport.send(msg); //메일발송 
+		
+			}catch (MessagingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-				
-		}
+			
 	}
-
-class MyAuthentication extends Authenticator{
+	
+	class MyAuthentication extends Authenticator{
 		PasswordAuthentication account;
 		 
 		public MyAuthentication() {
-			String id = "dlstmxk12@naver.com";
-			String password = "Kh981216.";
+			String id = "mmute96@naver.com";
+			String password = "dmadkrgkwk77";
 			account = new PasswordAuthentication(id,password);
 			
 		}
