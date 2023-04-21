@@ -1,14 +1,18 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로그인페이지</title>
+<meta charset="UTF-8">
+<title>로그인 페이지</title>
+<!-- 카카오 로그인 script -->
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
+  integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
+ 
+<!-- jquery CDN --> 
+ <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>  
 
-    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-
-    <style>
+<style>
         /* div{
             border : 1px solid black;
             box-sizing: border-box;
@@ -106,7 +110,7 @@
             width: 100%;
             height: 40px;
             margin-bottom:10px; /*내용과 간격 조정*/
-
+           
         }
 
         .body-contentbox{
@@ -134,12 +138,16 @@
             border-right:1px solid #3b5fbf; /*오른쪽 줄*/
         }
 
-    </style>
+</style>
+
 </head>
+
 <body>
-    <div class="login-form">
+<%@ include file ="../common/header.jsp" %>
+
+ <div class="login-form">
         <br>
-        <form id="login-area" action="" method="">
+         <form id="login-area" action="<%=contextPath%>/login.me" method="post">
             <h1 align="center">로그인</h1>
             <table>
                 <tbody>
@@ -150,13 +158,13 @@
                         <td><input type="text" name="userId" maxlength="12" required></td>
                     </tr>  
                     <tr>
-                        <td><label for="inputPwd" style="font-size: 18px; font-weight: 600;">비밀번호</label></td>
+                        <td><label for="userPwd" style="font-size: 18px; font-weight: 600;">비밀번호</label></td>
                     </tr>  
                     <tr>
-                        <td><input type="password" name="inputPwd" maxlength="15" required></td>
+                        <td><input type="password" name="userPwd" maxlength="15" required></td>
                     </tr>
                     <tr>
-                        <td><a id="findId">아이디 찾기 </a> <a id="findPwd">비밀번호 찾기 </a> </td>
+                        <td><a id="findId">아이디 찾기</a> <a id="findPwd">비밀번호 찾기 </a> </td>
                     </tr>
                 </tbody>
             </table> 
@@ -186,11 +194,12 @@
                     <div class="popup-body"> <!-- 컨텐츠 영역  -->
                         <div class="body-content">
                             <div class="body-titlebox">
-                                <h2 id="id_pwd"></h2>
+                                <h2 id="id_pwd" align="center"></h2>
                             </div>
                             <div class="body-contentbox" align="center">
                                 <p>이메일</p>
-                                <input type="email" id="email"> <button>이메일확인</button>
+                                <input type="email" id="email"> <button id="chkemail">이메일확인</button>
+                                <p id="resultemail"></p>
                                 <br>
                             </div>
                         </div>
@@ -207,29 +216,157 @@
 
     <script>
         $(function(){
-            $("#confirm").click(function(){
+            
+        	$("#confirm").click(function(){
                 modalClose();
             });
-
-            $('#findId').click(function(){
-                $("#popup").css('display','flex').hide().fadeIn(); /*팝업을 flex속성으로 바꿔준 후 hide로 숨기고 다시 fadeIn효과 */
-                $("#id_pwd").html("아이디 찾기");
-
-            });
-
-            $('#findPwd').click(function(){
-                $("#popup").css('display','flex').hide().fadeIn(); /*팝업을 flex속성으로 바꿔준 후 hide로 숨기고 다시 fadeIn효과 */
-                $("#id_pwd").html("비밀번호 찾기");
-            });
-
+            
             $('#close').click(function(){
                 modalClose(); //모달 닫기 함수 호출
-            })
+            });
 
             function modalClose(){
                 $('#popup').fadeOut(); //페이드아웃 효과 
             }
-        })
+
+            //아이디찾기 클릭
+            $('#findId').click(function(){
+            	
+                $("#popup").css('display','flex').hide().fadeIn(); /*팝업을 flex속성으로 바꿔준 후 hide로 숨기고 다시 fadeIn효과 */
+                $("#id_pwd").html("아이디 찾기");
+                
+                $("#chkemail").click(function(){
+                	
+                	var $findemail = $(".body-contentbox input[type=email]");
+                	
+                	$.ajax({
+                		url: "find_info.me",
+                		
+                		data : { email : $findemail.val() },
+                		
+                		type : "get",
+                		
+                		success : function(result){
+                			
+                			if(result != null){
+                				Authentication2();
+                			}
+                		},
+                		
+                		error : function(){
+                			var msg = "없는 회원 정보입니다. 다시 입력해주세요";
+                			
+                			$('#resultemail').html(msg);
+                		}
+                	
+                	
+                	}); //ajax 끝 
+                	
+                	
+	            });
+                	
+               }); //#findId click function 끝 
+                
+            $('#findPwd').click(function(){
+                $("#popup").css('display','flex').hide().fadeIn(); /*팝업을 flex속성으로 바꿔준 후 hide로 숨기고 다시 fadeIn효과 */
+                $("#id_pwd").html("비밀번호 찾기");
+                
+                /* 임시 비밀번호 발급 함수영역 */
+				$("#chkemail").click(function(){
+                	
+                	var $findemail = $(".body-contentbox input[type=email]");
+                	
+                	$.ajax({
+                		url: "find_info.me",
+                		
+                		data : { email : $findemail.val() },
+                		
+                		type : "get",
+                		
+                		success : function(result){
+                			
+                			if(result != null){
+                				Authentication3();
+                			}
+                		},
+                		
+                		error : function(){
+                			var msg = "없는 회원 정보입니다. 다시 입력해주세요";
+                			
+                			$('#resultemail').html(msg);
+                		}
+                	
+                	
+                	}); //ajax 끝 
+                	
+	            });//비밀번호 찾기 함수 끝 
+
+        }); //전체 함수 끝 
+        
+        // 아이디 찾기 함수
+        function Authentication2(){
+			
+        	var $email = $(".body-contentbox input[type=email]");
+			
+			$.ajax({
+				url : "email_id.me",
+				
+				data : {email : $email.val()},
+				
+				type: "post",
+				
+				success: function (userId){
+					
+					console.log(userId);
+					
+					if(userId == "Y"){
+						
+						alert("회원님의 이메일로 아이디가 발송되었습니다.");
+						
+					}
+					
+					
+				},
+				
+				error: function(){
+					console.log("통신실패");
+				}
+			
+			});
+        }
+        
+		//비밀번호 찾기 함수 
+		function Authentication3(){
+				
+	        	var $email = $(".body-contentbox input[type=email]");
+				
+				$.ajax({
+					url : "email_id.me",
+					
+					data : {email : $email.val()},
+					
+					type: "get",
+					
+					success: function (userId){
+						
+						console.log(userId);
+						
+						if(userId == "Y"){
+							
+							alert("회원님의 이메일로 임시 비밀번호가 발송되었습니다.");
+							
+						}
+						
+						
+					},
+					
+					error: function(){
+						console.log("통신실패");
+					}
+				
+				});//ajax 함수 끝 
+   		 	};
+       });
     </script>
 
 </body>

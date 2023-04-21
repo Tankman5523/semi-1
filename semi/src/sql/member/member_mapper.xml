@@ -29,7 +29,7 @@
 </entry>
 
 <entry key="selectEmail">
-	SELECT COUNT(*) COUNT
+	SELECT USER_ID, USER_PWD
 	FROM MEMBER
 	WHERE EMAIL =?
 	
@@ -43,5 +43,12 @@
 		ADDRESS =?
 	WHERE USER_ID=?
 	AND STATUS = 'Y'	
+</entry>
+
+<entry key="updatePwd">
+	UPDATE MEMBER
+		SET USER_PWD = ?
+		WHERE EMAIL =?
+		AND STATUS = 'Y'
 </entry>
 </properties>

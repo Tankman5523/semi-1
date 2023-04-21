@@ -164,12 +164,12 @@
                     <td><label for="inputEmail">이메일</label></td>
                 </tr>
                 <tr>
-                	<td><input type="text" name="email"id="inputEmail"><button type="button" onclick="doubleChk();">이메일 확인</button></td>
+                	<td><input type="text" name="email"id="inputEmail"><button type="button" onclick="return doubleChk();">이메일 확인</button></td>
                 </tr>
 				<tr>
 					<td><label id="emailTestResult"></label></td>
 				</tr>
-					<td><input id="authentication" type ="text"><button type="button">인증하기</button></td>
+					<td><input id="authentication" type ="text"><button type="button" onclick="return emailSubmit();">인증하기</button></td>
 				<tr>
                 <tr>
                 	<td><label id=emailChk></label></td>
@@ -191,7 +191,7 @@
             <br><br>
             <div id="enroll-btn" align="center">
                     <button type="button" onclick = "reset();">취소</button> <!-- 클릭시 메인으로 돌아가기-->
-                    <button type="submit"  onclick="return enroll_test();">가입하기</button>
+                    <button id="submit_btn" type="submit" onclick="return enroll_test();" disabled>가입하기</button>
             </div>
             <br><br>
         </form>
@@ -270,41 +270,111 @@
         </script>
         
         <script type="text/javascript">
-        	/* 이메일 확인  */
-			function doubleChk(){
+        	
+        	var authKey = ""; // 이메일 인증 번호 담을 변수 
+        	/* 이메일 중복 확인  */
+			
+        	function doubleChk(){
 				
-					var $email = $('#inputEmail').val();
-					
-						$.ajax({
-							url : "authentication.me",
-							
-							data : {testEmail : $email},
-							
-							type : "post",
-							
-							success : function(result){
-								if(result == 'YYYYY'){
-									if(confirm("이메일 인증 코드 발송 완료!")){
-									
-									}
-								}else{
-									var failMsg = "이미 사용중인 이메일 입니다. 다시 입력해주세요";
-									$('#emailTestResult').html(failMsg);
-									$inputEmail.focus();
-										
-								}
-								
-							},
-							
-							error : function(){
-								console.log("통신 실패");
-							}
-						}); 
+				var $email = $('#inputEmail');
+				
+				if(($email.val()) == ""){
+					alert("올바른 형식의 이메일을 작성해 주세요");
+					return false;
 				}
 				
-				
+				$.ajax({
+					url : "email.chk.me",
+							
+					data : {testEmail : $email.val()},
 					
+					type : "post",
+					
+					success : function(result){
+						console.log(result);
+						
+						if(result == "YYYYY" ){
+							
+							if(confirm("사용가능한 이메일입니다. 사용하시겠습니까?")){
+								Authentication(); // 인증번호 발송 함수 호출
+							}else{
+								$email.focus();
+							}
+							
+							var succMsg = "사용 가능한 이메일 입니다.";
+							$('#emailTestResult').html(succMsg);
+							
+							
+						}else{
+							var failMsg = "이미 사용중인 이메일 입니다. 다시 입력해주세요";
+							$('#emailTestResult').html(failMsg);
+							$email.focus();
+								
+						}
+								
+					},
+					
+					error : function(){
+						console.log("통신 실패");
+					}
+				}); 
+        	}	
+        	
+        	/* 이메일 발송 함수 */
+			function Authentication(){
+				
+				var $sendEmail = $('#inputEmail');
+				
+				$.ajax({
+					url : "authentication.me",
+					
+					data : {sendEmail : $sendEmail.val()},
+					
+					type: "post",
+					
+					success: function (key){
+						
+						console.log(key);
+						
+						if(key.using == 'Y'){
+							
+							authKey = key.chord;
+							
+							console.log(authKey);
+							
+							alert("이메일 인증번호 발송 완료! 이메일을 확인해주세요")
+							
+						}
+						
+						
+					},
+					
+					error: function(){
+						console.log("통신실패");
+					}
+				
+				});
+				
+			}		
+			
+        	function emailSubmit(){
+        		
+        		if(($("#authentication").val()) == authKey){
+        			
+        			if(confirm("이메일 인증이 완료되었습니다.!")){
+	        			$("#authentication").attr("readonly",true);
+    	    			$("#enroll-btn button[type=submit]").attr("disabled", false);
+        			}	
+        			
+        		}else{
+        			alert("이메일 인증에 실패하였습니다. 다시 시도해 주세요");
+        			return false;
+        		}
+        	} 
+								
         </script>
+        
+        
         
 </body>
 </html>

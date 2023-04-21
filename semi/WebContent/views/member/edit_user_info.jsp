@@ -145,8 +145,7 @@
        		var spe = $pwd.search(/[~!@#$%^&*?]/gi);
        		
        		if($pwd == $chk){
-       			if(!($pwd.length >= 8 && $pwd.length <= 15)){
-       				console.log($pwd).length()
+       			if(!($pwd.length >= 8 || $pwd.length <= 15)){
        				alert("8자리 이상, 15자리 이하로 입력해주세요.");
        				$("#pwd").focus();
        				return false;
