@@ -30,12 +30,12 @@ public class Accident {
 		this.solve = solve;
 	}
 
-	public Accident(int accNo, int refLno, int refPno, String insuranceType, String region, int accRateMe,
+	public Accident(int accNo,int refPno, int refLno, String insuranceType, String region, int accRateMe,
 			int accRateYou, String solve) {
 		super();
 		this.accNo = accNo;
-		this.refLno = refLno;
 		this.refPno = refPno;
+		this.refLno = refLno;
 		this.insuranceType = insuranceType;
 		this.region = region;
 		this.accRateMe = accRateMe;

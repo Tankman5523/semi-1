@@ -52,6 +52,12 @@
     	font-size: 15px;
     }
     
+    #notice_line:hover{
+    	cursor: pointer;
+    	color: gray;
+    }
+    
+    
 </style>
 </head>
 <body>
@@ -67,8 +73,13 @@
     
 			<div id="sort-area" align="right"style="height: 10%;">
 
-				<form action="search" id="search-area" style="border: none;">
-					<input type="text" id="search-text" name="input" style="width: 300px; height:100%;">
+				<form action="list.bo" id="search-area" style="border: none;">
+					<select name="kind">
+						<option value="title">제목</option>
+						<option value="content">글 내용</option>
+						<option value="userId">작성자</option>
+					</select>
+					<input type="text" id="search-text" name="keyword" style="width: 300px; height:100%;" placeholder="키워드를 입력해주세요.">
 					<button type="submit">검색</button>
 				</form>
 				
@@ -83,44 +94,73 @@
 			    	<div style="height: 80%">			    	
 			    		<textarea style="resize: none;" id="chat_output" readonly></textarea>
 			    	</div>
-			    	<div id="loginInfo" style="height: 10%;">
+			    	<div id="loginInfo" style="height: 5%;">
 			    		<%if(loginUser != null){ %>
 			    			<span><%=loginUser.getUserId() %>님</span>
 			    		<%}else{ %>
 			    			<span>로그인 후 이용해 주세요.</span>
 			    		<%} %>
 			    	</div>
-		    		<div style="height: 10%">
+		    		<div style="height: 5%">
 		    			<%if(loginUser != null){ %>
 			    		<input type="text" id="chat_input" required placeholder="메세지를 입력하세요.">
 			    		<%}else{ %>
 			    		<input type="text" id="chat_input" required readonly placeholder="메세지를 입력하세요.">
 			    		<%} %>
+			    		<button type="button" id="chat_btn">전송</button>
+			    		<button type="button" id="chat_exit">채팅 종료</button>
 		    		</div>
 				</div>
 			</div>
 			
+			<!-- 웹소켓 해보자!! -->
 			<script>
-				<%if(loginUser != null){%>
-				$("#chat_input").on("keydown", function(e){
-					if(e.keyCode == 13){
-						$.ajax({
-							url:"chat",
-							data:{
-								uno:<%=loginUser.getUserNo()%>,
-								message:$("#chat_input").val()
-							},
-							success:function(){
-								
-								
-							},
-							error:function(){
-								alert("통신실패");
-							}
-						});
-					}
+				$(function(){
+					var str = "";
+					var webSocket = new WebSocket("ws://localhost:8888/<%=contextPath%>/webSocket");
+					
+					webSocket.onopen = function(message) {
+						$("#chat_output").html("----채팅을 시작합니다----");
+					   };
+					   
+					webSocket.onclose = function(message) {
+						$("#chat_output").html("----채팅을 종료합니다----");
+					};
+					
+					webSocket.onerror = function(message) {
+						$("#chat_output").html("----오류----");
+					};
+					// WebSocket 서버로 부터 메시지가 오면 호출되는 함수
+					webSocket.onmessage = function(message) {
+						
+						str += message.data+"\n";
+						$("#chat_output").val(str);
+					};
+
+					
+					<%if(loginUser != null){%>
+					$("#chat_input").on("keydown", function(e){
+						if(e.keyCode == 13){
+							e.preventDefault();
+							$("#chat_btn").click();
+						}
+					});
+					
+					$("#chat_btn").on("click", function(){
+						var input = $("#chat_input").val();
+						
+						
+						webSocket.send("<%=loginUser.getUserId()%> : "+input);
+						
+						$("#chat_input").val("");
+					});
+					<%}%>
+					
+					$("#chat_exit").on("click", function(){
+						webSocket.close();
+					});
+					 
 				});
-				<%}%>
 			</script>
 			
 			<div id="content_2" style="display: inline-block; width: 80%; height:90%;">
@@ -133,12 +173,10 @@
 							<th width="80">작성일</th>
 							<th width="40">조회수</th>
 						</tr>
-	            	</thead>
-	            	<tbody>
 	            	<%if(!nlist.isEmpty()){ %>
 	            		<%for(Board b : nlist){ %>
-	            		<tr>
-							<td>공지</td>
+	            		<tr id="notice_line">
+							<td>공지<input type="hidden" name="bno" value="<%=b.getBoardNo() %>"></td>
 							<td style="text-align: left; padding-left: 5px;"><%=b.getTitle()%></td>
 							<td><%=b.getBoardWriter()%></td>
 							<td><%=b.getCreateDate()%></td>
@@ -146,6 +184,8 @@
 						</tr>
 	            		<%} %>
 	            	<%} %>
+	            	</thead>
+	            	<tbody>
 	            	<%if(list.isEmpty()){ %>
 	            		<tr>
 	            			<td colspan="5">작성된 게시글이 없습니다.</td>
@@ -197,6 +237,7 @@
 				location.href = "<%=contextPath%>/insert.bo"
 			}
 			
+			//일반 게시글
 			$(function(){
 				$("tbody>tr").on("click", function(){
 					
@@ -205,6 +246,19 @@
 					location.href = "<%=contextPath%>/detail.bo?bno="+bno;
 				});
 			});
+			
+			//공지 게시글
+			$(function(){
+				$("#notice_line").on("click", function(){
+					
+					var bno = $("#notice_line input[type=hidden]").val();
+					
+					location.href = "<%=contextPath%>/detail.bo?bno="+bno;
+					
+				});
+			});
+			
+			
 		</script>
 
 

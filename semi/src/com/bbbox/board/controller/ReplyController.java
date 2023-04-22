@@ -39,6 +39,7 @@ public class ReplyController extends HttpServlet {
         
         if("/insertRp".equals(map)) {
             // insertRp에 대한 처리
+        	
         	Member m = (Member)request.getSession().getAttribute("loginUser");
         	
         	int uno = m.getUserNo();
@@ -51,9 +52,12 @@ public class ReplyController extends HttpServlet {
         	
         	
         }else if("/listRp".equals(map)) {
+        	
+        	
             // listRp에 대한 처리
 			int bno = Integer.parseInt(request.getParameter("bno"));
-
+			System.out.println(bno);
+			
 			ArrayList<Reply> rpList = new BoardService().selectRpList(bno);
 			
 			System.out.println(rpList);
