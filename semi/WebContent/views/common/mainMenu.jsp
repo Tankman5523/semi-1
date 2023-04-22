@@ -5,6 +5,8 @@
 	Member loginUser = (Member)session.getAttribute("loginUser");
 
 	String alertMsg = (String)session.getAttribute("alertMsg");
+	
+	String errorMsg = (String)session.getAttribute("errorMsg");
 %>     
     
 <!DOCTYPE html>
@@ -156,10 +158,18 @@
 	<script>
 		var msg = "<%=alertMsg%>";
 		
+		var errmsg ="<%=errorMsg%>";
+		
 		if(msg != "null"){
 			alert(msg);	
 			
 			<% session.removeAttribute("alertMsg"); %>
+		}
+		
+		if(errmsg != "null"){
+			alert(errmsg);
+			
+			<% session.removeAttribute("errorMsg"); %>
 		}
 		
 	

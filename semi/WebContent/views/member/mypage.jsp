@@ -58,7 +58,7 @@
                 <td>회원타입 </td>
             <%if(loginUser.getLawyer().equals("N")){ %>
 	            <td>일반회원</td>
-               	<td><button>변호사회원 신청하기</button></td>
+               	<td><button id="applyLawyer" onclick = "return apply();">변호사회원 신청하기</button></td>
              <%}else{%>
 	         	<td>변호사회원</td>   
 	         <%} %>	
@@ -158,6 +158,35 @@
 		function modify(){
 			location.href="<%=contextPath%>/update_info.me";
 		}
+		
+		/* 변호사회원 신청페이지로 이동 */
+		function apply(){
+			/* 클릭시 이미 신청한 회원이라면, 알림 띄워주기 */
+			
+			$.ajax({
+			 	url : "chkapply.me",
+			 	
+			 	data : { userNo : <%=loginUser.getUserNo()%>},
+			 	
+			 	type : "post",
+			 	
+			 	success : function(result){
+			 			console.log(result);
+			 			
+			 			if(result == 'W'){
+			 			 	alert("이미 신청하였습니다.");
+			 			 	return false;
+			 			}else{
+							location.href="<%=contextPath%>/apply_Lawyer.me";
+			 			}
+			 	},
+			 	
+			 	error : function(){
+			 		console.log("통신 실패")
+			 	}
+			}); //ajax 끝
+			
+		}//함수 끝 
 	</script>
 </body>
 </html>

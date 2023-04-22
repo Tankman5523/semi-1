@@ -3,6 +3,8 @@ package com.bbbox.member.model.service;
 import java.sql.Connection;
 
 import com.bbbox.common.JDBCTemplate;
+import com.bbbox.lawyer.model.vo.LawAttachment;
+import com.bbbox.lawyer.model.vo.Lawyer;
 import com.bbbox.member.model.dao.MemberDao;
 import com.bbbox.member.model.vo.Member;
 
@@ -95,6 +97,39 @@ public class MemberService {
 		JDBCTemplate.close(conn);
 	
 		return result;
+	}
+
+	//변호사 회원 신청 
+	public int ApplyLawyar(LawAttachment lat, Lawyer applyla) {
+
+		Connection conn = JDBCTemplate.getConnection();
+		//사진 등록 결과 
+		int result1 = new MemberDao().insertProfile(conn,lat);
+		
+		//신청결과 
+		int result2 = new MemberDao().insertApply(conn, applyla);
+		
+		//신청 유저의 lawyer 상태값 변경
+		int result3 = new MemberDao().updateLawyerGrant(conn, applyla);
+		
+		
+		if(result1*result2*result3>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		return result1*result2*result3;
+	}
+
+	public String selectLawyerGrant(int userNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		String lawyer = new MemberDao().selectLawyerGrant(conn,userNo);
+		
+		JDBCTemplate.close(conn);
+		
+		return lawyer;
 	}
 
 }

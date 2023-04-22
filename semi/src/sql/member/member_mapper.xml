@@ -51,4 +51,28 @@
 		WHERE EMAIL =?
 		AND STATUS = 'Y'
 </entry>
+
+<entry key="insertProfile">
+	INSERT INTO LAW_ATTACHMENT (FILE_NO, REF_UNO,ORIGIN_NAME,CHANGE_NAME,FILE_PATH)
+                    	VALUES (SEQ_RFNO.NEXTVAL, ?,?,?,?)
+
+</entry>
+<entry key="insertApply">
+	INSERT INTO LAW_USER(LAW_NO,REF_UNO,REF_PNO,EXAM,EXAM_SESSION,PASS_DATE,COMPANY_NAME,COMPANY_ADDRESS,COMPANY_PN,LAW_COMMENT,CAREER)
+           		VALUES(SEQ_LNO.NEXTVAL,?,?,?,?,?,?,?,?,?,?)
+</entry>
+
+<entry key="updateLawyerGrant">	
+	UPDATE MEMBER
+		SET LAWYER = 'W'
+		WHERE USER_NO = ? 
+</entry>
+
+<entry key="selectLawyerGrant">
+	SELECT LAWYER
+	FROM MEMBER
+	WHERE USER_NO = ?
+	
+</entry>
+
 </properties>

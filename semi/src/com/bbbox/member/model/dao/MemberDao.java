@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 import com.bbbox.common.JDBCTemplate;
+import com.bbbox.lawyer.model.vo.LawAttachment;
+import com.bbbox.lawyer.model.vo.Lawyer;
 import com.bbbox.member.model.vo.Member;
 
 public class MemberDao {
@@ -219,6 +221,128 @@ public class MemberDao {
 		}
 		
 		return result;
+	}
+	
+	//프로필 사진 등록 
+	public int insertProfile(Connection conn, LawAttachment lat) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertProfile");
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, Integer.parseInt(lat.getRefUno()));
+			pstmt.setString(2, lat.getOriginName());
+			pstmt.setString(3, lat.getChangeName());
+			pstmt.setString(4, lat.getFilePath());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	//변호사 회원 신청 메소드
+	public int insertApply(Connection conn, Lawyer applyla) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertApply");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, Integer.parseInt(applyla.getRefUno()));
+			pstmt.setInt(2, Integer.parseInt(applyla.getRefPno()));
+			pstmt.setString(3, applyla.getExam());
+			pstmt.setInt(4, applyla.getExamSession());
+			pstmt.setInt(5, applyla.getPassDate());
+			pstmt.setString(6, applyla.getCompanyName());
+			pstmt.setString(7, applyla.getCompanyAddress());
+			pstmt.setString(8, applyla.getCompanyPn());
+			pstmt.setString(9, applyla.getLawComment());
+			pstmt.setString(10, applyla.getCareer());
+			
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	//변호사 회원 신청 유저의 상태값 변경 메소드  
+	public int updateLawyerGrant(Connection conn, Lawyer applyla) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("updateLawyerGrant");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, Integer.parseInt(applyla.getRefUno()));
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	//변호사 회원 권한 유무 조회 메소드  
+	public String selectLawyerGrant(Connection conn, int userNo) {
+		
+		ResultSet rset = null;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("selectLawyerGrant");	
+		
+		String lawyer ="";
+		
+		try {
+			pstmt =conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				lawyer = rset.getString("LAWYER");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return lawyer;
 	}
 
 }

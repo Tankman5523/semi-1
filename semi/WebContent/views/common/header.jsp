@@ -14,6 +14,8 @@
 <meta charset="UTF-8">
 <title>헤더</title>
 
+<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+
     <style>
         div{
             border : 1px solid black; /*구역 확인용*/

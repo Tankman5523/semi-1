@@ -4,7 +4,7 @@ public class Lawyer {
 
 	//편의상 refUno,refPno 자료형을 String으로 변경
 	private int lawNo;
-	private String refUno;
+	private String refUno; //userno
 	private String refPno;
 	private String exam;
 	private int examSession;
@@ -48,9 +48,27 @@ public class Lawyer {
 		this.career = career;
 	}
 	
+	//변호사 신청 매개변수 생성자 
+	public Lawyer(String refUno, String refPno, String exam, int examSession, int passDate, 
+			String companyAddress ,String companyName, String companyPn, String lawComment, String career) {
+		super();
+		this.refUno = refUno;
+		this.refPno = refPno;
+		this.exam = exam;
+		this.examSession = examSession;
+		this.passDate = passDate;
+		this.companyName = companyName;
+		this.companyAddress = companyAddress;
+		this.companyPn = companyPn;
+		this.lawComment = lawComment;
+		this.career = career;
+	}
+	
 	public int getLawNo() {
 		return lawNo;
 	}
+
+
 	public void setLawNo(int lawNo) {
 		this.lawNo = lawNo;
 	}
