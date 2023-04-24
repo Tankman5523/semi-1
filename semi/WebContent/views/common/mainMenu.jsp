@@ -253,7 +253,12 @@
                 </li>    
             </ul>
     </div>
-
+	
+	<script>
+		function mypage(){
+			
+		}	
+	</script>
 
 </body>
 </html>
