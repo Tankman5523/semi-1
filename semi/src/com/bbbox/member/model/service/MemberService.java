@@ -3,6 +3,8 @@ package com.bbbox.member.model.service;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import com.bbbox.board.model.vo.Accident;
+import com.bbbox.board.model.vo.AccidentReview;
 import com.bbbox.board.model.vo.Board;
 import com.bbbox.board.model.vo.Reply;
 import com.bbbox.common.JDBCTemplate;
@@ -183,7 +185,7 @@ public class MemberService {
 		
 		return cList;
 	}
-
+	//회원이 작성한 변호사 리뷰 조회하는 메소드 
 	public ArrayList<LawReview> selectLawReviewList(int userNo) {
 		
 		Connection conn = JDBCTemplate.getConnection();
@@ -193,6 +195,31 @@ public class MemberService {
 		JDBCTemplate.close(conn);
 				
 		return lawRev;
+	}
+	
+	//변호사가 작성한 사건 리뷰 조회하는 메소드
+	public ArrayList<AccidentReview> selectAccidentReviewList(int userNo) {
+
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<AccidentReview> accRev = new MemberDao().selectAccidentReviewList(conn, userNo);
+		
+		JDBCTemplate.close(conn);
+		
+		return accRev;
+	}
+
+	//변호사가 맡은 사건 조회 메소드(해결X) 
+	public ArrayList<Accident> selectAccidentList(int userNo) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Accident> accident = new MemberDao().selectAccidentList(conn, userNo);
+		
+		JDBCTemplate.close(conn);
+		
+		
+		return accident;
 	}
 
 }
