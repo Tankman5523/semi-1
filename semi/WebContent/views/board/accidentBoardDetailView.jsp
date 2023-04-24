@@ -156,6 +156,7 @@
                             <div class="info">
                                 <span>제보일 | <%=b.getCreateDate()%></span>
                                 <span>조회수 | <%=b.getCount() %></span>
+                                <span>추천수 | <%=b.getLiked()%> </span>
                                 <span>신고수 | <%=b.getReportCount()%> </span>
                                 <%if(b.getReportCount()>10){ %>
                                 	<span><i class="fa-solid fa-diamond-exclamation" style="color: #e6d519;"></i></span>
@@ -167,14 +168,15 @@
                                 <span>지역 | <%=ac.getRegion()%></span>
                             </div>
                             <%if(loginUser!=null){ %>
-	                            <%if(loginUser.getUserId().equals(b.getBoardWriter())||loginUser.getAdmin().equals("Y")) {%>
-	                        
-		                            <div id="updateBtnArea" style="text-align:right;">
+	                            <div id="updateBtnArea" style="text-align:right;">
+	                            		<input type="button" value="좋아요" id="good">
+	                            		<input type="button" value="싫어요" id="bad">
+		                            <%if(loginUser.getUserId().equals(b.getBoardWriter())||loginUser.getAdmin().equals("Y")) {%>
 		                            	<!-- 나중에 이미지로 바꿔서 onclick 이벤트 -->
 		                            	<input type="button" value="게시글 수정" onclick="location.href='<%=contextPath%>/update.ac?bno='+<%=b.getBoardNo()%>">
 		                            	<input type="button" value="게시글 삭제" onclick="location.href='<%=contextPath%>/delete.ac?bno='+<%=b.getBoardNo()%>">
-		                            </div>
 	                            <%} %>
+	                            </div>
                             <%} %>
                             <%if(loginUser!=null){ %>
 	                            <%if(loginUser.getLawyer().equals("Y")){ %>
@@ -248,10 +250,65 @@
         </div>
     </div>
 	        <script>
-	        	//디테일 넘어왔을때 댓글 최신화
-		        $(function(){
-					viewRpList();
+	        	//좋아요 기능
+	        	$(function(){
+					$("#good").on("click", function(){
+						<%if(loginUser == null){%>
+							alert("로그인 후 이용해 주세요.");
+						<%}else{%>
+							$.ajax({
+								url:"liked.bo",
+								data:{
+									bno:<%=b.getBoardNo()%>,
+									uno:<%=loginUser.getUserNo()%>
+								},
+								success:function(result2){
+									if(result2>0){
+										alert("이 게시글을 좋아합니다.");
+									}else{
+										alert("이미 추천한 게시글입니다.");
+									}
+								},
+								error:function(){
+									alert("통신 에러");
+								}
+							});
+						<%}%>
+					});
 				});
+	        	
+	        	//싫어요
+	        	$(function(){
+					$("#bad").on("click", function(){
+						<%if(loginUser == null){%>
+							alert("로그인 후 이용해 주세요.");
+						<%}else{%>
+							$.ajax({
+								url:"dislike.bo",
+								data:{
+									bno:<%=b.getBoardNo()%>,
+									uno:<%=loginUser.getUserNo()%>
+								},
+								success:function(result2){
+									if(result2>0){
+										alert("이 게시글을 싫어합니다.");
+									}else{
+										alert("이미 싫어요한 게시글입니다.");
+									}
+								},
+								error:function(){
+									alert("통신 에러");
+								}
+							});
+						<%}%>
+					});
+				});
+	        
+	        
+	        	//디테일 넘어왔을때 댓글 최신화
+		        $(document).ready(function(){
+		        	viewRpList();
+		        });
 	        
 	        	$(function(){
 	        		$("#reply_input").on("keydown",function(e){
@@ -307,7 +364,7 @@
 	        				$("#replyViewArea>table").html(str);
 	        			},
 	        			error:function(){
-	    					console.log("댓글리스트 조회 통신 실패");
+	    					alert("댓글리스트 조회 통신 실패");
 	    				}
 	        		});
 	        	}

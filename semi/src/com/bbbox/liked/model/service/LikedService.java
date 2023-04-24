@@ -4,6 +4,7 @@ import java.sql.Connection;
 
 import com.bbbox.common.JDBCTemplate;
 import com.bbbox.liked.model.dao.LikedDao;
+import com.bbbox.liked.model.vo.Dislike;
 import com.bbbox.liked.model.vo.Liked;
 
 public class LikedService {
@@ -14,6 +15,22 @@ public class LikedService {
 		Connection conn = JDBCTemplate.getConnection();
 		
 		int result = new LikedDao().insertLiked(conn, l);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);			
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
+	public int insertDislike(Dislike dl) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new LikedDao().insertDislike(conn, dl);
 		
 		if(result>0) {
 			JDBCTemplate.commit(conn);
