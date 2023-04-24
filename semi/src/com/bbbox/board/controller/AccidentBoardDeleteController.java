@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bbbox.board.model.service.AccidentBoardService;
+import com.bbbox.board.model.service.BoardService;
 
 /**
  * Servlet implementation class AccidentBoardDeleteController
@@ -31,9 +32,9 @@ public class AccidentBoardDeleteController extends HttpServlet {
 		
 		int bno = Integer.parseInt(request.getParameter("bno"));
 		
-		System.out.println(bno);
-		
 		int result = new AccidentBoardService().deleteAccidentBoard(bno);
+		
+		//파일 삭제하려면 attachment에서 이름가져와야한다.
 		
 		if(result>0) {
 			request.getSession().setAttribute("alertMsg", "게시물이 성공적으로 삭제되었습니다.");

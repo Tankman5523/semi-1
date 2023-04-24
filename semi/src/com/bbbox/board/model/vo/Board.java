@@ -37,7 +37,10 @@ public class Board {
 	
 	//썸네일용 파일경로 가져가기
 	private String filePath;
-	
+	private String changeName;
+
+	//마이페이지로 가져갈 categoryName 
+	private String categoryName;
 
 	//생성자
 	public Board() {
@@ -91,7 +94,7 @@ public class Board {
 
 	//사건영상게시판 리스트 생성자
 	public Board(int boardNo, String boardWriter, String title, int count, Date createDate, int ref_pno,
-			String insuranceType, String region, String filePath) {
+			String insuranceType, String region, String filePath, String changeName) {
 		super();
 		this.boardNo = boardNo;
 		this.boardWriter = boardWriter;
@@ -102,15 +105,49 @@ public class Board {
 		this.insuranceType = insuranceType;
 		this.region = region;
 		this.filePath = filePath;
+		this.changeName = changeName;
 	}
 	
+	//검색을 위한 리스트 생성자
+	public Board(int boardNo, String boardWriter, String title, int count, Date createDate, int ref_pno,
+			String insuranceType, String region, String filePath, String changeName,int categoryNo) {
+		super();
+		this.boardNo = boardNo;
+		this.boardWriter = boardWriter;
+		this.title = title;
+		this.count = count;
+		this.createDate = createDate;
+		this.ref_pno = ref_pno;
+		this.insuranceType = insuranceType;
+		this.region = region;
+		this.filePath = filePath;
+		this.changeName = changeName;
+		this.categoryNo = categoryNo;
+	}
 	
+	//마이페이지에서 내가쓴글 보여주기 위한 리스트 생성자 
+	public Board(int boardNo, String title, Date createDate, String categoryName) {
+		super();
+		this.boardNo = boardNo;
+		this.title = title;
+		this.createDate = createDate;
+		this.categoryName = categoryName;
+	}
 	
+	//마이페이지용 카테고리 이름 게터세터 
+	public String getCategoryName() {
+		return categoryName;
+	}
+	
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
 	
 	//사건필드 게터세터
 	public int getRef_pno() {
 		return ref_pno;
 	}
+
 
 	public void setRef_pno(int ref_pno) {
 		this.ref_pno = ref_pno;
@@ -141,14 +178,22 @@ public class Board {
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
 	}
+	//변경된 첨부파일 이름 게터세터
 	
+	public String getChangeName() {
+		return changeName;
+	}
 	
+	public void setChangeName(String changeName) {
+		this.changeName = changeName;
+	}
 
 	
 	//게터세터
 	public int getBoardNo() {
 		return boardNo;
 	}
+
 
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;

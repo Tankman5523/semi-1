@@ -57,6 +57,22 @@ public class Lawyer {
 		this.career = career;
 	}
 	
+	//변호사 신청 매개변수 생성자 
+	public Lawyer(String refUno, String refPno, String exam, int examSession, int passDate, 
+			String companyAddress ,String companyName, String companyPn, String lawComment, String career) {
+		super();
+		this.refUno = refUno;
+		this.refPno = refPno;
+		this.exam = exam;
+		this.examSession = examSession;
+		this.passDate = passDate;
+		this.companyName = companyName;
+		this.companyAddress = companyAddress;
+		this.companyPn = companyPn;
+		this.lawComment = lawComment;
+		this.career = career;
+	}
+	
 	public int getLawNo() {
 		return lawNo;
 	}

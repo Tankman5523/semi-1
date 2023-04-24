@@ -101,6 +101,7 @@
         }
 
         .body-content{ /*몸통 내부 컨텐츠 영역*/
+        	margin: auto;
             width: 80%;
             padding: 20px; /*좌우 내용 붙음 방지 */
         }
@@ -112,6 +113,12 @@
             margin-bottom:10px; /*내용과 간격 조정*/
            
         }
+        
+        .body-titlebox>h2{
+        	margin:auto;
+        	margin-top:5px;
+        }
+        	
 
         .body-contentbox{
             word-break:break-word;    /*단어가 짤리지 않음*/
@@ -158,10 +165,10 @@
                         <td><input type="text" name="userId" maxlength="12" required></td>
                     </tr>  
                     <tr>
-                        <td><label for="userPwd" style="font-size: 18px; font-weight: 600;">비밀번호</label></td>
+                        <td><label for="inputPwd" style="font-size: 18px; font-weight: 600;">비밀번호</label></td>
                     </tr>  
                     <tr>
-                        <td><input type="password" name="userPwd" maxlength="15" required></td>
+                        <td><input type="password" name="userPwd" id=inputPwd maxlength="15" required oninput= "noempty()"></td>
                     </tr>
                     <tr>
                         <td><a id="findId">아이디 찾기</a> <a id="findPwd">비밀번호 찾기 </a> </td>

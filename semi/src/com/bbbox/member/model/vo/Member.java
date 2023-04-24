@@ -59,10 +59,18 @@ public class Member {
 		this.userPwd = userPwd;
 	}
 
-
+	//찜한 변호사 이름, 번호 조회해오기 위한 생성자 
+	public Member(int userNo, String userName) {
+		super();
+		this.userNo = userNo;
+		this.userName = userName;
+	}
+	
+	
 	public int getUserNo() {
 		return userNo;
 	}
+
 
 
 

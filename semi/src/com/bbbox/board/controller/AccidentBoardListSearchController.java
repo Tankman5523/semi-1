@@ -74,7 +74,9 @@ public class AccidentBoardListSearchController extends HttpServlet {
 		
 		//정보 객체에 넣기
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
-
+		
+		//게시판 종류 
+		int categoryNo = Integer.parseInt(request.getParameter("categoryNo"));
 		
 		//필터값 추출
 		String region = request.getParameter("region"); 
@@ -97,7 +99,9 @@ public class AccidentBoardListSearchController extends HttpServlet {
 			list = new AccidentBoardService().searchByWriter(region,partType,insuranceType,keyword,pi);
 		}*/
 		
-		list = new AccidentBoardService().searchByTitle(searchFilter,region,partType,insuranceType,keyword,pi);
+		
+		list = new AccidentBoardService().searchAccidentBoard(searchFilter,region,partType,insuranceType,keyword,categoryNo,pi);
+		
 		if(list!=null) {
 			request.setAttribute("pi", pi);
 			request.setAttribute("blist", list);
