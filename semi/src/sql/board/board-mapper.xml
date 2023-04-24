@@ -6,23 +6,22 @@
 	<entry key="selectBoardList">
 		SELECT *
 		FROM (SELECT ROWNUM RUM, A.*
-		            FROM (SELECT BOARD_NO, USER_ID, TITLE, COUNT, CREATE_DATE, LIKED, RP_COUNT
+		            FROM (SELECT BOARD_NO, USER_ID, CATEGORY_NO, TITLE, COUNT, CREATE_DATE, LIKED, RP_COUNT
 		                        FROM BOARD B
 		                        JOIN MEMBER M ON(BOARD_WRITER=USER_NO)
 		                        WHERE B.STATUS='Y'
-		                        AND CATEGORY_NO = 1
 		                        AND NOTICE = 'N'
+		                        AND CATEGORY_NO = 1
 		                        ORDER BY CREATE_DATE DESC) A)
 		WHERE RUM BETWEEN ? AND ?
 	</entry>
 	
 	<!-- 공지사항 리스트 조회  -->
 	<entry key="selectNoticeList">
-		SELECT BOARD_NO, USER_ID, TITLE, COUNT, CREATE_DATE, LIKED, RP_COUNT
+		SELECT BOARD_NO, USER_ID, CATEGORY_NO, TITLE, COUNT, CREATE_DATE, LIKED, RP_COUNT
         FROM BOARD B
         JOIN MEMBER M ON(BOARD_WRITER=USER_NO)
         AND B.STATUS='Y'
-        AND CATEGORY_NO = 1
         AND NOTICE = 'Y'
         ORDER BY CREATE_DATE DESC
 	</entry>
@@ -35,7 +34,7 @@
 	</entry>
 	
 	<entry key="selectBoard">
-		SELECT BOARD_NO, USER_ID, TITLE, CONTENT, COUNT, CREATE_DATE, LIKED, RP_COUNT
+		SELECT BOARD_NO, USER_ID, CATEGORY_NO, TITLE, CONTENT, COUNT, CREATE_DATE, LIKED, RP_COUNT
 		FROM BOARD B
 		JOIN MEMBER M ON(BOARD_WRITER = USER_NO)
 		WHERE B.STATUS = 'Y'
@@ -69,6 +68,7 @@
 		SELECT COUNT(*) "COUNT"
 		FROM BOARD
 		WHERE STATUS = 'Y'
+		AND CATEGORY_NO = 1
 	</entry>
 	
 	<entry key="delAt">
@@ -107,6 +107,7 @@
 		JOIN MEMBER M ON(RP_WRITER = USER_NO)
 		WHERE R.STATUS = 'Y'
 		AND REF_BNO = ?
+		ORDER BY CREATE_DATE ASC
 	</entry>
 	
 	<!-- 제목키워드에 의한 게시글리스트 -->
@@ -152,5 +153,77 @@
                     AND USER_ID LIKE '%'||?||'%' 
                     ORDER BY CREATE_DATE DESC) A)
 		WHERE RUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 일반영상게시판 관련 -->
+	<entry key="VideoListCount">
+		SELECT COUNT(*) "COUNT"
+		FROM BOARD
+		WHERE STATUS = 'Y'
+		AND CATEGORY_NO = 2
+	</entry>
+	
+	<entry key="selectVideoList">
+		SELECT *
+		FROM (SELECT ROWNUM RUM, A.*
+		            FROM (SELECT BOARD_NO, USER_ID, CATEGORY_NO, TITLE, COUNT, CREATE_DATE, LIKED, RP_COUNT
+		                        FROM BOARD B
+		                        JOIN MEMBER M ON(BOARD_WRITER=USER_NO)
+		                        WHERE B.STATUS='Y'
+		                        AND NOTICE = 'N'
+		                        AND CATEGORY_NO = 2
+		                        ORDER BY CREATE_DATE DESC) A)
+		WHERE RUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- V제목키워드에 의한 게시글리스트 -->
+	<entry key="searchTitleV">
+		SELECT *
+		FROM (SELECT ROWNUM RUM, A.*
+		      FROM (SELECT BOARD_NO, USER_ID, TITLE, COUNT, CREATE_DATE, LIKED, RP_COUNT
+                    FROM BOARD B
+                    JOIN MEMBER M ON(BOARD_WRITER=USER_NO)
+                    WHERE B.STATUS='Y'
+                    AND CATEGORY_NO = 2
+                    AND NOTICE = 'N'
+                    AND TITLE LIKE '%'||?||'%' 
+                    ORDER BY CREATE_DATE DESC) A)
+		WHERE RUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- V글키워드에 의한 게시글리스트 -->
+	<entry key="searchContentV">
+		SELECT *
+		FROM (SELECT ROWNUM RUM, A.*
+		      FROM (SELECT BOARD_NO, USER_ID, TITLE, COUNT, CREATE_DATE, LIKED, RP_COUNT
+                    FROM BOARD B
+                    JOIN MEMBER M ON(BOARD_WRITER=USER_NO)
+                    WHERE B.STATUS='Y'
+                    AND CATEGORY_NO = 2
+                    AND NOTICE = 'N'
+                    AND CONTENT LIKE '%'||?||'%' 
+                    ORDER BY CREATE_DATE DESC) A)
+		WHERE RUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- V유저키워드에 의한 게시글리스트 -->
+	<entry key="searchUserV">
+		SELECT *
+		FROM (SELECT ROWNUM RUM, A.*
+		      FROM (SELECT BOARD_NO, USER_ID, TITLE, COUNT, CREATE_DATE, LIKED, RP_COUNT
+                    FROM BOARD B
+                    JOIN MEMBER M ON(BOARD_WRITER=USER_NO)
+                    WHERE B.STATUS='Y'
+                    AND CATEGORY_NO = 2
+                    AND NOTICE = 'N'
+                    AND USER_ID LIKE '%'||?||'%' 
+                    ORDER BY CREATE_DATE DESC) A)
+		WHERE RUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 댓글 삭제 -->
+	<entry key="delRp">
+		DELETE FROM REPLY
+		WHERE RP_NO = ?
 	</entry>
 </properties>

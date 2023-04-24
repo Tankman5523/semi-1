@@ -66,10 +66,11 @@ public class Board {
 	
 	
 	//게시판리스트관련 생성자
-	public Board(int boardNo, String boardWriter, String title, int count, Date createDate, int liked, int rpCount) {
+	public Board(int boardNo, String boardWriter, int categoryNo, String title, int count, Date createDate, int liked, int rpCount) {
 		super();
 		this.boardNo = boardNo;
 		this.boardWriter = boardWriter;
+		this.categoryNo = categoryNo;
 		this.title = title;
 		this.count = count;
 		this.createDate = createDate;
@@ -78,11 +79,12 @@ public class Board {
 	}
 	
 	//특정 게시글 하나 조회하는데 관련된 생성자
-	public Board(int boardNo, String boardWriter, String title, String content, int count, Date createDate, int liked,
+	public Board(int boardNo, String boardWriter, int categoryNo, String title, String content, int count, Date createDate, int liked,
 			int rpCount) {
 		super();
 		this.boardNo = boardNo;
 		this.boardWriter = boardWriter;
+		this.categoryNo = categoryNo;
 		this.title = title;
 		this.content = content;
 		this.count = count;
