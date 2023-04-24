@@ -15,10 +15,12 @@ public class Lawyer {
 	private String lawComment; //한줄 소개
 	private String career; //경력
 	
+	//변호사 이미지 경로+(변경된)파일명 담을 필드 생성
+	private String lawImg;
+	
 	public Lawyer() {
 		super();
 	}
-	
 	
 	//분야별 변호사 리스트 조회 (상담폼 카테고리용)
 	public Lawyer(int lawNo, String refUno) {
@@ -27,36 +29,17 @@ public class Lawyer {
 		this.refUno = refUno;
 	}
 
-
-
 	//변호사 전체 리스트 조회용
-	public Lawyer(int lawNo, String refUno, String refPno, String companyName, String companyAddress) {
+	public Lawyer(int lawNo, String refUno, String refPno, String companyName, String companyAddress, String lawImg) {
 		super();
 		this.lawNo = lawNo;
 		this.refUno = refUno;
 		this.refPno = refPno;
 		this.companyName = companyName;
 		this.companyAddress = companyAddress;
+		this.lawImg = lawImg;
 	}
 
-
-
-	public Lawyer(int lawNo, String refUno, String refPno, String exam, int examSession, int passDate,
-			String companyName, String companyAddress, String companyPn, String lawComment, String career) {
-		super();
-		this.lawNo = lawNo;
-		this.refUno = refUno;
-		this.refPno = refPno;
-		this.exam = exam;
-		this.examSession = examSession;
-		this.passDate = passDate;
-		this.companyName = companyName;
-		this.companyAddress = companyAddress;
-		this.companyPn = companyPn;
-		this.lawComment = lawComment;
-		this.career = career;
-	}
-	
 	//변호사 신청 매개변수 생성자 
 	public Lawyer(String refUno, String refPno, String exam, int examSession, int passDate, 
 			String companyAddress ,String companyName, String companyPn, String lawComment, String career) {
@@ -71,6 +54,23 @@ public class Lawyer {
 		this.companyPn = companyPn;
 		this.lawComment = lawComment;
 		this.career = career;
+	}
+
+	public Lawyer(int lawNo, String refUno, String refPno, String exam, int examSession, int passDate,
+			String companyName, String companyAddress, String companyPn, String lawComment, String career, String lawImg) {
+		super();
+		this.lawNo = lawNo;
+		this.refUno = refUno;
+		this.refPno = refPno;
+		this.exam = exam;
+		this.examSession = examSession;
+		this.passDate = passDate;
+		this.companyName = companyName;
+		this.companyAddress = companyAddress;
+		this.companyPn = companyPn;
+		this.lawComment = lawComment;
+		this.career = career;
+		this.lawImg = lawImg;
 	}
 	
 	public int getLawNo() {
@@ -138,6 +138,14 @@ public class Lawyer {
 	}
 	public void setCareer(String career) {
 		this.career = career;
+	}
+
+	public String getLawImg() {
+		return lawImg;
+	}
+
+	public void setLawImg(String lawImg) {
+		this.lawImg = lawImg;
 	}
 	
 	@Override

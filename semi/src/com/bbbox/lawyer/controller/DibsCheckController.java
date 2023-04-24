@@ -35,7 +35,6 @@ public class DibsCheckController extends HttpServlet {
 		
 		int count = new LawyerService().dibsCheck(lawNo,userNo);
 		
-		//숫자만 보낼거면 없어도 되나?
 		response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().print(count);
 	}
@@ -54,15 +53,14 @@ public class DibsCheckController extends HttpServlet {
 		
 		if(count != 0) { //변경을 성공했을 때
 			
-			if(heart.equals("emptyHeart")) { //찜하기 등록을 성공했다면
+			if(heart.equals("emptyHeart")) { //찜하기 '등록'을 성공했다면
 				count = 1;
-			}else { //찜하기 삭제를 성공했다면
+			}else { //찜하기 '삭제'를 성공했다면
 				count = 2;
 			}
 			
 		}
 		
-		//숫자만 보낼거면 없어도 되나?
 		response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().print(count);
 	}

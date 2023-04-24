@@ -93,11 +93,18 @@
 	               </table>
 	               <div id="button">
 	                   <button type="submit">수정하기</button>
-	                   <button onclick="history.back()">취소(이상함)</button>
+	                   <button type="button" onclick="back();">취소</button>
 	               </div>
 	           </form>
 	       </div>
 	   </div>
 	</div>
+	<script>
+		function back(){
+			if(confirm("취소하시면 작성 내용이 저장되지 않습니다.")){
+				history.back();
+			}
+		};
+	</script>
 </body>
 </html>
