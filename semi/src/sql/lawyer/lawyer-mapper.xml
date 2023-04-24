@@ -2,6 +2,7 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 
 <properties>
+
 	<!-- 전체 변호사 리스트 조회 -->
 	<entry key="selectList">
 		SELECT LAW_NO,
@@ -9,20 +10,39 @@
 		       PART_NAME,
 		       COMPANY_NAME,
 		       COMPANY_ADDRESS
-		FROM LAW_USER L
-		JOIN MEMBER M ON (REF_UNO = USER_NO)
-		JOIN PART_CATEGORY P ON (REF_PNO = PART_NO)
-		WHERE M.STATUS = 'Y'
+		FROM LAW_USER
+		JOIN MEMBER ON (REF_UNO = USER_NO)
+		JOIN PART_CATEGORY ON (REF_PNO = PART_NO)
+		WHERE STATUS = 'Y'
+		AND LAWYER = 'Y'
 		ORDER BY LAW_NO ASC
 	</entry>
-	<!-- 카테고리 리스트 조회 -->
+	
+	<!-- 전체 변호사 분야 조회 -->
 	<entry key="selectPart">
 		SELECT *
 		FROM PART_CATEGORY
 		ORDER BY PART_NO
 	</entry>
 	
-	<!-- 선택된 변호사 상세정보 -->
+	<!-- 조건으로 검색한 변호사 리스트 조회 -->
+	<entry key="searchList">
+		SELECT LAW_NO,
+		       USER_NAME,
+		       PART_NAME,
+		       COMPANY_NAME,
+		       COMPANY_ADDRESS
+		FROM LAW_USER
+		JOIN MEMBER ON (REF_UNO = USER_NO)
+		JOIN PART_CATEGORY ON (REF_PNO = PART_NO)
+		WHERE STATUS = 'Y'
+		AND LAWYER = 'Y'
+		AND USER_NAME LIKE ?
+		AND REF_PNO LIKE ?
+		AND COMPANY_ADDRESS LIKE ?
+	</entry>
+	
+	<!-- 선택된 변호사의 상세정보 -->
 	<entry key="selectLawyer">
 		SELECT LAW_NO,
 		       USER_NAME,
@@ -35,30 +55,15 @@
 		       COMPANY_PN,
 		       LAW_COMMENT,
 		       CAREER
-		FROM LAW_USER L
-		JOIN MEMBER M ON (REF_UNO = USER_NO)
-		JOIN PART_CATEGORY P ON (REF_PNO = PART_NO)
-		WHERE M.LAWYER = 'Y'
+		FROM LAW_USER
+		JOIN MEMBER ON (REF_UNO = USER_NO)
+		JOIN PART_CATEGORY ON (REF_PNO = PART_NO)
+		WHERE STATUS = 'Y' <!-- 선택되기 전 전체 리스트와 중복되는 조건 / 없어도 되는건지? -->
+		AND LAWYER = 'Y'
 		AND LAW_NO = ?
 	</entry>
 	
-	<!-- 조건으로 검색한 변호사 리스트 -->
-	<entry key="searchList">
-		SELECT LAW_NO,
-		       USER_NAME,
-		       PART_NAME,
-		       COMPANY_NAME,
-		       COMPANY_ADDRESS
-		FROM LAW_USER L
-		JOIN MEMBER M ON (REF_UNO = USER_NO)
-		JOIN PART_CATEGORY P ON (REF_PNO = PART_NO)
-		WHERE M.STATUS = 'Y'
-		AND USER_NAME LIKE ?
-		AND REF_PNO LIKE ?
-		AND COMPANY_ADDRESS LIKE ?
-	</entry>
-	
-	<!-- 찜한 여부 체크 -->
+	<!-- 현재 찜한 여부 체크 -->
 	<entry key="dibsCheck">
 		SELECT COUNT(*) "COUNT"
 		FROM DIBS
@@ -78,7 +83,7 @@
 		AND REF_UNO = ?
 	</entry>
 	
-	<!-- 상담내용 작성 -->
+	<!-- 상담신청 내용 등록 -->
 	<entry key="insertCounsel">
 		INSERT INTO COUNSEL(CS_NO,
 							REF_LNO,
@@ -88,7 +93,7 @@
 		VALUES(SEQ_CSNO.NEXTVAL,?,?,?,?)
 	</entry>
 	
-	<!-- 분야로 변호사 이름 리스트 조회 (상담폼 카테고리용) -->
+	<!-- 선택된 분야의 변호사 번호/이름 리스트 조회 (상담신청 폼) -->
 	<entry key="partOptionChange">
 		SELECT LAW_NO,
 		       USER_NAME
@@ -99,12 +104,60 @@
 		AND PART_NAME = ?
 	</entry>
 	
-	<!-- 변호사 이름으로 분야 조회 (상담폼 카테고리용) -->
+	<!-- 선택된 변호사의 분야 조회 (상담신청 폼) -->
 	<entry key="lawOptionChange">
-		SELECT PART_NO,PART_NAME
+		SELECT PART_NO,
+			   PART_NAME
 		FROM PART_CATEGORY
 		JOIN LAW_USER ON (PART_NO = REF_PNO)
 		WHERE LAW_NO = ?
+	</entry>
+	
+	<!-- 해당 변호사 리뷰 조회 -->
+	<entry key="selectReview">
+		SELECT REVIEW_NO,
+		       REF_ANO,
+		       REVIEW_CONTENT,
+		       STAR,
+		       USER_NO,
+		       RPAD(SUBSTR(USER_ID,1,3),7,'*') "USER_ID"
+		FROM LAW_REVIEW L 
+		JOIN ACCIDENT A ON (REF_ANO = ACC_NO)
+		JOIN BOARD B ON (REF_BNO = BOARD_NO)
+		JOIN MEMBER M ON (BOARD_WRITER = USER_NO)
+		WHERE L.STATUS = 'Y'
+		AND A.SOLVE = 'Y'
+		AND A.REF_LNO = ?
+	</entry>
+	
+	<!-- 리뷰 작성 등록 --><!-- 테스트 해봐야함 -->
+	<entry key="insertReview">
+		INSERT INTO LAW_REVIEW VALUES(SEQ_RNO.NEXTVAL,?,?,?,DEFAULT);
+		UPDATE ACCIDENT
+		SET SOLVE = 'Y'
+		WHERE ACC_NO = ?
+	</entry>
+	
+	<!-- 상담 정보 조회 -->
+	<entry key="selectCounsel">
+		SELECT CS_NO,
+		       REF_LNO,
+		       CS_TITLE,
+		       CS_CONTENT
+		FROM COUNSEL
+		WHERE STATUS = 'Y'
+		AND ACCEPT = 'W'
+		AND CS_NO = ?
+	</entry>
+	
+	<!-- 상담 내용 수정 -->
+	<entry key="updateCounsel">
+		UPDATE COUNSEL
+		SET CS_TITLE = ?,
+		CS_CONTENT = ?
+		WHERE STATUS = 'Y'
+		AND ACCEPT = 'W'
+		AND CS_NO = ?
 	</entry>
 	
 	

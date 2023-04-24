@@ -1,10 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import = "java.util.ArrayList, com.bbbox.lawyer.model.vo.Lawyer" %>
+<%
+	ArrayList <Lawyer> lawList = (ArrayList <Lawyer>)request.getAttribute("lawList");
+	/* ArrayList <Board> boardList = (ArrayList <Board>)request.getAttribute("boardList");
+	ArrayList <Reply> replyList = (ArrayList <Reply>)request.getAttribute("replyList"); */
+	
+%>  
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>변호사 마이페이지</title>
 <style>
     .content{
         width: 800px;
@@ -160,6 +166,6 @@
 	</script>
 	
 	<!-- 일단 내꺼에서 고쳐보기 / 분리할거면 mypageController에서 조건걸어서 나누기 -->
-	<!-- main() 클릭시 메인페이지 이동은 mainMenu에 있는걸 include하는게 좋을듯 -->
+	<!-- main() 클릭시 메인페이지 이동은 mainMenu에  -->
 </body>
 </html>

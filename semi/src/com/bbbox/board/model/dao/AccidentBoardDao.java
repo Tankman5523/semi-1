@@ -16,7 +16,6 @@ import com.bbbox.board.model.vo.Board;
 import com.bbbox.board.model.vo.Reply;
 import com.bbbox.common.JDBCTemplate;
 import com.bbbox.common.model.vo.PageInfo;
-import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
 
 public class AccidentBoardDao {
 

@@ -32,8 +32,9 @@ public class LawyerListController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-    //변호사 검색페이지 들어갈때 필요한 전체 리스트
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//변호사 전체 리스트 조회
+		
 		ArrayList<Lawyer> lawList = new LawyerService().selectList();
 		ArrayList<PartCategory> pList = new LawyerService().selectPart();
 		
@@ -46,8 +47,9 @@ public class LawyerListController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	//검색한 조건으로 변호사 리스트 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//조건으로 검색한 변호사 리스트 조회
+		
 		request.setCharacterEncoding("UTF-8");
 		
 		String nameKey = request.getParameter("nameKey");

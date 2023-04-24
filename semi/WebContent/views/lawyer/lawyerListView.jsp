@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>변호사 검색 페이지</title>
 <style>
     /* 영역잡기 */
     .wrap div{
@@ -102,7 +102,6 @@
 </style>
 </head>
 <body>
-    
     <div class="wrap">
         <div id="head">
             <p>검증된 교통 전문 변호사를 찾아보세요.</p>
@@ -179,7 +178,9 @@
             </div>
         </div>
     </div>
+    
     <script>
+    	//변호사 상세페이지로 이동시키는 함수
     	$("#lawList>div").click(function(){
     		location.href="<%=contextPath%>/detail.la?lno="+$(this).children("input[name=lno]").val();
     	});
