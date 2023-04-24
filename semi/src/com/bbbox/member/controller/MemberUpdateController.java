@@ -69,8 +69,8 @@ public class MemberUpdateController extends HttpServlet {
 			request.getRequestDispatcher("/myPage.me").forward(request, response);
 			
 		}else {
-			request.setAttribute("errorMsg", "회원정보 수정 실패 다시 시도해주세요");
 			
+			request.setAttribute("errorMsg", "회원정보 수정 실패 다시 시도해주세요");
 			request.getRequestDispatcher("/myPage.me").forward(request, response);
 		}
 		

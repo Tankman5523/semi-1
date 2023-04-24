@@ -21,6 +21,17 @@ public class Counsel {
 		super();
 	}
 	
+	//마이페이지에서 보여줄 상담내역 조회 생성자 
+	public Counsel(int csNo, String csTitle, Date createDate, String csAnswer, String accept) {
+		super();
+		this.csNo = csNo;
+		this.csTitle = csTitle;
+		this.createDate = createDate;
+		this.csAnswer = csAnswer;
+		this.accept = accept;
+	}
+
+
 	public Counsel(int csNo, String refLno, String csWriter, String csTitle, String csContent, Date createDate,
 			String csAnswer, String accept, String status) {
 		super();

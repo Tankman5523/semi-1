@@ -39,7 +39,8 @@ public class Board {
 	private String filePath;
 	private String changeName;
 
-	
+	//마이페이지로 가져갈 categoryName 
+	private String categoryName;
 
 	//생성자
 	public Board() {
@@ -124,12 +125,29 @@ public class Board {
 		this.categoryNo = categoryNo;
 	}
 	
+	//마이페이지에서 내가쓴글 보여주기 위한 리스트 생성자 
+	public Board(int boardNo, String title, Date createDate, String categoryName) {
+		super();
+		this.boardNo = boardNo;
+		this.title = title;
+		this.createDate = createDate;
+		this.categoryName = categoryName;
+	}
 	
+	//마이페이지용 카테고리 이름 게터세터 
+	public String getCategoryName() {
+		return categoryName;
+	}
+	
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
 	
 	//사건필드 게터세터
 	public int getRef_pno() {
 		return ref_pno;
 	}
+
 
 	public void setRef_pno(int ref_pno) {
 		this.ref_pno = ref_pno;

@@ -38,8 +38,7 @@ public class Lawyer {
 		this.companyName = companyName;
 		this.companyAddress = companyAddress;
 	}
-
-
+	
 
 	public Lawyer(int lawNo, String refUno, String refPno, String exam, int examSession, int passDate,
 			String companyName, String companyAddress, String companyPn, String lawComment, String career) {

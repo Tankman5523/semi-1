@@ -75,4 +75,51 @@
 	
 </entry>
 
+<entry key="selectDibsLawyer">
+	SELECT LAW_NO, USER_NAME 
+	FROM MEMBER
+	JOIN LAW_USER ON(REF_UNO = USER_NO)
+	WHERE USER_NO IN (SELECT REF_UNO
+	                  FROM LAW_USER
+	                  WHERE LAW_NO IN (SELECT REF_LNO
+	                                   FROM DIBS
+	                                   WHERE REF_UNO = ?))
+	AND STATUS ='Y'
+</entry>
+
+<entry key="selectBoardList">
+	SELECT BOARD_NO, TITLE, CREATE_DATE, CATEGORY_NAME
+	FROM BOARD 
+	JOIN BOARD_CATEGORY USING(CATEGORY_NO)
+	WHERE BOARD_WRITER = ?
+	AND STATUS = 'Y'
+                       
+</entry>
+
+<entry key="selectReplyList">
+	SELECT RP_NO, REF_BNO, R.CONTENT AS "RP_CONTENT" , R.CREATE_DATE AS "RP_CREATE_DATE", BC.CATEGORY_NAME AS "CATEGORY" 
+	FROM REPLY R
+	JOIN BOARD B ON (R.REF_BNO = B.BOARD_NO)
+	JOIN BOARD_CATEGORY BC ON(B.CATEGORY_NO = BC.CATEGORY_NO) 
+	WHERE RP_WRITER = ?
+	AND R.STATUS = 'Y'
+
+</entry>
+
+<entry key="selectCounselList">
+	SELECT CS_NO, CS_TITLE, ACCEPT, CREATE_DATE, CS_ANSWER
+	FROM COUNSEL
+	WHERE CS_WRITER = ?
+</entry>
+
+<entry key="selectLawReviewList">
+	SELECT REVIEW_NO, REF_ANO, REVIEW_CONTENT,STAR
+	FROM LAW_REVIEW
+	WHERE REF_ANO IN (SELECT ACC_NO
+	                 FROM ACCIDENT
+	                 WHERE REF_BNO IN (SELECT BOARD_NO 
+	                                   FROM BOARD
+	                                   WHERE BOARD_WRITER = ?))		
+</entry>
+
 </properties>
