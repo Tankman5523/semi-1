@@ -102,13 +102,13 @@
 			<table border="1" style="width:70%; text-align:center;">
 				<thead>
 					<tr>
-						<th colspan="3" style="font-size: 20px; border:none;">댓글</th>
+						<th colspan="4" style="font-size: 20px; border:none;">댓글</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<td style="border:none;"></td>
-						<td><textarea id="reply_input" rows="4" cols="60" style="resize: none; padding: 0px; height:100%; width:100%" placeholder="댓글을 입력하세요."></textarea></td>
+						<td><textarea id="reply_input" rows="5" cols="60" style="resize: none; padding: 0px; height:100%; width:100%" placeholder="댓글을 입력하세요."></textarea></td>
 						<td style="border:none;"><button id="reply_btn" >댓글 등록</button></td>
 					</tr>
 				</tbody>
@@ -205,9 +205,11 @@
 					
 					for(var i in list){
 						
-						str += "<tr><td>"+list[i].rpWriter+"</td>"
+						str += "<tr><input type='hidden' id='rpNo' name='rpNo' value="+list[i].rpNo+">"
+								  +"<td>"+list[i].rpWriter+"</td>"
 								  +"<td style='text-align:left; padding-left: 5px;'>"+list[i].content+"</td>"
-								  +"<td>"+list[i].createDate+"</td></tr>";
+								  +"<td>"+list[i].createDate+"</td>"
+								  +"<td><button id='delRp'>삭제</button></td></tr>";
 					}
 					
 					$("#reply-area>table>tfoot").html(str);
@@ -218,6 +220,35 @@
 				}
 			});
 		}
+		
+		//댓글 삭제기능
+		$(function(){
+			$("#reply-area").on("click", "#delRp", function(){
+				console.log($(this).parent().siblings("input[type=hidden]").val());
+				
+				
+				$.ajax({
+					url:"delRp",
+					data:{
+						rpNo:$("#reply-area tfoot *").siblings("input[type=hidden]").val()
+					},
+					success:function(result){
+						if(result>0){
+							alert("댓글삭제가 완료되었습니다.");
+							
+							viewRpList();
+						}else{
+							alert("댓글삭제 실패!");
+						}
+					},
+					error:function(){
+						alert("댓글 삭제 통신실패!")
+					}
+				});
+				
+			});
+		});
+		
 	</script>
 	
 	<%@include file="../common/footer.jsp" %>

@@ -238,7 +238,63 @@ public class BoardService {
 		return list;
 
 	}
+	
+	
+	//비디오 리스트 갯수
+	public int VideoListCount() {
 
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new BoardDao().VideoListCount(conn);
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+	
+		
+	
+	//일반비디오게시판리스트
+	public ArrayList<Board> selectVideoList(PageInfo pi) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Board> list = new BoardDao().selectVideoList(conn, pi);
+		
+		JDBCTemplate.close(conn);
+		
+		return list;
+	}
+
+	//키워드에 연관된 비디오리스트 조회
+	public ArrayList<Board> selectVideoList(PageInfo pi, String kind, String keyword) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Board> list = new BoardDao().selectVideoList(conn, pi, kind, keyword);
+		
+		JDBCTemplate.close(conn);
+		
+		return list;
+	}
+
+	//댓글 삭제 기능
+	public int delRp(int rpNo) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new BoardDao().delRp(conn, rpNo);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);			
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
 
 
 }
