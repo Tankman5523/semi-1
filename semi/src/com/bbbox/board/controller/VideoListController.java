@@ -14,16 +14,16 @@ import com.bbbox.board.model.vo.Board;
 import com.bbbox.common.model.vo.PageInfo;
 
 /**
- * Servlet implementation class BoardListController
+ * Servlet implementation class VideoListController
  */
-@WebServlet("/list.bo")
-public class BoardListController extends HttpServlet {
+@WebServlet("/list.vi")
+public class VideoListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardListController() {
+    public VideoListController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,7 +33,7 @@ public class BoardListController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		int listCount = new BoardService().boardListCount(); //현재 총 게시글의 갯수
+		int listCount = new BoardService().VideoListCount(); //현재 총 게시글의 갯수
 		int currentPage = 0; //현재 페이지
 		if(request.getParameter("currentPage")==null) { 
 			currentPage=1;
@@ -58,41 +58,40 @@ public class BoardListController extends HttpServlet {
 		
 		
 		if(kind == null && keyword == null) {
-			ArrayList<Board> list = new BoardService().selectBoardList(pi);
+			ArrayList<Board> vlist = new BoardService().selectVideoList(pi);
 			
 			ArrayList<Board> nlist = null;
 			nlist = new BoardService().selectNoticeList();
 			
-			if(list != null) {
+			if(vlist != null) {
 				
 				if(nlist != null) {
 					request.setAttribute("noticeList", nlist);
 				}
 				request.setAttribute("pageInfo", pi);
-				request.setAttribute("boardList", list);
-				request.getRequestDispatcher("views/board/boardListView.jsp").forward(request, response);
+				request.setAttribute("vlist", vlist);
+				request.getRequestDispatcher("views/board/videoListView.jsp").forward(request, response);
 			}else {
 				System.out.println("게시글 리스트조회 실패");
 			}
 		}else { //검색에 관한 파라미터값이 넘어오면
-			ArrayList<Board> list = new BoardService().selectBoardList(pi, kind, keyword);
+			ArrayList<Board> vlist = new BoardService().selectVideoList(pi, kind, keyword);
 			
 			ArrayList<Board> nlist = null;
 			nlist = new BoardService().selectNoticeList();
 			
-			if(list != null) {
+			if(vlist != null) {
 				
 				if(nlist != null) {
 					request.setAttribute("noticeList", nlist);
 				}
 				request.setAttribute("pageInfo", pi);
-				request.setAttribute("boardList", list);
-				request.getRequestDispatcher("views/board/boardListView.jsp").forward(request, response);
+				request.setAttribute("vlist", vlist);
+				request.getRequestDispatcher("views/board/videoListView.jsp").forward(request, response);
 			}else {
 				System.out.println("게시글 리스트조회 실패");
 			}
 		}
-		
 		
 	}
 
@@ -100,6 +99,7 @@ public class BoardListController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

@@ -22,12 +22,12 @@ public class WebSocket {
     public void handleOpen(Session session) {
         // 세션을 세션 리스트에 추가
         clients.add(session);
-        // 콘솔에 접속 로그를 출력
+        
         System.out.println("클라이언트 접속");
     }
 
     @OnMessage
-    public void handleMessage(String message, Session session) throws IOException {
+    public void handleMessage(Session session, String message) throws IOException {
         // 모든 클라이언트에게 메시지 전송
         for (Session s : clients) {
             if (s.isOpen()) {
@@ -35,7 +35,6 @@ public class WebSocket {
                 s.getBasicRemote().sendText(message);
             }
         }
-        
         //메세지전송후 세션에 등록된 메세지 삭제.
         session.getUserProperties().remove("message");
     }
@@ -44,8 +43,8 @@ public class WebSocket {
     public void handleClose(Session session) {
         // 세션을 세션 리스트에서 제거
         clients.remove(session);
-        // 콘솔에 접속 끊김 로그를 출력
-        System.out.println("클라이언트 접속 해제");
+        
+        System.out.println("클라이언트 접속 해제");;
     }
 
     @OnError

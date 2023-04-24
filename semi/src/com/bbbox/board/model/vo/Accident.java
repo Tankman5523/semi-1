@@ -15,6 +15,24 @@ public class Accident {
 	public Accident() {
 		super();
 	}
+	
+	// 마이페이지 조회용 필드 
+	private String partName; 
+	private String title ; 
+	
+	
+	//변호사가 맡은 사건 조회 용도 생성자 (해결X)
+	public Accident(int accNo, int refBno, int refLno, String partName, String title, String solve) {
+		super();
+		this.accNo = accNo;
+		this.refBno = refBno;
+		this.refLno = refLno;
+		this.partName = partName;
+		this.title = title;
+		this.solve = solve;
+	}
+	
+
 
 	public Accident(int accNo, int refBno, int refLno, int refPno, String insuranceType, String region, int accRateMe,
 			int accRateYou, String solve) {
@@ -30,6 +48,7 @@ public class Accident {
 		this.solve = solve;
 	}
 
+
 	public Accident(int accNo,int refPno, int refLno, String insuranceType, String region, int accRateMe,
 			int accRateYou, String solve) {
 		super();
@@ -42,7 +61,24 @@ public class Accident {
 		this.accRateYou = accRateYou;
 		this.solve = solve;
 	}
-
+	
+	//마이페이지 조회용 게터세터 
+	public String getPartName() {
+		return partName;
+	}
+	
+	public void setPartName(String partName) {
+		this.partName = partName;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+	
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
 	public int getAccNo() {
 		return accNo;
 	}

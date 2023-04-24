@@ -6,10 +6,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
 
+import com.bbbox.board.model.vo.Accident;
+import com.bbbox.board.model.vo.AccidentReview;
+import com.bbbox.board.model.vo.Board;
+import com.bbbox.board.model.vo.Reply;
 import com.bbbox.common.JDBCTemplate;
+import com.bbbox.lawyer.model.vo.Counsel;
 import com.bbbox.lawyer.model.vo.LawAttachment;
+import com.bbbox.lawyer.model.vo.LawReview;
 import com.bbbox.lawyer.model.vo.Lawyer;
 import com.bbbox.member.model.vo.Member;
 
@@ -343,6 +350,252 @@ public class MemberDao {
 		}
 		
 		return lawyer;
+	}
+	
+	//찜한 변호사 목록 조회하는 메소드
+	public ArrayList<Lawyer> selectDibsLawyer(Connection conn, int userNo) {
+
+		ResultSet rset = null;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("selectDibsLawyer");
+		
+		ArrayList<Lawyer> lawList = new ArrayList<>();
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				lawList.add(new Lawyer(rset.getInt("LAW_NO"),
+									   rset.getString("USER_NAME")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return lawList;
+	}
+
+	public ArrayList<Board> selectBoardList(Connection conn, int userNo) {
+		
+		ResultSet rset = null;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("selectBoardList");
+		
+		ArrayList<Board> boardList = new ArrayList<>();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				boardList.add(new Board(rset.getInt("BOARD_NO"),
+										rset.getString("TITLE"),
+										rset.getDate("CREATE_DATE"),
+										rset.getString("CATEGORY_NAME")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		
+		return boardList;
+	}
+
+	public ArrayList<Reply> selectReplyList(Connection conn, int userNo) {
+		
+		ResultSet rset = null;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("selectReplyList");
+		
+		ArrayList<Reply> replyList = new ArrayList<>();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, userNo);
+			
+			rset=pstmt.executeQuery();
+			
+			while(rset.next()) {
+				replyList.add(new Reply(rset.getInt("RP_NO"),
+										rset.getInt("REF_BNO"),
+										rset.getString("RP_CONTENT"),
+										rset.getString("RP_CREATE_DATE"),
+										rset.getString("CATEGORY")));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return replyList;
+	}
+	
+	// 내 상담 신청 내역 조회하는 메소드 
+	public ArrayList<Counsel> selectCounselList(Connection conn, int userNo) {
+		
+		ResultSet rset = null;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("selectCounselList");
+		
+		ArrayList<Counsel> cList = new ArrayList<>();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				cList.add(new Counsel(rset.getInt("CS_NO"),
+									  rset.getString("CS_TITLE"),
+									  rset.getDate("CREATE_DATE"),
+									  rset.getString("CS_ANSWER"),
+									  rset.getString("ACCEPT")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return cList;
+	}
+	
+	//변호사 리뷰 (일반회원) 리스트 조회 메소드 	
+	public ArrayList<LawReview> selectLawReviewList(Connection conn, int userNo) {
+		
+		ResultSet rset = null;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("selectLawReviewList");
+		
+		ArrayList<LawReview> lawRev = new ArrayList<>();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				lawRev.add(new LawReview(rset.getInt("REVIEW_NO"),
+										 rset.getInt("REF_ANO"),
+										 rset.getString("REVIEW_CONTENT"),
+										 rset.getString("STAR")));
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+ 		}finally {
+ 			JDBCTemplate.close(rset);
+ 			JDBCTemplate.close(pstmt);
+ 			
+ 		}
+		
+		return lawRev;
+	}
+
+	public ArrayList<AccidentReview> selectAccidentReviewList(Connection conn, int userNo) {
+		
+		ResultSet rset = null;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("selectAccidentReviewList");
+		
+		ArrayList<AccidentReview> accRev = new ArrayList<>();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()){
+				accRev.add(new AccidentReview(rset.getInt("AR_NO"),
+											  rset.getInt("LAW_NO"),
+											  rset.getString("CONTENT")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return accRev;
+	}
+
+	public ArrayList<Accident> selectAccidentList(Connection conn, int userNo) {
+		
+		ResultSet rset = null;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("selectAccidentList");
+		
+		ArrayList<Accident> accident = new ArrayList<>();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()){
+				accident.add(new Accident(rset.getInt("ACC_NO"),
+											  rset.getInt("REF_BNO"),
+											  rset.getInt("REF_LNO"),
+											  rset.getString("PART_NAME"),
+											  rset.getString("TITLE"),
+											  rset.getString("SOLVE")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return accident;
 	}
 
 }

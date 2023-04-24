@@ -14,6 +14,9 @@
 <head>
 <meta charset="UTF-8">
  <title>MainMenu</title>
+ 
+ 	<!-- 아이콘 CDN (font-awesome Copy Link Tag) -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 	<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 
@@ -241,7 +244,7 @@
                 <li><a href="">자유게시판</a>
                     <ul>
                         <li><a href="<%=contextPath%>/list.bo?currentPage=1">일반 게시판</a></li>
-                        <li><a href="<%=contextPath%>">영상 게시판</a></li>
+                        <li><a href="<%=contextPath%>/list.vi?currentPage=1">영상 게시판</a></li>
                     </ul>
                 </li>    
                 <li><a href="">고객문의</a>
@@ -253,7 +256,17 @@
                 </li>    
             </ul>
     </div>
-
+	
+	<script>
+		function mypage(){
+			
+		}
+		
+		//블변의 법칙 클릭 시 메인화면으로
+		$("#header2").onclick(){
+			location.href="<%=contextPath%>";
+		};
+	</script>
 
 </body>
 </html>
