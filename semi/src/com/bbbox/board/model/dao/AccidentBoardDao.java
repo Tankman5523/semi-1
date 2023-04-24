@@ -17,7 +17,7 @@ import com.bbbox.board.model.vo.Board;
 import com.bbbox.board.model.vo.Reply;
 import com.bbbox.common.JDBCTemplate;
 import com.bbbox.common.model.vo.PageInfo;
-import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
+
 
 public class AccidentBoardDao {
 
@@ -426,6 +426,7 @@ public class AccidentBoardDao {
 				b.setBoardNo(rset.getInt("BOARD_NO"));
 				b.setBoardWriter(rset.getString("USER_ID"));
 				b.setTitle(rset.getString("TITLE"));
+				b.setCategoryNo(rset.getInt("CATEGORY_NO"));
 				b.setContent(rset.getString("CONTENT"));
 				b.setCount(rset.getInt("COUNT"));
 				b.setCreateDate(rset.getDate("CREATE_DATE"));
@@ -699,6 +700,7 @@ public class AccidentBoardDao {
 				b.setBoardNo(rset.getInt("BOARD_NO"));
 				b.setBoardWriter(rset.getString("USER_ID"));
 				b.setTitle(rset.getString("TITLE"));
+				b.setCategoryNo(rset.getInt("CATEGORY_NO"));
 				b.setContent(rset.getString("CONTENT"));
 				b.setCount(rset.getInt("COUNT"));
 				b.setCreateDate(rset.getDate("CREATE_DATE"));
@@ -809,6 +811,7 @@ public class AccidentBoardDao {
 									   ,rset.getInt("CORRECT_RATE_YOU") 
 									   ,rset.getString("CONTENT")
 									   ,rset.getString("USER_NAME"));
+				ar.setLawNo(rset.getInt("LAW_NO"));
 			}
 			
 		} catch (SQLException e) {
@@ -903,6 +906,164 @@ public class AccidentBoardDao {
 			pstmt.setInt(1, accNo);
 			
 			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public AccidentReview selectAccidentReview(Connection conn, int arNo) {
+
+		AccidentReview ar = null;
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("selectAccidentReview");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, arNo);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				ar = new AccidentReview();
+				ar.setArNo(arNo);
+				ar.setContent(rset.getString("CONTENT"));
+				ar.setCorrectRateMe(rset.getInt("CORRECT_RATE_ME"));
+				ar.setCorrectRateYou(rset.getInt("CORRECT_RATE_YOU"));
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return ar;
+	}
+
+	public Attachment selectAttachment(Connection conn, int bno) {
+		
+		Attachment at = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectAttachment");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bno);
+			
+			rset = pstmt.executeQuery();
+					
+			if(rset.next()) {
+				at = new Attachment();
+				at.setChangeName(rset.getString("CHANGE_NAME"));
+				at.setFilePath(rset.getString("FILE_PATH"));
+				at.setOriginName(rset.getString("ORIGIN_NAME"));
+				at.setRefBno(bno);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return at;
+	}
+
+	public int updateAccidentReview(Connection conn, AccidentReview ar) {
+
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateAccidentReview");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, ar.getContent());
+			pstmt.setInt(2, ar.getCorrectRateMe());
+			pstmt.setInt(3, ar.getCorrectRateYou());
+			pstmt.setInt(4, ar.getArNo());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int deleteAccidentReview(Connection conn, int arNo) {
+
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteAccidentReview");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, arNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int returnBoardCategory(Connection conn, int bno) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("returnBoardCategory");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, bno);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int returnSolve(Connection conn, int accNo) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("returnSolve");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, accNo);
+			
+			result= pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

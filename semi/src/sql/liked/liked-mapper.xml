@@ -3,7 +3,13 @@
 
 <properties>
 	<entry key="insertLiked">
-		INSERT INTO LIKED
+		INSERT INTO LIKED`
 		VALUES(?,?)
 	</entry>
+	
+	<entry key="insertDislike">
+		INSERT INTO DISLIKE
+		VALUES(?,?)
+	</entry>
+	
 </properties>

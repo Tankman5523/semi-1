@@ -291,6 +291,68 @@ public class AccidentBoardService {
 		
 		return list;
 	}
+	public AccidentReview selectAccidentReview(int arNo) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		AccidentReview ar = new AccidentBoardDao().selectAccidentReview(conn,arNo);
+		
+		JDBCTemplate.close(conn);
+		
+		return ar;
+	}
+	public Attachment selectAttachment(int bno) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		Attachment at = new AccidentBoardDao().selectAttachment(conn,bno);
+		
+		JDBCTemplate.close(conn);
+		
+		return at;
+	}
+	public int updateAccidentReview(AccidentReview ar) {
+
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new AccidentBoardDao().updateAccidentReview(conn,ar);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		return result;
+	}
+	public int deleteAccidentReview(int arNo) {
+
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new AccidentBoardDao().deleteAccidentReview(conn,arNo);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		return result;
+	}
+	public int returnBoard(int bno, int accNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new AccidentBoardDao().returnBoardCategory(conn,bno);
+		int result2 = new AccidentBoardDao().returnSolve(conn,accNo); 
+		
+		if(result>0 && result2>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		return result;
+	}
 
 	
 	

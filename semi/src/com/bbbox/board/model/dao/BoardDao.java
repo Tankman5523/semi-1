@@ -155,6 +155,29 @@ public class BoardDao {
 		
 		return result;
 	}
+	
+	//싫어요 증가 메소드
+	public int insertDislike(Connection conn, int boardNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertDislike");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);			
+		}
+		
+		return result;
+	}
+	
 
 	//게시글 작성 메소드
 	public int insertBoard(Connection conn, Board b) {
@@ -505,6 +528,8 @@ public class BoardDao {
 		
 		return list;
 	}
+
+	
 
 	
 
