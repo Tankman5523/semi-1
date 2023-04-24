@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.bbbox.board.model.vo.Accident;
+import com.bbbox.board.model.vo.AccidentReview;
 import com.bbbox.board.model.vo.Board;
 import com.bbbox.board.model.vo.Reply;
 import com.bbbox.lawyer.model.vo.Counsel;
@@ -53,14 +55,20 @@ public class MemberMypageController extends HttpServlet {
 		
 		//5. 내가 남긴 리뷰 조회해오기(일반회원)
 		ArrayList <LawReview> lawRev = new MemberService().selectLawReviewList(userNo);
-		//5-1. 내가 남긴 리뷰(뱐호사)
 		
+		//6. 내 사건 조회 해오기 리뷰(변호사)
+		ArrayList <AccidentReview> accRev = new MemberService().selectAccidentReviewList(userNo);
+
+		//7.내가 맡은 사건 조회해오기 
+		ArrayList <Accident> accident = new MemberService().selectAccidentList(userNo);
 		
 		request.setAttribute("lawList", lawList); // 찜한 변호사 리스트 
 		request.setAttribute("boardList", boardList); // 내가 쓴 글 리스트 
 		request.setAttribute("replyList", replyList); //내가 쓴 댓글 리스트 
 		request.setAttribute("cList", cList); // 상담 신청 리스트 
-		request.setAttribute("lawRev", lawRev);
+		request.setAttribute("lawRev", lawRev); //회원이 작성하는 변호사 리뷰 리스트 
+		request.setAttribute("accRev" , accRev); // 변호사가 작성하는 사건 리뷰 리스트 
+		request.setAttribute("accident", accident); //변호사가 맡은 사건 리스트 
 		
 		request.getRequestDispatcher("views/member/mypage.jsp").forward(request, response);
 	

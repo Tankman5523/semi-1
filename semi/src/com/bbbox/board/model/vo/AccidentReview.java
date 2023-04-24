@@ -29,6 +29,14 @@ public class AccidentReview {
 		this.lawName = lawName;
 	}
 	
+	//마이페이지에서 보여주기 위한 조회용 생성자 
+	public AccidentReview(int arNo, int lawNo, String content) {
+		super();
+		this.arNo = arNo;
+		this.lawNo = lawNo;
+		this.content = content;
+	}
+
 	public AccidentReview(int arNo, int refAccNo, int lawNo, int correctRateMe, int correctRateYou, String content,
 			String status, String lawName) {
 		super();
@@ -41,6 +49,7 @@ public class AccidentReview {
 		this.status = status;
 		this.lawName = lawName;
 	}
+
 
 	public int getArNo() {
 		return arNo;
