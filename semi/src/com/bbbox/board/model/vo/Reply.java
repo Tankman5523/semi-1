@@ -16,7 +16,18 @@ public class Reply {
 	private String createDate;
 	private String status;
 	
+	//마이페이지에 보여줄 카테고리명 
+	private String categoryName;
 	
+	//카테고리명 게터세터 
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
 	public Reply() {
 		super();
 	}
@@ -40,10 +51,22 @@ public class Reply {
 		this.status = status;
 	}
 	
+	
+	//마이페이지에 내가쓴 댓글 보여주기 위한생성자  
+	public Reply(int rpNo, int refBno, String content, String createDate, String categoryName) {
+		super();
+		this.rpNo = rpNo;
+		this.refBno = refBno;
+		this.content = content;
+		this.createDate = createDate;
+		this.categoryName = categoryName;
+	}
+	
 
 	public int getRpNo() {
 		return rpNo;
 	}
+
 	public void setRpNo(int rpNo) {
 		this.rpNo = rpNo;
 	}

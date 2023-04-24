@@ -67,10 +67,10 @@ public class MemberLoginController extends HttpServlet {
 			
 		}else { //로그인 실패
 			
-			request.setAttribute("errorMsg", "로그인에 실패하였습니다. 다시 시도해주세요");
+			request.getSession().setAttribute("errorMsg", "로그인에 실패하였습니다. 다시 시도해주세요");
 			
-			request.getRequestDispatcher("views/member/loginPage.jsp").forward(request, response);
-		
+			response.sendRedirect(request.getContextPath());
+			
 		}
 		
 		

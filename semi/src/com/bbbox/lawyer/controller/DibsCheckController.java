@@ -28,19 +28,14 @@ public class DibsCheckController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//현재 찜한 여부 체크
 		
 		int lawNo = Integer.parseInt(request.getParameter("lawNo"));
 		int userNo = Integer.parseInt(request.getParameter("userNo"));
 		
 		int count = new LawyerService().dibsCheck(lawNo,userNo);
 		
-//		if() { //결과값이 있으면 채운하트
-//			
-//		}else { //없으면 빈하트
-//			
-//		}
-		
-//		숫자만 보낼거니까 없어도 되나?
+		//숫자만 보낼거면 없어도 되나?
 		response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().print(count);
 	}
@@ -49,16 +44,15 @@ public class DibsCheckController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		//찜하기 상태 변경
+		
 		String heart = request.getParameter("heart");
 		int lawNo = Integer.parseInt(request.getParameter("lawNo"));
 		int userNo = Integer.parseInt(request.getParameter("userNo"));
 		
 		int count = new LawyerService().dibsUpdate(heart,lawNo,userNo);
 		
-		System.out.println(heart);
-		
-		if(count != 0) { //성공했을 때
+		if(count != 0) { //변경을 성공했을 때
 			
 			if(heart.equals("emptyHeart")) { //찜하기 등록을 성공했다면
 				count = 1;
@@ -68,7 +62,7 @@ public class DibsCheckController extends HttpServlet {
 			
 		}
 		
-		//		숫자만 보낼거니까 없어도 되나?
+		//숫자만 보낼거면 없어도 되나?
 		response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().print(count);
 	}

@@ -1,6 +1,5 @@
 package com.bbbox.lawyer.model.vo;
 
-//util? sql?
 import java.sql.Date;
 
 //편의상 refLno, csWriter는 편의상 String으로
@@ -21,6 +20,26 @@ public class Counsel {
 		super();
 	}
 	
+	//상담신청 수정하기 시 조회용
+	public Counsel(int csNo, String refLno, String csTitle, String csContent) {
+		super();
+		this.csNo = csNo;
+		this.refLno = refLno;
+		this.csTitle = csTitle;
+		this.csContent = csContent;
+	}
+
+	//마이페이지에서 보여줄 상담내역 조회 생성자 
+	public Counsel(int csNo, String csTitle, Date createDate, String csAnswer, String accept) {
+		super();
+		this.csNo = csNo;
+		this.csTitle = csTitle;
+		this.createDate = createDate;
+		this.csAnswer = csAnswer;
+		this.accept = accept;
+	}
+
+
 	public Counsel(int csNo, String refLno, String csWriter, String csTitle, String csContent, Date createDate,
 			String csAnswer, String accept, String status) {
 		super();

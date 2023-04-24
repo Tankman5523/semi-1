@@ -1,8 +1,15 @@
 package com.bbbox.member.model.service;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
+import com.bbbox.board.model.vo.Board;
+import com.bbbox.board.model.vo.Reply;
 import com.bbbox.common.JDBCTemplate;
+import com.bbbox.lawyer.model.vo.Counsel;
+import com.bbbox.lawyer.model.vo.LawAttachment;
+import com.bbbox.lawyer.model.vo.LawReview;
+import com.bbbox.lawyer.model.vo.Lawyer;
 import com.bbbox.member.model.dao.MemberDao;
 import com.bbbox.member.model.vo.Member;
 
@@ -95,6 +102,97 @@ public class MemberService {
 		JDBCTemplate.close(conn);
 	
 		return result;
+	}
+
+	//변호사 회원 신청 
+	public int ApplyLawyar(LawAttachment lat, Lawyer applyla) {
+
+		Connection conn = JDBCTemplate.getConnection();
+		//사진 등록 결과 
+		int result1 = new MemberDao().insertProfile(conn,lat);
+		
+		//신청결과 
+		int result2 = new MemberDao().insertApply(conn, applyla);
+		
+		//신청 유저의 lawyer 상태값 변경
+		int result3 = new MemberDao().updateLawyerGrant(conn, applyla);
+		
+		
+		if(result1*result2*result3>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		return result1*result2*result3;
+	}
+
+	public String selectLawyerGrant(int userNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		String lawyer = new MemberDao().selectLawyerGrant(conn,userNo);
+		
+		JDBCTemplate.close(conn);
+		
+		return lawyer;
+	}
+	
+	//찜한 변호사 목록 조회하는 메소드 
+	public ArrayList<Lawyer> selectDibsLawyer(int userNo) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Lawyer> lawList = new MemberDao().selectDibsLawyer(conn, userNo);
+		
+		JDBCTemplate.close(conn);
+		
+		return lawList;
+	}
+	
+	//내 게시글 목록 조회하는 메소드
+	public ArrayList<Board> selectBoardList(int userNo) {
+
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList <Board> boardList = new MemberDao().selectBoardList(conn, userNo);
+		
+		JDBCTemplate.close(conn);
+		
+		return boardList;
+	}
+	
+	//내가 쓴 댓글 조회하는 메소드 
+	public ArrayList<Reply> selectReplyList(int userNo) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList <Reply> replyList = new MemberDao().selectReplyList(conn, userNo);
+		
+		JDBCTemplate.close(conn);
+		
+		return replyList;
+	}
+	//내 상담 신청 내역 조회하는 메소드 	
+	public ArrayList<Counsel> selectCounselList(int userNo) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Counsel> cList = new MemberDao().selectCounselList(conn, userNo);
+		
+		JDBCTemplate.close(conn);
+		
+		return cList;
+	}
+
+	public ArrayList<LawReview> selectLawReviewList(int userNo) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<LawReview> lawRev = new MemberDao().selectLawReviewList(conn, userNo);
+		
+		JDBCTemplate.close(conn);
+				
+		return lawRev;
 	}
 
 }

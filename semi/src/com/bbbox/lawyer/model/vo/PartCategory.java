@@ -1,8 +1,9 @@
 package com.bbbox.lawyer.model.vo;
 
 public class PartCategory {
-	private int partNo;
-	private String partName;
+	
+	private int partNo; //분야 번호
+	private String partName; //분야 이름
 	
 	
 	public PartCategory() {
