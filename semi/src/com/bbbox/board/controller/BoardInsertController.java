@@ -36,7 +36,8 @@ public class BoardInsertController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		
+		
 		request.getRequestDispatcher("views/board/boardInsertForm.jsp").forward(request, response);
 	
 	}
@@ -64,22 +65,23 @@ public class BoardInsertController extends HttpServlet {
 			String userNo = multiRequest.getParameter("userNo");
 			String title = multiRequest.getParameter("title");
 			String content = multiRequest.getParameter("content");
-			int notice = Integer.parseInt(multiRequest.getParameter("notice"));
+			String notice = multiRequest.getParameter("notice");
+			
 			
 			Board b = null;
 			
-			if(notice>0) {
-				b = new Board();
-				b.setBoardWriter(userNo);
-				b.setTitle(title);
-				b.setContent(content);
-				b.setNotice("Y");
-			}else {
+			if(notice == null) {
 				b = new Board();
 				b.setBoardWriter(userNo);
 				b.setTitle(title);
 				b.setContent(content);
 				b.setNotice("N");
+			}else {
+				b = new Board();
+				b.setBoardWriter(userNo);
+				b.setTitle(title);
+				b.setContent(content);
+				b.setNotice("Y");
 			}
 			
 			

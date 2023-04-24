@@ -49,11 +49,13 @@ public class BoardDao {
 			
 			pstmt.setInt(1, start);
 			pstmt.setInt(2, end);
+			
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
 				list.add(new Board(rset.getInt("BOARD_NO"),
 								   rset.getString("USER_ID"),
+								   rset.getInt("CATEGORY_NO"),
 								   rset.getString("TITLE"),
 								   rset.getInt("COUNT"),
 								   rset.getDate("CREATE_DATE"),
@@ -113,6 +115,7 @@ public class BoardDao {
 			if(rset.next()) {
 				b = new Board(rset.getInt("BOARD_NO"),
 							  rset.getString("USER_ID"),
+							  rset.getInt("CATEGORY_NO"),
 							  rset.getString("TITLE"),
 							  rset.getString("CONTENT"),
 							  rset.getInt("COUNT"),
@@ -156,7 +159,7 @@ public class BoardDao {
 		return result;
 	}
 
-	//게시글 작성 메소드
+	//게시글 작성 메소드 (카테고리 1고정 -> pstmt 위치함수로 바꾸기)
 	public int insertBoard(Connection conn, Board b) {
 		
 		int result = 0;
@@ -380,12 +383,12 @@ public class BoardDao {
 			
 			stmt = conn.createStatement();
 			
-			
 			rset = stmt.executeQuery(sql);
 			
 			while(rset.next()) {
 				list.add(new Board(rset.getInt("BOARD_NO"),
 								   rset.getString("USER_ID"),
+								   rset.getInt("CATEGORY_NO"),
 								   rset.getString("TITLE"),
 								   rset.getInt("COUNT"),
 								   rset.getDate("CREATE_DATE"),
@@ -490,6 +493,7 @@ public class BoardDao {
 			while(rset.next()) {
 				list.add(new Board(rset.getInt("BOARD_NO"),
 								   rset.getString("USER_ID"),
+								   rset.getInt("CATEGORY_NO"),
 								   rset.getString("TITLE"),
 								   rset.getInt("COUNT"),
 								   rset.getDate("CREATE_DATE"),
@@ -505,6 +509,150 @@ public class BoardDao {
 		
 		return list;
 	}
+	
+	
+	//일반비디오게시글리스트 갯수
+	public int VideoListCount(Connection conn) {
+		
+		int result = 0;
+		Statement stmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("VideoListCount");
+		
+		try {
+			stmt = conn.createStatement();
+			
+			rset = stmt.executeQuery(sql);
+			
+			if(rset.next()) {
+				result = rset.getInt("COUNT");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(stmt);
+		}
+		
+		return result;
+	}
+
+	
+	//일반 비디오리스트 조회
+	public ArrayList<Board> selectVideoList(Connection conn, PageInfo pi) {
+		
+		ArrayList<Board> list = new ArrayList<>();
+		
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("selectVideoList");
+		
+		try {
+			int start=(pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
+			int end=(start+pi.getBoardLimit())-1;
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, start);
+			pstmt.setInt(2, end);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				list.add(new Board(rset.getInt("BOARD_NO"),
+								   rset.getString("USER_ID"),
+								   rset.getInt("CATEGORY_NO"),
+								   rset.getString("TITLE"),
+								   rset.getInt("COUNT"),
+								   rset.getDate("CREATE_DATE"),
+								   rset.getInt("LIKED"),
+								   rset.getInt("RP_COUNT")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return list;
+	}
+
+	//키워드에 관련된 비디오조회
+	public ArrayList<Board> selectVideoList(Connection conn, PageInfo pi, String kind, String keyword) {
+
+		ArrayList<Board> list = new ArrayList<>();
+		
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		
+		String sql = null;
+		
+		if(kind.equals("title")) {
+			sql = prop.getProperty("searchTitleV");
+		}else if(kind.equals("content")){
+			sql = prop.getProperty("searchContentV");
+		}else if(kind.equals("userId")) {
+			sql = prop.getProperty("searchUserV");
+		}
+		
+		try {
+			int start=(pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
+			int end=(start+pi.getBoardLimit())-1;
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, keyword);
+			pstmt.setInt(2, start);
+			pstmt.setInt(3, end);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Board(rset.getInt("BOARD_NO"),
+								   rset.getString("USER_ID"),
+								   rset.getInt("CATEGORY_NO"),
+								   rset.getString("TITLE"),
+								   rset.getInt("COUNT"),
+								   rset.getDate("CREATE_DATE"),
+								   rset.getInt("LIKED"),
+								   rset.getInt("RP_COUNT")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return list;
+	}
+
+	//댓글 삭제 기능
+	public int delRp(Connection conn, int rpNo) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("delRp");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, rpNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
 
 	
 
