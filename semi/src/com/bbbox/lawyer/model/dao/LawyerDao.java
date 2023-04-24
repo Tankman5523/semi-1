@@ -50,7 +50,8 @@ public class LawyerDao {
 									rset.getString("USER_NAME"),
 									rset.getString("PART_NAME"),
 									rset.getString("COMPANY_NAME"),
-									rset.getString("COMPANY_ADDRESS")));
+									rset.getString("COMPANY_ADDRESS"),
+									rset.getString("LAW_IMG")));
 			}
 			
 		} catch (SQLException e) {
@@ -94,58 +95,59 @@ public class LawyerDao {
 	}
 	
 	//조건으로 검색한 변호사 리스트 조회
-		public ArrayList<Lawyer> searchList(Connection conn, String nameKey, String cateKey, String localKey) {
-			
-			ArrayList<Lawyer> lawList = new ArrayList<>();
-			
-			PreparedStatement pstmt = null;
-			ResultSet rset = null;
-			String sql = prop.getProperty("searchList");
-			
-			try {
-				pstmt = conn.prepareStatement(sql);
-			
-				//이름 값
-				if(nameKey.equals("")) {
-					pstmt.setString(1, "%%");
-				}else {
-					pstmt.setString(1, "%"+nameKey+"%");
-				}
-				
-				//분야 값
-				if(cateKey.equals("전체")) {
-					pstmt.setString(2, "%%");
-				}else {
-					pstmt.setString(2, "%"+cateKey+"%");
-				}
-				
-				//지역 값
-				if(localKey.equals("전체")) {
-					pstmt.setString(3, "%%");
-				}else {
-					pstmt.setString(3, "%"+localKey+"%");
-				}
-				
-				rset = pstmt.executeQuery();
-				
-				while(rset.next()) {
-					lawList.add(new Lawyer(rset.getInt("LAW_NO"),
-										rset.getString("USER_NAME"),
-										rset.getString("PART_NAME"),
-										rset.getString("COMPANY_NAME"),
-										rset.getString("COMPANY_ADDRESS")));
-				}
-				
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}finally {
-				JDBCTemplate.close(rset);
-				JDBCTemplate.close(pstmt);
+	public ArrayList<Lawyer> searchList(Connection conn, String nameKey, String cateKey, String localKey) {
+		
+		ArrayList<Lawyer> lawList = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("searchList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+		
+			//이름 값
+			if(nameKey.equals("")) {
+				pstmt.setString(1, "%%");
+			}else {
+				pstmt.setString(1, "%"+nameKey+"%");
 			}
 			
-			return lawList;
+			//분야 값
+			if(cateKey.equals("전체")) {
+				pstmt.setString(2, "%%");
+			}else {
+				pstmt.setString(2, "%"+cateKey+"%");
+			}
+			
+			//지역 값
+			if(localKey.equals("전체")) {
+				pstmt.setString(3, "%%");
+			}else {
+				pstmt.setString(3, "%"+localKey+"%");
+			}
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				lawList.add(new Lawyer(rset.getInt("LAW_NO"),
+									rset.getString("USER_NAME"),
+									rset.getString("PART_NAME"),
+									rset.getString("COMPANY_NAME"),
+									rset.getString("COMPANY_ADDRESS"),
+									rset.getString("LAW_IMG")));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
 		}
+		
+		return lawList;
+	}
 
 	//선택된 변호사의 상세정보
 	public Lawyer selectLawyer(Connection conn, int lno) {
@@ -172,7 +174,8 @@ public class LawyerDao {
 								 rset.getString("COMPANY_ADDRESS"),
 								 rset.getString("COMPANY_PN"),
 								 rset.getString("LAW_COMMENT"),
-								 rset.getString("CAREER"));
+								 rset.getString("CAREER"),
+								 rset.getString("LAW_IMG"));
 			}
 					
 			

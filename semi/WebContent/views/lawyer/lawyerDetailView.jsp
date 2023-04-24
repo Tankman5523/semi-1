@@ -23,8 +23,6 @@
 
 <!-- 구글맵 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<!-- 아이콘 CDN (font-awesome Copy Link Tag) -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 	<style>
 	    /* 영역잡기 */
@@ -87,8 +85,9 @@
 	   bottom: 0;
 	}
 	img{
-	   width: 100%;
-	   height: 100%;
+	   width: 170px;
+	   height: 200px;
+	   object-fit: cover;
 	}
 	#career>li{
 	    margin-top: 23px;
@@ -172,16 +171,13 @@
 	   <div id="space"></div>
 	   <div id="head"> <!-- 뒤로가기 버튼 -->
 	      <a href="<%=contextPath %>/list.la"><i class="fa-solid fa-angle-left fa-2xl" style="color: #878787;"></i></a>
-	   	  <a href="<%=contextPath %>/mypage.la?lno=<%=law.getLawNo()%>">/테스트용 마이페이지/</a>
-	   	  <a href="<%=contextPath %>/review.la?lno=<%=law.getLawNo()%>">/테스트용 리뷰작성폼/</a>
-	   	  <a href="<%=contextPath %>/counselUpdate.la?cno=1">/테스트용 상담수정폼/</a>
 	   </div>
 	   <div id="content">
 	       <div id="left">
 	           <div id="left_top">
 	               <table id="info"> <!-- 변호사 소개글 영역 -->
 	                   <tr>
-	                       <td rowspan="4" width="180px" height="180px"><img src="data:image/jpeg;base64,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" alt=""></td>
+	                       <td rowspan="4" width="180px" height="180px"><img src="<%=contextPath + law.getLawImg()%>"></td>
 	                       <td rowspan="4" width="20px"></td>
 	                       <td width="300px"><h2><%=lawName %> 변호사</h2></td>
 	                   </tr>
@@ -276,9 +272,9 @@
 	      // 2-2. 구글 맵의 옵션 
 	      var mapOptions = { 
 	            // 지도의 중앙 위치 : 영국 런던
-	            center:new google.maps.LatLng(51.508742, -0.120850)
+	            center:new google.maps.LatLng(37.5642135, 127.0016985)
 	            // 줌 레벨 : 5
-	               , zoom:5
+	               , zoom:9
 	      };
 	      
 	      // 2. 구글 지도 생성(만들기)
@@ -288,12 +284,7 @@
 	            , mapOptions );
 	   }
 	</script>
-	<!-- InvalidKey 에러 뜸 -->
-	<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyADT30D3obKQery7gwCB8Nj6HmJCxFaAUw=?&callback=myMap"></script> -->
-															
-	<!-- NoApiKeys 에러 뜸 -->
-	<!-- <script src="https://maps.googleapis.com/maps/api/js?AIzaSyADT30D3obKQery7gwCB8Nj6HmJCxFaAUw=?&callback=myMap"></script> -->
-	<!-- <script src="https://maps.googleapis.com/maps/api/js?AIzaSyAJwp5ZEf5Vi5Gz_5RiU4Sxzt2IfSTeuDM=?&callback=myMap"></script> -->
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJwp5ZEf5Vi5Gz_5RiU4Sxzt2IfSTeuDM&callback=myMap"></script>
 	
 	
 	<%if(loginUser != null){ %>
@@ -365,25 +356,23 @@
 		</script>
 	<%}else{ %>
 		<script>
-			$("#addFunction tr:eq(0)").click(function(){
-				alert("로그인한 회원만 이용가능한 메뉴입니다.");
-				/* 확인누르면 회원가입창으로 이동하게 */
-			});
-			$("#addFunction tr:eq(1)").click(function(){
-				alert("로그인한 회원만 이용가능한 메뉴입니다.");
+			$("#addFunction tr:eq(0),#addFunction tr:eq(1)").click(function(){
+				if(confirm("로그인한 회원만 이용가능한 메뉴입니다.")){
+					location.href="<%=contextPath%>/enroll.me";
+				}
 			});
 		</script>
 	<%} %>
-		<script>
-			//지도 모달창 띄우기
-			$("#addFunction tr:eq(2)").click(function(){
-				$("#popup-wrap").css('display','block');
-			});
-			//모달 배경 클릭 시 나가기
-			$("#popup-wrap").click(function(e){
-				if(e.target != e.currentTarget) return;
-					$("#popup-wrap").css('display','none');
-			});
-		</script>
+	<script>
+		//지도 모달창 띄우기
+		$("#addFunction tr:eq(2)").click(function(){
+			$("#popup-wrap").css('display','block');
+		});
+		//모달 배경 클릭 시 나가기
+		$("#popup-wrap").click(function(e){
+			if(e.target != e.currentTarget) return;
+				$("#popup-wrap").css('display','none');
+		});
+	</script>
 </body>
 </html>

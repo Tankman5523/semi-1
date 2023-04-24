@@ -1,7 +1,6 @@
 package com.bbbox.board.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,19 +9,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bbbox.board.model.service.BoardService;
-import com.bbbox.board.model.vo.Board;
 
 /**
- * Servlet implementation class SearchController
+ * Servlet implementation class delRpController
  */
-@WebServlet("/search")
-public class SearchController extends HttpServlet {
+@WebServlet("/delRp")
+public class delRpController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SearchController() {
+    public delRpController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,14 +30,12 @@ public class SearchController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-//		String kind = request.getParameter("kind");
-//		String keyword = request.getParameter("keyword");
-//		
-//		System.out.println(kind);
-//		System.out.println(keyword);
-//		
-//		ArrayList<Board> list = new BoardService().searchBoardList(kind, keyword);
-//		
+		int rpNo = Integer.parseInt(request.getParameter("rpNo"));
+		System.out.println(rpNo);
+		
+		int result = new BoardService().delRp(rpNo);
+		
+		response.getWriter().print(result);
 	}
 
 	/**

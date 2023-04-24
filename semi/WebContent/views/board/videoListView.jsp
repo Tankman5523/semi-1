@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="java.util.ArrayList, com.bbbox.board.model.vo.Board, com.bbbox.common.model.vo.PageInfo"%>
 <%
-	ArrayList<Board> list = (ArrayList<Board>)request.getAttribute("boardList");
+	ArrayList<Board> vlist = (ArrayList<Board>)request.getAttribute("vlist");
 	PageInfo pi = (PageInfo)request.getAttribute("pageInfo");
 	ArrayList<Board> nlist = (ArrayList<Board>)request.getAttribute("noticeList");
 %>    
@@ -28,29 +28,7 @@
     }
 
     
-    #content_1,#content_2{
-    	float: left;
-    }
     
-    /*호버*/
-    #content_2 tbody>tr:hover{
-    	cursor: pointer;
-    	color: gray;
-    }
-    #chat-area{
-    	width: 100%;
-    	height: 100%;
-    }
-    
-    #chat-area>div>*{
-    	width: 100%;
-    	height: 100%;
-    }
-    
-    #board-list tr{
-    	height: 30px;
-    	font-size: 15px;
-    }
     
     .notice_line:hover{
     	cursor: pointer;
@@ -67,7 +45,7 @@
 	<div class="outer">
  		<div id="header" style="height: 10%">
 		<h2 align="center" style="border: none;">
-			일반 게시판
+			영상 게시판
 		</h2>
 		</div>
 
@@ -85,96 +63,12 @@
 					<button type="submit">검색</button>
 				</form>
 				
-			
 			</div>
 	
-			<div id="content_1" style="display: inline-block; width: 20%; height: 90%;">
-				<div id="chat-area">
-			    	<div style="height: 80%">			    	
-			    		<textarea style="resize: none;" id="chat_output" readonly></textarea>
-			    	</div>
-			    	<div id="loginInfo" style="height: 5%;">
-			    		<%if(loginUser != null){ %>
-			    			<span><%=loginUser.getUserId() %>님</span>
-			    		<%}else{ %>
-			    			<span>로그인 후 이용해 주세요.</span>
-			    		<%} %>
-			    	</div>
-		    		<div style="height: 5%">
-		    			<%if(loginUser != null){ %>
-			    		<input type="text" id="chat_input" required placeholder="메세지를 입력하세요.">
-			    		<%}else{ %>
-			    		<input type="text" id="chat_input" required readonly placeholder="메세지를 입력하세요.">
-			    		<%} %>
-			    		<button type="button" id="chat_btn">전송</button>
-			    		<button type="button" id="chat_exit">채팅 종료</button>
-		    		</div>
-				</div>
-			</div>
-			
-			<!-- 웹소켓 해보자!! -->
-			<script>
-				$(function(){
-					var str = "";
-					var webSocket = new WebSocket("ws://localhost:8888/<%=contextPath%>/webSocket");
-					
-					webSocket.onopen = function() {
-						$("#chat_output").css("text-align", "center");
-						$("#chat_output").val("----채팅을 시작합니다----");
-					};
-					   
-					webSocket.onclose = function() {
-						$("#chat_output").css("text-align", "center");
-						$("#chat_output").val("----채팅을 종료합니다----");
-					};
-					
-					webSocket.onerror = function() {
-						$("#chat_output").html("----오류----");
-					};
-					// WebSocket 서버로 부터 메시지가 오면 호출되는 함수
-					webSocket.onmessage = function(message) {
-						$("#chat_output").css("text-align", "left");
-						
-						str += message.data+"\n";
-						$("#chat_output").val(str);
-					};
+			<div id="" style="display: inline-block; width: 100%; height: 90%;">
 
-					
-					<%if(loginUser != null){%>
-					$("#chat_input").on("keydown", function(e){
-						if(e.keyCode == 13){
-							e.preventDefault();
-							$("#chat_btn").click();
-						}
-					});
-					
-					$("#chat_btn").on("click", function(){
-						var input = $("#chat_input").val();
-						
-						
-						webSocket.send("<%=loginUser.getUserId()%> : "+input);
-						
-						$("#chat_input").val("");
-					});
-					<%}%>
-					
-					$("#chat_exit").on("click", function(){
-						webSocket.close();
-					});
-					 
-				});
-			</script>
-			
-			<div id="content_2" style="display: inline-block; width: 80%; height:90%;">
 				<table border="1" style="width:100%; box-sizing:border-box; text-align: center" id="board-list">
 					<thead>
-						<tr>
-							<th width="40">글번호</th>
-							<th width="420">제목</th>
-							<th width="80">작성자</th>
-							<th width="80">작성일</th>
-							<th width="40">조회수</th>
-						</tr>
 	            	<%if(!nlist.isEmpty()){ %>
 	            		<%for(Board b : nlist){ %>
 	            		<tr class="notice_line">
@@ -187,24 +81,22 @@
 	            		<%} %>
 	            	<%} %>
 	            	</thead>
-	            	<tbody>
-	            	<%if(list.isEmpty()){ %>
-	            		<tr>
-	            			<td colspan="5">작성된 게시글이 없습니다.</td>
-	            		</tr>
+	            </table>
+	            <div id="video-area">
+	            	<%if(vlist.isEmpty()){ %>
+	            		<div align="center">
+	            			<span>작성된 게시글이 없습니다.</span>
+	            		</div>
 	            	<%}else{ %>
-	            		<%for(Board b : list){ %>
-						<tr>
-							<td><%=b.getBoardNo()%></td>
-							<td style="text-align: left; padding-left: 5px;"><%=b.getTitle()%></td>
-							<td><%=b.getBoardWriter()%></td>
-							<td><%=b.getCreateDate()%></td>
-							<td><%=b.getCount()%></td>
-						</tr>
-						<%} %>
+	            		<%for(Board b : vlist){ %>
+						<div id="thumnail">
+							
+						</div>
+						<%} %>	
 					<%} %>
-					</tbody>
-				</table>
+				</div>
+            
+			
 				
 				<div id="page-area" align="center" style="height:20%; border: none;">
 					<div style="margin-top: 20px; border:none;">
