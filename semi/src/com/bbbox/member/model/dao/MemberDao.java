@@ -512,7 +512,7 @@ public class MemberDao {
 				lawRev.add(new LawReview(rset.getInt("REVIEW_NO"),
 										 rset.getInt("REF_ANO"),
 										 rset.getString("REVIEW_CONTENT"),
-										 rset.getInt("STAR")));
+										 rset.getString("STAR")));
 				
 			}
 		} catch (SQLException e) {
