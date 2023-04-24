@@ -203,7 +203,7 @@
 	               <div>
 	               		<table id="addFunction"> <!-- 상세페이지 안 추가 기능 영역 -->
 	                         <tr>
-	                             <td id="heart" height="40px"></td>
+	                             <td id="heart" height="40px"><i id="emptyHeart" class="fa-sharp fa-regular fa-heart fa-lg" style="color: #ff0000;"></i></td>
 	                             <td>찜하기</td>
 	                         </tr>
  	                         <tr>
@@ -296,81 +296,94 @@
 	<!-- <script src="https://maps.googleapis.com/maps/api/js?AIzaSyAJwp5ZEf5Vi5Gz_5RiU4Sxzt2IfSTeuDM=?&callback=myMap"></script> -->
 	
 	
-	<!-- loginUser값이 null일 때 조건문이 안됨...........?????? -->
-	<script>
-		//현재 찜한 여부 확인
-		 $(function(){
-			$.ajax({ //찜한 여부 확인 후 하트영역에 빈하트or꽉찬하트 넣어주기
-				url:"dibs.la",
-				data:{
-					userNo:<%=loginUser.getUserNo()%>, //로그인 유저 번호
-					lawNo:<%=law.getLawNo() %> //상세페이지 변호사 번호
-				},
-				type:"get",
-				success : function(result){
-					
-					if(result==0){ //찜하지 않은 상태일 때 (빈하트)
-						$("#heart").html("<i id=\"emptyHeart\" class=\"fa-sharp fa-regular fa-heart fa-lg\" style=\"color: #ff0000;\"></i>");
-					}else{ //찜한 상태일 때 (꽉찬하트)
-						$("#heart").html("<i id=\"solidHeart\" class=\"fa-sharp fa-solid fa-heart fa-lg\" style=\"color: #ff0000;\"></i>");
-					}	
-				}
-			});
-		});
-	
-		//찜하기 클릭 시 찜하기 상태 변경
-		$("#addFunction tr:eq(0)").click(function(){
+	<%if(loginUser != null){ %>
+		<script>
 		
-			var $isTrue = false;
-			var $lawName = "<%=lawName %>";
-			
-			if($("#heart>i").prop("id") == "emptyHeart"){ //클릭한 하트가 빈하트라면
-				$isTrue = confirm($lawName+" 변호사를 찜하시겠습니까?");
-			}else{ //아니라면
-				$isTrue = confirm($lawName+" 변호사의 찜하기를 취소하시겠습니까?");
-			}
-			
-			if($isTrue){//컨펌창에서 확인을 눌렀을 경우
-				
-				$.ajax({
+			//현재 찜한 여부 확인
+			 $(function(){
+				$.ajax({ //찜한 여부 확인 후 하트영역에 빈하트or꽉찬하트 넣어주기
 					url:"dibs.la",
 					data:{
-						heart:$("#heart>i").prop("id"), //클릭했을때 하트값
-						userNo:<%=loginUser.getUserNo() %>, 
-						lawNo:<%=law.getLawNo() %>
+						userNo:<%=loginUser.getUserNo()%>, //로그인 유저 번호
+						lawNo:<%=law.getLawNo() %> //상세페이지 변호사 번호
 					},
-					type:"post",
+					type:"get",
 					success : function(result){
 						
-						console.log(result);
-						
-						if(result == 0){ //찜하기 변경을 실패했다면 (등록or성공 뭐든)
-							alert("찜하기 변경을 실패했습니다.");
-						}else if(result == 1){ //찜하기 등록을 성공했다면
-							$("#heart").html("<i id=\"solidHeart\" class=\"fa-sharp fa-solid fa-heart fa-lg\" style=\"color: #ff0000;\"></i>");
-						}else{ //찜하기 취소를 성공했다면
+						if(result==0){ //찜하지 않은 상태일 때 (빈하트)
 							$("#heart").html("<i id=\"emptyHeart\" class=\"fa-sharp fa-regular fa-heart fa-lg\" style=\"color: #ff0000;\"></i>");
-						}
-						
+						}else{ //찜한 상태일 때 (꽉찬하트)
+							$("#heart").html("<i id=\"solidHeart\" class=\"fa-sharp fa-solid fa-heart fa-lg\" style=\"color: #ff0000;\"></i>");
+						}	
 					}
 				});
-			}
-		});
+			});
+			//찜하기 클릭 시 찜하기 상태 변경
+			$("#addFunction tr:eq(0)").click(function(){
+			
+				var $isTrue = false;
+				var $lawName = "<%=lawName %>";
+				
+				if($("#heart>i").prop("id") == "emptyHeart"){ //클릭한 하트가 빈하트라면
+					$isTrue = confirm($lawName+" 변호사를 찜하시겠습니까?");
+				}else{ //아니라면
+					$isTrue = confirm($lawName+" 변호사의 찜하기를 취소하시겠습니까?");
+				}
+				
+				if($isTrue){//컨펌창에서 확인을 눌렀을 경우
+					
+					$.ajax({
+						url:"dibs.la",
+						data:{
+							heart:$("#heart>i").prop("id"), //클릭했을때 하트값
+							userNo:<%=loginUser.getUserNo() %>, 
+							lawNo:<%=law.getLawNo() %>
+						},
+						type:"post",
+						success : function(result){
+							
+							console.log(result);
+							
+							if(result == 0){ //찜하기 변경을 실패했다면 (등록or성공 뭐든)
+								alert("찜하기 변경을 실패했습니다.");
+							}else if(result == 1){ //찜하기 등록을 성공했다면
+								$("#heart").html("<i id=\"solidHeart\" class=\"fa-sharp fa-solid fa-heart fa-lg\" style=\"color: #ff0000;\"></i>");
+							}else{ //찜하기 취소를 성공했다면
+								$("#heart").html("<i id=\"emptyHeart\" class=\"fa-sharp fa-regular fa-heart fa-lg\" style=\"color: #ff0000;\"></i>");
+							}
+							
+						}
+					});
+				}
+			});
+		
+			//상담신청 페이지로 이동
+			$("#addFunction tr:eq(1)").click(function(){
+				location.href="<%=contextPath%>/counsel.la?lno=<%=law.getLawNo() %>";
+			});
 	
-		//상담신청 페이지로 이동
-		$("#addFunction tr:eq(1)").click(function(){
-			location.href="<%=contextPath%>/counsel.la?lno=<%=law.getLawNo() %>";
-		});
-
-		//지도 모달창 띄우기
-		$("#addFunction tr:eq(2)").click(function(){
-			$("#popup-wrap").css('display','block');
-		});
-		//모달 배경 클릭 시 나가기
-		$("#popup-wrap").click(function(e){
-			if(e.target != e.currentTarget) return;
-				$("#popup-wrap").css('display','none');
-		});
-	</script>
+		</script>
+	<%}else{ %>
+		<script>
+			$("#addFunction tr:eq(0)").click(function(){
+				alert("로그인한 회원만 이용가능한 메뉴입니다.");
+				/* 확인누르면 회원가입창으로 이동하게 */
+			});
+			$("#addFunction tr:eq(1)").click(function(){
+				alert("로그인한 회원만 이용가능한 메뉴입니다.");
+			});
+		</script>
+	<%} %>
+		<script>
+			//지도 모달창 띄우기
+			$("#addFunction tr:eq(2)").click(function(){
+				$("#popup-wrap").css('display','block');
+			});
+			//모달 배경 클릭 시 나가기
+			$("#popup-wrap").click(function(e){
+				if(e.target != e.currentTarget) return;
+					$("#popup-wrap").css('display','none');
+			});
+		</script>
 </body>
 </html>
