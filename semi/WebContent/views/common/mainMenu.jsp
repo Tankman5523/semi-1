@@ -258,14 +258,14 @@
     </div>
 	
 	<script>
-		function mypage(){
-			
-		}
+		//function mypage(){
+		//}
 		
 		//블변의 법칙 클릭 시 메인화면으로
-		$("#header2").onclick(){
-			location.href="<%=contextPath%>";
-		};
+		$("#header2").click(function(){
+			$(location).attr("href", "<%=contextPath%>");
+		});
+	
 	</script>
 
 </body>

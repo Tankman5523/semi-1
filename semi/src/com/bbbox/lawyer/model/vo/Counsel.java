@@ -20,13 +20,28 @@ public class Counsel {
 		super();
 	}
 	
-	//상담신청 수정하기 시 조회용
-	public Counsel(int csNo, String refLno, String csTitle, String csContent) {
+	//상담정보 조회용
+	public Counsel(int csNo, String refLno, String csTitle, String csContent, String csAnswer, String accept) {
 		super();
 		this.csNo = csNo;
 		this.refLno = refLno;
 		this.csTitle = csTitle;
 		this.csContent = csContent;
+		this.csAnswer = csAnswer;
+		this.accept = accept;
+	}
+	
+	//상담정보 조회 (변호사용)
+	public Counsel(int csNo, String refLno, String csWriter, String csTitle, String csContent, String csAnswer,
+			String accept) {
+		super();
+		this.csNo = csNo;
+		this.refLno = refLno;
+		this.csWriter = csWriter;
+		this.csTitle = csTitle;
+		this.csContent = csContent;
+		this.csAnswer = csAnswer;
+		this.accept = accept;
 	}
 
 	//마이페이지에서 보여줄 상담내역 조회 생성자 
