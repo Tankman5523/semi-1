@@ -186,6 +186,7 @@ public class LawyerDao {
 			JDBCTemplate.close(rset);
 			JDBCTemplate.close(pstmt);
 		}
+		
 	
 		return law;
 	}
@@ -423,6 +424,8 @@ public class LawyerDao {
 			JDBCTemplate.close(rset);
 			JDBCTemplate.close(pstmt);
 		}
+		
+		System.out.println(c); //확인용 
 		
 		return c;
 	}

@@ -352,6 +352,7 @@ public class MemberDao {
 		return lawyer;
 	}
 	
+	
 	//찜한 변호사 목록 조회하는 메소드
 	public ArrayList<Lawyer> selectDibsLawyer(Connection conn, int userNo) {
 
@@ -529,6 +530,7 @@ public class MemberDao {
 		return lawRev;
 	}
 
+	
 	public ArrayList<AccidentReview> selectAccidentReviewList(Connection conn, int userNo) {
 		
 		ResultSet rset = null;
@@ -597,5 +599,7 @@ public class MemberDao {
 		
 		return accident;
 	}
+
+	
 
 }

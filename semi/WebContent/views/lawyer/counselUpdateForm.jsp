@@ -3,6 +3,7 @@
 <%
 	Counsel c = (Counsel)request.getAttribute("c");
 	Lawyer l = (Lawyer)request.getAttribute("l");
+	
 %>
 <%@ include file = "../common/mainMenu.jsp" %>
 <!DOCTYPE html>

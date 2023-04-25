@@ -33,9 +33,7 @@ public class CounselUpdateController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//상담신청 수정폼 띄우기 위한 기존 데이터 조회 (상담번호 이용)
-		try {
-		//테스트용으로 고정값 1로 받음
+
 		//상담번호로 상담내용 조회
 		Counsel c = new LawyerService().selectCounsel(Integer.parseInt(request.getParameter("cno")));
 		
@@ -45,11 +43,7 @@ public class CounselUpdateController extends HttpServlet {
 		request.setAttribute("c", c);
 		request.setAttribute("l", l);
 		request.getRequestDispatcher("views/lawyer/counselUpdateForm.jsp").forward(request, response);
-		}catch(NumberFormatException e) {
-			
-		}catch(Exception e) {
-			
-		}
+	
 	}
 
 	/**

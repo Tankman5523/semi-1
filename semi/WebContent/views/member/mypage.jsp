@@ -262,10 +262,21 @@
 	       		</tr>
 	        <%} %>    
         </table>
+	   <script>
+        /*내 상담 내역 수정 script*/
+        $(function(){
+        	$('#counsel-list td').on('click', $("#modify"), function(){
+    			
+    			var cno = $(this).find("input[type=hidden]").val();
+    			location.href= "<%=contextPath %>/counselUpdate.la?cno="+cno;
+    			
+    		});
+        })
+        </script>
 	    <!-- 상담리스트 뷰 -->
 	    <h3>내 상담 내역</h3>
 	    <hr>
-	        <table id="counsel-list">
+	        <table>
 	            <thead id="List">
 	                <tr>
 	                    <td width="50">No.</td>
@@ -277,6 +288,7 @@
 	                </tr>
 	            </thead>
 	            <% if(!cList.isEmpty()){ %>
+	            <tbody id="counsel-list">
 	            	<% for(int i = 0 ; i < cList.size() ; i++){ %>
 		            <tr>
 		                <td><a href=""><%= i+1 %></a></td>
@@ -287,15 +299,17 @@
 		               	<td><b style = "color : green ">답변 완료</b></td> 	
 		                <%} %>
 		                <td><%= cList.get(i).getCreateDate()%></td>
-		                <td><% if(cList.get(i).getAccept().equals("Y")){ %>  <!-- cs_answer이 Y 면 수정하기 버튼 비활성화 시키기  -->
+		                <% if(cList.get(i).getAccept().equals("Y")){ %>  <!-- cs_answer이 Y 면 수정하기 버튼 비활성화 시키기  -->
 		                	<!-- 답변완료된 경우 상담 내용 수정 불가능 -->
-		                	<button disabled>수정</button></td> <td><button id="delete1">삭제</button>
+		                	<td><button disabled>수정</button></td>
+		                	<td><button id="delete1">삭제</button>
 		                <%}else{%>
-		                	<button id=modify>수정</button> <input id=csNo name="cno" type = "hidden" value="<%=cList.get(i).getCsNo()%>"></td> 
+		                	<td id=modify><button>수정</button><input id=csNo name="cno" type = "hidden" value="<%=cList.get(i).getCsNo()%>"></td> 
 		                	<td><button id="delete2">삭제</button></td>
 		                <%} %>
 		            </tr>
 		            <%} %>
+		         </tbody>
 	            <%}else{ %>
 	            	<tr>
 	            		<td></td>
@@ -356,12 +370,12 @@
 	    <%} %>
 	        </table>
 	<%} %>
-	    <br>
 	
     <br><br><br>
 </div>
 
 	<script>
+
 		/* 메인페이지 버튼 클릭 함수 script */
 		function main(){
 			location.href="<%=contextPath%>";
@@ -402,13 +416,13 @@
 			
 		}//함수 끝 
 
-	/* 	 
+	 /*
 		$('#counsel-list button').on('click',function(){
 			if(confirm("삭제한 글은 복구가 불가능 합니다. 정말 삭제하시겠습니까?")){
 				//삭제 서블릿으로 위임 
 			}
 		});
-		 */
+	*/	
 
 		 /* 찜하기 취소 script*/
 		 
@@ -446,26 +460,9 @@
 			
 			
 		 });
-		/*내 상담 내역 수정 script*/
-		$("#counsel-list tr").click(function(){
-			
-			var td = $(this).find("#modify")
-			
-		$(td).click(function(){
-			
-			if(confirm("수정페이지로 이동하시겠습니까?")){
-				
-				var csNo = $('#csNo').val()
-			
-				location.href= "<%=contextPath %>/counselUpdate.la?cno="+csNo;
-				
-			}
-			
-		})
-				
-					
-				
-		})
+		 
+		
+		
 			
 	</script>
 	
