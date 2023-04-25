@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="selectQuestionBoardCount">
+		SELECT COUNT(*) COUNT
+		FROM QUESTION
+	</entry>
+	
+	<entry key="selectQuestionBoardList">
+		SELECT QNO, USER_ID, TITLE, CREATE_DATE, OPEN
+		FROM QUESTION Q
+		JOIN MEMBER ON (Q_WRITER = USER_NO)
+		WHERE Q.STATUS = 'Y'
+	</entry>
+	
+	<entry key="insertQuestion">
+		INSERT INTO QUESTION (QNO,Q_WRITER,TITLE,CONTENT,OPEN)
+            VALUES(SEQ_QNO.NEXTVAL,?,?,?,?)
+	</entry>
+	
+	<entry key="selectQuestion">
+		SELECT QNO,USER_ID,TITLE,CONTENT,ANSWER,CREATE_DATE,OPEN 
+		FROM QUESTION
+		JOIN MEMBER ON (USER_NO = Q_WRITER)
+		WHERE QNO = ?
+		AND Q_WRITER = ?
+
+	</entry>
+
+</properties>

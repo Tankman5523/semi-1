@@ -139,6 +139,7 @@ public class MemberService {
 		return lawyer;
 	}
 	
+	
 	//찜한 변호사 목록 조회하는 메소드 
 	public ArrayList<Lawyer> selectDibsLawyer(int userNo) {
 		
@@ -221,5 +222,7 @@ public class MemberService {
 		
 		return accident;
 	}
+
+	
 
 }
