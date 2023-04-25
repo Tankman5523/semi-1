@@ -147,7 +147,7 @@ input, textarea{
     <script>
     	$(function(){
     		$("#acceptBtn").click(function(){
-        		$(".answer-form").
+        		$(".answer-form").css("display","block");
         	});
     	});
     	

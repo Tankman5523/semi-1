@@ -600,7 +600,6 @@ public class MemberDao {
 		return accident;
 	}
 
-<<<<<<< HEAD
 	//나에게 온 상담내역 조회하는 메소드 (변호사)
 	public ArrayList<Counsel> selectCounselListLaw(Connection conn, int userNo) {
 
@@ -636,8 +635,5 @@ public class MemberDao {
 		
 		return cListLaw;
 	}
-=======
-	
->>>>>>> refs/remotes/origin/master
 
 }

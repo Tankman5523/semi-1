@@ -53,17 +53,14 @@ public class MemberMypageController extends HttpServlet {
 			//7.내가 맡은 사건 조회해오기 
 			ArrayList <Accident> accident = new MemberService().selectAccidentList(userNo);
 			
-<<<<<<< HEAD
 			//8. 나에게 온 상담 내역 조회해오기
 			ArrayList <Counsel> cListLaw = new MemberService().selectCounselListLaw(userNo);
 			
 			request.setAttribute("accRev" , accRev); // 변호사가 작성하는 사건 리뷰 리스트 
 			request.setAttribute("accident", accident); //변호사가 맡은 사건 리스트 
 			request.setAttribute("cListLaw", cListLaw);
-=======
 			request.setAttribute("accRev" , accRev); // 변호사가 작성하는 사건 리뷰 리스트 
 			request.setAttribute("accident", accident); //변호사가 맡은 사건 리스트 
->>>>>>> refs/remotes/origin/master
 		}else {
 			
 			//1. 좋아요 변호사 리스트 조회해오기(변호사 번호, 변호사 이름) 
