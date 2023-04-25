@@ -154,6 +154,8 @@ public class LawyerService {
 	
 		JDBCTemplate.close(conn);
 		
+		System.out.println("service: " +c);
+		
 		return c;
 	}
 

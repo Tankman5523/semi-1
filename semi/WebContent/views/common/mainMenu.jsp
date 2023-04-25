@@ -249,24 +249,13 @@
                 </li>    
                 <li><a href="">고객문의</a>
                     <ul>
-                        <li><a href="">1:1 문의</a></li>
+                        <li><a href="<%=contextPath%>/list.qa">1:1 문의</a></li>
                         <li><a href="">FQA</a></li>
                         
                     </ul>
                 </li>    
             </ul>
     </div>
-	
-	<script>
-		//function mypage(){
-		//}
-		
-		//블변의 법칙 클릭 시 메인화면으로
-		$("#header2").click(function(){
-			$(location).attr("href", "<%=contextPath%>");
-		});
-	
-	</script>
 
 </body>
 </html>

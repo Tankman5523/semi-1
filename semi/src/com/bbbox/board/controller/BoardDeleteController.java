@@ -23,7 +23,7 @@ public class BoardDeleteController extends HttpServlet {
     public BoardDeleteController() {
         super();
         // TODO Auto-generated constructor stub
-    }
+    } 
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)

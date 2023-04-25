@@ -47,6 +47,12 @@
 		WHERE BOARD_NO = ?
 	</entry>
 	
+	<entry key="insertDislike">
+		UPDATE BOARD
+		SET REPORT_COUNT = REPORT_COUNT+1
+		WHERE BOARD_NO = ?
+	</entry>
+	
 	<entry key="insertBoard">
 		INSERT INTO BOARD(BOARD_NO, BOARD_WRITER, CATEGORY_NO, TITLE, CONTENT, NOTICE)
 		VALUES(SEQ_BNO.NEXTVAL, ?, 1, ?, ?, ?)
