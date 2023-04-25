@@ -152,8 +152,6 @@
         .recommendArea{
             height: 40%;
         }
-
-
         
     </style>
 </head>
@@ -183,13 +181,29 @@
                             <div class="info">
                                 <span>제보일 | <%=b.getCreateDate()%></span>
                                 <span>조회수 | <%=b.getCount()%></span>
+                                <span>추천수 | <%=b.getLiked()%> </span>
                                 <span>신고수 | <%=b.getReportCount()%> </span>
-                                
+                                <%if(b.getReportCount()>10){ %>
+                                	<span><i class="fa-solid fa-diamond-exclamation" style="color: #e6d519;"></i></span>
+                                <%}else if(b.getReportCount()>20){ %>
+                                	<i class="fa-solid fa-diamond-exclamation" style="color: #f80d0d;"></i>
+                                <%} %>
                                 <br>
                                 <span>제보자 | <%=b.getBoardWriter()%></span>
                                 <span>지역 | <%=ac.getRegion()%></span>
+                        <%if(loginUser!=null){ %>
+                            <div id="updateBtnArea" style="text-align:right;">
+                           		<input type="button" value="좋아요" id="good">
+                           		<input type="button" value="싫어요" id="bad">
+                            <%if(loginUser.getUserId().equals(b.getBoardWriter())||loginUser.getAdmin().equals("Y")) {%>
+                            	<!-- 나중에 이미지로 바꿔서 onclick 이벤트 -->
+                            	<input type="button" value="게시글 수정" onclick="location.href='<%=contextPath%>/update.ac?bno='+<%=b.getBoardNo()%>">
+                            	<input type="button" value="게시글 삭제" onclick="location.href='<%=contextPath%>/delete.ac?bno='+<%=b.getBoardNo()%>">
+                            <%} %>
                             </div>
+                        <%} %>
                         </div>
+                            </div>
                         <div class="rate">
                             <table>
                                 <tr>
@@ -197,8 +211,8 @@
                                     <th>상대방</th>
                                 </tr>
                                 <tr>
-                                    <td>5</td>
-                                    <td>5</td>
+                                    <td><%=ac.getAccRateMe() %></td>
+                                    <td><%=ac.getAccRateYou() %></td>
                                 </tr>
                             </table>
                         </div>
@@ -209,7 +223,21 @@
                 </div>
                 <div class="reviewArea">
                     <div class="reviewContent">
-                        <span><%=ar.getLawName() %> 변호사</span><br>
+                        <span><%=ar.getLawName() %> 변호사</span>
+                        <%{ %>
+                        <form action="delete.ar" style="float:right;">
+                        	<input type="hidden" name="arNo" value="<%=ar.getArNo()%>">
+                        	<input type="hidden" name="bno" value="<%=b.getBoardNo()%>">
+                        	<input type="hidden" name="accNo" value="<%=ac.getAccNo()%>">
+                        	<input type="submit" value="리뷰 삭제">
+                        </form>
+                        <form action="update.ar" style="float:right;">
+                        	<input type="hidden" name="arNo" value="<%=ar.getArNo()%>">
+                        	<input type="hidden" name="bno" value="<%=b.getBoardNo()%>">
+                        	<input type="submit" value="리뷰 수정">
+                        </form>
+                        <%} %>
+                        <br>
                         <span><%=ar.getContent() %> </span>
                     </div>
                     <div class="correctRate">
@@ -219,42 +247,142 @@
                                 <th>상대방</th>
                             </tr>
                             <tr>
-                                <td>5</td>
-                                <td>5</td>
+                                <td><%=ar.getCorrectRateMe() %></td>
+                                <td><%=ar.getCorrectRateYou() %></td>
                             </tr>
                         </table>
                     </div>
                 </div>
                 <div class="replyWriteArea">
+                <%if(loginUser!=null){ %>
                     <table>
                         <tr>
                             <th>작성자</th>
                         </tr>
                         <tr>
-                            <td>아이디</td>
+                            <td><%=loginUser.getUserId()%></td>
                         </tr>
                     </table>
-                    <textarea name="" id="" cols="70" rows="5" style="resize: none;" placeholder="댓글을 입력해주세요."></textarea>
-                    <input type="submit" value="댓글작성">
+                    <textarea name="" id="reply_input" cols="70" rows="5" style="resize: none;" placeholder="댓글을 입력해주세요."></textarea>
+                    <input type="button" id="reply_btn" value="댓글등록">
+                <%}else{ %>
+                	<table>
+                        <tr>
+                            <th>작성자</th>
+                        </tr>
+                        <tr>
+                            <td>비회원</td>
+                        </tr>
+                    </table>
+                    <textarea name="" id="" cols="70" rows="5" style="resize: none;" placeholder="로그인한 유저만 이용 가능합니다." disabled></textarea>
+                    <input type="button" value="댓글작성" disabled>
+                <%} %>    
                 </div>
             </div>
             <div class="bodyRight">
-                <div class="replyViewArea">
-                    <div>
+                <div id="replyViewArea">
                         <table>
-                            <tr>
-                                <th>아이디</th>
-                            </tr>
-                            <tr>
-                                <td>댓글내용</td>
-                            </tr>
+                           
                         </table>
-                    </div>
                 </div>
                 <div class="recommendArea">광고나해라</div>
             </div>
         </div>
-       
     </div>
+    
+    <script>
+       	//좋아요 기능
+       	$(function(){
+			$("#good").on("click", function(){
+				<%if(loginUser == null){%>
+					alert("로그인 후 이용해 주세요.");
+				<%}else{%>
+					$.ajax({
+						url:"liked.bo",
+						data:{
+							bno:<%=b.getBoardNo()%>,
+							uno:<%=loginUser.getUserNo()%>
+						},
+						success:function(result2){
+							if(result2>0){
+								alert("이 게시글을 좋아합니다.");
+							}else{
+								alert("이미 추천한 게시글입니다.");
+							}
+						},
+						error:function(){
+							alert("통신 에러");
+						}
+					});
+				<%}%>
+			});
+		});
+       
+       
+       	//디테일 넘어왔을때 댓글 최신화
+        $(document).ready(function(){
+        	viewRpList();
+        });
+       
+       	$(function(){
+       		$("#reply_input").on("keydown",function(e){
+       			//엔터키를 눌렀을때
+       			if(e.keyCode ==13){
+       				e.preventDefault(); //줄바꿈기능을 제거하고 
+       				$("#reply_btn").click(); //버튼의 submit과 동일한기능 추가
+       			}
+       		});
+       		
+       		$("#reply_btn").on("click",function(){
+       			<%if(loginUser !=null){%>
+       				$.ajax({
+       					url:"insertRp",
+       					data:{
+       						bno:<%=b.getBoardNo()%>,
+       						content:$("#reply_input").val()
+       					},
+       					success:function(result){
+       						if(result>0){
+       							alert("댓글 등록 성공");
+       							//완료되면 댓글창 비워주기
+       							$("#reply_input").val("");
+       							
+       							//댓글 리스트 최신화
+       							viewRpList();
+       						}else{
+       							alert("댓글 등록 실패");
+       						}
+       					},
+       					error:function(){
+       						alert("댓글 등록 통신 실패");
+       					}
+       				});
+       			<%}%>
+       		});
+       	});
+       	
+       	function viewRpList(){
+       		$.ajax({
+       			url:"listRp",
+       			data:{
+  						bno:<%=b.getBoardNo()%>
+  					},
+       			success:function(list){
+       				var str = "";
+       				
+       				for(var i in list){
+       					str += "<tr><td>"+list[i].rpWriter+"</td>"
+						  +"<td style='text-align:left; padding-left: 5px;'>"+list[i].content+"</td>"
+						  +"<td>"+list[i].createDate+"</td></tr>";
+       				}
+       				$("#replyViewArea>table").html(str);
+       			},
+       			error:function(){
+   					alert("댓글리스트 조회 통신 실패");
+   				}
+       		});
+       	}
+   </script>
+    
 </body>
 </html>

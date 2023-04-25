@@ -46,18 +46,16 @@ public class ResolvedBoardDetailController extends HttpServlet {
 			Board b = new AccidentBoardService().resolvedBoardSelectDetail(bno);
 			//사건정보
 			Accident ac = new AccidentBoardService().resolvedAccidentSelectDetail(bno);
-			//댓글정보
-			ArrayList<Reply> rplist = new AccidentBoardService().resolvedReplySelectDetail(bno);
 			
+			
+			//댓글정보
 			int accNo=ac.getAccNo();
 			//사건 리뷰 정보
 			AccidentReview ar = new AccidentBoardService().resolvedBoardReviewSelectDetail(accNo);
 			
-			
-			if(b!=null&&ac!=null&&rplist!=null&&ar!=null) {//성공
+			if(b!=null&&ac!=null&&ar!=null) {//성공
 				request.setAttribute("board", b);
 				request.setAttribute("accident", ac);
-				request.setAttribute("rplist", rplist);
 				request.setAttribute("review", ar);
 				
 				request.getRequestDispatcher("views/board/resolvedBoardDetailView.jsp").forward(request, response);

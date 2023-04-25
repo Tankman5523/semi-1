@@ -43,13 +43,23 @@ public class AccidentBoardUpdateController extends HttpServlet {
 		
 		//게시판정보 + 첨부파일 경로
 		Board b = new AccidentBoardService().accidentBoardSelectDetail(bno);
+		if(b==null) { // 정보를 가져오지 못한다면 -> ac가 아니라 rs에서 가져와야한다.
+			b = new AccidentBoardService().resolvedBoardSelectDetail(bno); 
+		}
 		//사건정보
 		Accident ac = new AccidentBoardService().accidentSelectDetail(bno);
+		if(ac==null) {
+			ac = new AccidentBoardService().resolvedAccidentSelectDetail(bno);
+		}
 		
 		if(b!=null && ac!=null) {
 			request.setAttribute("board", b);
 			request.setAttribute("accident", ac);
-			request.getRequestDispatcher("views/board/accidentBoardUpdateForm.jsp").forward(request, response);
+			if(b.getCategoryNo()==4) {
+				request.getRequestDispatcher("views/board/resolvedBoardUpdateForm.jsp").forward(request, response);
+			}else {
+				request.getRequestDispatcher("views/board/accidentBoardUpdateForm.jsp").forward(request, response);
+			}
 		}else {
 			request.setAttribute("errorMsg", "게시글정보 불러오기 실패");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
@@ -87,6 +97,8 @@ public class AccidentBoardUpdateController extends HttpServlet {
 			
 			//글번호*
 			int boardNo = Integer.parseInt(multiRequest.getParameter("bno"));
+			//게시판 번호
+			int categoryNo = Integer.parseInt(multiRequest.getParameter("cno"));
 			
 			//사건정보
 			int partNo = Integer.parseInt(multiRequest.getParameter("partCategory"));
@@ -113,7 +125,7 @@ public class AccidentBoardUpdateController extends HttpServlet {
 			ac.setRegion(region);
 			ac.setAccRateMe(accidentRateMe);
 			ac.setAccRateYou(accidentRateYou);
-			System.out.println(ac);
+			
 			//게시글 , 사건데이터 먼저 DB에 update
 			int result = new AccidentBoardService().updateAccidentBoard(b,ac);
 			
@@ -130,7 +142,6 @@ public class AccidentBoardUpdateController extends HttpServlet {
 					at.setFilePath("/resources/accident_board_file/");
 					
 					result = new AccidentBoardService().updateAccidentAttachment(at);
-					System.out.println(result);
 					
 					if(result>0) {//첨부파일 입력 성공시
 						System.out.println("첨부파일 성공");
@@ -145,8 +156,14 @@ public class AccidentBoardUpdateController extends HttpServlet {
 					}
 				//첨부파일 수정 없을시
 				}else {
+					System.out.println("게시글만 수정 성공");
 					request.getSession().setAttribute("alertMsg", "게시글이 성공적으로 수정되었습니다.");
-					response.sendRedirect(request.getContextPath()+"/detail.ac?bno="+boardNo);
+					System.out.println(categoryNo);
+					if(categoryNo == 4) {//해결게시판
+						response.sendRedirect(request.getContextPath()+"/detail.rb?bno="+boardNo);
+					}else if(categoryNo == 3) {//cno가 3일때 = 사건게시판
+						response.sendRedirect(request.getContextPath()+"/detail.ac?bno="+boardNo);
+					}
 				}
 			}else {
 				System.out.println("데이터 삽입 실패");

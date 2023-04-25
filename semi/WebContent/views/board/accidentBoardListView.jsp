@@ -102,12 +102,15 @@
         }
         
         /*썸네일 */
-        .accidentBoardList img{
+        .accidentBoardList video{
             border: 1px solid black;
             width: 200px;
             height: 200px;
         }
-
+        .accidentBoardList video:hover{
+			
+		
+		}
         /*하단 페이징*/
         .pageMover{
             height: 5%;
@@ -183,7 +186,12 @@
 	                 <table class="accidentBoardList" onclick="location.href='<%=contextPath%>/detail.ac?bno='+<%=blist.get(i).getBoardNo()%>">
 	                    <tr>
 	                    	<!-- 테스트용 썸네일 -->
-	                        <td colspan="2"><img src="<%=contextPath%><%=blist.get(i).getFilePath()%>" alt="" ></td>
+	                        <td colspan="2">
+	                        	<!-- <img src="<%=contextPath%><%=blist.get(i).getFilePath()%>" alt="" > -->
+	                        	<video preload="metadata" src="<%=contextPath%><%=blist.get(i).getFilePath()%>#t=1.0"></video>
+	                        </td>
+	                    	<!-- 비디오에 처리... -->
+	                    	 
 	                    	
 	                    </tr>
 	                    <tr>

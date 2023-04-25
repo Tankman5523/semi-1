@@ -94,8 +94,6 @@ public class AccidentReviewEnrollController extends HttpServlet {
 				result = new AccidentBoardService().shiftBoard(bno,accNo);
 			
 				//파일 파라메터
-				
-			
 			
 				if(result>0) {//리뷰정보 입력 성공
 					if(multiRequest.getOriginalFileName("reviewVideo")!=null) {
