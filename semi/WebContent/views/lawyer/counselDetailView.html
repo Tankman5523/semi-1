@@ -1,24 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.ArrayList,com.bbbox.lawyer.model.vo.*"%>
-<%
-	Counsel c = (Counsel)request.getAttribute("c");
-	Lawyer l = (Lawyer)request.getAttribute("l");
-	
-%>
-<%@ include file = "../common/mainMenu.jsp" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>상담신청 수정</title>
-	<style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
 	    /* 영역잡기 */
 	.wrap div{
 	   border: 0px;
 	   box-sizing: border-box;
 	}
 	.wrap{
-	   border: 1px solid black;
+	   /* border: 1px solid black; */
 	   width: 1200px;
 	   height: 600px;
 	   margin: auto;
@@ -40,7 +34,7 @@
 	   margin: 0;
 	}
 	#comment{
-	   height: 10%; /* 일단 삭제된 상태 */
+	   height: 10%;
 	}
 	#enroll{
 	   height: 75%;
@@ -69,7 +63,7 @@
 <body>
 	<div class="wrap">
 	   <div id="enroll-area">
-	       <div id="title"><h2>상담내용 수정</h2></div>
+	       <div id="title"><h2>상담내용 확인</h2></div>
 	       <div id="enroll">
 	           <form  id="enroll-form" action="<%=contextPath%>/counselUpdate.la" method="post">
 	               <input type="hidden" name="cno" value="<%=c.getCsNo() %>">
@@ -88,8 +82,12 @@
 	                   </tr>
 	                   <tr>
 	                       <th>내용</th>
-	                       <td><textarea name="content" cols="50" rows="15" style="resize:none" required><%=c.getCsContent() %></textarea></td>
+	                       <td><textarea name="content" cols="50" rows="15" style="resize:none" required></textarea></td>
 	                   </tr>
+                       <tr>
+                            <th>답변</th>
+                            <td><textarea name="content" cols="50" rows="15" style="resize:none" required></textarea></td>
+                    </tr>
 	               </table>
 	               <div id="button">
 	                   <button type="submit">수정하기</button>
@@ -99,12 +97,5 @@
 	       </div>
 	   </div>
 	</div>
-	<script>
-		function back(){
-			if(confirm("취소하시면 작성 내용이 저장되지 않습니다.")){
-				history.back();
-			}
-		};
-	</script>
 </body>
 </html>

@@ -223,6 +223,20 @@ public class MemberService {
 		return accident;
 	}
 
+<<<<<<< HEAD
+	//나에게 온 상담내역 조회하는 메소드 (변호사)
+	public ArrayList<Counsel> selectCounselListLaw(int userNo) {
+
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Counsel> cListLaw = new MemberDao().selectCounselListLaw(conn, userNo);
+		
+		JDBCTemplate.close(conn);
+		
+		return cListLaw;
+	}
+=======
 	
+>>>>>>> refs/remotes/origin/master
 
 }

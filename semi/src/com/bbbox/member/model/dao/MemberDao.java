@@ -600,6 +600,44 @@ public class MemberDao {
 		return accident;
 	}
 
+<<<<<<< HEAD
+	//나에게 온 상담내역 조회하는 메소드 (변호사)
+	public ArrayList<Counsel> selectCounselListLaw(Connection conn, int userNo) {
+
+		ResultSet rset = null;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("selectCounselListLaw");
+		
+		ArrayList<Counsel> cListLaw = new ArrayList<>();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				cListLaw.add(new Counsel(rset.getInt("CS_NO"),
+									  rset.getString("CS_TITLE"),
+									  rset.getDate("CREATE_DATE"),
+									  rset.getString("CS_ANSWER"),
+									  rset.getString("ACCEPT")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return cListLaw;
+	}
+=======
 	
+>>>>>>> refs/remotes/origin/master
 
 }

@@ -32,9 +32,6 @@ public class ReviewEnrollController extends HttpServlet {
 		//리뷰작성 폼 띄우기 위한 정보 조회
 		
 		Lawyer l = new LawyerService().selectLawyer(Integer.parseInt(request.getParameter("lno")));
-		//일단 고정값으로 테스트하고 위 구문으로 바꾸기
-		//int lno = 1;
-		//Lawyer l = new LawyerService().selectLawyer(lno);
 		
 		request.setAttribute("l", l);
 		

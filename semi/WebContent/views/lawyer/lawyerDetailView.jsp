@@ -3,17 +3,8 @@
 <%@ include file = "../common/mainMenu.jsp" %>
 <%
 	Lawyer law = (Lawyer)request.getAttribute("law");
-	String lawName = law.getRefUno(); //변호사 이름 (자주 사용해서 변수로 만들었음)
+	String lawName = law.getRefUno(); //변호사 이름 (자주 사용해서 변수로 만듦)
 	ArrayList<LawReview> rList =  (ArrayList<LawReview>)request.getAttribute("rList");
-	
-	/* 지도확인용(나중에 지우기) */
-	String referer = request.getHeader("Referer");
-	System.out.println(referer);
-	
-	/* 이렇게 해야 되나.. */
-	if(loginUser != null){
-			int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
-	}
 %>
 <!DOCTYPE html>
 <html>
@@ -171,6 +162,7 @@
 	   <div id="space"></div>
 	   <div id="head"> <!-- 뒤로가기 버튼 -->
 	      <a href="<%=contextPath %>/list.la"><i class="fa-solid fa-angle-left fa-2xl" style="color: #878787;"></i></a>
+	      <a href="<%=contextPath %>/review.la?lno=1">리뷰작성</a>
 	   </div>
 	   <div id="content">
 	       <div id="left">
@@ -222,7 +214,7 @@
 	               </div>
 	           </div>
 	       </div>
-	       <div id="right">
+	       <div id="right"> <!-- 리뷰 영역 -->
 		   		<div id="review-title">고객추천의 글 <i class="fa-solid fa-user-group fa-lg" style="color: #00bd7e;"></i></div>
 				<div id="review-area">
 					<%if(rList.isEmpty()){ %>
@@ -244,7 +236,7 @@
 							</table>
 						<%} %>
 					<%} %>
-					<table>
+					<table> <!-- 테스트용 나중에 삭제 -->
 						<tr>
 							<td>★★★</td>
 							<td>테스트***</td>
@@ -268,18 +260,31 @@
 	
 	<!-- 구글맵 script -->
 	<script>
+		   
 	   function myMap(){
-	      // 2-2. 구글 맵의 옵션 
-	      var mapOptions = { 
-	            // 지도의 중앙 위치 : 영국 런던
-	            center:new google.maps.LatLng(37.5642135, 127.0016985)
-	            // 줌 레벨 : 5
-	               , zoom:9
+		   
+			var address = "<%=law.getCompanyAddress()%>";
+			var local = address.substring(0,2); //주소에서 앞 두글자만 가져오기
+			var Lat = 0;
+			var Lng = 0;
+			
+			switch(local){
+			case "서울" : Lat=37.5518911; Lng=126.9917937; break;
+			case "경기" : Lat=37.5289145; Lng=127.1727772; break;
+			case "강원" : Lat=37.7249620; Lng=128.3009629; break;
+			case "충청" : Lat=36.5622940; Lng=126.9541070; break;
+			case "전라" : Lat=35.3564250; Lng=126.9541070; break;
+			case "경상" : Lat=35.8059055; Lng=128.9876741; break;
+			case "제주" : Lat=33.3846216; Lng=126.5534925; break;
+			}
+		   
+	      var mapOptions = { //구글 맵의 옵션 
+	            
+	            center:new google.maps.LatLng(Lat, Lng), //지도의 중앙 위치
+	            zoom:9 // 줌 레벨 
 	      };
 	      
-	      // 2. 구글 지도 생성(만들기)
-	      // var map = new google.maps.Map(맵캔버스, 맵옵션들 );
-	      var map = new google.maps.Map( 
+	      var map = new google.maps.Map( //구글 지도 생성 (맵캔버스, 맵옵션들 )
 	             document.getElementById("map") 
 	            , mapOptions );
 	   }
@@ -288,10 +293,9 @@
 	
 	
 	<%if(loginUser != null){ %>
+	
 		<script>
-		
-			//현재 찜한 여부 확인
-			 $(function(){
+			 $(function(){ //현재 찜한 여부 확인
 				$.ajax({ //찜한 여부 확인 후 하트영역에 빈하트or꽉찬하트 넣어주기
 					url:"dibs.la",
 					data:{
@@ -309,8 +313,7 @@
 					}
 				});
 			});
-			//찜하기 클릭 시 찜하기 상태 변경
-			$("#addFunction tr:eq(0)").click(function(){
+			$("#addFunction tr:eq(0)").click(function(){ //찜하기 클릭 시 찜하기 상태 변경
 			
 				var $isTrue = false;
 				var $lawName = "<%=lawName %>";
@@ -348,28 +351,29 @@
 				}
 			});
 		
-			//상담신청 페이지로 이동
-			$("#addFunction tr:eq(1)").click(function(){
+			$("#addFunction tr:eq(1)").click(function(){ //상담신청 페이지로 이동
 				location.href="<%=contextPath%>/counsel.la?lno=<%=law.getLawNo() %>";
 			});
-	
 		</script>
+		
 	<%}else{ %>
+	
 		<script>
-			$("#addFunction tr:eq(0),#addFunction tr:eq(1)").click(function(){
+			$("#addFunction tr:eq(0),#addFunction tr:eq(1)").click(function(){ //비회원은 찜하기/상담기능 막기
 				if(confirm("로그인한 회원만 이용가능한 메뉴입니다.")){
 					location.href="<%=contextPath%>/enroll.me";
 				}
 			});
 		</script>
+		
 	<%} %>
+	
 	<script>
-		//지도 모달창 띄우기
-		$("#addFunction tr:eq(2)").click(function(){
+		$("#addFunction tr:eq(2)").click(function(){ //지도 모달창 띄우기
 			$("#popup-wrap").css('display','block');
 		});
-		//모달 배경 클릭 시 나가기
-		$("#popup-wrap").click(function(e){
+		
+		$("#popup-wrap").click(function(e){ //모달 배경 클릭 시 나가기
 			if(e.target != e.currentTarget) return;
 				$("#popup-wrap").css('display','none');
 		});
