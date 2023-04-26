@@ -15,6 +15,7 @@ import com.bbbox.board.model.vo.AccidentReview;
 import com.bbbox.board.model.vo.Attachment;
 import com.bbbox.board.model.vo.Board;
 import com.bbbox.board.model.vo.Reply;
+import com.bbbox.board.model.vo.Search;
 import com.bbbox.common.JDBCTemplate;
 import com.bbbox.common.model.vo.PageInfo;
 
@@ -1077,6 +1078,78 @@ public class AccidentBoardDao {
 		}
 		
 		return result;
+	}
+
+	public int selectAccNo(Connection conn, int bno) {
+		int accNo = 0;
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("selectAccNo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, bno);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				accNo = rset.getInt("ACC_NO");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return accNo;
+	}
+
+	public int searchedListCount(Connection conn, Search s) {
+		int listCount = 0;
+		ResultSet rset=null;
+		PreparedStatement pstmt = null;
+		String sql = null; //prop.getProperty("searchedListCount");
+		
+		if(s.getSearchFilter().equals("제목")||s.getSearchFilter().equals("")) {
+			sql = prop.getProperty("searchedListCountByTitle");
+		}else {
+		//검색필터가 작성자일때
+			sql = prop.getProperty("searchedListCountByWriter");
+		}
+		
+		try {
+			pstmt= conn.prepareStatement(sql);
+			
+			if(s.getRegion().equals("")) {
+				pstmt.setString(1, "%"+s.getRegion()+"%");
+			}else {
+				pstmt.setString(1, s.getRegion());
+			}
+			if(s.getPartType()!=0) {
+				pstmt.setInt(2, s.getPartType());
+			}else {
+				pstmt.setString(2, "%"+""+"%");
+			}
+			if(s.getInsuranceType().equals("")) {
+				pstmt.setString(3, "%"+s.getInsuranceType()+"%");
+			}else {
+			pstmt.setString(3, s.getInsuranceType());
+			}
+			pstmt.setString(4, "%"+s.getKeyword()+"%");
+			
+			
+			rset=pstmt.executeQuery();
+			
+			if(rset.next()) {
+				listCount=rset.getInt("COUNT");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return listCount;
 	}
 
 	

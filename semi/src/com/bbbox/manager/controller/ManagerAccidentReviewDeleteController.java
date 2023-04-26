@@ -1,4 +1,4 @@
-package com.bbbox.board.controller;
+package com.bbbox.manager.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,20 +7,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bbbox.board.model.service.AccidentBoardService;
-import com.bbbox.board.model.service.BoardService;
+import com.bbbox.manager.service.ManagerService;
 
 /**
- * Servlet implementation class AccidentBoardDeleteController
+ * Servlet implementation class ManagerAccidentReviewDeleteController
  */
-@WebServlet("/delete.ac")
-public class AccidentBoardDeleteController extends HttpServlet {
+@WebServlet("/deleteReview.mac")
+public class ManagerAccidentReviewDeleteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AccidentBoardDeleteController() {
+    public ManagerAccidentReviewDeleteController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,17 +31,9 @@ public class AccidentBoardDeleteController extends HttpServlet {
 		
 		int bno = Integer.parseInt(request.getParameter("bno"));
 		
-		int result = new AccidentBoardService().deleteAccidentBoard(bno);
+		int result = new ManagerService().accidentReviewDelete(bno);
 		
-		
-		
-		if(result>0) {
-			request.getSession().setAttribute("alertMsg", "게시물이 성공적으로 삭제되었습니다.");
-			response.sendRedirect(request.getContextPath()+"/list.ac?currentPage=1");
-		}else {
-			request.setAttribute("errorMsg", "게시물 삭제 실패");
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
+		response.getWriter().print(result);
 		
 	}
 

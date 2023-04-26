@@ -57,7 +57,7 @@ public class ResolvedBoardListController extends HttpServlet {
 		}
 		
 		//pageLimit : 페이지 하단에 보여질 페이징 바의 페이지 최대개수 (목록단위)
-		pageLimit = 15;
+		pageLimit = 5;
 		
 		//boardLimit : 한 페이지에 보여질 게시글 개수 (게시글 단위)
 		boardLimit = 15;

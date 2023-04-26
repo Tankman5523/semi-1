@@ -123,6 +123,15 @@
 	<!-- 메뉴바 인클루드 하세요 -->
 	<%@include file="../common/mainMenu.jsp" %>
 	
+	<%	
+	//로그인 안됬으면 홈으로 보내기
+	
+	/*if(loginUser==null){
+		session.setAttribute("alertMsg", "로그인한 유저만 이용할 수 있습니다.");
+		response.sendRedirect(contextPath);
+	}*/
+	%>
+	
     <div class="outer">
         <div id="accidentBoardHead">
             <div class="boardName">
@@ -211,20 +220,20 @@
             <div class="pageMover" align="center">
             <%if(blist!=null){ %>
                	 <%if(pi.getCurrentPage() != 1){ %>
-					<button onclick="location.href='<%=contextPath%>/list.ac?currentPage=<%=pi.getCurrentPage()-1%>'">&lt;</button>
+					<button onclick="location.href='<%=contextPath%>/list.rb?currentPage=<%=pi.getCurrentPage()-1%>'">&lt;</button>
 				<%} %>
 			
-				<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++){ %>
+				<%for(int i=pi.getStartPage(); i<pi.getEndPage(); i++){ %>
 				<!-- 내가 보고있는 페이지 버튼은 비활성화 하기 -->
 					<%if(i != pi.getCurrentPage()){ %>
-						<button onclick="location.href='<%=contextPath%>/list.ac?currentPage=<%=i%>';"><%=i %></button>
+						<button onclick="location.href='<%=contextPath%>/list.rb?currentPage=<%=i%>';"><%=i %></button>
 					<%}else{ %> <!-- 내가 보고있는 페이지와 페이징바 버튼의 수가 같아면 i와 currenPage -->
 						<button disabled><%=i %></button>
 					<%} %>
 				<%} %>
 				
 				<%if(pi.getCurrentPage() != pi.getMaxPage()) {%>
-					<button onclick="location.href='<%=contextPath%>/list.ac?currentPage=<%=pi.getCurrentPage()+1%>'">&gt;</button>
+					<button onclick="location.href='<%=contextPath%>/list.rb?currentPage=<%=pi.getCurrentPage()+1%>'">&gt;</button>
 				<%} %>	
 			<%} %>
             </div>

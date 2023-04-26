@@ -151,6 +151,26 @@
 		DELETE REPLY
 		WHERE REF_BNO = ?
 	</entry>
-
+	
+	<entry key="accidentReviewDelete">
+		DELETE ACCI_REVIEW
+		WHERE REF_ACCNO = ?
+	</entry>
+	
+	<!-- 삭제처리한 정보까지 불러오기 -->
+	<entry key="selectAttachmentForManage">
+		SELECT CHANGE_NAME , FILE_PATH , ORIGIN_NAME
+		FROM ATTACHMENT
+		WHERE REF_BNO = ?
+	</entry>
+	
+	<!-- 삭제된 댓글까지 조회 -->
+	<entry key="selectRpListForManage">
+		SELECT RP_NO, USER_ID, CONTENT, TO_CHAR(CREATE_DATE, 'YY-MM-DD HH24:MI:SS') "CREATE_DATE"
+		FROM REPLY R
+		JOIN MEMBER M ON(RP_WRITER = USER_NO)
+		WHERE REF_BNO = ?
+	</entry>
+	
 
 </properties>

@@ -6,11 +6,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import com.bbbox.board.model.vo.Attachment;
 import com.bbbox.board.model.vo.Board;
+import com.bbbox.board.model.vo.Reply;
 import com.bbbox.common.JDBCTemplate;
 import com.bbbox.common.model.vo.PageInfo;
 
@@ -280,8 +281,92 @@ Properties prop = new Properties();
 		
 		return result;
 	}
-	
-	
+
+	public int accidentReviewDelete(Connection conn, int accNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("accidentReviewDelete");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, accNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public ArrayList<Attachment> selectAttachmentForManage(Connection conn, int bno) {
+		ArrayList<Attachment> alist = new ArrayList<Attachment>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectAttachmentForManage");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bno);
+			
+			rset = pstmt.executeQuery();
+					
+			while(rset.next()) {
+				Attachment at = new Attachment();
+				
+				at.setChangeName(rset.getString("CHANGE_NAME"));
+				at.setFilePath(rset.getString("FILE_PATH"));
+				at.setOriginName(rset.getString("ORIGIN_NAME"));
+				at.setRefBno(bno);
+				
+				alist.add(at);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return alist;
+	}
+	//있는지 확인만 할거라서 객체 하나만 가져오기
+	public Reply selectRpListForManage(Connection conn, int bno) {
+		Reply rp = null;
+			
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("selectRpList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bno);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				rp = new Reply(rset.getInt("RP_NO"),
+								   rset.getString("USER_ID"),
+								   rset.getString("CONTENT"),
+								   rset.getString("CREATE_DATE"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return rp;
+	}
 	
 	
 	

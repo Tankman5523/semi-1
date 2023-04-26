@@ -125,7 +125,7 @@
     <div class="outer">
         <div id="accidentBoardHead">
             <div class="boardName">
-                <p>사건 게시판 관리</p>
+                <p>해결된 영상 게시판 관리</p>
             </div>
           
             <div class="sort" style="float: right;margin-top: 20px;" >
@@ -204,13 +204,13 @@
                             <th>비추천</th>
                             <th>담당변호사</th>
                             <th>글게시</th>
-                            <th>상태변경</th>
+                            <th colspan="2">상태변경</th>
                         </tr>
                     </thead>
 	                <tbody>
 	                	<%if(blist!=null){ %>
 		                	<%for(int i=0;i<blist.size();i++){ %>
-		                    <tr>
+		                    <tr onclick="location.href='<%=contextPath%>/detail.rb?bno='+<%=blist.get(i).getBoardNo()%>">
 		                        <td><input type="checkbox" name="selectBoard"></td>
 		                        <td><%=blist.get(i).getBoardNo()%></td>
 		                        <td><%=blist.get(i).getBoardWriter()%></td>
@@ -223,14 +223,24 @@
 		                        <td><%=blist.get(i).getLiked()%></td>
 		                        <td><%=blist.get(i).getReportCount()%></td>
 		                        <td><%=blist.get(i).getCategoryName()%></td>
-		                        <!-- 아직 게시되지 않았다면 -->
+	                        	<td id="statusShift">
+		                        		<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
 		                        <%if(blist.get(i).getStatus().equals("N")) {%>
-		                        	<td><button onclick="location='<%=contextPath%>/statusOn.mac?bno='<%=blist.get(i).getBoardNo()%>" name="statusOn" class="statusOn" style="background-color: red; color: white;">OFF</button></td>
+		                        <!-- 아직 게시되지 않았다면 -->
+		                        		<button name="statusOn" class="statusOn" style="background-color: red; color: white;width:100%;height:100%">OFF</button>
 		                        <%}else{ %>
 		                        <!-- 글이 게시 되어있다면 -->
-		                        	<td><button onclick="location='<%=contextPath%>/statusOff.mac?bno='<%=blist.get(i).getBoardNo()%>" name="statusOff" class="statusOff" style="background-color: green; color: white;">ON</button></td>
+		                        		<button name="statusOff" class="statusOff" style="background-color: green; color: white;width:100%;height:100%">ON</button>
+		                        	</td>
 		                        <%} %>
-		                        <td><button onclick="location='<%=contextPath%>/delete.mac?bno='<%=blist.get(i).getBoardNo()%>" name="delete" class="">글삭제</button></td>
+		                        <td>
+		                        	<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
+		                        	<button name="delRev" class="deleteReviewBtn">리뷰삭제</button>
+		                        </td>
+		                        <td>
+		                        	<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
+		                        	<button name="delete" class="deleteBoardBtn">글삭제</button>
+		                        </td>
 		                    </tr>
 		                    <%} %>
 		                    
@@ -244,65 +254,133 @@
             	</table>
 	        <!-- 글게시 on/off 토글처리 -->
 	        <script>
-	        $(this).ready.function(){
-	        	
-	        }
 	        
-	        $(".statusOn").click.function(){
-	        	$.ajax({
-			        
-	        		url: statusOn.ac,
-	        		data:{
-	        			
-	        		},
-	        		success: function(){
-	        			
-	        		},
-	        		error: function(){
-	        			
+	        //글 게시
+	        $(function(){
+	        	$(".statusOn").on("click",function(){
+		        	$.ajax({
+		        		url: "statusOn.mac",
+		        		data:{
+		        			bno:$(this).parent().children("input[type=hidden]").val()
+		        		},
+		        		success: function(result){
+		        			if(result>0){
+		        				alert("상태값 변경 성공!");
+		        			}else{
+		        				alert("상태값 변경 실패!");
+		        			}
+		        		},
+		        		error: function(){
+		        			alert("통신 연결 실패");
+		        		},
+		        		complete: function() {
+		                    $('#statusShift').load(location.reload());
+		                }
+		        	});
+		        });
+	        });
+	        
+	        //글 회수
+	        $(function(){
+	        	$(".statusOff").on("click",function(){
+		        	$.ajax({
+		        		url: "statusOff.mac",
+		        		data:{
+		        			bno:$(this).parent().children("input[type=hidden]").val()
+		        		},
+		        		success: function(result){
+		        			if(result>0){
+		        				alert("상태값 변경 성공!");
+		        			}else{
+		        				alert("상태값 변경 실패!");
+		        			}
+		        		},
+		        		error: function(){
+		        			alert("통신 연결 실패");
+		        		},
+		        		complete: function() {
+		                    $('#statusShift').load(location.reload());
+		                }
+		        	});
+		        });
+	        });
+	        
+	      //DB에서 삭제
+	        $(function(){
+	        	$(".deleteBoardBtn").on("click",function(){
+	        		var control = confirm("정말로 삭제하시겠습니까?");
+	        		if(control==true){	
+		        		$.ajax({
+			        		url: "deleteReal.mac",
+			        		data:{
+			        			bno:$(this).parent().children("input[type=hidden]").val()
+			        		},
+			        		success: function(result){
+			        			if(result>0){
+			        				alert("게시글 완전삭제 성공!");
+			        			}else{
+			        				alert("상태값 변경 실패!");
+			        			}
+			        		},
+			        		error: function(){
+			        			alert("통신 연결 실패");
+			        		},
+			        		complete: function() {
+			                    $('#boardList').load(location.reload());
+			                }
+			        	});
+	        		}	
+		        });
+	        });
+	      	
+	      	//리뷰 삭제하고 영상게시판으로 보내기
+	        $(function(){
+	        	$(".deleteReviewBtn").on("click",function(){
+	        		var control = confirm("리뷰를 삭제하고 게시글을 제보게시판으로 보내시겠습니까?");
+	        		if(control==true){
+		        		$.ajax({
+			        		url: "deleteReview.mac",
+			        		data:{
+			        			bno:$(this).parent().children("input[type=hidden]").val()
+			        		},
+			        		success: function(result){
+			        			if(result>0){
+			        				alert("리뷰 완전삭제 성공! 해당 게시글은 제보영상게시판으로 이동합니다. ");
+			        			}else{
+			        				alert("상태값 변경 실패!");
+			        			}
+			        		},
+			        		error: function(){
+			        			alert("통신 연결 실패");
+			        		},
+			        		complete: function() {
+			                    $('#boardList').load(location.reload());
+			                }
+			        	});
 	        		}
-	        	});
-	        }
+		        });
+	        });
 	        
-	        $(".statusOff").click.function(){
-	        	$.ajax({
-			        
-	        		url: statusOff.ac,
-	        		data:{
-	        			
-	        		},
-	        		success: function(){
-	        			
-	        		},
-	        		error: function(){
-	        			
-	        		}
-	        	});
-	        }
-	        
-	        var statusList = function(){
-	        	
-	        }
 	        
 	        </script>       
             </div>
             <!-- 페이징바 -->
             <div class="pageMover" align="center">
                	 <%if(pi.getCurrentPage() != 1){ %>
-					<button onclick="location.href='<%=contextPath%>/list.ac?currentPage=<%=pi.getCurrentPage()-1%>'">&lt;</button>
+					<button onclick="location.href='<%=contextPath%>/list.mrb?currentPage=<%=pi.getCurrentPage()-1%>'">&lt;</button>
 				<%} %>
 			
-				<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++){ %>
+				<%for(int i=pi.getStartPage(); i<pi.getEndPage(); i++){ %>
 				<!-- 내가 보고있는 페이지 버튼은 비활성화 -->
 					<%if(i != pi.getCurrentPage()){ %>
-						<button onclick="location.href='<%=contextPath%>/list.ac?currentPage=<%=i%>';"><%=i %></button>
+						<button onclick="location.href='<%=contextPath%>/list.mrb?currentPage=<%=i%>';"><%=i %></button>
 					<%}else{ %> <!-- 내가 보고있는 페이지와 페이징바 버튼의 수가 같으면 i와 currenPage -->
 						<button disabled><%=i%></button>
 					<%} %>
 				<%} %>
 				
 				<%if(pi.getCurrentPage() != pi.getMaxPage()) {%>
-					<button onclick="location.href='<%=contextPath%>/list.ac?currentPage=<%=pi.getCurrentPage()+1%>'">&gt;</button>
+					<button onclick="location.href='<%=contextPath%>/list.mrb?currentPage=<%=pi.getCurrentPage()+1%>'">&gt;</button>
 				<%} %>	
             </div>
         </div>
