@@ -51,8 +51,8 @@ public class BoardInsertController extends HttpServlet {
 		
 		if(ServletFileUpload.isMultipartContent(request)) {
 			
-			//파일사이즈 10Mb
-			int maxSize = 10 * 1024 * 1024;
+			//10mb
+			int maxSize = 10 * 1024 * 1024 ;
 			
 			
 			String savePath = request.getSession().getServletContext().getRealPath("/resources/1_board/");

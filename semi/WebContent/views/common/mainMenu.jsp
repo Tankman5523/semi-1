@@ -208,9 +208,12 @@
         <div id="header3">
             <div id="user-info">
                  <div id = "username">
-					<%if(loginUser.getLawyer().equals("Y")){ %>
+					<%if(loginUser.getAdmin().equals("Y")){ %>
+						<a href="<%=contextPath%>/views/manager/manager_index.jsp" style="color:red;text-decoration:none;font-weight:bold">관리자 </a><br>
+						<b><%=loginUser.getUserName()%> 님</b>
+					<%}else if(loginUser.getLawyer().equals("Y")){ %>
 						<b>변호사</b> <br> <!-- 추후 변경(이미지 대체) -->
-						<b><%=loginUser.getUserName()%> 님</b>						
+						<b><%=loginUser.getUserName()%> 님</b>
 					<%}else{ %>                	
                     <b><%=loginUser.getUserName()%> 님</b>
                     <%} %>

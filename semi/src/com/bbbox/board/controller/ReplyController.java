@@ -48,13 +48,19 @@ public class ReplyController extends HttpServlet {
         	
         	int result = new BoardService().insertRp(uno, bno, content);
         	
-        	response.getWriter().print(result);
+        	int result2 = 0;
+        	if(result>0) {
+        		//게시글 정보 댓글갯수 올려주기
+        		result2 = new BoardService().RpCountUp(bno);
+        		
+        	}
+        	
+        	response.getWriter().print(result2);
         	
         	
         }else if("/listRp".equals(map)) {
-        	
-        	
             // listRp에 대한 처리
+        	
 			int bno = Integer.parseInt(request.getParameter("bno"));
 
 			
