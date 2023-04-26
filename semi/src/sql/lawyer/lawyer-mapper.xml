@@ -149,10 +149,12 @@
 		SELECT CS_NO,
 		       REF_LNO,
 		       CS_TITLE,
-		       CS_CONTENT
+		       CS_CONTENT,
+		       CS_ANSWER,
+		       ACCEPT
 		FROM COUNSEL
 		WHERE STATUS = 'Y'
-		AND ACCEPT = 'W'
+		<!-- AND ACCEPT = 'W' -->
 		AND CS_NO = ?
 	</entry>
 	
@@ -163,6 +165,35 @@
 		CS_CONTENT = ?
 		WHERE STATUS = 'Y'
 		AND ACCEPT = 'W'
+		AND CS_NO = ?
+	</entry>
+	
+	<!-- 상담내역 삭제 -->
+	<entry key="deleteCounsel">
+		DELETE COUNSEL
+		WHERE CS_NO = ?
+	</entry>
+	
+	<!-- 리뷰내역 삭제 -->
+	<entry key="deleteReview">
+		DELETE LAW_REVIEW
+		WHERE REVIEW_NO = ?
+	</entry>
+	
+	<!-- 상담 정보 조회 (변호사용) -->
+	<entry key="selectCounselLaw">
+		SELECT CS_NO,
+		       PART_NAME,
+		       USER_ID,
+		       CS_TITLE,
+		       CS_CONTENT,
+		       CS_ANSWER,
+		       ACCEPT
+		FROM COUNSEL C
+		JOIN MEMBER M ON (CS_WRITER = USER_NO)
+		JOIN LAW_USER L ON (C.REF_LNO = LAW_NO)
+		JOIN PART_CATEGORY P ON (L.REF_PNO = PART_NO)
+		WHERE C.STATUS = 'Y'
 		AND CS_NO = ?
 	</entry>
 	

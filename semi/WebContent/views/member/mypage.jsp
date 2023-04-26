@@ -16,6 +16,8 @@
 	ArrayList <AccidentReview> accRev =(ArrayList<AccidentReview>)request.getAttribute("accRev");
 	
 	ArrayList <Accident> accident = (ArrayList<Accident>)request.getAttribute("accident");
+	
+	ArrayList <Counsel> cListLaw = (ArrayList<Counsel>)request.getAttribute("cListLaw");
 %>  
     
 <!DOCTYPE html>
@@ -193,7 +195,44 @@
 	       			<td></td>
 	       		</tr>
     	<%} %>
-        </table>		
+        </table>
+        <h3>내 상담 내역</h3>
+	    <hr>
+	        <table>
+	            <thead id="List">
+	                <tr>
+	                    <td width="50">No.</td>
+	                    <td width="200">상담 제목</td>
+	                    <td width ="40">상태(답변대기중/수락대기중/매칭완료)</td>
+	                    <td width="70">상담 일자</td>
+	                    <td width="50">상세보기버튼?</td>
+	                </tr>
+	            </thead>
+	            <% if(!cListLaw.isEmpty()){ %>
+	            <tbody id="counsel-list-law">
+	            	<% for(int i = 0 ; i < cListLaw.size() ; i++){ %>
+		            <tr>
+		                <td><a href=""><%= i+1 %></a></td>
+		                <td><a href="<%=contextPath %>/counselDetailLaw.la?cno=<%=cListLaw.get(i).getCsNo()%>"><%= cListLaw.get(i).getCsTitle()%></a></td> 
+		                <% if(cListLaw.get(i).getAccept().equals("W")){%>
+		                	<td><b style = "color : red ">대기중</b></td> <!-- 답변 대기중 넣기  -->
+		                <%}else{ %>
+		               		<td><b style = "color : green ">답변 완료</b></td> 	
+		                <%} %>
+		                <td><%= cListLaw.get(i).getCreateDate()%></td>
+		                <td></td>
+		            </tr>
+		            <%} %>
+		         </tbody>
+	            <%}else{ %>
+	            	<tr>
+	            		<td></td>
+	            		<td>상담 내역이 존재하지 않습니다.</td>
+	            		<td></td>
+	            		<td></td>
+	            	</tr>
+	            <%} %>
+	        </table>
 	<%}else{ %>
 	<!-- 일반 회원 로그인시 보이는 마이페이지 영역  -->
     <h3>내 게시글 관리 </h3>
@@ -262,10 +301,29 @@
 	       		</tr>
 	        <%} %>    
         </table>
+<<<<<<< HEAD
+        
+      <!-- 상담 스크립트 -->
+        <script>
+        </script>
+	  <!-- 상담리스트 뷰 -->
+=======
+	   <script>
+        /*내 상담 내역 수정 script*/
+        $(function(){
+        	$('#counsel-list td').on('click', $("#modify"), function(){
+    			
+    			var cno = $(this).find("input[type=hidden]").val();
+    			location.href= "<%=contextPath %>/counselUpdate.la?cno="+cno;
+    			
+    		});
+        })
+        </script>
 	    <!-- 상담리스트 뷰 -->
+>>>>>>> refs/remotes/origin/master
 	    <h3>내 상담 내역</h3>
 	    <hr>
-	        <table id="counsel-list">
+	        <table>
 	            <thead id="List">
 	                <tr>
 	                    <td width="50">No.</td>
@@ -277,25 +335,37 @@
 	                </tr>
 	            </thead>
 	            <% if(!cList.isEmpty()){ %>
+	            <tbody id="counsel-list">
 	            	<% for(int i = 0 ; i < cList.size() ; i++){ %>
 		            <tr>
 		                <td><a href=""><%= i+1 %></a></td>
-		                <td><a href="<%=contextPath %>/counselUpdate.la?cno=<%=cList.get(i).getCsNo()%>"><%= cList.get(i).getCsTitle()%></a></td> 
+		                <td><a href="<%=contextPath %>/counselDetail.la?cno=<%=cList.get(i).getCsNo()%>"><%= cList.get(i).getCsTitle()%></a></td> 
 		                <% if(cList.get(i).getAccept().equals("W")){%>
-		                <td><b style = "color : red ">대기중</b></td> <!-- 답변 대기중 넣기  -->
+		                	<td><b style = "color : red ">대기중</b></td> <!-- 답변 대기중 넣기  -->
 		                <%}else{ %>
-		               	<td><b style = "color : green ">답변 완료</b></td> 	
+		               		<td><b style = "color : green ">답변 완료</b></td> 	
 		                <%} %>
 		                <td><%= cList.get(i).getCreateDate()%></td>
-		                <td><% if(cList.get(i).getAccept().equals("Y")){ %>  <!-- cs_answer이 Y 면 수정하기 버튼 비활성화 시키기  -->
+		                <% if(cList.get(i).getAccept().equals("Y")){ %>  <!-- cs_answer이 Y 면 수정하기 버튼 비활성화 시키기  -->
 		                	<!-- 답변완료된 경우 상담 내용 수정 불가능 -->
-		                	<button disabled>수정</button></td> <td><button id="delete1">삭제</button>
+<<<<<<< HEAD
+		                	<td><button disabled>수정불가능</button></td>
+=======
+		                	<td><button disabled>수정</button></td>
+		                	<td><button id="delete1">삭제</button>
+>>>>>>> refs/remotes/origin/master
 		                <%}else{%>
-		                	<button id=modify>수정</button> <input id=csNo name="cno" type = "hidden" value="<%=cList.get(i).getCsNo()%>"></td> 
+<<<<<<< HEAD
+		                	<td id=modify><button>상세보기</button><input type="hidden" value="<%=cList.get(i).getCsNo()%>"></td> 
+=======
+		                	<td id=modify><button>수정</button><input id=csNo name="cno" type = "hidden" value="<%=cList.get(i).getCsNo()%>"></td> 
 		                	<td><button id="delete2">삭제</button></td>
+>>>>>>> refs/remotes/origin/master
 		                <%} %>
+		                <td id="delete"><button>삭제</button><input type="hidden" value="<%=cList.get(i).getCsNo()%>"></td>
 		            </tr>
 		            <%} %>
+		         </tbody>
 	            <%}else{ %>
 	            	<tr>
 	            		<td></td>
@@ -356,12 +426,12 @@
 	    <%} %>
 	        </table>
 	<%} %>
-	    <br>
 	
     <br><br><br>
 </div>
 
 	<script>
+
 		/* 메인페이지 버튼 클릭 함수 script */
 		function main(){
 			location.href="<%=contextPath%>";
@@ -402,13 +472,13 @@
 			
 		}//함수 끝 
 
-	/* 	 
+	 /*
 		$('#counsel-list button').on('click',function(){
 			if(confirm("삭제한 글은 복구가 불가능 합니다. 정말 삭제하시겠습니까?")){
 				//삭제 서블릿으로 위임 
 			}
 		});
-		 */
+	*/	
 
 		 /* 찜하기 취소 script*/
 		 
@@ -446,26 +516,15 @@
 			
 			
 		 });
-		/*내 상담 내역 수정 script*/
-		$("#counsel-list tr").click(function(){
-			
-			var td = $(this).find("#modify")
-			
-		$(td).click(function(){
-			
-			if(confirm("수정페이지로 이동하시겠습니까?")){
-				
-				var csNo = $('#csNo').val()
-			
-				location.href= "<%=contextPath %>/counselUpdate.la?cno="+csNo;
-				
-			}
-			
-		})
-				
-					
-				
-		})
+<<<<<<< HEAD
+		
+		
+
+=======
+		 
+		
+		
+>>>>>>> refs/remotes/origin/master
 			
 	</script>
 	

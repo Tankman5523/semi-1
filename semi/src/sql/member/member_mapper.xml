@@ -135,7 +135,7 @@
 	
 	</entry>
 	
-	<entry key="selectAccidentReviewList">
+		<entry key="selectAccidentList">
 		SELECT ACC_NO, REF_BNO, REF_LNO, PART_NAME, TITLE, SOLVE
 		FROM ACCIDENT
 		JOIN BOARD ON (REF_BNO = BOARD_NO)
@@ -145,6 +145,13 @@
 		                  JOIN MEMBER ON(REF_UNO = USER_NO)
 		                  WHERE USER_NO = ?)
 		AND SOLVE = 'N'                       
+	</entry>
+	
+	<!-- 나에게 온 상담내역 조회 (변호사) -->
+	<entry key="selectCounselListLaw">
+		SELECT CS_NO, CS_TITLE, ACCEPT, CREATE_DATE, CS_ANSWER
+		FROM COUNSEL
+		WHERE REF_LNO = ?
 	</entry>
 	
 </properties>
