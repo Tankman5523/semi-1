@@ -36,12 +36,18 @@ public class AccidentBoardDao {
 		}
 	
 	//제보영상게시판 '게시글+사건정보' 읽어오기
-	public ArrayList<Board> selectAccidentBoardList(Connection conn, PageInfo pi) {
+	public ArrayList<Board> selectAccidentBoardList(Connection conn, PageInfo pi, String sort) {
 		ArrayList<Board> blist = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("selectAccidentBoardList");
-		
+		String sql = null;
+		if(sort==null||sort.equals("date")) {
+			sql = prop.getProperty("selectAccidentBoardList");
+		}else if(sort.equals("recommend")) {
+			sql = prop.getProperty("sortByLiked");
+		}else if(sort.equals("view")) {
+			sql = prop.getProperty("sortByCount");
+		}
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
@@ -65,7 +71,6 @@ public class AccidentBoardDao {
 								   ,rset.getString("PATH")
 								   ,rset.getString("CHANGE_NAME")
 								   ,rset.getInt("CATEGORY_NO")));
-				
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
