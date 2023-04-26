@@ -195,17 +195,16 @@
 	       			<td></td>
 	       		</tr>
     	<%} %>
-        </table>
+                </table>
         <h3>내 상담 내역</h3>
 	    <hr>
 	        <table>
 	            <thead id="List">
 	                <tr>
 	                    <td width="50">No.</td>
-	                    <td width="200">상담 제목</td>
-	                    <td width ="40">상태(답변대기중/수락대기중/매칭완료)</td>
+	                    <td width="260">상담 제목</td>
+	                    <td width ="70">상태</td>
 	                    <td width="70">상담 일자</td>
-	                    <td width="50">상세보기버튼?</td>
 	                </tr>
 	            </thead>
 	            <% if(!cListLaw.isEmpty()){ %>
@@ -214,13 +213,16 @@
 		            <tr>
 		                <td><a href=""><%= i+1 %></a></td>
 		                <td><a href="<%=contextPath %>/counselDetailLaw.la?cno=<%=cListLaw.get(i).getCsNo()%>"><%= cListLaw.get(i).getCsTitle()%></a></td> 
-		                <% if(cListLaw.get(i).getAccept().equals("W")){%>
-		                	<td><b style = "color : red ">대기중</b></td> <!-- 답변 대기중 넣기  -->
-		                <%}else{ %>
-		               		<td><b style = "color : green ">답변 완료</b></td> 	
+		              	<% if(cListLaw.get(i).getAccept().equals("W")){%>
+		                	<%if(cListLaw.get(i).getCsAnswer() == null){ %>
+			                	<td><b style = "color : red ">답변 대기중</b></td>
+		                	<%}else{ %>
+		                		<td><b style = "color : blue ">수락 대기중</b></td> 	
+		                	<%} %>
+		                <%}else { %>
+		               		<td><b style = "color : green ">상담 종료</b></td> 	
 		                <%} %>
 		                <td><%= cListLaw.get(i).getCreateDate()%></td>
-		                <td></td>
 		            </tr>
 		            <%} %>
 		         </tbody>
@@ -301,13 +303,12 @@
 	       		</tr>
 	        <%} %>    
         </table>
-<<<<<<< HEAD
+
         
       <!-- 상담 스크립트 -->
         <script>
         </script>
 	  <!-- 상담리스트 뷰 -->
-=======
 	   <script>
         /*내 상담 내역 수정 script*/
         $(function(){
@@ -320,8 +321,7 @@
         })
         </script>
 	    <!-- 상담리스트 뷰 -->
->>>>>>> refs/remotes/origin/master
-	    <h3>내 상담 내역</h3>
+	     <h3>내 상담 내역</h3>
 	    <hr>
 	        <table>
 	            <thead id="List">
@@ -330,7 +330,6 @@
 	                    <td width="200">상담 제목</td>
 	                    <td width ="40">상태</td>
 	                    <td width="70">상담 일자</td>
-	                    <td width="50">수정</td>
 	                    <td width="50">삭제</td>
 	                </tr>
 	            </thead>
@@ -340,29 +339,18 @@
 		            <tr>
 		                <td><a href=""><%= i+1 %></a></td>
 		                <td><a href="<%=contextPath %>/counselDetail.la?cno=<%=cList.get(i).getCsNo()%>"><%= cList.get(i).getCsTitle()%></a></td> 
+		                	<!-- 답변 상태값 영역 -->
 		                <% if(cList.get(i).getAccept().equals("W")){%>
-		                	<td><b style = "color : red ">대기중</b></td> <!-- 답변 대기중 넣기  -->
+		                	<% if(cList.get(i).getCsAnswer() == null){%>
+			                	<td><b style = "color : red ">대기중</b></td>
+			                <%}else{ %>
+			               		<td><b style = "color : blue ">답변 완료</b></td> 	
+			                <%} %>
 		                <%}else{ %>
-		               		<td><b style = "color : green ">답변 완료</b></td> 	
+		               		<td><b style = "color : green ">상담 종료</b></td> 	
 		                <%} %>
-		                <td><%= cList.get(i).getCreateDate()%></td>
-		                <% if(cList.get(i).getAccept().equals("Y")){ %>  <!-- cs_answer이 Y 면 수정하기 버튼 비활성화 시키기  -->
-		                	<!-- 답변완료된 경우 상담 내용 수정 불가능 -->
-<<<<<<< HEAD
-		                	<td><button disabled>수정불가능</button></td>
-=======
-		                	<td><button disabled>수정</button></td>
-		                	<td><button id="delete1">삭제</button>
->>>>>>> refs/remotes/origin/master
-		                <%}else{%>
-<<<<<<< HEAD
-		                	<td id=modify><button>상세보기</button><input type="hidden" value="<%=cList.get(i).getCsNo()%>"></td> 
-=======
-		                	<td id=modify><button>수정</button><input id=csNo name="cno" type = "hidden" value="<%=cList.get(i).getCsNo()%>"></td> 
-		                	<td><button id="delete2">삭제</button></td>
->>>>>>> refs/remotes/origin/master
-		                <%} %>
-		                <td id="delete"><button>삭제</button><input type="hidden" value="<%=cList.get(i).getCsNo()%>"></td>
+		               	<td><%= cList.get(i).getCreateDate()%></td>
+		                <td><button id="delete">삭제</button></td>
 		            </tr>
 		            <%} %>
 		         </tbody>
@@ -516,15 +504,6 @@
 			
 			
 		 });
-<<<<<<< HEAD
-		
-		
-
-=======
-		 
-		
-		
->>>>>>> refs/remotes/origin/master
 			
 	</script>
 	

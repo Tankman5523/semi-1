@@ -120,7 +120,7 @@
 	</entry>
 	
 	<!-- 해당 변호사 리뷰 조회 -->
-	<entry key="selectReview">
+	<entry key="selectReviewList">
 		SELECT REVIEW_NO,
 		       REF_ANO,
 		       REVIEW_CONTENT,
@@ -183,7 +183,7 @@
 	<!-- 상담 정보 조회 (변호사용) -->
 	<entry key="selectCounselLaw">
 		SELECT CS_NO,
-		       PART_NAME,
+		       REF_LNO,
 		       USER_ID,
 		       CS_TITLE,
 		       CS_CONTENT,
@@ -192,11 +192,72 @@
 		FROM COUNSEL C
 		JOIN MEMBER M ON (CS_WRITER = USER_NO)
 		JOIN LAW_USER L ON (C.REF_LNO = LAW_NO)
-		JOIN PART_CATEGORY P ON (L.REF_PNO = PART_NO)
 		WHERE C.STATUS = 'Y'
 		AND CS_NO = ?
 	</entry>
 	
+	<!-- 상담 답변 등록 (수락) -->
+	<entry key="updateAnswerAccept">
+		UPDATE COUNSEL
+		SET CS_ANSWER = ?
+		WHERE STATUS = 'Y'
+		AND ACCEPT = 'W'
+		AND CS_NO = ?
+	</entry>
+	
+	<!-- 상담 답변 등록 (거부) -->
+	<entry key="updateAnswerDecline">
+		UPDATE COUNSEL
+		SET CS_ANSWER = ?,
+		ACCEPT = 'N'
+		WHERE STATUS = 'Y'
+		AND CS_NO = ?
+	</entry>
+	
+	<!-- 상담 수락 여부 (수락) (회원용) -->
+	<entry key="updateAcceptAccept">
+		UPDATE COUNSEL
+		SET ACCEPT = 'Y'
+		WHERE STATUS = 'Y'
+		AND CS_NO = ?
+	</entry>
+	
+	<!-- 상담 수락 여부 (거부) (회원용) -->
+	<entry key="updateAcceptDecline">
+        UPDATE COUNSEL
+		SET ACCEPT = 'N'
+		WHERE STATUS = 'Y'
+		AND CS_NO = ?
+	</entry>
+	
+	<!-- 상담 번호로 상담 정보 조회 (변호사리뷰용) -->
+	<entry key="selectAccident">
+        SELECT ACC_NO,
+        	   REF_LNO,
+        	   TITLE
+		FROM ACCIDENT A
+		JOIN BOARD B ON (A.REF_BNO = B.BOARD_NO)
+		WHERE A.SOLVE = 'Y'
+		AND B.STATUS = 'Y'
+		AND ACC_NO = ?
+	</entry>
+	
+	<!-- 리뷰 상세보기 -->
+	<entry key="selectReview">
+		SELECT REVIEW_NO,
+			   REF_ANO,
+			   REVIEW_CONTENT,
+			   STAR,
+			   USER_NO,
+			   USER_ID
+		FROM LAW_REVIEW L 
+		JOIN ACCIDENT A ON (REF_ANO = ACC_NO)
+		JOIN BOARD B ON (REF_BNO = BOARD_NO)
+		JOIN MEMBER M ON (BOARD_WRITER = USER_NO)
+		WHERE L.STATUS = 'Y'
+		AND A.SOLVE = 'Y'
+		AND REVIEW_NO = ?
+	</entry>
 	
 	
 </properties>

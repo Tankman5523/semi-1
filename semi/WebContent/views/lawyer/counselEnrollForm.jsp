@@ -116,6 +116,7 @@
 	
 	<script>
 	//해당 변호사의 분야/이름 이 선택되어 있도록 하는 함수
+	// ((Lawyer)request.getAttribute("l")) %> 가 null이 아닌 경우로 해서 거부된 상담내역에서 내용들고 바로 상담신청으로 갈 수 있도록 ? update로 가야하나..
 	$(function(){
 		var $part = "<%=((Lawyer)request.getAttribute("l")).getRefPno() %>";
 		var $lno = <%=((Lawyer)request.getAttribute("l")).getLawNo() %>; 

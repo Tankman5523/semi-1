@@ -150,8 +150,9 @@
 	<!-- 나에게 온 상담내역 조회 (변호사) -->
 	<entry key="selectCounselListLaw">
 		SELECT CS_NO, CS_TITLE, ACCEPT, CREATE_DATE, CS_ANSWER
-		FROM COUNSEL
-		WHERE REF_LNO = ?
+		FROM COUNSEL C
+        JOIN LAW_USER L ON (C.REF_LNO = L.LAW_NO) 
+		WHERE L.REF_UNO = ?
 	</entry>
 	
 </properties>

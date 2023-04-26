@@ -14,15 +14,12 @@ public class LawReview {
 	public int getUserNo() {
 		return userNo;
 	}
-
 	public void setUserNo(int userNo) {
 		this.userNo = userNo;
 	}
-
 	public String getUserId() {
 		return userId;
 	}
-
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
