@@ -203,20 +203,14 @@
     <div class ="header">
         <div id="header1"></div>
         <div id="header2">
-            <a href="">블변의 법칙</a>    
+            <a href="<%=contextPath%>/views/manager/manager_index.jsp">불변의 법칙 #관리자</a>
+                <!-- 관리자 빨간색 태그 처리 -->
         </div>
         <div id="header3">
             <div id="user-info">
                  <div id = "username">
-					<%if(loginUser.getAdmin().equals("Y")){ %>
-						<a href="<%=contextPath%>/views/manager/manager_index.jsp" style="color:red;text-decoration:none;font-weight:bold">관리자 </a><br>
-						<b><%=loginUser.getUserName()%> 님</b>
-					<%}else if(loginUser.getLawyer().equals("Y")){ %>
-						<b>변호사</b> <br> <!-- 추후 변경(이미지 대체) -->
-						<b><%=loginUser.getUserName()%> 님</b>
-					<%}else{ %>                	
-                    <b><%=loginUser.getUserName()%> 님</b>
-                    <%} %>
+						<a href="<%=contextPath%>" style="color:blue;text-decoration:none;font-weight:bold">일반모드 </a><br>
+						<b><%=loginUser.getUserName()%> 님</b>						
                 </div>
                 <div id="mypage" align = "center">
                     <a href="<%=contextPath%>/myPage.me">마이페이지</a>
@@ -229,29 +223,28 @@
     <!-- 메뉴바 영역 -->
     <div class="menubar">
             <ul id="navi">
-                <li><a href="<%=contextPath%>/list.ac?currentPage=1">블랙박스 영상</a>
+                <li><a href="<%=contextPath%>/list.mac?currentPage=1">블랙박스 영상</a>
                     <ul>
-                        <li><a href="<%=contextPath%>/list.ac?currentPage=1">사건 영상</a></li>
-                        <li><a href="<%=contextPath%>/list.rb?currentPage=1">해결 영상</a></li>
-                        <li><a href="<%=contextPath%>/enroll.ac">제보 페이지</a></li>
+                        <li><a href="<%=contextPath%>/list.mac?currentPage=1">사건 영상 관리</a></li>
+                        <li><a href="<%=contextPath%>/list.mrb?currentPage=1">해결 영상 관리</a></li>
                     </ul>
                 </li>    
                 <li><a href="">변호사</a>
                     <ul>
-                        <li><a href="<%=contextPath %>/list.la">변호사 검색</a></li>
-                        <li><a href="">소송 가이드</a></li>
-                        <li><a href="">상담 게시판</a></li>
+                        <li><a href="<%=contextPath %>/manage.la">변호사 관리</a></li>
+                        <li><a href="">상담 게시판 관리</a></li>
                     </ul>
 
                 </li>    
-                <li><a href="">자유게시판</a>
+                <li><a href="<%=contextPath%>/manage.bo?currentPage=1">자유게시판</a>
                     <ul>
-                        <li><a href="<%=contextPath%>/list.bo?currentPage=1">일반 게시판</a></li>
-                        <li><a href="<%=contextPath%>/list.vi?currentPage=1">영상 게시판</a></li>
+                        <li><a href="<%=contextPath%>/manage.bo?currentPage=1">일반 게시판 관리</a></li>
+                        <li><a href="<%=contextPath%>/manage.vi?currentPage=1">영상 게시판 관리</a></li>
                     </ul>
                 </li>    
                 <li><a href="">고객문의</a>
                     <ul>
+                    	<li><a href="">회원관리</a></li>
                         <li><a href="">1:1 문의</a></li>
                         <li><a href="">FQA</a></li>
                         
@@ -265,9 +258,9 @@
 			
 		}
 		
-		//블변의 법칙 클릭 시 메인화면으로
+		//홈페이지 관리자 클릭 시 메인화면으로
 		$("#header2").onclick(){
-			location.href="<%=contextPath%>";
+			location.href="<%=contextPath%>/views/manager/manager_index.jsp";
 		};
 	</script>
 

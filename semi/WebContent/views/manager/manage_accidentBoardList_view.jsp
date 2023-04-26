@@ -1,20 +1,21 @@
-<%@page import="com.bbbox.common.model.vo.PageInfo"%>
 <%@page import="com.bbbox.board.model.vo.Board"%>
+<%@page import="com.bbbox.common.model.vo.PageInfo"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+
 <%	
 	ArrayList<Board> blist = (ArrayList<Board>)request.getAttribute("blist");
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
 	
-%>    
+%>        
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>사건 영상 게시판</title>
-<style>
+<title>제보 영상 게시판 관리</title>
+    <style>
         div{
             border: 1px solid black;
             box-sizing: border-box;
@@ -93,9 +94,9 @@
             border: 1px solid black;
         }
         /*게시글 호버시*/
-        #accidentBoardList-area>table:hover{
+        #accidentBoardList-area>table>tbody tr:hover{
             cursor: pointer;
-            background-color: wheat;
+            background-color: bisque;
         }
         
         .accidentBoardList{
@@ -117,28 +118,27 @@
         }
 
     </style>
-    <title>Document</title>
 </head>
 <body>
-
-<%@include file="../common/mainMenu.jsp" %>
-
+<%@ include file="manager_menu.jsp" %>
 	
     <div class="outer">
         <div id="accidentBoardHead">
             <div class="boardName">
-                <p>사건 영상 게시판</p>
+                <p>사건 게시판 관리</p>
             </div>
+          
             <div class="sort" style="float: right;margin-top: 20px;" >
-                <form action="list.ac">
+                <form action="list.mac">
                 <input type="radio" name="searchSort" id="sortRecommend" value="recommend"><label for="sortRecommend">추천순</label>
+                <input type="radio" name="searchSort" id="sortDislike" value="dislike"><label for="sortDislike">비추순</label>
                 <input type="radio" name="searchSort" id="sortView" value="view"><label for="sortView">조회순</label>
                 <input type="radio" name="searchSort" id="sortNew" value="date"><label for="sortNew">최신순</label>
                 <input type="submit" value="정렬">
                 </form>
             </div> 
             <div class="search">
-                <form action="search.ac">
+                <form action="search.mac">
                 	<input type="hidden" name="categoryNo" value="3">
                     <div class="typeFilter">
                         <select name="region" id="region">
@@ -164,15 +164,10 @@
                             <option value="보험">보험</option>
                         </select>
                     </div>
-                    <div>
-                    <!-- 
-                        <div class="sort">
-                            <input type="radio" name="searchSort" id="sortRecommend" value="recommend"><label for="sortRecommend">추천순</label>
-                            <input type="radio" name="searchSort" id="sortView" value="view"><label for="sortView">조회순</label>
-                            <input type="radio" name="searchSort" id="sortNew" value="date"><label for="sortNew">최신순</label>
-                        </div> -->
-                        <div class="searchInput">
-                            <div class="searchFilter">
+                    <div style="height: 100%;">
+                   
+                        <div class="searchInput"  >
+                            <div class="searchFilter" >
                                 <select name="title_writer" id="filter">
                                     <option value="제목">제목</option>
                                     <option value="제보자">제보자</option>
@@ -188,34 +183,155 @@
             </div>
         </div>
         <div id="accidentBoardbody">
+            
             <div id="accidentBoardList-area">
-				<%if(blist.size()!=0){ %>
-	            	<%for(int i=0;i<blist.size();i++){ %>  
-	                 <table class="accidentBoardList" onclick="location.href='<%=contextPath%>/detail.ac?bno='+<%=blist.get(i).getBoardNo()%>">
-	                    <tr>
-	                        <td colspan="2">
-	                        	
-	                        	<video preload="metadata" src="<%=contextPath%><%=blist.get(i).getFilePath()%>#t=1.0"></video>
-	                        </td>
-	                    	
-	                    </tr>
-	                    <tr>
-	                        <td colspan="2"><%=blist.get(i).getTitle()%></td>
-	                        
-	                    </tr>
-	                    <tr>
-	                        <td>제보일</td>
-	                        <td><%=blist.get(i).getCreateDate()%></td>
-	                    </tr>
-	                    <tr>
-	                        <td>조회수</td>
-	                        <td><%=blist.get(i).getCount()%></td>
-	                    </tr>
-	                </table>
-	                <%} %>
-                <%}else{%><!-- 게시물이 없을시 처리 -->
-                	게시물이 없습니다.
-                <%} %>
+                <input type="button" value="일괄삭제">
+                <input type="button" value="일괄게시">
+                <br>
+                <table class="accidentBoardList" style="text-align: center; display: inline-table;" >
+                    <thead style="background-color: lightgray;">
+                    	<tr>
+                            <th><input type="checkbox" name="selectBoard" ></th>
+                            <th>글번호</th>
+                            <th>작성자</th>
+                            <th>제목</th>
+                            <th>조회수</th>
+                            <th>제보일</th>
+                            <th>사고유형</th>
+                            <th>보험유형</th>
+                            <th>지역</th>
+                            <th>추천</th>
+                            <th>비추천</th>
+                            <th>글게시</th>
+                            <th>상태변경</th>
+                        </tr>
+                    </thead>
+	                <tbody id="boardList">
+	                	<%if(blist!=null){ %>
+		                	<%for(int i=0;i<blist.size();i++){ %>
+		                    <tr>
+		                        <td><input type="checkbox" name="selectBoard"></td>
+		                        <td><%=blist.get(i).getBoardNo()%></td>
+		                        <td><%=blist.get(i).getBoardWriter()%></td>
+		                        <td><%=blist.get(i).getTitle()%></td>
+		                        <td><%=blist.get(i).getCount()%></td>
+		                        <td><%=blist.get(i).getCreateDate()%></td>
+		                        <td><%=blist.get(i).getChangeName()%></td>
+		                        <td><%=blist.get(i).getInsuranceType()%></td>
+		                        <td><%=blist.get(i).getRegion()%></td>
+		                        <td><%=blist.get(i).getLiked()%></td>
+		                        <td><%=blist.get(i).getReportCount()%></td>
+		                        <!-- 아직 게시되지 않았다면 -->
+		                        <%if(blist.get(i).getStatus().equals("N")) {%>
+		                        	<td>
+		                        		<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
+		                        		<button onclick="" name="statusOn" id="statusOnBtn" class="statusOn" style="background-color: red; color: white; width:100%;height:100%">OFF</button>
+		                        	</td>
+		                        <%}else{ %>
+		                        <!-- 글이 게시 되어있다면 -->
+		                        	<td>
+			                        	<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
+			                        	<button onclick="" name="statusOff" id="statusOffBtn" class="statusOff" style="background-color: green; color: white; width:100%;height:100%">ON</button>
+			                        </td>
+		                        <%} %>
+		                        <td><!-- DB에서 전부 날려버리기 -->
+		                        	<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
+		                        	<button onclick="" name="delete" class="deleteBoardBtn" id="deleteBoardBtn" style="width:100%;height:100%">글삭제</button>
+	                        	</td>
+		                    </tr>
+		                    <%} %>
+		                    
+		                 <%}else if(blist.size()==0){ %>
+	                    	<tr>
+	                    		<td colspan="11">데이터가 없습니다.</td>
+	                    	</tr>
+	                    <%} %>   
+	                    
+	                </tbody>    
+            	</table>
+	        <!-- 글게시 on/off 토글처리 -->
+	        <script>
+	        $(function(){
+	        	
+	        });
+	        
+	        //글 게시
+	        $(function(){
+	        	$(".statusOn").on("click",function(){
+	        		
+	        		
+		        	$.ajax({
+				        
+		        		url: "statusOn.mac",
+		        		data:{
+		        			bno:$(this).parent().children("input[type=hidden]").val()
+		        		},
+		        		success: function(result){
+		        			if(result>0){
+		        				alert("상태값 변경 성공!");
+		        			}else{
+		        				alert("상태값 변경 실패!");
+		        			}
+		        		},
+		        		error: function(){
+		        			alert("통신 연결 실패");
+		        		}
+		        	});
+		        })
+	        });
+	        
+	      //글 회수
+	        $(function(){
+	        	$(".statusOff").on("click",function(){
+		        	$.ajax({
+				        
+		        		url: "statusOff.mac",
+		        		data:{
+		        			bno:$(this).parent().children("input[type=hidden]").val()
+		        		},
+		        		success: function(result){
+		        			if(result>0){
+		        				alert("상태값 변경 성공!");
+		        			}else{
+		        				alert("상태값 변경 실패!");
+		        			}
+		        		},
+		        		error: function(){
+		        			alert("통신 연결 실패");
+		        		}
+		        	});
+		        });
+	        });
+	      
+	      	//DB에서 삭제
+	        $(function(){
+	        	$(".deleteBoardBtn").on("click",function(){
+		        	$.ajax({
+				        
+		        		url: "deleteReal.mac",
+		        		data:{
+		        			bno:$(this).parent().children("input[type=hidden]").val()
+		        		},
+		        		success: function(result){
+		        			if(result>0){
+		        				alert("게시글 완전삭제 성공!");
+		        			}else{
+		        				alert("상태값 변경 실패!");
+		        			}
+		        		},
+		        		error: function(){
+		        			alert("통신 연결 실패");
+		        		}
+		        	});
+		        });
+	        });
+	      
+	        
+	        function statusList(){
+	        	
+	        }
+	        
+	        </script>       
             </div>
             <!-- 페이징바 -->
             <div class="pageMover" align="center">

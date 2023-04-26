@@ -1,4 +1,4 @@
-package com.bbbox.board.controller;
+package com.bbbox.manager.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,25 +8,23 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.bbbox.board.model.service.AccidentBoardService;
-import com.bbbox.board.model.service.BoardService;
-import com.bbbox.board.model.vo.Attachment;
 import com.bbbox.board.model.vo.Board;
 import com.bbbox.common.model.vo.PageInfo;
+import com.bbbox.manager.service.ManagerService;
 
 /**
- * Servlet implementation class AccidentBoardListController
+ * Servlet implementation class ManageResolvedBoardListController
  */
-@WebServlet("/list.ac")
-public class AccidentBoardListController extends HttpServlet {
+@WebServlet("/list.mrb")
+public class ManageResolvedBoardListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AccidentBoardListController() {
+    public ManageResolvedBoardListController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,8 +33,6 @@ public class AccidentBoardListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//페이징처리
 		int listCount; //현재 총 게시글의 갯수
 		int currentPage; //현재 페이지
 		int pageLimit; //페이지 하단에 보여질 페이징 바의 페이지 최대 갯수
@@ -47,7 +43,7 @@ public class AccidentBoardListController extends HttpServlet {
 		int endPage; //페이지 하단에 보여질 페이징 바의 끝 수
 		
 		//전체 글 갯수 구하는 메소드
-		listCount = new AccidentBoardService().selectBoardListCount();
+		listCount = new AccidentBoardService().selectResolvedBoardListCount();
 		
 		//현재 페이지
 		if(request.getParameter("currentPage")==null) {
@@ -76,23 +72,15 @@ public class AccidentBoardListController extends HttpServlet {
 		}
 		//정보 객체에 넣기
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
-		//현재 페이지에 보여질 개수 매개변수로 넣기
 		
 		//sort 키워드 가져오기
 		String sort = request.getParameter("searchSort"); 
 		
-		ArrayList<Board> blist = new AccidentBoardService().selectAccidentBoardList(pi,sort);
+		ArrayList<Board> blist = new ManagerService().selectAllResolvedBoard(pi,sort);
 		
-		
-		
-		if(blist!=null) {
-			request.setAttribute("pi", pi);
-			request.setAttribute("blist", blist);
-			request.getRequestDispatcher("views/board/accidentBoardListView.jsp").forward(request, response);
-		}else {
-			request.setAttribute("errorMsg", "사건게시판 조회 실패");
-			request.getRequestDispatcher(request.getContextPath()).forward(request, response);
-		}
+		request.setAttribute("pi", pi);
+		request.setAttribute("blist", blist);
+		request.getRequestDispatcher("views/manager/manage_resolvedBoardList_view.jsp").forward(request, response);
 	}
 
 	/**

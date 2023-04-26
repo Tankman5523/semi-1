@@ -179,7 +179,7 @@
         </div>
         <div id="accidentBoardbody">
             <div id="accidentBoardList-area">
-				<%if(blist!=null){ %>
+				<%if(blist.size()!=0){ %>
 	            	<%for(int i=0;i<blist.size();i++){ %>
 	                 <table class="accidentBoardList" onclick="location.href='<%=contextPath%>/detail.rb?bno='+<%=blist.get(i).getBoardNo()%>" >
 	                    <tr>
