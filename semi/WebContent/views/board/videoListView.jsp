@@ -15,7 +15,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style>
 	
-    div, input, textarea, h2{
+    div, input, textarea, h2, table, video, span{
         border: 1px solid black;
         box-sizing: border-box;
     }
@@ -33,6 +33,12 @@
     .notice_line:hover{
     	cursor: pointer;
     	color: gray;
+    }
+    
+    .videos{
+    	cursor: pointer;
+    	float: left;
+    	
     }
     
     
@@ -53,7 +59,7 @@
     
 			<div id="sort-area" align="right"style="height: 10%;">
 
-				<form action="list.bo" id="search-area" style="border: none;">
+				<form action="list.vi" id="search-area" style="border: none;">
 					<select name="kind">
 						<option value="title">제목</option>
 						<option value="content">글 내용</option>
@@ -73,7 +79,12 @@
 	            		<%for(Board b : nlist){ %>
 	            		<tr class="notice_line">
 							<td>공지<input type="hidden" name="bno" value="<%=b.getBoardNo() %>"></td>
-							<td style="text-align: left; padding-left: 5px;"><%=b.getTitle()%></td>
+							<td style="text-align: left; padding-left: 5px;">
+								<%=b.getTitle()%>	
+								<%if(b.getRpCount()>0){ %>
+									[<%=b.getRpCount()%>]
+								<%} %>
+							</td>
 							<td><%=b.getBoardWriter()%></td>
 							<td><%=b.getCreateDate()%></td>
 							<td><%=b.getCount()%></td>
@@ -82,16 +93,34 @@
 	            	<%} %>
 	            	</thead>
 	            </table>
-	            <div id="video-area">
+	            <div class="video-area" style="margin:auto;">
 	            	<%if(vlist.isEmpty()){ %>
 	            		<div align="center">
 	            			<span>작성된 게시글이 없습니다.</span>
 	            		</div>
 	            	<%}else{ %>
 	            		<%for(Board b : vlist){ %>
-						<div id="thumnail">
-							
-						</div>
+						<table style="height:350px; width:350px;"border="1" class="videos" onclick="location.href='<%=contextPath%>/detail.vi?bno='+<%=b.getBoardNo()%>">
+		                    <tr>
+		                        <td colspan="4"><video style="height:100%; width:100%" preload="metadata" src="<%=contextPath+b.getFilePath()+b.getChangeName()%>#t=1.0"></video></td>
+		                    </tr>
+		                    <tr>
+		                    	<th>제목</th>
+		                        <td colspan="3"><%=b.getTitle()%></td>
+		                    </tr>
+		                    <tr>
+		                        <th width="100">작성일</th>
+		                        <td width="100"><%=b.getCreateDate()%></td>
+		                        <th width="100">댓글</th>
+		                        <td width="100"><%=b.getRpCount()%></td>
+		                    </tr>
+		                    <tr>
+		                        <th>조회수</th>
+		                        <td><%=b.getCount()%></td>
+		                        <th>추천</th>
+		                        <td><%=b.getLiked() %></td>
+		                    </tr>
+		                </table>
 						<%} %>	
 					<%} %>
 				</div>
@@ -101,35 +130,33 @@
 				<div id="page-area" align="center" style="height:20%; border: none;">
 					<div style="margin-top: 20px; border:none;">
 						<%if(pi.getCurrentPage()!=1){ %>
-				 		<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()-1%>'">prev</button>
+				 		<button onclick="location.href='<%=contextPath%>/list.vi?currentPage=<%=pi.getCurrentPage()-1%>'">prev</button>
 						 <%} %>
 						 
 						 <%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++){ %>
 						 	<%if(i != pi.getCurrentPage()){ %>
-						 		<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=i%>'"><%=i%></button>			 		
+						 		<button onclick="location.href='<%=contextPath%>/list.vi?currentPage=<%=i%>'"><%=i%></button>			 		
 						 	<%}else{ %>
 						 		<button disabled><%=i%></button>
 						 	<%} %>
 						 <%} %>
 						 
 						 <%if(pi.getCurrentPage()!=pi.getMaxPage()){ %>
-						 	<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()+1%>'">next</button>
+						 	<button onclick="location.href='<%=contextPath%>/list.vi?currentPage=<%=pi.getCurrentPage()+1%>'">next</button>
 						 <%} %>
 					</div>
 				</div>
 				
 				<div id="btn-area" style="height:10%; border:none;" align="right">
 				<%if(loginUser != null){ %>
-					<button onclick="boardWrite()" style="margin: 10px">글쓰기</button>
+					<button onclick="location.href='<%=contextPath%>/insert.vi'" style="margin: 10px">글쓰기</button>
 				<%} %>
 				</div>
 			</div>
 		</div>
 		
 		<script>
-			function boardWrite(){
-				location.href = "<%=contextPath%>/insert.bo"
-			}
+			
 			
 			//일반 게시글
 			$(function(){

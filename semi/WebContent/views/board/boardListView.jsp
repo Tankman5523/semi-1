@@ -4,6 +4,9 @@
 	ArrayList<Board> list = (ArrayList<Board>)request.getAttribute("boardList");
 	PageInfo pi = (PageInfo)request.getAttribute("pageInfo");
 	ArrayList<Board> nlist = (ArrayList<Board>)request.getAttribute("noticeList");
+	int a = (int)request.getAttribute("a");
+	String kind = (String)request.getAttribute("kind");
+	String keyword = (String)request.getAttribute("keyword");
 %>    
 <!DOCTYPE html>
 <html>
@@ -76,6 +79,7 @@
 			<div id="sort-area" align="right"style="height: 10%;">
 
 				<form action="list.bo" id="search-area" style="border: none;">
+					<input type="hidden" name="currentPage" value="1">
 					<select name="kind">
 						<option value="title">제목</option>
 						<option value="content">글 내용</option>
@@ -179,7 +183,12 @@
 	            		<%for(Board b : nlist){ %>
 	            		<tr class="notice_line">
 							<td>공지<input type="hidden" name="bno" value="<%=b.getBoardNo() %>"></td>
-							<td style="text-align: left; padding-left: 5px;"><%=b.getTitle()%></td>
+							<td style="text-align: left; padding-left: 5px;">
+								<%=b.getTitle()%>	
+								<%if(b.getRpCount()>0){ %>
+									[<%=b.getRpCount()%>]
+								<%} %>
+							</td>
 							<td><%=b.getBoardWriter()%></td>
 							<td><%=b.getCreateDate()%></td>
 							<td><%=b.getCount()%></td>
@@ -196,7 +205,12 @@
 	            		<%for(Board b : list){ %>
 						<tr>
 							<td><%=b.getBoardNo()%></td>
-							<td style="text-align: left; padding-left: 5px;"><%=b.getTitle()%></td>
+							<td style="text-align: left; padding-left: 5px;">
+								<%=b.getTitle()%>	
+								<%if(b.getRpCount()>0){ %>
+									[<%=b.getRpCount()%>]
+								<%} %>
+							</td>
 							<td><%=b.getBoardWriter()%></td>
 							<td><%=b.getCreateDate()%></td>
 							<td><%=b.getCount()%></td>
@@ -208,21 +222,43 @@
 				
 				<div id="page-area" align="center" style="height:20%; border: none;">
 					<div style="margin-top: 20px; border:none;">
-						<%if(pi.getCurrentPage()!=1){ %>
-				 		<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()-1%>'">prev</button>
-						 <%} %>
-						 
-						 <%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++){ %>
-						 	<%if(i != pi.getCurrentPage()){ %>
-						 		<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=i%>'"><%=i%></button>			 		
-						 	<%}else{ %>
-						 		<button disabled><%=i%></button>
-						 	<%} %>
-						 <%} %>
-						 
-						 <%if(pi.getCurrentPage()!=pi.getMaxPage()){ %>
-						 	<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()+1%>'">next</button>
-						 <%} %>
+						<%if(a == 0){ %>
+						<!-- 전체 페이징 -->
+							<%if(pi.getCurrentPage()!=1){ %>
+								<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()-1%>'">prev</button>
+							<%} %>
+						
+							<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++){ %>
+								<%if(i != pi.getCurrentPage()){ %>
+									<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=i%>'"><%=i%></button>			 		
+								<%}else{ %>
+									<button disabled><%=i%></button>
+									<%} %>
+							<%} %>
+								
+							<%if(pi.getCurrentPage()!=pi.getMaxPage()){ %>
+								<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()+1%>'">next</button>
+							<%} %>
+						
+						<%}else if(a == 1){ %>
+							<!-- 키워드에 의한 페이징 -->
+							<!-- semi/list.bo?currentPage=1&kind=title&keyword=DM -->
+							<%if(pi.getCurrentPage()!=1){ %>
+								<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()-1%>&kind=<%=kind%>&keyword=<%=keyword%>'">prev</button>
+							<%} %>
+							
+							<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++){ %>
+								<%if(i != pi.getCurrentPage()){ %>
+									<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=i%>&kind=<%=kind%>&keyword=<%=keyword%>'"><%=i%></button>			 		
+								<%}else{ %>
+									<button disabled><%=i%></button>
+								<%} %>
+							<%} %>
+							
+							<%if(pi.getCurrentPage()!=pi.getMaxPage()){ %>
+								<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()+1%>&kind=<%=kind%>&keyword=<%=keyword%>'">next</button>
+							<%} %>
+						<%} %>
 					</div>
 				</div>
 				
@@ -236,7 +272,7 @@
 		
 		<script>
 			function boardWrite(){
-				location.href = "<%=contextPath%>/insert.bo"
+				location.href = "<%=contextPath%>/insert.bo";
 			}
 			
 			//일반 게시글

@@ -33,6 +33,8 @@ public class BoardListController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		int a = 0;
+		
 		int listCount = new BoardService().boardListCount(); //현재 총 게시글의 갯수
 		int currentPage = 0; //현재 페이지
 		if(request.getParameter("currentPage")==null) { 
@@ -42,6 +44,7 @@ public class BoardListController extends HttpServlet {
 		}
 		int pageLimit = 5; //페이지 하단에 보여질 페이징 바의 페이지 최대 갯수
 		int boardLimit = 10; //한페이지에서 보여질 게시글 최대 갯수
+		// 29 10
 		int maxPage = (int)Math.ceil((double)listCount / boardLimit); //가장 마지막 페이지		
 		int startPage=((int)Math.floor((currentPage-1)/pageLimit)) * pageLimit+1; //페이징 바의 시작 수
 		int endPage = startPage+pageLimit-1; //페이징 바의 끝 수 
@@ -68,6 +71,7 @@ public class BoardListController extends HttpServlet {
 				if(nlist != null) {
 					request.setAttribute("noticeList", nlist);
 				}
+				request.setAttribute("a", a);
 				request.setAttribute("pageInfo", pi);
 				request.setAttribute("boardList", list);
 				request.getRequestDispatcher("views/board/boardListView.jsp").forward(request, response);
@@ -75,16 +79,37 @@ public class BoardListController extends HttpServlet {
 				System.out.println("게시글 리스트조회 실패");
 			}
 		}else { //검색에 관한 파라미터값이 넘어오면
+			
+//			System.out.println(new BoardService().boardKeywordCount(kind, keyword));
+			//키워드가 페이징에 영향을 주기때문에 영향받는 변수들 수정
+			a = 1;
+			
+			listCount = new BoardService().boardKeywordCount(kind, keyword);
+			maxPage = (int)Math.ceil((double)listCount / boardLimit);	
+			endPage = startPage+pageLimit-1;
+			if(endPage>maxPage) {
+				endPage=maxPage; 
+			}
+			
+			pi.setListCount(listCount);
+			pi.setMaxPage(maxPage);
+			pi.setEndPage(endPage);
+			
 			ArrayList<Board> list = new BoardService().selectBoardList(pi, kind, keyword);
 			
 			ArrayList<Board> nlist = null;
 			nlist = new BoardService().selectNoticeList();
+			
+//			System.out.println(pi);
 			
 			if(list != null) {
 				
 				if(nlist != null) {
 					request.setAttribute("noticeList", nlist);
 				}
+				request.setAttribute("a", a);
+				request.setAttribute("kind", kind);
+				request.setAttribute("keyword", keyword);
 				request.setAttribute("pageInfo", pi);
 				request.setAttribute("boardList", list);
 				request.getRequestDispatcher("views/board/boardListView.jsp").forward(request, response);
