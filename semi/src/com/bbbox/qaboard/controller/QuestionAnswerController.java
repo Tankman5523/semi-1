@@ -8,21 +8,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bbbox.member.model.vo.Member;
 import com.bbbox.qaboard.model.service.QuestionService;
-import com.bbbox.qaboard.model.vo.Question;
 
 /**
- * Servlet implementation class QuestionDetailViewController
- */ 
-@WebServlet("/detail.qa")
-public class QuestionDetailViewController extends HttpServlet {
+ * Servlet implementation class QuestionAnswerController
+ */
+@WebServlet("/answer.qa")
+public class QuestionAnswerController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public QuestionDetailViewController() {
+    public QuestionAnswerController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,38 +30,42 @@ public class QuestionDetailViewController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		// 답변 조회
+		response.setContentType("text/html; charset=UTF-8");
+		
 		int qno = Integer.parseInt(request.getParameter("qno"));
-
-		int userNo = ((Member)(request.getSession().getAttribute("loginUser"))).getUserNo();
 		
-		String admin = ((Member)(request.getSession().getAttribute("loginUser"))).getAdmin();
+		System.out.println(qno);
 		
-		Question qa = new Question();
+		String answer = new QuestionService().selectAnswer(qno);
 		
-		if(admin.equals("Y")) {
-			qa = new QuestionService().selectQuestion(qno, admin);
-		}else {
-			
-			qa = new QuestionService().selectQuestion(qno,userNo);
+		if(answer != null) {
+			response.getWriter().print(answer);
 		}
 		
-		request.setAttribute("qa", qa);
-		
-		request.getRequestDispatcher("views/board/questionBoard/questionDetailView.jsp").forward(request, response);
-		
-		
-		
-		
-		
-		
+	
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		//답변 입력 
+		
+		int qno = Integer.parseInt(request.getParameter("qno"));
+		
+		String answer = request.getParameter("answer");
+		
+		int result = new QuestionService().insertAnswer(qno,answer);
+		
+		
+		if (result>0) {
+			
+			response.getWriter().print("YY");
+		}else {
+			response.getWriter().print("NN");
+		}
+	
 	}
 
 }

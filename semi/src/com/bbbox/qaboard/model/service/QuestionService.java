@@ -47,7 +47,7 @@ public class QuestionService {
 		return result;
 	}
 	
-	//작성한 1대1문의 게시글 조회 메소드 
+	//작성한 1대1문의 게시글 조회 메소드(작성자)
 	public Question selectQuestion(int qno, int userNo) {
 		
 		Connection conn = JDBCTemplate.getConnection();
@@ -57,6 +57,65 @@ public class QuestionService {
 		JDBCTemplate.close(conn);
 		
 		return qa;
+	}
+	
+	//작성한 1대1문의 게시글 조회 메소드 (관리자) 
+	public Question selectQuestion(int qno, String admin) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		Question qa = new QuestionDao().selectQuestion(conn, qno, admin);
+		
+		JDBCTemplate.close(conn);
+		
+		
+		return qa;
+	}
+
+	//1대1문의 관리자 답글 메소드 
+	public int insertAnswer(int qno, String answer ) {
+
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new QuestionDao().insertAnswer(conn, qno ,answer);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		return result;
+	}
+
+	//1대1 문의 관리자 답글 조회 
+	public String selectAnswer(int qno) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		String answer = new QuestionDao().selectAnswer(conn, qno);
+		
+		JDBCTemplate.close(conn);
+		
+		return answer;
+	}
+	
+	//1대1 문의 삭제 
+	public int deletQuestion(int qno) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new QuestionDao().deleteQuestion(conn, qno);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
 	}
 
 }
