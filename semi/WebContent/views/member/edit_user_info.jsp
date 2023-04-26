@@ -144,30 +144,32 @@
        		
        		var spe = $pwd.search(/[~!@#$%^&*?]/gi);
        		
-       		if($pwd == $chk){
-       			if(!($pwd.length >= 8 || $pwd.length <= 15)){
-       				alert("8자리 이상, 15자리 이하로 입력해주세요.");
-       				$("#pwd").focus();
-       				return false;
-       			}
+    			if($pwd != $chk){
+    				alert("비밀번호가 일치하지 않습니다.");
+ 	       		return false;
+ 	       		
+    			}else if($pwd.length < 8 || $pwd.length > 15){
+    				alert("8자리 이상, 15자리 이하로만 입력해주세요.");
+    				$("#pwd").focus();
+    				return false;
+    				
+    			}else if($pwd.search(/\s/)!=-1){
+    				alert("비밀번호는 공백 없이 입력해주세요.");
+    				$("#pwd").focus();
+    				return false;
+    				
+    			}else if((num<0 && eng <0)||(eng<0 && spe <0 )||(spe <0 && num <0)){
+    				alert("영문자,숫자,특수문자 중 2가지 이상을 혼합하여 입력해주세요");
+    				$("#pwd").focus();
+    				return false;
+    			}
        			
-       			if($pwd.search(/\s/)!=-1){
-       				alert("비밀번호는 공백 없이 입력해주세요.");
-       				$("#pwd").focus();
-       				return false;
-       			}	
+       			console.log("통과");
        			
-       			if((num<0 && eng <0)||(eng<0 && spe <0 )||(spe <0 && num <0)){
-       				alert("영문자,숫자,특수문자 중 2가지 이상을 혼합하여 입력해주세요");
-       				$("#pwd").focus();
-       				return false;
-       				
-       			}
-       				console.log("통과");
+       			
        		}
        		
-       		
-       	}
+       	
         
        	
         </script>

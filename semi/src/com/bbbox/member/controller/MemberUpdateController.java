@@ -60,13 +60,12 @@ public class MemberUpdateController extends HttpServlet {
 		
 		
 		if(result>0) {
-			request.getSession().setAttribute("alertMsg", "회원정보 수정이 완료되었습니다.");
 			
 			Member updateMem = new MemberService().loginMember(userId, newPwd);
-			
+			request.getSession().setAttribute("alertMsg", "회원정보 수정이 완료되었습니다.");
 			request.getSession().setAttribute("loginUser", updateMem);
 			
-			request.getRequestDispatcher("/myPage.me").forward(request, response);
+			response.sendRedirect(request.getContextPath());
 			
 		}else {
 			

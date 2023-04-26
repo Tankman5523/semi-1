@@ -41,7 +41,7 @@ public class VideoListController extends HttpServlet {
 			currentPage=Integer.parseInt(request.getParameter("currentPage"));
 		}
 		int pageLimit = 5; //페이지 하단에 보여질 페이징 바의 페이지 최대 갯수
-		int boardLimit = 10; //한페이지에서 보여질 게시글 최대 갯수
+		int boardLimit = 9; //한페이지에서 보여질 게시글 최대 갯수
 		int maxPage = (int)Math.ceil((double)listCount / boardLimit); //가장 마지막 페이지		
 		int startPage=((int)Math.floor((currentPage-1)/pageLimit)) * pageLimit+1; //페이징 바의 시작 수
 		int endPage = startPage+pageLimit-1; //페이징 바의 끝 수 
@@ -59,6 +59,8 @@ public class VideoListController extends HttpServlet {
 		
 		if(kind == null && keyword == null) {
 			ArrayList<Board> vlist = new BoardService().selectVideoList(pi);
+			
+//			System.out.println(vlist);
 			
 			ArrayList<Board> nlist = null;
 			nlist = new BoardService().selectNoticeList();

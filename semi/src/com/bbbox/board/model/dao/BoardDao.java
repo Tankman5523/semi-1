@@ -182,7 +182,7 @@ public class BoardDao {
 	}
 	
 
-	//게시글 작성 메소드 (카테고리 1고정 -> pstmt 위치함수로 바꾸기)
+	//게시글 작성 메소드 (카테고리 1)
 	public int insertBoard(Connection conn, Board b) {
 		
 		int result = 0;
@@ -207,7 +207,34 @@ public class BoardDao {
 		
 		return result;
 	}
-
+	
+	
+	//게시글 작성 메소드 (카테고리 2)
+	public int insertVideo(Connection conn, Board b) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertVideo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, Integer.parseInt(b.getBoardWriter()));
+			pstmt.setString(2, b.getTitle());
+			pstmt.setString(3, b.getContent());
+			pstmt.setString(4, b.getNotice());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+	
 	//게시글 작성할때 포함된 첨부파일 등록
 	public int insertAttachment(Connection conn, Attachment at) {
 		
@@ -231,6 +258,31 @@ public class BoardDao {
 		
 		return result;
 	}
+	
+	
+	//게시글 작성할때 포함된 첨부파일 등록(카테고리2)
+		public int insertVideoAt(Connection conn, Attachment at) {
+			
+			int result = 0;
+			PreparedStatement pstmt = null;
+			
+			String sql = prop.getProperty("insertVideoAt");
+			
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, at.getOriginName());
+				pstmt.setString(2, at.getChangeName());
+				pstmt.setString(3, at.getFilePath());
+				
+				result = pstmt.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				JDBCTemplate.close(pstmt);
+			}
+			
+			return result;
+		}
 
 	//게시글에 관련된 첨부파일 조회
 	public Attachment selectAttachment(Connection conn, int boardNo) {
@@ -585,15 +637,20 @@ public class BoardDao {
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
+				Board b = new Board(rset.getInt("BOARD_NO"),
+						   rset.getString("USER_ID"),
+						   rset.getInt("CATEGORY_NO"),
+						   rset.getString("TITLE"),
+						   rset.getInt("COUNT"),
+						   rset.getDate("CREATE_DATE"),
+						   rset.getInt("LIKED"),
+						   rset.getInt("RP_COUNT")
+						   );
+				b.setChangeName(rset.getString("CHANGE_NAME"));
+				b.setFilePath(rset.getString("FILE_PATH"));
 				
-				list.add(new Board(rset.getInt("BOARD_NO"),
-								   rset.getString("USER_ID"),
-								   rset.getInt("CATEGORY_NO"),
-								   rset.getString("TITLE"),
-								   rset.getInt("COUNT"),
-								   rset.getDate("CREATE_DATE"),
-								   rset.getInt("LIKED"),
-								   rset.getInt("RP_COUNT")));
+				list.add(b);
+				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -670,6 +727,139 @@ public class BoardDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	//게시글의 좋아요 취소
+	public int deleteLiked(Connection conn, int boardNo) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("deleteLiked");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);			
+		}
+		
+		return result;
+	}
+
+	//좋아요 갯수 가져오기
+	public int LikedCount(Connection conn, int boardNo) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("LikedCount");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("LIKED");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	//게시글에 댓글 카운트 증가
+	public int RpCountUp(Connection conn, int bno) {
+
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("RpCountUp");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bno);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+
+		return result;
+	}
+
+	//게시글에 댓글 카운트 감소
+	public int RpCountDown(Connection conn, int bno) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("RpCountDown");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bno);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+
+		return result;
+	}
+
+	//키워드에 의한 총 게시글 갯수
+	public int boardKeywordCount(Connection conn, String kind, String keyword) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = "";
+		
+		if(kind.equals("title")) {
+			sql = prop.getProperty("searchTitleCount");
+		}else if(kind.equals("content")){
+			sql = prop.getProperty("searchContentCount");
+		}else if(kind.equals("userId")) {
+			sql = prop.getProperty("searchUserCount");
+		}
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, keyword);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("COUNT");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
 			JDBCTemplate.close(pstmt);
 		}
 		

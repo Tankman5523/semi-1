@@ -44,13 +44,30 @@ public class LikedController extends HttpServlet {
 		
 		int result2 = 0;
 		
-		if(result>0) {
-			//보드에 좋아요카운트 갱신
+		if(result==1) {
+			//보드에 좋아요카운트 갱신 ->1
 			result2 = new BoardService().insertLiked(boardNo);
+		}else if(result==2) {
+			
+			//좋아요취소
+			int result3 = new LikedService().deleteLiked(l);
+			
+			if(result3>0) {
+				//게시글에 좋아요카운트 감소 ->2
+				result2 = new BoardService().deleteLiked(boardNo);
+			}
 		}
-
 		
-		response.getWriter().print(result2);
+		//좋아요갯수
+		int cnt = new BoardService().LikedCount(boardNo);
+
+		JSONObject jobj = new JSONObject();
+		jobj.put("result", result2);
+		jobj.put("cnt", cnt);
+		
+		response.setContentType("json/application; charset=UTF-8");
+		
+		response.getWriter().print(jobj);
 
 	
 	}

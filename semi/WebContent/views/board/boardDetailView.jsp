@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>일반게시글</title>
 <style>
 	.outer{
         border: 1px solid black;
@@ -22,14 +22,7 @@
     	width: 1200px;
     	margin: auto;
     }
-    #insertForm-area>#submit-area{
-    	text-align: right;
-    	margin-right: 80px; 
-    }
     
-    #insertForm-area>table *{
-    	margin: 10px;
-    }
     
     #reply-area tfoot>tr{
     	height: 40px;
@@ -55,13 +48,13 @@
 				<th>제목</th>
 				<td width="400" colspan="5"><%=b.getTitle()%></td>
 			</tr>
-			<tr style="text-align: right" id="list-value">
+			<tr>
 				<th>작성자</th>
 				<td><%=b.getBoardWriter()%></td>
 				<th>작성일</th>
 				<td><%=b.getCreateDate()%></td>
 				<th>좋아요 받은 수</th>
-				<td><%=b.getLiked()%></td>
+				<td id="liked_count"><%=b.getLiked()%></td>
 				<th>조회수</th>
 				<td><%=b.getCount()%></td>
 			</tr>
@@ -83,7 +76,7 @@
 		
 		
 		<div id="liked-area" align="center" style="height: 10%;">
-			<button style="margin: 5px;" id="good">글 내용이 좋아요</button>
+			<button style="margin: 5px;" id="good">추천</button>
 		</div>
 		
 		
@@ -137,15 +130,23 @@
 							bno:<%=b.getBoardNo()%>,
 							uno:<%=loginUser.getUserNo()%>
 						},
-						success:function(result2){
-							if(result2>0){
+						success:function(jobj){
+							if(jobj.result==1){
 								alert("이 게시글을 좋아합니다.");
-							}else{
-								alert("이미 추천한 게시글입니다.");
+								
+								$("#liked_count").text(jobj.cnt);
+							}else if(jobj.result==2){
+								alert("좋아요 취소! 흥");
+								
+								$("#liked_count").text(jobj.cnt);
 							}
 						},
 						error:function(){
 							alert("통신 에러");
+						},
+						complete:function(){
+							//$("#liked_count").load(location.reload());
+							// 리로드 처리 쉽게 해버리기 - 여기서는 사용이 맞지않음
 						}
 					});
 				<%}%>
@@ -230,7 +231,8 @@
 				$.ajax({
 					url:"delRp",
 					data:{
-						rpNo:$("#reply-area tfoot *").siblings("input[type=hidden]").val()
+						rpNo:$("#reply-area tfoot *").siblings("input[type=hidden]").val(),
+						bno:<%=b.getBoardNo()%>
 					},
 					success:function(result){
 						if(result>0){

@@ -93,24 +93,40 @@
 					<%} %>
 				</tbody>
 			</table>
-			
+				
 				<script>
+				<%if(loginUser != null){ %>
 					$(function(){
-						
-						
 						var loginUser ='<%=loginUser.getUserId()%>';
+						var admin = '<%=loginUser.getAdmin()%>';
 						
 						$("#qa-list").on('click','tr' ,function(){
-						if(loginUser == $(this).children().eq(2).text()){
-							var qno = $(this).children().eq(0).text(); //글번호	
-							location.href="<%=contextPath%>/detail.qa?qno="+qno;
 							
-						}else{
-							alert("해당 게시글은 비공개 글입니다.");
-							
-						}
+							var qWriter = $(this).children().eq(2).text();
+						
+							if(loginUser == qWriter || admin =="Y"){
+								var qno = $(this).children().eq(0).text(); //글번호	
+								
+								location.href="<%=contextPath%>/detail.qa?qno="+qno; //해당 글 상세페이지로 이동 
+								
+							}else{
+								alert("해당 게시글은 비공개 글입니다.");
+								
+							}
+						
 						})
+						
 					}); //함수 끝  
+				<%}else{ %>
+					$(function(){
+						
+						$("#qa-list").on('click','tr',function(){
+							alert("해당 게시글은 비공개 글입니다.");
+						});
+
+					});	//함수 끝			
+					
+				<%}%>
 				</script>
 		</div>
 		<br><br>

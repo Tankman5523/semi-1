@@ -56,9 +56,20 @@ public class Question {
 		this.open = open;
 	}
 
+	//마이페이지에서 문의 조회시 보여질 생성자 
+	
+	public Question(int qNo, String title, String categoryName, Date date) {
+		super();
+		this.qNo = qNo;
+		this.title = title;
+		this.categoryName = categoryName;
+		this.date = date;
+	}
+
 	public int getqNo() {
 		return qNo;
 	}
+
 
 	public void setqNo(int qNo) {
 		this.qNo = qNo;

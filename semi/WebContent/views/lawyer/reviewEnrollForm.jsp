@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.bbbox.lawyer.model.vo.Lawyer"%>
+    pageEncoding="UTF-8" import="com.bbbox.lawyer.model.vo.Lawyer,com.bbbox.board.model.vo.Accident"%>
 <%
+	Accident ac = (Accident)request.getAttribute("ac");
 	Lawyer l = (Lawyer)request.getAttribute("l");
 %>
 <%@ include file = "../common/mainMenu.jsp" %>
@@ -75,12 +76,12 @@
 	       <div id="comment">나의 사건을 해결해준 변호사님께 간단한 리뷰를 남겨주세요.</div>
 	       <div id="enroll">
 	           <form  id="enroll-form" action="<%=contextPath%>/review.la" method="post">
-	               <%-- 영상번호 히든으로 보내기 <input type="hidden" name="accNO" value="<%= %>"> --%>
+	               <input type="hidden" name="accNO" value="<%=ac.getAccNo() %>">
 	               <input type="hidden" name="star" value=""><!-- 별점 히든으로 보내기 -->
 	               <table align="center">
 	                   <tr>
-	                       <th width="100px">분야</th><!-- 사건 제목으로 할까 -->
-	                       <td width="400px"><%=l.getRefPno() %></td>
+	                       <th width="100px">사건 제목</th>
+	                       <td width="400px"><%=ac.getTitle() %></td>
 	                   </tr>
 	                   <tr>
 	                       <th>변호사</th>
@@ -136,7 +137,7 @@
 			var count = content.length;
 			$("#count").html(count);
 			if(count>80){
-				alert("최대 80자까지 입력가능합니다.!");
+				alert("최대 80자까지 입력가능합니다.");
 				$(this).val(content.substring(0,80));
 				$("#count").html(80);
 			}

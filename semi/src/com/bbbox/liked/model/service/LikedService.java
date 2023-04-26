@@ -27,11 +27,32 @@ public class LikedService {
 		return result;
 	}
 
+
+
+	//좋아요 취소
+	public int deleteLiked(Liked l) {
+
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new LikedDao().deleteLiked(conn, l);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);			
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+	
+
 	public int insertDislike(Dislike dl) {
 		Connection conn = JDBCTemplate.getConnection();
 		
 		int result = new LikedDao().insertDislike(conn, dl);
-		
+
 		if(result>0) {
 			JDBCTemplate.commit(conn);
 		}else {
