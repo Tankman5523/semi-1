@@ -36,6 +36,7 @@ public class AccidentBoardListController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		int a = 0;
 		//페이징처리
 		int listCount; //현재 총 게시글의 갯수
 		int currentPage; //현재 페이지
@@ -57,7 +58,7 @@ public class AccidentBoardListController extends HttpServlet {
 		}
 		
 		//pageLimit : 페이지 하단에 보여질 페이징 바의 페이지 최대개수 (목록단위)
-		pageLimit = 15;
+		pageLimit = 5;
 		
 		//boardLimit : 한 페이지에 보여질 게시글 개수 (게시글 단위)
 		boardLimit = 15;
@@ -86,6 +87,7 @@ public class AccidentBoardListController extends HttpServlet {
 		
 		
 		if(blist!=null) {
+			request.setAttribute("a", a);
 			request.setAttribute("pi", pi);
 			request.setAttribute("blist", blist);
 			request.getRequestDispatcher("views/board/accidentBoardListView.jsp").forward(request, response);

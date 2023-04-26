@@ -39,7 +39,7 @@ public class AccidentEnrollFormController extends HttpServlet {
 		
 		
 		//우회해서 영상제보폼으로 넘겨주기
-		request.getRequestDispatcher("views/board/enrollAccidentForm.jsp").forward(request, response);
+		request.getRequestDispatcher("views/board/accidenBoardEnrollForm.jsp").forward(request, response);
 		
 	}
 

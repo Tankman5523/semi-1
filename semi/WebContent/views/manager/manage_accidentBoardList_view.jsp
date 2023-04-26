@@ -125,7 +125,7 @@
     <div class="outer">
         <div id="accidentBoardHead">
             <div class="boardName">
-                <p>사건 게시판 관리</p>
+                <p>제보 영상 게시판 관리</p>
             </div>
           
             <div class="sort" style="float: right;margin-top: 20px;" >
@@ -191,7 +191,7 @@
                 <table class="accidentBoardList" style="text-align: center; display: inline-table;" >
                     <thead style="background-color: lightgray;">
                     	<tr>
-                            <th><input type="checkbox" name="selectBoard" ></th>
+                            <th><input type="checkbox" name="selectBoard" id="allCheck" ></th>
                             <th>글번호</th>
                             <th>작성자</th>
                             <th>제목</th>
@@ -206,39 +206,38 @@
                             <th>상태변경</th>
                         </tr>
                     </thead>
-	                <tbody id="boardList">
+	                <tbody id="boardList" style="box-sizing: border-box;">
 	                	<%if(blist!=null){ %>
 		                	<%for(int i=0;i<blist.size();i++){ %>
-		                    <tr>
-		                        <td><input type="checkbox" name="selectBoard"></td>
-		                        <td><%=blist.get(i).getBoardNo()%></td>
-		                        <td><%=blist.get(i).getBoardWriter()%></td>
-		                        <td><%=blist.get(i).getTitle()%></td>
-		                        <td><%=blist.get(i).getCount()%></td>
-		                        <td><%=blist.get(i).getCreateDate()%></td>
-		                        <td><%=blist.get(i).getChangeName()%></td>
-		                        <td><%=blist.get(i).getInsuranceType()%></td>
-		                        <td><%=blist.get(i).getRegion()%></td>
-		                        <td><%=blist.get(i).getLiked()%></td>
-		                        <td><%=blist.get(i).getReportCount()%></td>
-		                        <!-- 아직 게시되지 않았다면 -->
-		                        <%if(blist.get(i).getStatus().equals("N")) {%>
-		                        	<td>
-		                        		<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
-		                        		<button onclick="" name="statusOn" id="statusOnBtn" class="statusOn" style="background-color: red; color: white; width:100%;height:100%">OFF</button>
-		                        	</td>
-		                        <%}else{ %>
-		                        <!-- 글이 게시 되어있다면 -->
-		                        	<td>
-			                        	<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
-			                        	<button onclick="" name="statusOff" id="statusOffBtn" class="statusOff" style="background-color: green; color: white; width:100%;height:100%">ON</button>
+			                  	<tr onclick="location.href='<%=contextPath%>/detail.ac?bno='+<%=blist.get(i).getBoardNo()%>">
+			                        <td><input type="checkbox" name="selectBoard" style="height:100%;width:100%;margin:0px;padding:0px;"></td>
+			                        <td><%=blist.get(i).getBoardNo()%></td>
+			                        <td><%=blist.get(i).getBoardWriter()%></td>
+			                        <td><%=blist.get(i).getTitle()%></td>
+			                        <td><%=blist.get(i).getCount()%></td>
+			                        <td><%=blist.get(i).getCreateDate()%></td>
+			                        <td><%=blist.get(i).getChangeName()%></td>
+			                        <td><%=blist.get(i).getInsuranceType()%></td>
+			                        <td><%=blist.get(i).getRegion()%></td>
+			                        <td><%=blist.get(i).getLiked()%></td>
+			                        <td><%=blist.get(i).getReportCount()%></td>
+		                        	<td id="statusShift">
+			                        		<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
+			                        <%if(blist.get(i).getStatus().equals("N")) {%>
+			                        <!-- 아직 게시되지 않았다면 -->
+			                        		<button  name="statusOn" class="statusOn" style="background-color: red; color: white; width:100%;height:100%">OFF</button>
+			                        		<!-- <input type="button" class="statusOn" value="OFF" style="background-color: red; color: white; width:100%;height:100%"> -->
+			                        <%}else{ %>
+			                        <!-- 글이 게시 되어있다면 -->
+				                        	 <button name="statusOff" class="statusOff" style="background-color: green; color: white; width:100%;height:100%">ON</button>
+				                        	<!-- <input type="button" class="statusOff" value="ON" style="background-color: green; color: white; width:100%;height:100%"> -->
 			                        </td>
-		                        <%} %>
-		                        <td><!-- DB에서 전부 날려버리기 -->
-		                        	<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
-		                        	<button onclick="" name="delete" class="deleteBoardBtn" id="deleteBoardBtn" style="width:100%;height:100%">글삭제</button>
-	                        	</td>
-		                    </tr>
+			                        <%} %>
+			                        <td><!-- DB에서 전부 날려버리기 -->
+			                        	<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
+			                        	<button name="delete" class="deleteBoardBtn" id="deleteBoardBtn" style="width:100%;height:100%">글삭제</button>
+		                        	</td>
+			                    </tr>
 		                    <%} %>
 		                    
 		                 <%}else if(blist.size()==0){ %>
@@ -258,10 +257,7 @@
 	        //글 게시
 	        $(function(){
 	        	$(".statusOn").on("click",function(){
-	        		
-	        		
 		        	$.ajax({
-				        
 		        		url: "statusOn.mac",
 		        		data:{
 		        			bno:$(this).parent().children("input[type=hidden]").val()
@@ -275,16 +271,18 @@
 		        		},
 		        		error: function(){
 		        			alert("통신 연결 실패");
-		        		}
+		        		},
+		        		complete: function() {
+		                    $('#statusShift').load(location.reload());
+		                }
 		        	});
-		        })
+		        });
 	        });
 	        
 	      //글 회수
 	        $(function(){
 	        	$(".statusOff").on("click",function(){
 		        	$.ajax({
-				        
 		        		url: "statusOff.mac",
 		        		data:{
 		        			bno:$(this).parent().children("input[type=hidden]").val()
@@ -298,7 +296,10 @@
 		        		},
 		        		error: function(){
 		        			alert("통신 연결 실패");
-		        		}
+		        		},
+		        		complete: function() {
+		                    $('#statusShift').load(location.reload());
+		                }
 		        	});
 		        });
 	        });
@@ -306,50 +307,51 @@
 	      	//DB에서 삭제
 	        $(function(){
 	        	$(".deleteBoardBtn").on("click",function(){
-		        	$.ajax({
-				        
-		        		url: "deleteReal.mac",
-		        		data:{
-		        			bno:$(this).parent().children("input[type=hidden]").val()
-		        		},
-		        		success: function(result){
-		        			if(result>0){
-		        				alert("게시글 완전삭제 성공!");
-		        			}else{
-		        				alert("상태값 변경 실패!");
-		        			}
-		        		},
-		        		error: function(){
-		        			alert("통신 연결 실패");
-		        		}
-		        	});
+	        		var control = confirm("정말로 삭제하시겠습니까?");
+	        		if(control==true){
+			        	$.ajax({
+			        		url: "deleteReal.mac",
+			        		data:{
+			        			bno:$(this).parent().children("input[type=hidden]").val()
+			        		},
+			        		success: function(result){
+			        			if(result>0){
+			        				alert("게시글 완전삭제 성공!");
+			        			}else{
+			        				alert("상태값 변경 실패!");
+			        			}
+			        		},
+			        		error: function(){
+			        			alert("통신 연결 실패");
+			        		},
+			        		complete: function() {
+			                    $('#boardList').load(location.reload());
+			                }
+			        	});
+	        		}
 		        });
 	        });
-	      
 	        
-	        function statusList(){
-	        	
-	        }
 	        
 	        </script>       
             </div>
             <!-- 페이징바 -->
             <div class="pageMover" align="center">
                	 <%if(pi.getCurrentPage() != 1){ %>
-					<button onclick="location.href='<%=contextPath%>/list.ac?currentPage=<%=pi.getCurrentPage()-1%>'">&lt;</button>
+					<button onclick="location.href='<%=contextPath%>/list.mac?currentPage=<%=pi.getCurrentPage()-1%>'">&lt;</button>
 				<%} %>
 			
-				<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++){ %>
+				<%for(int i=pi.getStartPage(); i<pi.getEndPage(); i++){ %>
 				<!-- 내가 보고있는 페이지 버튼은 비활성화 -->
 					<%if(i != pi.getCurrentPage()){ %>
-						<button onclick="location.href='<%=contextPath%>/list.ac?currentPage=<%=i%>';"><%=i %></button>
+						<button onclick="location.href='<%=contextPath%>/list.mac?currentPage=<%=i%>';"><%=i %></button>
 					<%}else{ %> <!-- 내가 보고있는 페이지와 페이징바 버튼의 수가 같으면 i와 currenPage -->
 						<button disabled><%=i%></button>
 					<%} %>
 				<%} %>
 				
 				<%if(pi.getCurrentPage() != pi.getMaxPage()) {%>
-					<button onclick="location.href='<%=contextPath%>/list.ac?currentPage=<%=pi.getCurrentPage()+1%>'">&gt;</button>
+					<button onclick="location.href='<%=contextPath%>/list.mac?currentPage=<%=pi.getCurrentPage()+1%>'">&gt;</button>
 				<%} %>	
             </div>
         </div>
