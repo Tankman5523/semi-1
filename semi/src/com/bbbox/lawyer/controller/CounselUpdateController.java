@@ -34,10 +34,10 @@ public class CounselUpdateController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//상담신청 수정폼 띄우기 위한 기존 데이터 조회 (상담번호 이용)
-		
-		//테스트용으로 고정값 1로 받음
+			
 		//상담번호로 상담내용 조회
 		Counsel c = new LawyerService().selectCounsel(Integer.parseInt(request.getParameter("cno")));
+		
 		//상담번호로 변호사 정보 조회
 		Lawyer l = new LawyerService().selectLawyer(Integer.parseInt(c.getRefLno()));
 		

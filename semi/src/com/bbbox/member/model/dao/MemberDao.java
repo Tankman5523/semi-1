@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import com.bbbox.board.model.vo.Accident;
+import com.bbbox.board.model.vo.AccidentReview;
 import com.bbbox.board.model.vo.Board;
 import com.bbbox.board.model.vo.Reply;
 import com.bbbox.common.JDBCTemplate;
@@ -350,6 +352,7 @@ public class MemberDao {
 		return lawyer;
 	}
 	
+	
 	//찜한 변호사 목록 조회하는 메소드
 	public ArrayList<Lawyer> selectDibsLawyer(Connection conn, int userNo) {
 
@@ -525,6 +528,112 @@ public class MemberDao {
  		}
 		
 		return lawRev;
+	}
+
+	
+	public ArrayList<AccidentReview> selectAccidentReviewList(Connection conn, int userNo) {
+		
+		ResultSet rset = null;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("selectAccidentReviewList");
+		
+		ArrayList<AccidentReview> accRev = new ArrayList<>();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()){
+				accRev.add(new AccidentReview(rset.getInt("AR_NO"),
+											  rset.getInt("LAW_NO"),
+											  rset.getString("CONTENT")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return accRev;
+	}
+
+	public ArrayList<Accident> selectAccidentList(Connection conn, int userNo) {
+		
+		ResultSet rset = null;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("selectAccidentList");
+		
+		ArrayList<Accident> accident = new ArrayList<>();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()){
+				accident.add(new Accident(rset.getInt("ACC_NO"),
+											  rset.getInt("REF_BNO"),
+											  rset.getInt("REF_LNO"),
+											  rset.getString("PART_NAME"),
+											  rset.getString("TITLE"),
+											  rset.getString("SOLVE")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return accident;
+	}
+
+	//나에게 온 상담내역 조회하는 메소드 (변호사)
+	public ArrayList<Counsel> selectCounselListLaw(Connection conn, int userNo) {
+
+		ResultSet rset = null;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("selectCounselListLaw");
+		
+		ArrayList<Counsel> cListLaw = new ArrayList<>();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				cListLaw.add(new Counsel(rset.getInt("CS_NO"),
+									  rset.getString("CS_TITLE"),
+									  rset.getDate("CREATE_DATE"),
+									  rset.getString("CS_ANSWER"),
+									  rset.getString("ACCEPT")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return cListLaw;
 	}
 
 }

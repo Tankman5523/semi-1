@@ -3,13 +3,22 @@
 
 <properties>
 	<entry key="insertLiked">
-		INSERT INTO LIKED
+		INSERT INTO LIKED`
 		VALUES(?,?)
 	</entry>
 	
+
 	<entry key="deleteLiked">
 		DELETE FROM LIKED
 		WHERE REF_UNO = ?
 		AND REF_BNO = ?
 	</entry>
+
+
+	<entry key="insertDislike">
+		INSERT INTO DISLIKE
+		VALUES(?,?)
+	</entry>
+	
+
 </properties>

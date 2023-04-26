@@ -105,7 +105,7 @@
         }
         
         /*썸네일 */
-        .accidentBoardList img{
+        .accidentBoardList video{
             border: 1px solid black;
             width: 200px;
             height: 200px;
@@ -179,12 +179,14 @@
         </div>
         <div id="accidentBoardbody">
             <div id="accidentBoardList-area">
-				<%if(blist!=null){ %>
+				<%if(blist.size()!=0){ %>
 	            	<%for(int i=0;i<blist.size();i++){ %>
 	                 <table class="accidentBoardList" onclick="location.href='<%=contextPath%>/detail.rb?bno='+<%=blist.get(i).getBoardNo()%>" >
 	                    <tr>
-	                    
-	                        <td colspan="2"><img src="<%=contextPath%><%=blist.get(i).getFilePath()%>" alt=""></td>
+	                        <td colspan="2">
+	                        <!-- <img src="<%=contextPath%><%=blist.get(i).getFilePath()%>" alt=""> -->
+	                        <video preload="metadata" src="<%=contextPath%><%=blist.get(i).getFilePath()%>#t=1.0"></video>
+	                        </td>
 	                    
 	                    </tr>
 	                    <tr>

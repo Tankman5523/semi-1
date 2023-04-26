@@ -3,6 +3,7 @@
 <%
 	Counsel c = (Counsel)request.getAttribute("c");
 	Lawyer l = (Lawyer)request.getAttribute("l");
+	
 %>
 <%@ include file = "../common/mainMenu.jsp" %>
 <!DOCTYPE html>
@@ -39,7 +40,7 @@
 	   margin: 0;
 	}
 	#comment{
-	   height: 10%;
+	   height: 10%; /* 일단 삭제된 상태 */
 	}
 	#enroll{
 	   height: 75%;
@@ -69,7 +70,6 @@
 	<div class="wrap">
 	   <div id="enroll-area">
 	       <div id="title"><h2>상담내용 수정</h2></div>
-	       <div id="comment">온라인 상담 신청을 해주시면 전문가가 신속히 답변 드리겠습니다.</div>
 	       <div id="enroll">
 	           <form  id="enroll-form" action="<%=contextPath%>/counselUpdate.la" method="post">
 	               <input type="hidden" name="cno" value="<%=c.getCsNo() %>">
@@ -93,11 +93,18 @@
 	               </table>
 	               <div id="button">
 	                   <button type="submit">수정하기</button>
-	                   <button onclick="history.back()">취소(이상함)</button>
+	                   <button type="button" onclick="back();">취소</button>
 	               </div>
 	           </form>
 	       </div>
 	   </div>
 	</div>
+	<script>
+		function back(){
+			if(confirm("취소하시면 작성 내용이 저장되지 않습니다.")){
+				history.back();
+			}
+		};
+	</script>
 </body>
 </html>

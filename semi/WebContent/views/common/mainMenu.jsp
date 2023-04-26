@@ -14,6 +14,9 @@
 <head>
 <meta charset="UTF-8">
  <title>MainMenu</title>
+ 
+ 	<!-- 아이콘 CDN (font-awesome Copy Link Tag) -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 	<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 
@@ -205,9 +208,12 @@
         <div id="header3">
             <div id="user-info">
                  <div id = "username">
-					<%if(loginUser.getLawyer().equals("Y")){ %>
+					<%if(loginUser.getAdmin().equals("Y")){ %>
+						<a href="<%=contextPath%>/views/manager/manager_index.jsp" style="color:red;text-decoration:none;font-weight:bold">관리자 </a><br>
+						<b><%=loginUser.getUserName()%> 님</b>
+					<%}else if(loginUser.getLawyer().equals("Y")){ %>
 						<b>변호사</b> <br> <!-- 추후 변경(이미지 대체) -->
-						<b><%=loginUser.getUserName()%> 님</b>						
+						<b><%=loginUser.getUserName()%> 님</b>
 					<%}else{ %>                	
                     <b><%=loginUser.getUserName()%> 님</b>
                     <%} %>
@@ -246,19 +252,13 @@
                 </li>    
                 <li><a href="">고객문의</a>
                     <ul>
-                        <li><a href="">1:1 문의</a></li>
+                        <li><a href="<%=contextPath%>/list.qa">1:1 문의</a></li>
                         <li><a href="">FQA</a></li>
                         
                     </ul>
                 </li>    
             </ul>
     </div>
-	
-	<script>
-		function mypage(){
-			
-		}	
-	</script>
 
 </body>
 </html>

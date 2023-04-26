@@ -71,6 +71,24 @@ public class BoardService {
 		
 		return result;
 	}
+	//싫어요 개수 증가 메소드
+	public int insertDislike(int boardNo) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new BoardDao().insertDislike(conn, boardNo);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);			
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
 
 	//게시글 작성 메소드
 	public int insertBoard(Board b, Attachment at) {

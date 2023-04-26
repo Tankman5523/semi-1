@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 import com.bbbox.common.JDBCTemplate;
+import com.bbbox.liked.model.vo.Dislike;
 import com.bbbox.liked.model.vo.Liked;
 
 public class LikedDao {
@@ -48,6 +49,7 @@ public class LikedDao {
 		return result;
 	}
 
+
 	//좋아요 취소
 	public int deleteLiked(Connection conn, Liked l) {
 
@@ -64,6 +66,29 @@ public class LikedDao {
 			result = pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int insertDislike(Connection conn, Dislike dl) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertDislike");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, dl.getRefUno());
+			pstmt.setInt(2, dl.getRefBno());
+			
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			result = 0;
+
 		}finally {
 			JDBCTemplate.close(pstmt);
 		}

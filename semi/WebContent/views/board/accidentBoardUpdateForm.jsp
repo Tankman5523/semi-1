@@ -107,6 +107,7 @@
             <!-- 작성자 아이디 숨겨서 가져가주세요 -->
             <input type="hidden" name="userNo" value="<%=loginUser.getUserNo()%>">
             <input type="hidden" name="bno" value="<%=b.getBoardNo()%>">
+            <input type="hidden" name="cno" value="3">
             <div class="privateInfo">
                 <br>
                 <span class="inputTitle">개인 정보</span>

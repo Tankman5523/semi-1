@@ -33,6 +33,59 @@
 		              ORDER BY CREATE_DATE DESC) A)
 		WHERE RNUM BETWEEN ? AND ?
 	</entry>
+	
+	<entry key="sortByLiked">
+		SELECT *
+		FROM   (SELECT ROWNUM RNUM,A.*
+	      		FROM (SELECT BOARD_NO
+							,USER_ID
+							,TITLE
+							,COUNT
+							,CREATE_DATE
+							,REF_PNO
+							,INSURANCE_TYPE
+							,REGION
+							,FILE_PATH||CHANGE_NAME PATH
+							,CHANGE_NAME
+							,CATEGORY_NO
+						FROM BOARD B
+						JOIN MEMBER M ON(BOARD_WRITER = USER_NO)
+						JOIN ACCIDENT A ON(BOARD_NO=A.REF_BNO)
+						JOIN ATTACHMENT AT ON(BOARD_NO=AT.REF_BNO)
+						WHERE B.STATUS = 'Y'
+						AND CATEGORY_NO = 3
+						AND SOLVE='N'
+						AND NOTICE='N'
+		              ORDER BY LIKED DESC) A)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="sortByCount">
+		SELECT *
+		FROM   (SELECT ROWNUM RNUM,A.*
+	      		FROM (SELECT BOARD_NO
+							,USER_ID
+							,TITLE
+							,COUNT
+							,CREATE_DATE
+							,REF_PNO
+							,INSURANCE_TYPE
+							,REGION
+							,FILE_PATH||CHANGE_NAME PATH
+							,CHANGE_NAME
+							,CATEGORY_NO
+						FROM BOARD B
+						JOIN MEMBER M ON(BOARD_WRITER = USER_NO)
+						JOIN ACCIDENT A ON(BOARD_NO=A.REF_BNO)
+						JOIN ATTACHMENT AT ON(BOARD_NO=AT.REF_BNO)
+						WHERE B.STATUS = 'Y'
+						AND CATEGORY_NO = 3
+						AND SOLVE='N'
+						AND NOTICE='N'
+		              ORDER BY COUNT DESC) A)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
 	<entry key="selectAccidentAttachmentList">
 		SELECT REF_BNO
 			  ,ORIGIN_NAME
@@ -69,6 +122,7 @@
 						JOIN ACCIDENT A ON(BOARD_NO=A.REF_BNO)
 						JOIN ATTACHMENT AT ON(BOARD_NO=AT.REF_BNO)
 						WHERE B.STATUS = 'Y'
+						AND A.STATUS = 'Y'
 						AND CATEGORY_NO = 4
 						AND SOLVE='Y'
 						AND NOTICE='N'
@@ -177,6 +231,7 @@
 		SELECT BOARD_NO
 			,USER_ID
 			,TITLE
+			,CATEGORY_NO
 			,CONTENT
 			,COUNT
 			,CREATE_DATE
@@ -274,6 +329,7 @@
 		SELECT BOARD_NO
 			,USER_ID
 			,TITLE
+			,CATEGORY_NO
 			,CONTENT
 			,COUNT
 			,CREATE_DATE
@@ -320,7 +376,7 @@
 	</entry>
 	
 	<entry key="resolvedBoardReviewSelectDetail">
-		SELECT AR_NO,REF_ACCNO,CORRECT_RATE_ME,CORRECT_RATE_YOU,CONTENT,USER_NAME
+		SELECT AR_NO,REF_ACCNO,CORRECT_RATE_ME,CORRECT_RATE_YOU,CONTENT,USER_NAME,LAW_NO
 		FROM ACCI_REVIEW AR
 		JOIN LAW_USER LAW USING (LAW_NO)
 		JOIN MEMBER M ON (USER_NO=REF_UNO)
@@ -354,5 +410,50 @@
 		WHERE ACC_NO = ?
 		AND STATUS = 'Y'
 	</entry>
+	
+	<entry key="selectAccidentReview">
+		SELECT CONTENT, CORRECT_RATE_ME, CORRECT_RATE_YOU
+		FROM ACCI_REVIEW
+		WHERE AR_NO = ?
+		AND STATUS = 'Y'
+	</entry>
+	
+	<entry key="selectAttachment">
+		SELECT CHANGE_NAME , FILE_PATH , ORIGIN_NAME
+		FROM ATTACHMENT
+		WHERE REF_BNO = ?
+		AND STATUS = 'Y'
+	</entry>
+	
+	<entry key="updateAccidentReview">
+		UPDATE ACCI_REVIEW
+		SET CONTENT = ?
+		  , CORRECT_RATE_ME = ?
+		  , CORRECT_RATE_YOU = ?
+		WHERE AR_NO= ?  
+		AND STATUS = 'Y'
+	</entry>
+	
+	<entry key="deleteAccidentReview">
+		UPDATE ACCI_REVIEW
+		SET STATUS = 'N'
+		WHERE STATUS = 'Y'
+		AND AR_NO = ?
+	</entry>
+	
+	<entry key="returnBoardCategory">
+		UPDATE BOARD
+		SET CATEGORY_NO = 3
+		WHERE STATUS = 'Y'
+		AND BOARD_NO = ?
+	</entry>
+	
+	<entry key="returnSolve">
+		UPDATE ACCIDENT
+		SET SOLVE = 'N'
+		WHERE STATUS = 'Y'
+		AND ACC_NO = ?
+	</entry>
+	
 	
 </properties>

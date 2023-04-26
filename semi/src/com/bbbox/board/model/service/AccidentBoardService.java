@@ -15,9 +15,9 @@ import com.bbbox.common.model.vo.PageInfo;
 public class AccidentBoardService {
 
 	//제보영상게시판 '게시글' 읽어오기
-	public ArrayList<Board> selectAccidentBoardList(PageInfo pi) {
+	public ArrayList<Board> selectAccidentBoardList(PageInfo pi, String sort) {
 		Connection conn = JDBCTemplate.getConnection();
-		ArrayList<Board> blist = new AccidentBoardDao().selectAccidentBoardList(conn,pi);
+		ArrayList<Board> blist = new AccidentBoardDao().selectAccidentBoardList(conn,pi,sort);
 		
 		JDBCTemplate.close(conn);
 		
@@ -290,6 +290,68 @@ public class AccidentBoardService {
 		JDBCTemplate.close(conn);
 		
 		return list;
+	}
+	public AccidentReview selectAccidentReview(int arNo) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		AccidentReview ar = new AccidentBoardDao().selectAccidentReview(conn,arNo);
+		
+		JDBCTemplate.close(conn);
+		
+		return ar;
+	}
+	public Attachment selectAttachment(int bno) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		Attachment at = new AccidentBoardDao().selectAttachment(conn,bno);
+		
+		JDBCTemplate.close(conn);
+		
+		return at;
+	}
+	public int updateAccidentReview(AccidentReview ar) {
+
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new AccidentBoardDao().updateAccidentReview(conn,ar);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		return result;
+	}
+	public int deleteAccidentReview(int arNo) {
+
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new AccidentBoardDao().deleteAccidentReview(conn,arNo);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		return result;
+	}
+	public int returnBoard(int bno, int accNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new AccidentBoardDao().returnBoardCategory(conn,bno);
+		int result2 = new AccidentBoardDao().returnSolve(conn,accNo); 
+		
+		if(result>0 && result2>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		return result;
 	}
 
 	

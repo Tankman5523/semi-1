@@ -62,12 +62,11 @@ public class ReplyController extends HttpServlet {
             // listRp에 대한 처리
         	
 			int bno = Integer.parseInt(request.getParameter("bno"));
-//			System.out.println(bno);
+
 			
 			ArrayList<Reply> rpList = new BoardService().selectRpList(bno);
 			
-//			System.out.println(rpList);
-			
+
 			response.setContentType("json/application; charset=UTF-8");
 			new Gson().toJson(rpList, response.getWriter());
         }
