@@ -5,9 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인 페이지</title>
-<!-- 카카오 로그인 script -->
-<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
-  integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
  
 <!-- jquery CDN --> 
  <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>  
@@ -182,10 +179,7 @@
                     <button type="submit">로그인</button>
                 </div>
                 <div>
-                    <button type="button">카카오로그인</button> 
-                </div>
-                <div>
-                    <button type="button">회원가입</button>
+                    <button type="button" onclick = "intoEnroll();">회원가입</button>
                 </div>
 		   </div>
         </form>
@@ -222,6 +216,14 @@
         <br><br><br><br>
 
     <script>
+    	/* 회원가입 페이지로 이동*/
+    	
+    	function intoEnroll(){
+    		
+    		location.href="<%=contextPath%>/enroll.me"
+    		
+    	}
+    
         $(function(){
             
         	$("#confirm").click(function(){

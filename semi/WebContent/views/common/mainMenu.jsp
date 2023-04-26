@@ -216,7 +216,7 @@
                     <%} %>
                 </div>
                 <div id="mypage" align = "center">
-                    <a href="<%=contextPath%>/myPage.me">마이페이지</a>
+                    <a href="<%=contextPath%>/confirm.me">마이페이지</a>
                     <a href="<%=contextPath%>/logout.me">로그아웃</a>
                 </div>
             </div>

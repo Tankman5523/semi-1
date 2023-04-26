@@ -174,4 +174,45 @@ public class LawyerService {
 		return result;
 	}
 
+	//상담내역 삭제
+	public int deleteCounsel(int cno) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new LawyerDao().deleteCounsel(conn, cno);
+	
+		if(result==0) {
+			JDBCTemplate.rollback(conn);
+		}else {
+			JDBCTemplate.commit(conn);
+		}
+		
+		return result;
+	}
+
+	//리뷰내역 삭제
+	public int deleteReview(int reNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new LawyerDao().deleteReview(conn, reNo);
+	
+		if(result==0) {
+			JDBCTemplate.rollback(conn);
+		}else {
+			JDBCTemplate.commit(conn);
+		}
+		
+		return result;
+	}
+	
+	//상담정보 조회 (변호사용)
+	public Counsel selectCounselLaw(int cno) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		Counsel c = new LawyerDao().selectCounselLaw(conn, cno);
+	
+		JDBCTemplate.close(conn);
+		
+		return c;
+	}
+
 }

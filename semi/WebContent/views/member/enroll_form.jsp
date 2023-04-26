@@ -93,10 +93,13 @@
 </head>
 <body>
 	<%@ include file ="../common/header.jsp" %>
+    
     <script type="text/JavaScript">
-        /* 아이디 중복확인 */
-        
+       
+    	/* 아이디 중복확인 + 올바른 형식 */
         function chkId(){
+        	
+    		var idCheck =/^[a-zA-Z]{1}[a-zA-Z0-9]{3,11}$/;
         	
         	var $chkId = $('#join-form input[name=inputId]');
         	
@@ -113,7 +116,14 @@
         				$('#checkResult').html(fail);
         				$chkId.focus();
         			
-        			}else{
+        			}else{//아이디 중복에 걸리지 않았을 경우 
+        				
+        				if(!idCheck.test($chkId.val())){
+                            alert("아이디형식이 올바르지 않습니다. 다시 입력해주세요")
+                            userId.select();
+                            return false;
+                        }
+        				
 						var success = "사용 가능한 아이디 입니다."
 							$('#checkResult').html(success);
         			}
@@ -236,7 +246,7 @@
         </script>
         
         <script>
-        
+        	
             function enroll_test(){
             	
                 var inputId = $('#userId').val();
