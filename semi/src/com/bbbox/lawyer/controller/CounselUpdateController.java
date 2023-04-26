@@ -1,7 +1,6 @@
 package com.bbbox.lawyer.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.bbbox.lawyer.model.service.LawyerService;
 import com.bbbox.lawyer.model.vo.Counsel;
 import com.bbbox.lawyer.model.vo.Lawyer;
-import com.bbbox.lawyer.model.vo.PartCategory;
 
 /**
  * Servlet implementation class CounselUpdateController
@@ -33,17 +31,40 @@ public class CounselUpdateController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//상담신청 수정폼 띄우기 위한 기존 데이터 조회 (상담번호 이용)
-			
-		//상담번호로 상담내용 조회
-		Counsel c = new LawyerService().selectCounsel(Integer.parseInt(request.getParameter("cno")));
+		//1.상담신청 수정폼 띄우기 위한 기존 데이터 조회
+		//2.회원의 매칭수락/상담종료에 대한 ACCEPT 값 변경 기능
 		
-		//상담번호로 변호사 정보 조회
+		int csNo = Integer.parseInt(request.getParameter("cno"));
+		Counsel c = new LawyerService().selectCounsel(csNo);
 		Lawyer l = new LawyerService().selectLawyer(Integer.parseInt(c.getRefLno()));
 		
-		request.setAttribute("c", c);
-		request.setAttribute("l", l);
-		request.getRequestDispatcher("views/lawyer/counselUpdateForm.jsp").forward(request, response);
+		String aResult = request.getParameter("aResult");
+		//수정폼을 넘길지("X") or 회원 답변에 의한 상태변경을 할지("accept"/"decline") 구분
+		
+		if(aResult.equals("X")) { //수정폼을 위한 데이터 조회일 경우
+			
+			request.setAttribute("c", c);
+			request.setAttribute("l", l);
+			request.getRequestDispatcher("views/lawyer/counselUpdateForm.jsp").forward(request, response);
+			
+		}else { //ACCEPT값 변경 기능일 경우
+			
+			int result = new LawyerService().updateAccept(csNo, aResult);
+			
+			if(result>0) {
+				if(aResult.equals("accept")) {
+					request.getSession().setAttribute("alertMsg", "매칭이 완료되었습니다.");
+				}else {
+					request.getSession().setAttribute("alertMsg", "상담이 종료되었습니다.");
+				}
+				response.sendRedirect(request.getContextPath()+"/myPage.me");
+			}else {
+				request.setAttribute("errorMsg", "답변 실패");
+				request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+			}
+			
+		}
+		
 	}
 
 	/**
@@ -60,10 +81,10 @@ public class CounselUpdateController extends HttpServlet {
 		
 		int result = new LawyerService().updateCounsel(cno, title, content);
 				
-		if(result>0) { //성공시 알림메세지로 상담신청 완료 띄우고 마이페이지로 이동(재요청)
+		if(result>0) {
 			request.getSession().setAttribute("alertMsg", "상담수정 완료");
 			response.sendRedirect(request.getContextPath()+"/myPage.me");
-		}else { //실패시 에러페이지로 이동(상담신청 작성 실패) 메세지 (위임)
+		}else {
 			request.setAttribute("errorMsg", "상담수정 실패");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}

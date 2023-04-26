@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import com.bbbox.board.model.vo.Accident;
 import com.bbbox.common.JDBCTemplate;
 import com.bbbox.lawyer.model.vo.Counsel;
 import com.bbbox.lawyer.model.vo.LawReview;
@@ -338,12 +339,12 @@ public class LawyerDao {
 	}
 
 	//해당 변호사 리뷰 조회
-	public ArrayList<LawReview> selectReview(Connection conn, int lno) {
+	public ArrayList<LawReview> selectReviewList(Connection conn, int lno) {
 		ArrayList<LawReview> rList = new ArrayList<>();
 		
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("selectReview");
+		String sql = prop.getProperty("selectReviewList");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -427,8 +428,6 @@ public class LawyerDao {
 			JDBCTemplate.close(pstmt);
 		}
 		
-		System.out.println(c); //확인용 
-		
 		return c;
 	}
 
@@ -508,6 +507,7 @@ public class LawyerDao {
 
 	//상담정보 조회 (변호사용)
 	public Counsel selectCounselLaw(Connection conn, int cno) {
+		
 		Counsel c = new Counsel();
 		
 		PreparedStatement pstmt = null;
@@ -522,7 +522,7 @@ public class LawyerDao {
 			
 			if(rset.next()) {
 				c = new Counsel(rset.getInt("CS_NO"),
-								rset.getString("PART_NAME"),
+								rset.getString("REF_LNO"),
 								rset.getString("USER_ID"),
 								rset.getString("CS_TITLE"),
 								rset.getString("CS_CONTENT"),
@@ -539,6 +539,133 @@ public class LawyerDao {
 		}
 		
 		return c;
+	}
+
+	//상담 답변 등록 (변호사)
+	public int updateAnswer(Connection conn, String aResult, String answer, int csNo) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = "";
+		
+		if(aResult.equals("accept")) { //수락답변
+			sql = prop.getProperty("updateAnswerAccept");
+		}else { //거절답변
+			sql = prop.getProperty("updateAnswerDecline");
+		}
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, answer);
+			pstmt.setInt(2, csNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			JDBCTemplate.close(pstmt);
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	//상담 수락 여부 (회원용)
+	public int updateAccept(Connection conn, int csNo, String aResult) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = "";
+		
+		if(aResult.equals("accept")) { //수락답변
+			sql = prop.getProperty("updateAcceptAccept");
+		}else { //거절답변
+			sql = prop.getProperty("updateAcceptDecline");
+		}
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, csNo);
+			
+			result = pstmt.executeUpdate();
+			
+			System.out.println(result+"result dao");
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			JDBCTemplate.close(pstmt);
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	//상담 번호로 상담 정보 조회 (변호사리뷰용)
+	public Accident selectAccident(Connection conn, int accNo) {
+		
+		Accident ac = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectAccident");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, accNo);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				ac = new Accident(rset.getInt("ACC_NO"),
+								  rset.getInt("REF_LNO"),
+								  rset.getString("TITLE"));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+	
+		return ac;
+	}
+
+	//리뷰 상세보기
+	public LawReview selectReview(Connection conn, int reNo) {
+		LawReview re = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectReview");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, reNo);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				re = new LawReview(rset.getInt("REVIEW_NO"),
+								   rset.getInt("REF_ANO"),
+								   rset.getString("REVIEW_CONTENT"),
+								   rset.getString("STAR"),
+								   rset.getInt("USER_NO"),
+								   rset.getString("USER_ID"));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+	
+		return re;
 	}
 
 }

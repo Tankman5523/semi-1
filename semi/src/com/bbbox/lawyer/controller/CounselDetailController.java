@@ -30,12 +30,10 @@ public class CounselDetailController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//상담 상세보기
+		//상담 상세보기 (일반 회원용)
 		
-		//마이페이지에서 상담번호 받아와서 상담정보 조회
 		int cno = Integer.parseInt(request.getParameter("cno"));
 		Counsel c = new LawyerService().selectCounsel(cno);
-		//상담정보의 참조변호로 조회한 변호사 정보 조회
 		Lawyer l = new LawyerService().selectLawyer(Integer.parseInt(c.getRefLno()));
 		
 		request.setAttribute("c", c);

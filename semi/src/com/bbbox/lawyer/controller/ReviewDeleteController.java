@@ -34,14 +34,13 @@ public class ReviewDeleteController extends HttpServlet {
 		
 		int result = new LawyerService().deleteReview(reNo);
 		
-		if(result>0) { //성공시 알림메세지로 리뷰 삭제 완료 띄우고 마이페이지로 이동(재요청)
+		if(result>0) {
 			request.getSession().setAttribute("alertMsg", "리뷰 삭제 완료");
 			response.sendRedirect(request.getContextPath()+"/myPage.me");
-		}else { //실패시 에러페이지로 이동(리뷰 삭제 실패) 메세지 (위임)
+		}else {
 			request.setAttribute("errorMsg", "리뷰 삭제 실패");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
-		
 		
 	}
 

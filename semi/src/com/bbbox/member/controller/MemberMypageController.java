@@ -58,9 +58,7 @@ public class MemberMypageController extends HttpServlet {
 			
 			request.setAttribute("accRev" , accRev); // 변호사가 작성하는 사건 리뷰 리스트 
 			request.setAttribute("accident", accident); //변호사가 맡은 사건 리스트 
-			request.setAttribute("cListLaw", cListLaw);
-			request.setAttribute("accRev" , accRev); // 변호사가 작성하는 사건 리뷰 리스트 
-			request.setAttribute("accident", accident); //변호사가 맡은 사건 리스트 
+			request.setAttribute("cListLaw", cListLaw); //변호사에게 온 상담 내역 리스트
 		}else {
 			
 			//1. 좋아요 변호사 리스트 조회해오기(변호사 번호, 변호사 이름) 

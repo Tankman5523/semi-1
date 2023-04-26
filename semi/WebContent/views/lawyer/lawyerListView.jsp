@@ -3,7 +3,6 @@
 <%
 	ArrayList<Lawyer> lawList = (ArrayList<Lawyer>)request.getAttribute("lawList");
 	ArrayList<PartCategory> pList = (ArrayList<PartCategory>)request.getAttribute("pList");
-	System.out.println(lawList);
 %>
 <%@ include file = "../common/mainMenu.jsp" %>
 <!DOCTYPE html>
