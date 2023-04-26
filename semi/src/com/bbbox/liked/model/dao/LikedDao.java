@@ -39,11 +39,34 @@ public class LikedDao {
 			
 			result = pstmt.executeUpdate();
 		} catch (Exception e) {
-			result = 0;
+			result = 2;
 		}finally {
 			JDBCTemplate.close(pstmt);
 		}
 		
+		
+		return result;
+	}
+
+	//좋아요 취소
+	public int deleteLiked(Connection conn, Liked l) {
+
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("deleteLiked");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, l.getRefUno());
+			pstmt.setInt(2, l.getRefBno());
+			
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
 		
 		return result;
 	}

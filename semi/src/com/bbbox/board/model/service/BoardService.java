@@ -97,6 +97,35 @@ public class BoardService {
 		
 		return result1*result2;
 	}
+	
+	
+	//게시글 작성 메소드(카테고리 2)
+	public int insertVideo(Board b, Attachment at) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result1 = new BoardDao().insertVideo(conn, b);
+		
+		int result2 = 0;
+		
+		if(at != null) {
+			result2 = new BoardDao().insertVideoAt(conn, at);
+		}else {
+			result2 = 1;
+		}
+		
+		if(result1>0 && result2>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result1*result2;
+	}
+	
+	
 
 	//게시글안의 첨부파일 조회
 	public Attachment selectAttachment(int boardNo) {
@@ -290,6 +319,73 @@ public class BoardService {
 		}else {
 			JDBCTemplate.rollback(conn);			
 		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
+	//게시글의 좋아요 취소
+	public int deleteLiked(int boardNo) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new BoardDao().deleteLiked(conn, boardNo);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+			result = 2;
+		}else {
+			JDBCTemplate.rollback(conn);			
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
+	//좋아요 갯수 가져오기
+	public int LikedCount(int boardNo) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new BoardDao().LikedCount(conn, boardNo);
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
+	//게시글에 댓글 카운트 증가
+	public int RpCountUp(int bno) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new BoardDao().RpCountUp(conn, bno);
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
+	//게시글에 댓글 카운트 감소
+	public int RpCountDown(int bno) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new BoardDao().RpCountDown(conn, bno);
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
+	//키워드에의한 총 게시글 개수
+	public int boardKeywordCount(String kind, String keyword) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new BoardDao().boardKeywordCount(conn, kind, keyword);
 		
 		JDBCTemplate.close(conn);
 		

@@ -6,4 +6,10 @@
 		INSERT INTO LIKED
 		VALUES(?,?)
 	</entry>
+	
+	<entry key="deleteLiked">
+		DELETE FROM LIKED
+		WHERE REF_UNO = ?
+		AND REF_BNO = ?
+	</entry>
 </properties>
