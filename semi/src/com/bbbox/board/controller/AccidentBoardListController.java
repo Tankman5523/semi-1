@@ -78,7 +78,12 @@ public class AccidentBoardListController extends HttpServlet {
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		//현재 페이지에 보여질 개수 매개변수로 넣기
 		
-		ArrayList<Board> blist = new AccidentBoardService().selectAccidentBoardList(pi);
+		//sort 키워드 가져오기
+		String sort = request.getParameter("searchSort"); 
+		
+		ArrayList<Board> blist = new AccidentBoardService().selectAccidentBoardList(pi,sort);
+		
+		
 		
 		if(blist!=null) {
 			request.setAttribute("pi", pi);

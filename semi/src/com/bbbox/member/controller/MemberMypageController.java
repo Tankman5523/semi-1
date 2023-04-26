@@ -40,7 +40,56 @@ public class MemberMypageController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
+<<<<<<< HEAD
 	}	
+=======
+		//세션에 담긴 로그인 유저의 번호 꺼내오기 
+		int userNo = ((Member)(request.getSession().getAttribute("loginUser"))).getUserNo();
+		
+		//변호사 권한조회
+		String lawGrant = new MemberService().selectLawyerGrant(userNo);
+		
+		if(lawGrant.equals("Y")) { //조회해온 변호사 권한이 Y일 경우에만 조회 
+			
+			//6. 내 사건 조회 해오기 리뷰(변호사)
+			ArrayList <AccidentReview> accRev = new MemberService().selectAccidentReviewList(userNo);
+			
+			//7.내가 맡은 사건 조회해오기 
+			ArrayList <Accident> accident = new MemberService().selectAccidentList(userNo);
+			
+			//8. 나에게 온 상담 내역 조회해오기
+			ArrayList <Counsel> cListLaw = new MemberService().selectCounselListLaw(userNo);
+			
+			request.setAttribute("accRev" , accRev); // 변호사가 작성하는 사건 리뷰 리스트 
+			request.setAttribute("accident", accident); //변호사가 맡은 사건 리스트 
+			request.setAttribute("cListLaw", cListLaw); //변호사에게 온 상담 내역 리스트
+		}else {
+			
+			//1. 좋아요 변호사 리스트 조회해오기(변호사 번호, 변호사 이름) 
+			ArrayList <Lawyer> lawList = new MemberService().selectDibsLawyer(userNo);
+			//2. 내가 쓴 글 조회해오기(게시글 넘버, 제목, 게시글 위치(카테고리))
+			ArrayList <Board>  boardList = new MemberService().selectBoardList(userNo);
+			
+			//3. 상담 신청 목록 조회해오기 
+			ArrayList <Counsel> cList = new MemberService().selectCounselList(userNo);
+			
+			//4. 내가 쓴 댓글 조회해오기(게시글 번호, 댓글내용, 작성일 )
+			ArrayList <Reply> replyList = new MemberService().selectReplyList(userNo);
+			
+			//5. 내가 남긴 리뷰 조회해오기(일반회원)
+			ArrayList <LawReview> lawRev = new MemberService().selectLawReviewList(userNo);
+			
+			request.setAttribute("lawList", lawList); // 찜한 변호사 리스트 
+			request.setAttribute("boardList", boardList); // 내가 쓴 글 리스트 
+			request.setAttribute("replyList", replyList); //내가 쓴 댓글 리스트 
+			request.setAttribute("cList", cList); // 상담 신청 리스트 
+			request.setAttribute("lawRev", lawRev); //회원이 작성하는 변호사 리뷰 리스트 
+		}
+		
+		request.getRequestDispatcher("views/member/mypage.jsp").forward(request, response);
+	
+	}
+>>>>>>> refs/remotes/origin/master
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

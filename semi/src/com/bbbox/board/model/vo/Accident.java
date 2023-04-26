@@ -32,7 +32,13 @@ public class Accident {
 		this.solve = solve;
 	}
 	
-
+	//변호사 리뷰 작성 시 조회
+	public Accident(int accNo, int refLno, String title) {
+		super();
+		this.accNo = accNo;
+		this.refLno = refLno;
+		this.title = title;
+	}
 
 	public Accident(int accNo, int refBno, int refLno, int refPno, String insuranceType, String region, int accRateMe,
 			int accRateYou, String solve) {

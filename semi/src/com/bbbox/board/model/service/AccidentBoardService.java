@@ -15,9 +15,9 @@ import com.bbbox.common.model.vo.PageInfo;
 public class AccidentBoardService {
 
 	//제보영상게시판 '게시글' 읽어오기
-	public ArrayList<Board> selectAccidentBoardList(PageInfo pi) {
+	public ArrayList<Board> selectAccidentBoardList(PageInfo pi, String sort) {
 		Connection conn = JDBCTemplate.getConnection();
-		ArrayList<Board> blist = new AccidentBoardDao().selectAccidentBoardList(conn,pi);
+		ArrayList<Board> blist = new AccidentBoardDao().selectAccidentBoardList(conn,pi,sort);
 		
 		JDBCTemplate.close(conn);
 		

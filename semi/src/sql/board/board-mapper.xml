@@ -47,12 +47,14 @@
 		WHERE BOARD_NO = ?
 	</entry>
 	
+	
 	<entry key="insertDislike">
 		UPDATE BOARD
 		SET REPORT_COUNT = REPORT_COUNT+1
 		WHERE BOARD_NO = ?
 	</entry>
 	
+	<!-- 카테고리 1 -->
 	<entry key="insertBoard">
 		INSERT INTO BOARD(BOARD_NO, BOARD_WRITER, CATEGORY_NO, TITLE, CONTENT, NOTICE)
 		VALUES(SEQ_BNO.NEXTVAL, ?, 1, ?, ?, ?)
@@ -61,6 +63,17 @@
 	<entry key="insertAttachment">
 		INSERT INTO ATTACHMENT(FILE_NO, REF_BNO, ORIGIN_NAME, CHANGE_NAME, FILE_PATH, FILE_TYPE)
 		VALUES(SEQ_FNO.NEXTVAL, SEQ_BNO.CURRVAL, ?, ?, ?, 1)
+	</entry>
+	
+	<!-- 카테고리 2 -->
+	<entry key="insertVideo">
+		INSERT INTO BOARD(BOARD_NO, BOARD_WRITER, CATEGORY_NO, TITLE, CONTENT, NOTICE)
+		VALUES(SEQ_BNO.NEXTVAL, ?, 2, ?, ?, ?)
+	</entry>
+	
+	<entry key="insertVideoAt">
+		INSERT INTO ATTACHMENT(FILE_NO, REF_BNO, ORIGIN_NAME, CHANGE_NAME, FILE_PATH, FILE_TYPE)
+		VALUES(SEQ_FNO.NEXTVAL, SEQ_BNO.CURRVAL, ?, ?, ?, 2)
 	</entry>
 	
 	<entry key="selectAttachment">
@@ -75,6 +88,7 @@
 		FROM BOARD
 		WHERE STATUS = 'Y'
 		AND CATEGORY_NO = 1
+		AND NOTICE = 'N'
 	</entry>
 	
 	<entry key="delAt">
@@ -120,7 +134,7 @@
 	<entry key="searchTitle">
 		SELECT *
 		FROM (SELECT ROWNUM RUM, A.*
-		      FROM (SELECT BOARD_NO, USER_ID, TITLE, COUNT, CREATE_DATE, LIKED, RP_COUNT
+		      FROM (SELECT BOARD_NO, USER_ID, CATEGORY_NO, TITLE, COUNT, CREATE_DATE, LIKED, RP_COUNT
                     FROM BOARD B
                     JOIN MEMBER M ON(BOARD_WRITER=USER_NO)
                     WHERE B.STATUS='Y'
@@ -135,7 +149,7 @@
 	<entry key="searchContent">
 		SELECT *
 		FROM (SELECT ROWNUM RUM, A.*
-		      FROM (SELECT BOARD_NO, USER_ID, TITLE, COUNT, CREATE_DATE, LIKED, RP_COUNT
+		      FROM (SELECT BOARD_NO, USER_ID, CATEGORY_NO, TITLE, COUNT, CREATE_DATE, LIKED, RP_COUNT
                     FROM BOARD B
                     JOIN MEMBER M ON(BOARD_WRITER=USER_NO)
                     WHERE B.STATUS='Y'
@@ -150,7 +164,7 @@
 	<entry key="searchUser">
 		SELECT *
 		FROM (SELECT ROWNUM RUM, A.*
-		      FROM (SELECT BOARD_NO, USER_ID, TITLE, COUNT, CREATE_DATE, LIKED, RP_COUNT
+		      FROM (SELECT BOARD_NO, USER_ID, CATEGORY_NO, TITLE, COUNT, CREATE_DATE, LIKED, RP_COUNT
                     FROM BOARD B
                     JOIN MEMBER M ON(BOARD_WRITER=USER_NO)
                     WHERE B.STATUS='Y'
@@ -172,9 +186,10 @@
 	<entry key="selectVideoList">
 		SELECT *
 		FROM (SELECT ROWNUM RUM, A.*
-		            FROM (SELECT BOARD_NO, USER_ID, CATEGORY_NO, TITLE, COUNT, CREATE_DATE, LIKED, RP_COUNT
+		            FROM (SELECT BOARD_NO, USER_ID, CATEGORY_NO, TITLE, COUNT, CREATE_DATE, LIKED, RP_COUNT, FILE_PATH, CHANGE_NAME
 		                        FROM BOARD B
 		                        JOIN MEMBER M ON(BOARD_WRITER=USER_NO)
+		                        JOIN ATTACHMENT ON(BOARD_NO=REF_BNO)
 		                        WHERE B.STATUS='Y'
 		                        AND NOTICE = 'N'
 		                        AND CATEGORY_NO = 2
@@ -231,5 +246,66 @@
 	<entry key="delRp">
 		DELETE FROM REPLY
 		WHERE RP_NO = ?
+	</entry>
+	
+	<!-- 좋아요 취소 -->
+	<entry key="deleteLiked">
+		UPDATE BOARD
+		SET LIKED = LIKED-1
+		WHERE BOARD_NO = ?
+	</entry>
+	
+	<!-- 좋아요 갯수 가져오기 -->
+	<entry key="LikedCount">
+		SELECT LIKED
+		FROM BOARD
+		WHERE BOARD_NO = ?
+		AND STATUS = 'Y'
+	</entry>
+	
+	<!-- 게시글정보에 댓글 카운트 증가 -->
+	<entry key="RpCountUp">
+		UPDATE BOARD
+		SET RP_COUNT = RP_COUNT+1
+		WHERE BOARD_NO = ?
+		AND STATUS = 'Y'
+	</entry>
+	
+	<entry key="RpCountDown">
+		UPDATE BOARD
+		SET RP_COUNT = RP_COUNT-1
+		WHERE BOARD_NO = ?
+		AND STATUS = 'Y'
+	</entry>
+	
+	<!-- 제목키워드에의한 글개수 -->
+	<entry key="searchTitleCount">
+		SELECT COUNT(*) "COUNT"
+		FROM BOARD
+		WHERE STATUS = 'Y'
+		AND CATEGORY_NO = 1
+		AND TITLE LIKE '%'||?||'%'
+		AND NOTICE = 'N'
+	</entry>
+	
+	<!-- 내용키워드에의한 글개수 -->
+	<entry key="searchContentCount">
+		SELECT COUNT(*) "COUNT"
+		FROM BOARD
+		WHERE STATUS = 'Y'
+		AND CATEGORY_NO = 1
+		AND CONTENT LIKE '%'||?||'%'
+		AND NOTICE = 'N'
+	</entry>
+	
+	<!-- 작성자키워드에의한 글갯수 -->
+	<entry key="searchUserCount">
+		SELECT COUNT(*) "COUNT"
+		FROM BOARD B
+		JOIN MEMBER M  ON(BOARD_WRITER = USER_NO)
+		WHERE B.STATUS = 'Y'
+		AND CATEGORY_NO = 1
+		AND USER_ID LIKE '%'||?||'%'
+		AND NOTICE = 'N'
 	</entry>
 </properties>

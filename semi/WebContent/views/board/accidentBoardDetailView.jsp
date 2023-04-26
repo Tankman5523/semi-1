@@ -360,6 +360,7 @@
 	        					str += "<tr><td>"+list[i].rpWriter+"</td>"
 								  +"<td style='text-align:left; padding-left: 5px;'>"+list[i].content+"</td>"
 								  +"<td>"+list[i].createDate+"</td></tr>";
+	        	        		
 	        				}
 	        				$("#replyViewArea>table").html(str);
 	        			},

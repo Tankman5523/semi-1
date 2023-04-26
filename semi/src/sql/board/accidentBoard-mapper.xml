@@ -33,6 +33,59 @@
 		              ORDER BY CREATE_DATE DESC) A)
 		WHERE RNUM BETWEEN ? AND ?
 	</entry>
+	
+	<entry key="sortByLiked">
+		SELECT *
+		FROM   (SELECT ROWNUM RNUM,A.*
+	      		FROM (SELECT BOARD_NO
+							,USER_ID
+							,TITLE
+							,COUNT
+							,CREATE_DATE
+							,REF_PNO
+							,INSURANCE_TYPE
+							,REGION
+							,FILE_PATH||CHANGE_NAME PATH
+							,CHANGE_NAME
+							,CATEGORY_NO
+						FROM BOARD B
+						JOIN MEMBER M ON(BOARD_WRITER = USER_NO)
+						JOIN ACCIDENT A ON(BOARD_NO=A.REF_BNO)
+						JOIN ATTACHMENT AT ON(BOARD_NO=AT.REF_BNO)
+						WHERE B.STATUS = 'Y'
+						AND CATEGORY_NO = 3
+						AND SOLVE='N'
+						AND NOTICE='N'
+		              ORDER BY LIKED DESC) A)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="sortByCount">
+		SELECT *
+		FROM   (SELECT ROWNUM RNUM,A.*
+	      		FROM (SELECT BOARD_NO
+							,USER_ID
+							,TITLE
+							,COUNT
+							,CREATE_DATE
+							,REF_PNO
+							,INSURANCE_TYPE
+							,REGION
+							,FILE_PATH||CHANGE_NAME PATH
+							,CHANGE_NAME
+							,CATEGORY_NO
+						FROM BOARD B
+						JOIN MEMBER M ON(BOARD_WRITER = USER_NO)
+						JOIN ACCIDENT A ON(BOARD_NO=A.REF_BNO)
+						JOIN ATTACHMENT AT ON(BOARD_NO=AT.REF_BNO)
+						WHERE B.STATUS = 'Y'
+						AND CATEGORY_NO = 3
+						AND SOLVE='N'
+						AND NOTICE='N'
+		              ORDER BY COUNT DESC) A)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
 	<entry key="selectAccidentAttachmentList">
 		SELECT REF_BNO
 			  ,ORIGIN_NAME

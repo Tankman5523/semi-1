@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="selectAllAccidentBoard">
+		SELECT *	
+		FROM  (SELECT ROWNUM RNUM,A.*
+			   FROM(SELECT BOARD_NO
+					       ,M.USER_ID
+					       ,CATEGORY_NO
+					       ,TITLE
+					       ,COUNT
+					       ,B.CREATE_DATE
+					       ,AC.REF_PNO
+					       ,INSURANCE_TYPE
+					       ,REGION
+					       ,LIKED
+					       ,REPORT_COUNT
+					       ,B.STATUS
+					       ,PART_NAME
+					       ,LM.USER_NAME
+					FROM BOARD B
+					JOIN MEMBER M ON (BOARD_WRITER = M.USER_NO)
+					
+					JOIN ACCIDENT AC ON(BOARD_NO=AC.REF_BNO)
+					JOIN LAW_USER L ON (L.LAW_NO=REF_LNO)
+					JOIN MEMBER LM ON (LM.USER_NO=REF_UNO)
+					JOIN PART_CATEGORY ON (AC.REF_PNO = PART_NO)
+					WHERE CATEGORY_NO = ?
+					ORDER BY B.CREATE_DATE DESC)A)
+		WHERE RNUM BETWEEN ? AND ?		
+	</entry>
+	
+	<entry key="sortAccidentBoardByLiked">
+		SELECT *	
+		FROM  (SELECT ROWNUM RNUM,A.*
+			   FROM(SELECT BOARD_NO
+					       ,M.USER_ID
+					       ,CATEGORY_NO
+					       ,TITLE
+					       ,COUNT
+					       ,B.CREATE_DATE
+					       ,AC.REF_PNO
+					       ,INSURANCE_TYPE
+					       ,REGION
+					       ,LIKED
+					       ,REPORT_COUNT
+					       ,B.STATUS
+					       ,PART_NAME
+					       ,LM.USER_NAME
+					FROM BOARD B
+					JOIN MEMBER M ON (BOARD_WRITER = M.USER_NO)
+					
+					JOIN ACCIDENT AC ON(BOARD_NO=AC.REF_BNO)
+					JOIN LAW_USER L ON (L.LAW_NO=REF_LNO)
+					JOIN MEMBER LM ON (LM.USER_NO=REF_UNO)
+					JOIN PART_CATEGORY ON (AC.REF_PNO = PART_NO)
+					WHERE CATEGORY_NO = ?
+					ORDER BY B.LIKED DESC)A)
+		WHERE RNUM BETWEEN ? AND ?		
+	</entry>
+	
+	<entry key="sortAccidentBoardByDislike">
+		SELECT *	
+		FROM  (SELECT ROWNUM RNUM,A.*
+			   FROM(SELECT BOARD_NO
+					       ,M.USER_ID
+					       ,CATEGORY_NO
+					       ,TITLE
+					       ,COUNT
+					       ,B.CREATE_DATE
+					       ,AC.REF_PNO
+					       ,INSURANCE_TYPE
+					       ,REGION
+					       ,LIKED
+					       ,REPORT_COUNT
+					       ,B.STATUS
+					       ,PART_NAME
+					       ,LM.USER_NAME
+					FROM BOARD B
+					JOIN MEMBER M ON (BOARD_WRITER = M.USER_NO)
+					
+					JOIN ACCIDENT AC ON(BOARD_NO=AC.REF_BNO)
+					JOIN LAW_USER L ON (L.LAW_NO=REF_LNO)
+					JOIN MEMBER LM ON (LM.USER_NO=REF_UNO)
+					JOIN PART_CATEGORY ON (AC.REF_PNO = PART_NO)
+					WHERE CATEGORY_NO = ?
+					ORDER BY B.REPORT_COUNT DESC)A)
+		WHERE RNUM BETWEEN ? AND ?		
+	</entry>
+	
+	<entry key="sortAccidentBoardByCount">
+		SELECT *	
+		FROM  (SELECT ROWNUM RNUM,A.*
+			   FROM(SELECT BOARD_NO
+					       ,M.USER_ID
+					       ,CATEGORY_NO
+					       ,TITLE
+					       ,COUNT
+					       ,B.CREATE_DATE
+					       ,AC.REF_PNO
+					       ,INSURANCE_TYPE
+					       ,REGION
+					       ,LIKED
+					       ,REPORT_COUNT
+					       ,B.STATUS
+					       ,PART_NAME
+					       ,LM.USER_NAME
+					FROM BOARD B
+					JOIN MEMBER M ON (BOARD_WRITER = M.USER_NO)
+					
+					JOIN ACCIDENT AC ON(BOARD_NO=AC.REF_BNO)
+					JOIN LAW_USER L ON (L.LAW_NO=REF_LNO)
+					JOIN MEMBER LM ON (LM.USER_NO=REF_UNO)
+					JOIN PART_CATEGORY ON (AC.REF_PNO = PART_NO)
+					WHERE CATEGORY_NO = ?
+					ORDER BY B.COUNT DESC)A)
+		WHERE RNUM BETWEEN ? AND ?		
+	</entry>
+
+	<entry key="boardStatusOn">
+		UPDATE BOARD
+		SET STATUS = 'Y'
+		WHERE BOARD_NO = ?
+		AND STATUS = 'N'
+	</entry>
+	
+	<entry key="boardStatusOff">
+		UPDATE BOARD
+		SET STATUS = 'N'
+		WHERE BOARD_NO = ?
+		AND STATUS = 'Y'
+	</entry>
+	
+	<entry key="accidentBoardDelete">
+		DELETE BOARD
+		WHERE BOARD_NO = ?
+	</entry>
+	
+	<entry key="accidentInfoDelete">
+		DELETE ACCIDENT
+		WHERE REF_BNO = ?
+	</entry>
+	
+	<entry key="accidentAttachmentDelete">
+		DELETE ATTACHMENT
+		WHERE REF_BNO = ?
+	</entry>
+	
+	<entry key="accidentReplyDelete">
+		DELETE REPLY
+		WHERE REF_BNO = ?
+	</entry>
+
+
+</properties>

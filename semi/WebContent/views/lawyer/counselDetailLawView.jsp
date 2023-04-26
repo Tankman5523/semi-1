@@ -59,7 +59,7 @@ h2{
 }
 #button{
    height: 20%;
-   line-height: 100px;
+   line-height: 50px;
 }
 table,td,th{
    border-collapse : collapse;
@@ -96,7 +96,7 @@ input, textarea{
                             <th>회원 아이디</th>
                             <td><%=c.getCsWriter()%></td>
                             <th>분야</th>
-                            <td><%=c.getRefLno()%></td>
+                            <td><%=l.getRefPno()%></td>
                         </tr>
                         <tr>
                             <th>내용</th>
@@ -115,24 +115,26 @@ input, textarea{
 			                    </table>
 			                    <br>
 			                    <div>
-			                        <button type="button">뒤로가기</button>
+			                        <button onclick="history.back()">뒤로가기</button>
 			                    </div>
 			                </div>
                         <%}else{ %>
 		                    <div id="button">
 		                        <button type="button" id="acceptBtn">수락메세지 작성</button>
 		                        <button type="button" id="declineBtn">거절메세지 작성</button>
-		                        <button type="button">뒤로가기</button>
+		                        <button onclick="history.back()">뒤로가기</button>
 		                    </div>
 		                <%} %>
                 </div>
-                <form class="answer-form" action="<%=contextPath%>/counselUpdate.la" method="get"">
+                <form class="answer-form" action="<%=contextPath%>/counselAnswer.la" method="post">
+                <input type="hidden" name="result" value="">
+                <input type="hidden" name="csNo" value="<%=c.getCsNo()%>">
                     <table align="center">
                         <tr>
                             <th>답변</th>
                         </tr>
                         <tr>
-                            <td><textarea name="answer" cols="50" rows="15" style="resize:none" required></textarea></td>
+                            <td><textarea id="answer" name="answer" cols="50" rows="15" style="resize:none" required></textarea></td>
                         </tr>
                     </table>
                     <br>
@@ -145,9 +147,22 @@ input, textarea{
     </div>
     
     <script>
+    
     	$(function(){
     		$("#acceptBtn").click(function(){
         		$(".answer-form").css("display","block");
+        		var info = "";
+        		$("#answer").html("사무실 번호 : <%=l.getCompanyPn()%>");
+        		$("#button").css("display","none");
+        		$(".answer-form>input[name=result]").val("accept");
+        	});
+    		
+    		$("#declineBtn").click(function(){
+        		$(".answer-form").css("display","block");
+        		var info = "상담내용 확인해보았으나, 현재 업무 스케쥴상 담당하기 어려운 사건으로 보입니다. 블라블라";
+        		$("#answer").html(info);
+        		$("#button").css("display","none");
+        		$(".answer-form>input[name=result]").val("decline");
         	});
     	});
     	

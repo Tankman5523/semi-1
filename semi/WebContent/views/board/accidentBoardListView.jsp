@@ -129,6 +129,14 @@
             <div class="boardName">
                 <p>사건 영상 게시판</p>
             </div>
+            <div class="sort" style="float: right;margin-top: 20px;" >
+                <form action="list.ac">
+                <input type="radio" name="searchSort" id="sortRecommend" value="recommend"><label for="sortRecommend">추천순</label>
+                <input type="radio" name="searchSort" id="sortView" value="view"><label for="sortView">조회순</label>
+                <input type="radio" name="searchSort" id="sortNew" value="date"><label for="sortNew">최신순</label>
+                <input type="submit" value="정렬">
+                </form>
+            </div> 
             <div class="search">
                 <form action="search.ac">
                 	<input type="hidden" name="categoryNo" value="3">
@@ -181,17 +189,14 @@
         </div>
         <div id="accidentBoardbody">
             <div id="accidentBoardList-area">
-				<%if(blist!=null){ %>
+				<%if(blist.size()!=0){ %>
 	            	<%for(int i=0;i<blist.size();i++){ %>  
 	                 <table class="accidentBoardList" onclick="location.href='<%=contextPath%>/detail.ac?bno='+<%=blist.get(i).getBoardNo()%>">
 	                    <tr>
-	                    	<!-- 테스트용 썸네일 -->
 	                        <td colspan="2">
-	                        	<!-- <img src="<%=contextPath%><%=blist.get(i).getFilePath()%>" alt="" > -->
+	                        	
 	                        	<video preload="metadata" src="<%=contextPath%><%=blist.get(i).getFilePath()%>#t=1.0"></video>
 	                        </td>
-	                    	<!-- 비디오에 처리... -->
-	                    	 
 	                    	
 	                    </tr>
 	                    <tr>

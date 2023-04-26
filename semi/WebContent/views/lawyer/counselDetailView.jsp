@@ -18,6 +18,7 @@
 }
 .wrap{
    /* border: 1px solid black; */
+   border: 0px;
    width: 1200px;
    height: 600px;
    margin: auto;
@@ -76,6 +77,7 @@ input, textarea{
             <div id="enroll">
                 <form  id="enroll-form" action="<%=contextPath%>/counselUpdate.la" method="get">
                     <input type="hidden" name="cno" value="<%=c.getCsNo() %>">
+                    <input type="hidden" name="aResult" value="X">
                     <table align="center">
                         <tr>
                             <th width="100px">분야</th>
@@ -101,12 +103,19 @@ input, textarea{
                         <%} %>
                     </table>
                     <div id="button">
-                    	<%if(c.getCsAnswer() != null){ %>
-                        	<button type="button" onclick="counselDelete();">삭제하기</button>
-                        <%}else{ %>
+                    	<%if(c.getCsAnswer() == null){ %> <!-- 아직 답변이 없는 경우 수정 가능 -->
                         	<button type="submit">수정하기</button>
+	                        <button type="button" onclick="history.back()">취소</button>
+                        <%}else{ %>
+                        	<%if(c.getAccept().equals("W")){ %> <!-- 회원의 수락대기중인 상태 -->
+	                        	<button type="submit" id="acceptBtn">매칭 수락하기</button>
+	                        	<!-- 수락버튼 클릭시 컴펌 후 accept y로 바꾸기 -->
+	                        	<button type="submit" id="declineBtn">상담 종료하기</button>
+	                        	<!-- 이대로 상담을 종료하시겟습니까 띄우고 완료 / accept n으로 바꾸기 -->
+	                        <%}else{ %> <!-- 거절답변 or 매칭실패일 경우 -->
+	                        	<button type="button" onclick="history.back()">확인</button>
+                        	<%} %>
                         <%} %>
-                        <button type="button" onclick="history.back()">취소</button>
                         
                     </div>
                 </form>
@@ -115,12 +124,22 @@ input, textarea{
     </div>
     
     <script>
-    	//아직 기능 확인 안함
+    	//아직 기능 확인 안함//이거는 그냥 마이페이지 에다가 해놓자
     	function counselDelete(){
     		if(confirm=("상담내역을 삭제하시겠습니까? 삭제하시면 내용을 복구할 수 없습니다.")){
     			location.href="<%=contextPath%>/counselDelete.la?cno=<%=c.getCsNo()%>";
     		}
     	};
+    	
+    	$(function(){
+    		$("#acceptBtn").click(function(){
+        		$("#enroll-form>input[name=aResult]").val("accept");
+        	});
+    		
+    		$("#declineBtn").click(function(){
+        		$("#enroll-form>input[name=aResult]").val("decline");
+        	});
+    	});
     </script>
 </body>
 </html>

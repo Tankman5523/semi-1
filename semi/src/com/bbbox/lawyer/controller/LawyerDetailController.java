@@ -38,7 +38,7 @@ public class LawyerDetailController extends HttpServlet {
 		
 		Lawyer law = new LawyerService().selectLawyer(lno);
 		
-		ArrayList<LawReview> rList = new LawyerService().selectReview(lno);
+		ArrayList<LawReview> rList = new LawyerService().selectReviewList(lno);
 		
 		request.setAttribute("law", law);
 		request.setAttribute("rList", rList);
