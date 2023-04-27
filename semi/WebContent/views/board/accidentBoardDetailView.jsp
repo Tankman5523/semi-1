@@ -156,7 +156,7 @@
                             <div class="info">
                                 <span>제보일 | <%=b.getCreateDate()%></span>
                                 <span>조회수 | <%=b.getCount() %></span>
-                                <span>추천수 | <%=b.getLiked()%> </span>
+                                <span>추천수 | </span><span id="liked_count"><%=b.getLiked()%></span>
                                 <span>신고수 | <%=b.getReportCount()%> </span>
                                 <%if(b.getReportCount()>10){ %>
                                 	<span><i class="fa-solid fa-diamond-exclamation" style="color: #e6d519;"></i></span>
@@ -239,13 +239,12 @@
                 </div>
             </div>
             <div class="bodyRight">
+            	<div><span><b>댓글</b></span></div>
                 <div id="replyViewArea">
                     <table>
                     	
                     </table>
-	                
                 </div>
-                <div class="recommendArea">광고맨</div>
             </div>
         </div>
     </div>
@@ -256,23 +255,27 @@
 						<%if(loginUser == null){%>
 							alert("로그인 후 이용해 주세요.");
 						<%}else{%>
-							$.ajax({
-								url:"liked.bo",
-								data:{
-									bno:<%=b.getBoardNo()%>,
-									uno:<%=loginUser.getUserNo()%>
-								},
-								success:function(result2){
-									if(result2>0){
-										alert("이 게시글을 좋아합니다.");
-									}else{
-										alert("이미 추천한 게시글입니다.");
-									}
-								},
-								error:function(){
-									alert("통신 에러");
+						$.ajax({
+							url:"liked.bo",
+							data:{
+								bno:<%=b.getBoardNo()%>,
+								uno:<%=loginUser.getUserNo()%>
+							},
+							success:function(jobj){
+								if(jobj.result==1){
+									alert("이 게시글을 좋아합니다.");
+									
+									$("#liked_count").text(jobj.cnt);
+								}else if(jobj.result==2){
+									alert("좋아요 취소");
+									
+									$("#liked_count").text(jobj.cnt);
 								}
-							});
+							},
+							error:function(){
+								alert("통신 에러");
+							}
+						});
 						<%}%>
 					});
 				});
@@ -355,15 +358,16 @@
     					},
 	        			success:function(list){
 	        				var str = "";
-	        				
-	        				for(var i in list){
-	        					
-	        					str += "<tr><td>"+list[i].rpWriter+"</td>"
-								  +"<td style='text-align:left; padding-left: 5px;'>"+list[i].content+"</td>"
-								  +"<td>"+list[i].createDate+"</td></tr>";
-	        	        		
-	        				}
-	        				$("#replyViewArea>table").html(str);
+	           				if(list.length!=0){
+	    	       				for(var i in list){
+	    	       					str += "<tr><td>"+list[i].rpWriter+"</td>"
+	    							  +"<td style='text-align:left; padding-left: 5px;'>"+list[i].content+"</td>"
+	    							  +"<td>"+list[i].createDate+"</td></tr>";
+	    	       				}
+	           				}else{
+	           					str +="<tr><td>댓글이 없습니다.</td></tr>"
+	           				}
+	           				$("#replyViewArea>table").html(str);
 	        			},
 	        			error:function(){
 	    					alert("댓글리스트 조회 통신 실패");

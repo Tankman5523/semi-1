@@ -71,6 +71,7 @@ public class BoardListController extends HttpServlet {
 				if(nlist != null) {
 					request.setAttribute("noticeList", nlist);
 				}
+				
 				request.setAttribute("a", a);
 				request.setAttribute("pageInfo", pi);
 				request.setAttribute("boardList", list);

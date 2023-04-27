@@ -278,7 +278,7 @@ Properties prop = new Properties();
 		} finally {
 			JDBCTemplate.close(pstmt);
 		}
-		
+		System.out.println("빠져나오나?");
 		return result;
 	}
 
@@ -343,7 +343,7 @@ Properties prop = new Properties();
 		ResultSet rset = null;
 		PreparedStatement pstmt = null;
 		
-		String sql = prop.getProperty("selectRpList");
+		String sql = prop.getProperty("selectRpListForManage");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
