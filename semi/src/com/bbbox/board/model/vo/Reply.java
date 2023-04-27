@@ -1,5 +1,7 @@
 package com.bbbox.board.model.vo;
 
+import java.sql.Date;
+
 public class Reply {
 	/*
 	RP_NO	NUMBER
@@ -18,15 +20,8 @@ public class Reply {
 	
 	//마이페이지에 보여줄 카테고리명 
 	private String categoryName;
-	
-	//카테고리명 게터세터 
-	public String getCategoryName() {
-		return categoryName;
-	}
-
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
-	}
+	//마이페이지에 보여줄 작성날짜 
+	private Date date;
 
 	public Reply() {
 		super();
@@ -51,17 +46,35 @@ public class Reply {
 		this.status = status;
 	}
 	
-	
+
 	//마이페이지에 내가쓴 댓글 보여주기 위한생성자  
-	public Reply(int rpNo, int refBno, String content, String createDate, String categoryName) {
+	public Reply(int rpNo, int refBno, String content, Date date, String categoryName, String status) {
 		super();
 		this.rpNo = rpNo;
 		this.refBno = refBno;
 		this.content = content;
-		this.createDate = createDate;
+		this.date = date;
+		this.categoryName = categoryName;
+		this.status = status;
+	}
+
+	
+	//카테고리명 게터세터 
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
 	
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
 
 	public int getRpNo() {
 		return rpNo;

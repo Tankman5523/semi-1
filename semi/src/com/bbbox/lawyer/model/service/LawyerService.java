@@ -3,9 +3,11 @@ package com.bbbox.lawyer.model.service;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import com.bbbox.board.model.vo.Accident;
 import com.bbbox.common.JDBCTemplate;
 import com.bbbox.lawyer.model.dao.LawyerDao;
 import com.bbbox.lawyer.model.vo.Counsel;
+import com.bbbox.lawyer.model.vo.LawAttachment;
 import com.bbbox.lawyer.model.vo.LawReview;
 import com.bbbox.lawyer.model.vo.Lawyer;
 import com.bbbox.lawyer.model.vo.PartCategory;
@@ -49,7 +51,7 @@ public class LawyerService {
 	public Lawyer selectLawyer(int lno) {
 		Connection conn = JDBCTemplate.getConnection();
 		
-		Lawyer law = new LawyerDao().selectLawyer(conn,lno);
+		Lawyer law = new LawyerDao().selectLawyer(conn, lno);
 		
 		JDBCTemplate.close(conn);
 		
@@ -120,10 +122,10 @@ public class LawyerService {
 	}
 
 	//해당 변호사 리뷰 조회
-	public ArrayList<LawReview> selectReview(int lno) {
+	public ArrayList<LawReview> selectReviewList(int lno) {
 		Connection conn = JDBCTemplate.getConnection();
 		
-		ArrayList<LawReview> rList = new LawyerDao().selectReview(conn, lno);
+		ArrayList<LawReview> rList = new LawyerDao().selectReviewList(conn, lno);
 		
 		JDBCTemplate.close(conn);
 				
@@ -153,8 +155,6 @@ public class LawyerService {
 		Counsel c = new LawyerDao().selectCounsel(conn, cno);
 	
 		JDBCTemplate.close(conn);
-		
-		System.out.println("service: " +c);
 		
 		return c;
 	}
@@ -215,4 +215,96 @@ public class LawyerService {
 		return c;
 	}
 
+	//상답 답변 등록 (변호사)
+	public int updateAnswer(String aResult, String answer, int csNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new LawyerDao().updateAnswer(conn, aResult, answer, csNo);
+	
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
+	//상담 수락 여부 (회원용)
+	public int updateAccept(int csNo, String aResult) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new LawyerDao().updateAccept(conn, csNo, aResult);
+	
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
+	//상담 번호로 상담 정보 조회 (변호사리뷰용)
+	public Accident selectAccident(int accNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		Accident ac = new LawyerDao().selectAccident(conn, accNo);
+	
+		JDBCTemplate.close(conn);
+		
+		return ac;
+	}
+	
+	//리뷰 상세보기
+	public LawReview selectReview(int reNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		LawReview re = new LawyerDao().selectReview(conn, reNo);
+		
+		JDBCTemplate.close(conn);
+				
+		return re;
+	}
+	
+	//변호사 신청내용 조회
+	public Lawyer selectApply(int userNo) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		Lawyer apply = new LawyerDao().selectApply(conn, userNo);
+		
+		JDBCTemplate.close(conn);
+		
+		return apply;
+	}
+	
+	//신청서 사진 조회 
+	public String selectLawAttachment(int userNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		String lat = new LawyerDao().selectLawAttachment(conn, userNo);
+		
+		JDBCTemplate.close(conn);
+		
+		return lat;
+	}
+
+	/* ================================== 관리자용 ===================================== */
+	
+	//변호사 리스트 조회 (관리자용)
+	public ArrayList<Lawyer> manageSelectLawList() {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Lawyer> list = new LawyerDao().manageSelectLawList(conn);
+		
+		JDBCTemplate.close(conn);
+		
+		return list;
+	}
+
+	//조건으로 검색한 변호사 리스트 조회 (관리자용)
+	public ArrayList<Lawyer> manageSearchLawList(String nameKey, String cateKey, String localKey) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Lawyer> lawList = new LawyerDao().manageSearchLawList(conn, nameKey, cateKey, localKey);
+		
+		JDBCTemplate.close(conn);
+		
+		return lawList;
+	}
+	
+	
 }

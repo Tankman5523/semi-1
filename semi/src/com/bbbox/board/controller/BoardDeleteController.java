@@ -48,8 +48,21 @@ public class BoardDeleteController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		//마이페이지에서 게시글 삭제 
+		
+		int bno = Integer.parseInt(request.getParameter("bno"));
+		
+		System.out.println(bno); //확인용 
+		
+		int result = new BoardService().deleteBoard(bno);
+		
+		if(result>0) {
+			response.getWriter().print("YY");
+		}else {
+			response.getWriter().print("NN");
+		}
+		
+	
 	}
 
 }

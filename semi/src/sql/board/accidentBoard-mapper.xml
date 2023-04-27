@@ -384,6 +384,12 @@
 		AND AR.STATUS ='Y' 
 	</entry>
 	
+	<entry key="selectAccNo">
+		SELECT ACC_NO
+		FROM ACCIDENT
+		WHERE REF_BNO =?
+	</entry>
+	
 	<entry key="selectLawNoByUno">
 		SELECT LAW_NO
 		FROM MEMBER
@@ -453,6 +459,35 @@
 		SET SOLVE = 'N'
 		WHERE STATUS = 'Y'
 		AND ACC_NO = ?
+	</entry>
+	
+	<entry key="searchedListCountByTitle">
+		SELECT COUNT(*) COUNT
+		FROM BOARD B
+		JOIN ACCIDENT A ON(BOARD_NO=A.REF_BNO)
+		WHERE B.STATUS = 'Y'
+		AND A.STATUS='Y'
+		AND CATEGORY_NO = 3
+		AND NOTICE='N'
+		AND REGION LIKE ?
+		AND REF_PNO LIKE ?
+		AND INSURANCE_TYPE LIKE ?
+		AND TITLE LIKE ?
+	</entry>
+	
+	<entry key="searchedListCountByWriter">
+		SELECT COUNT(*) COUNT
+		FROM BOARD B
+		JOIN ACCIDENT A ON(BOARD_NO=A.REF_BNO)
+		JOIN MEMBER M ON(BOARD_WRITER = USER_NO)
+		WHERE B.STATUS = 'Y'
+		AND A.STATUS='Y'
+		AND CATEGORY_NO = 3
+		AND NOTICE='N'
+		AND REGION LIKE ?
+		AND REF_PNO LIKE ?
+		AND INSURANCE_TYPE LIKE ?
+		AND USER_ID LIKE ?
 	</entry>
 	
 	

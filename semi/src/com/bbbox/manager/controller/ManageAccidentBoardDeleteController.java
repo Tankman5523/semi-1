@@ -2,14 +2,12 @@ package com.bbbox.manager.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.bbbox.board.model.dao.AccidentBoardDao;
-import com.bbbox.board.model.service.AccidentBoardService;
 import com.bbbox.board.model.vo.Attachment;
 import com.bbbox.manager.service.ManagerService;
 
@@ -35,14 +33,16 @@ public class ManageAccidentBoardDeleteController extends HttpServlet {
 		
 		int bno = Integer.parseInt(request.getParameter("bno"));
 		//첨부파일 정보 날아가기전에 셀렉트 
-		Attachment at = new AccidentBoardService().selectAttachment(bno);
-		
-		int result = new ManagerService().accidentBoardDelete(bno,at); 
+		ArrayList<Attachment> alist = new ManagerService().selectAttachmentForManage(bno);
+		 
+		int result = new ManagerService().accidentBoardDelete(bno,alist); 
 		
 		if(result>0) { //성공하면 파일지워주기		
-			if(at!=null) {//첨부파일 있으면 삭제
-				String savePath = request.getSession().getServletContext().getRealPath("/resources/accident_board_file/");
-				new File(savePath+at.getChangeName()).delete();
+			if(alist.size()!=0) {//첨부파일 있으면 전부 삭제
+				for(int i=0;i<alist.size();i++) {
+					String savePath = request.getSession().getServletContext().getRealPath("/resources/accident_board_file/");
+					new File(savePath+alist.get(i).getChangeName()).delete();
+				}
 			}
 		}
 		

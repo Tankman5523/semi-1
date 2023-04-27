@@ -51,6 +51,13 @@
 			AND STATUS = 'Y'
 	</entry>
 	
+	<entry key="deleteMember">
+		UPDATE MEMBER
+		SET STATUS = 'N'
+		WHERE USER_NO = ?
+	</entry>
+	
+	
 	<entry key="insertProfile">
 		INSERT INTO LAW_ATTACHMENT (FILE_NO, REF_UNO,ORIGIN_NAME,CHANGE_NAME,FILE_PATH)
 	                    	VALUES (SEQ_RFNO.NEXTVAL, ?,?,?,?)
@@ -96,13 +103,13 @@
 	</entry>
 	
 	<entry key="selectReplyList">
-		SELECT RP_NO, REF_BNO, R.CONTENT AS "RP_CONTENT" , R.CREATE_DATE AS "RP_CREATE_DATE", BC.CATEGORY_NAME AS "CATEGORY" 
+		SELECT RP_NO, REF_BNO, R.CONTENT AS "RP_CONTENT" , R.CREATE_DATE AS "RP_CREATE_DATE", BC.CATEGORY_NAME AS "CATEGORY",  B.STATUS AS "BOARD_STATUS"
 		FROM REPLY R
 		JOIN BOARD B ON (R.REF_BNO = B.BOARD_NO)
 		JOIN BOARD_CATEGORY BC ON(B.CATEGORY_NO = BC.CATEGORY_NO) 
-		WHERE RP_WRITER = ?
+		WHERE RP_WRITER =?
 		AND R.STATUS = 'Y'
-	
+					
 	</entry>
 	
 	<entry key="selectCounselList">
@@ -150,8 +157,37 @@
 	<!-- 나에게 온 상담내역 조회 (변호사) -->
 	<entry key="selectCounselListLaw">
 		SELECT CS_NO, CS_TITLE, ACCEPT, CREATE_DATE, CS_ANSWER
-		FROM COUNSEL
-		WHERE REF_LNO = ?
+		FROM COUNSEL C
+        JOIN LAW_USER L ON (C.REF_LNO = L.LAW_NO) 
+		WHERE L.REF_UNO = ?
 	</entry>
 	
+	<entry key="selectQuestionList">
+		SELECT QNO, TITLE,CATEGORY_NAME, CREATE_DATE
+		FROM QUESTION
+		JOIN BOARD_CATEGORY ON(CATEGORY_NO = REF_CATNO)
+		WHERE Q_WRITER = ?
+		AND STATUS = 'Y'
+	</entry>
+	
+	<!-- 회원정보 조회(관리자,변호사신청) -->
+	<entry key="selectMemberInfo">
+		SELECT USER_NO, USER_ID, USER_NAME, PHONE, EMAIL, ADDRESS
+		FROM MEMBER
+		WHERE USER_NO = ?	
+	</entry>
+	
+	<!-- 변호사회원 전환 승인(관리자)	 -->
+	<entry key="acceptLawyer">
+		UPDATE MEMBER
+       		   SET LAWYER = 'Y'
+       		   WHERE USER_NO = ?
+	</entry>
+	
+	<!-- 변호사회원 전환 거절(관리자)	 -->
+	<entry key="refuseLawyer">
+		UPDATE MEMBER
+       		   SET LAWYER = 'N'
+       		   WHERE USER_NO = ?
+	</entry>
 </properties>

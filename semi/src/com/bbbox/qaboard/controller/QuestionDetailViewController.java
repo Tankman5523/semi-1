@@ -36,12 +36,20 @@ public class QuestionDetailViewController extends HttpServlet {
 
 		int userNo = ((Member)(request.getSession().getAttribute("loginUser"))).getUserNo();
 		
+		String admin = ((Member)(request.getSession().getAttribute("loginUser"))).getAdmin();
 		
-		Question qa = new QuestionService().selectQuestion(qno,userNo);
+		Question qa = new Question();
+		
+		if(admin.equals("Y")) {
+			qa = new QuestionService().selectQuestion(qno, admin);
+		}else {
+			
+			qa = new QuestionService().selectQuestion(qno,userNo);
+		}
 		
 		request.setAttribute("qa", qa);
-		request.getRequestDispatcher("views/board/questionBoard/questionDetailView.jsp").forward(request, response);
 		
+		request.getRequestDispatcher("views/board/questionBoard/questionDetailView.jsp").forward(request, response);
 		
 		
 		

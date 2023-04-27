@@ -34,7 +34,7 @@ public class AccidentBoardDeleteController extends HttpServlet {
 		
 		int result = new AccidentBoardService().deleteAccidentBoard(bno);
 		
-		//파일 삭제하려면 attachment에서 이름가져와야한다.
+		
 		
 		if(result>0) {
 			request.getSession().setAttribute("alertMsg", "게시물이 성공적으로 삭제되었습니다.");
@@ -43,7 +43,7 @@ public class AccidentBoardDeleteController extends HttpServlet {
 			request.setAttribute("errorMsg", "게시물 삭제 실패");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
-		//변경용
+		
 	}
 
 	/**

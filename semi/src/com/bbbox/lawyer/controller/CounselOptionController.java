@@ -59,7 +59,6 @@ public class CounselOptionController extends HttpServlet {
 		
 		response.setContentType("json/application; charset=UTF-8");
 		new Gson().toJson(part,response.getWriter());
-		
 	}
 
 }

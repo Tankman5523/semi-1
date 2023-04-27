@@ -119,7 +119,7 @@ public class QuestionDao {
 		return result;
 	}
 
-	//1대1문의글 조회 메소드 
+	//1대1문의글 조회 메소드(작성자) 
 	public Question selectQuestion(Connection conn, int qno, int userNo) {
 		
 		ResultSet rset = null;
@@ -158,6 +158,134 @@ public class QuestionDao {
 		
 		
 		return qa;
+	}
+	
+	//1대1문의 게시글 조회 메소드(관리자)
+	public Question selectQuestion(Connection conn, int qno, String admin) {
+		
+		ResultSet rset = null;
+		
+		PreparedStatement pstmt = null;
+		
+		Question qa = new Question();
+		
+		String sql = prop.getProperty("selectQuestion2");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, qno);
+			pstmt.setString(2, admin);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				qa= new Question(rset.getInt("QNO"),
+								 rset.getString("USER_ID"),
+								 rset.getString("TITLE"),
+								 rset.getString("CONTENT"),
+								 rset.getString("ANSWER"),
+								 rset.getDate("CREATE_DATE"),
+								 rset.getString("OPEN"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+			
+		}
+		
+		return qa;
+	}
+
+	//1대1문의 답변 메소드(관리자) -- 답변이 일회성으로 종료되기 때문에 update구문으로 작성 
+	public int insertAnswer(Connection conn, int qno, String answer) {
+		
+		int result = 0 ;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertAnswer");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, answer);
+			pstmt.setInt(2, qno);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		
+		return result;
+	}
+	
+	//1대1문의 답변 조회 메소드 
+	public String selectAnswer(Connection conn, int qno) {
+		
+		String answer = "";
+		
+		ResultSet rset = null;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("selectAnswer");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, qno);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				answer = rset.getString("ANSWER"); 
+			}
+				
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return answer;
+	}
+	
+	//1대1 문의 삭제 메소드 
+	public int deleteQuestion(Connection conn, int qno) {
+
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("deleteQuestion");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, qno);
+			
+			result = pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
 	}
 
 }

@@ -18,7 +18,7 @@ import com.bbbox.lawyer.model.vo.PartCategory;
 /**
  * Servlet implementation class CounselEnrollForm
  */
-@WebServlet("/counsel.la")
+@WebServlet("/counselEnroll.la")
 public class CounselEnrollController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -36,10 +36,10 @@ public class CounselEnrollController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//상담신청 폼 띄우기 위한 정보 조회
 		
-		Lawyer l = new LawyerService().selectLawyer(Integer.parseInt(request.getParameter("lno")));
+		Lawyer l = new LawyerService().selectLawyer(Integer.parseInt(request.getParameter("lno"))); //해당 변호사 정보
 		
-		ArrayList<Lawyer> lawList = new LawyerService().selectList();
-		ArrayList<PartCategory> pList = new LawyerService().selectPart();
+		ArrayList<Lawyer> lawList = new LawyerService().selectList(); //옵션선택을 위한 전체 변호사리스트
+		ArrayList<PartCategory> pList = new LawyerService().selectPart(); //옵션선택을 위한 전체 분야리스트
 
 		request.setAttribute("lawList", lawList); //이름만 가져와도 되면 수정하기  / 리스트뷰에서 가져오는 것도 마찬가지
 		request.setAttribute("pList", pList);
@@ -69,10 +69,10 @@ public class CounselEnrollController extends HttpServlet {
 		
 		int result = new LawyerService().insertCounsel(c);
 				
-		if(result>0) { //성공시 알림메세지로 상담신청 완료 띄우고 마이페이지로 이동(재요청)
+		if(result>0) {
 			request.getSession().setAttribute("alertMsg", "상담신청 완료");
 			response.sendRedirect(request.getContextPath()+"/myPage.me");
-		}else { //실패시 에러페이지로 이동(상담신청 작성 실패) 메세지 (위임)
+		}else {
 			request.setAttribute("errorMsg", "상담신청 작성 실패");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}

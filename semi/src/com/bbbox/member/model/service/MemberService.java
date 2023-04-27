@@ -14,6 +14,7 @@ import com.bbbox.lawyer.model.vo.LawReview;
 import com.bbbox.lawyer.model.vo.Lawyer;
 import com.bbbox.member.model.dao.MemberDao;
 import com.bbbox.member.model.vo.Member;
+import com.bbbox.qaboard.model.vo.Question;
 
 public class MemberService {
 	
@@ -103,6 +104,24 @@ public class MemberService {
 		
 		JDBCTemplate.close(conn);
 	
+		return result;
+	}
+	
+	//회원 탈퇴 메소드	
+	public int deleteMember(int userNo) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new MemberDao().deleteMember(conn, userNo);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else{
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
 		return result;
 	}
 
@@ -234,5 +253,49 @@ public class MemberService {
 		
 		return cListLaw;
 	}
+	
+	// 1대 1 문의글 조회 하는 메소드 
+	public ArrayList<Question> selectQuestionList(int userNo) {
+
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList <Question> qList = new MemberDao().selectQuestionList(conn, userNo);
+		
+		JDBCTemplate.close(conn);
+		
+		return qList;
+	}
+	
+	//변호사 신청 회원 정보 조회(관리자)
+	public Member selectMemberInfo(int userNo) {
+
+		Connection conn = JDBCTemplate.getConnection();
+		
+		Member applyMem = new MemberDao().selectMemberInfo(conn, userNo);
+		
+		JDBCTemplate.close(conn);
+		
+		return applyMem;
+	}
+	
+	//변호사 신청 승인(관리자) 
+	public int acceptLawyer(int uno, int resultNum) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new MemberDao().acceptLawyer(conn, uno, resultNum);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		return result;
+	}
+	
+	
+
+	
 
 }

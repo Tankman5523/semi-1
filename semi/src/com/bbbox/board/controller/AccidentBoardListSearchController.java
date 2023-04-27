@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bbbox.board.model.service.AccidentBoardService;
 import com.bbbox.board.model.vo.Board;
+import com.bbbox.board.model.vo.Search;
 import com.bbbox.common.model.vo.PageInfo;
 
 /**
@@ -33,6 +34,9 @@ public class AccidentBoardListSearchController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		int a = 1;
+//		Search l = request.get
+		
 		//페이징처리
 		int listCount; //현재 총 게시글의 갯수
 		int currentPage; //현재 페이지
@@ -44,7 +48,36 @@ public class AccidentBoardListSearchController extends HttpServlet {
 		int endPage; //페이지 하단에 보여질 페이징 바의 끝 수
 		
 		//전체 글 갯수 구하는 메소드
-		listCount = new AccidentBoardService().selectBoardListCount();
+		//게시판 종류 
+		//int categoryNo = Integer.parseInt(request.getParameter("categoryNo"));
+		int categoryNo = 3;
+		
+		//필터값 추출
+		String region = request.getParameter("region"); 
+		if(region.equals("none")) {//기본값 넘어오면 비워주기
+			region="";
+		}
+		
+		int partType = Integer.parseInt(request.getParameter("partType"));
+		
+		String insuranceType = request.getParameter("insuranceType");
+		
+		if(insuranceType.equals("none")) {
+			insuranceType = "";
+		}
+		
+		//검색방식
+		String searchFilter = request.getParameter("searchFilter");
+		
+		String keyword = request.getParameter("keyword");
+		ArrayList<Board> list = null;
+		
+		Search s = new Search(searchFilter, region, partType, insuranceType, keyword);
+		
+		//listCount = new AccidentBoardService().selectBoardListCount();
+		
+		listCount = new AccidentBoardService().searchedListCount(s);
+		
 		
 		//현재 페이지
 		if(request.getParameter("currentPage")==null) {
@@ -54,7 +87,7 @@ public class AccidentBoardListSearchController extends HttpServlet {
 		}
 		
 		//pageLimit : 페이지 하단에 보여질 페이징 바의 페이지 최대개수 (목록단위)
-		pageLimit = 15;
+		pageLimit = 5;
 		
 		//boardLimit : 한 페이지에 보여질 게시글 개수 (게시글 단위)
 		boardLimit = 15;
@@ -72,39 +105,27 @@ public class AccidentBoardListSearchController extends HttpServlet {
 			endPage=maxPage; 
 		}
 		
-		//정보 객체에 넣기
+		//페이징 정보 객체에 넣기
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		
-		//게시판 종류 
-		int categoryNo = Integer.parseInt(request.getParameter("categoryNo"));
-		
-		//필터값 추출
-		String region = request.getParameter("region"); 
-		int partType = Integer.parseInt(request.getParameter("partType"));
-		String insuranceType = request.getParameter("insurance");
-		
-		
-		//검색방식
-		String searchFilter = request.getParameter("title_writer");
-		String keyword = request.getParameter("keyword");
-		ArrayList<Board> list = null;
-		
-		//코드 하나로 묶기
-		/*
-		if(searchFilter.equals("제목")||searchFilter.equals("")) {//제목으로 검색일 경우
-			//제목으로 검색 메소드
-			list = new AccidentBoardService().searchByTitle(region,partType,insuranceType,keyword,pi);
-		}else {//제보자명으로 검색일 경우
-			//제보자명으로 검색 메소드
-			list = new AccidentBoardService().searchByWriter(region,partType,insuranceType,keyword,pi);
-		}*/
 		
 		
 		list = new AccidentBoardService().searchAccidentBoard(searchFilter,region,partType,insuranceType,keyword,categoryNo,pi);
 		
+		
+		//값이 비워져있으면 에러나지 않도록 none으로 변경
+		if(s.getRegion().equals("")) {
+			s.setRegion("none");
+		}
+		if(s.getInsuranceType().equals("")) {
+			s.setInsuranceType("none");
+		}
+		
 		if(list!=null) {
+			request.setAttribute("a", a);
 			request.setAttribute("pi", pi);
 			request.setAttribute("blist", list);
+			request.setAttribute("search", s); //검색키워드 객체 전달
 			request.getRequestDispatcher("views/board/accidentBoardListView.jsp").forward(request, response);
 		}else {
 			request.setAttribute("errorMsg", "사건게시판 조회 실패");

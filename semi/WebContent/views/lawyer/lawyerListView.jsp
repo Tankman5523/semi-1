@@ -3,7 +3,6 @@
 <%
 	ArrayList<Lawyer> lawList = (ArrayList<Lawyer>)request.getAttribute("lawList");
 	ArrayList<PartCategory> pList = (ArrayList<PartCategory>)request.getAttribute("pList");
-	System.out.println(lawList);
 %>
 <%@ include file = "../common/mainMenu.jsp" %>
 <!DOCTYPE html>
@@ -145,7 +144,7 @@
         <div id="content">
             <div id="lawList" >
                 <%if(lawList.isEmpty()){ %>
-					<div>
+					<div style="pointer-events: none;">
                 		존재하는 변호사가 없습니다.
 					</div>
                 <%}else{ %>

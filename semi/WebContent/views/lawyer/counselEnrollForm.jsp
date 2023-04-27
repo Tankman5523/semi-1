@@ -72,7 +72,7 @@
 	       <div id="title"><h2>상담신청</h2></div>
 	       <div id="comment">온라인 상담 신청을 해주시면 전문가가 신속히 답변 드리겠습니다.</div>
 	       <div id="enroll">
-	           <form  id="enroll-form" action="<%=contextPath%>/counsel.la" method="post">
+	           <form  id="enroll-form" action="<%=contextPath%>/counselEnroll.la" method="post">
 	               <input type="hidden" name="userNo" value="<%=loginUser.getUserNo() %>">
 	               <table align="center">
 	                   <tr>
@@ -102,7 +102,7 @@
 	                   </tr>
 	                   <tr>
 	                       <th>내용</th>
-	                       <td><textarea name="content" cols="50" rows="15" style="resize:none" required></textarea></td>
+	                       <td><textarea name="content" cols="50" rows="15" style="resize:none" placeholder="해결을 원하는 사건에 대해 간단한 상담을 남겨주시면 담당 변호사가 확인 후 상담 가능여부에 대한 답변을 남겨드립니다." required></textarea></td>
 	                   </tr>
 	               </table>
 	               <div id="button">
@@ -116,6 +116,7 @@
 	
 	<script>
 	//해당 변호사의 분야/이름 이 선택되어 있도록 하는 함수
+	// ((Lawyer)request.getAttribute("l")) %> 가 null이 아닌 경우로 해서 거부된 상담내역에서 내용들고 바로 상담신청으로 갈 수 있도록 ? update로 가야하나..
 	$(function(){
 		var $part = "<%=((Lawyer)request.getAttribute("l")).getRefPno() %>";
 		var $lno = <%=((Lawyer)request.getAttribute("l")).getLawNo() %>; 

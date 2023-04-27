@@ -162,7 +162,10 @@
 	   <div id="space"></div>
 	   <div id="head"> <!-- 뒤로가기 버튼 -->
 	      <a href="<%=contextPath %>/list.la"><i class="fa-solid fa-angle-left fa-2xl" style="color: #878787;"></i></a>
-	      <a href="<%=contextPath %>/review.la?lno=1">리뷰작성</a>
+	      <!-- 테스트용 삭제예정 -->
+	      <a href="<%=contextPath %>/review.la?accNo=1">리뷰 작성하기</a>
+	      <a href="<%=contextPath %>/reviewDetail.la?reNo=2">리뷰 상세보기</a>
+	      <a href="<%=contextPath %>/reviewDetail.la?reNo=2">리뷰 삭제하기</a>
 	   </div>
 	   <div id="content">
 	       <div id="left">
@@ -203,7 +206,10 @@
 	                             <td>지도보기</td>
 	                         </tr>
 	                     </table>
-	                     <div style="margin-top:40px; margin-left:30px;"><i class="fa-solid fa-quote-left"></i> <a><%=lawName %> 변호사의 해결사례가 궁금하다면?</a></div>
+	                     <div style="margin-top:40px; margin-left:30px;">
+	                     	<i class="fa-solid fa-quote-left"></i>
+	                     	<a href="<%=contextPath%>/list.rb?currentPage=1"><%=lawName %> 변호사의 해결사례가 궁금하다면?</a>
+	                     </div>
 	               </div>
 	               <div>
 	                   <ul id="career"> <!-- 변호사 추가정보 영역 -->
@@ -218,33 +224,28 @@
 		   		<div id="review-title">고객추천의 글 <i class="fa-solid fa-user-group fa-lg" style="color: #00bd7e;"></i></div>
 				<div id="review-area">
 					<%if(rList.isEmpty()){ %>
-						<table>
+						<table id="emptyReview">
 							<tr>
-								<td>아직 남겨진 리뷰가 없습니다.<br><a href="<%=contextPath%>/counsel.la?lno=<%=law.getLawNo() %>"><%=lawName %>변호사님께 상담신청을 해보세요.</a></td>
+								<td>아직 남겨진 리뷰가 없습니다.<br>
+								<b><%=lawName %>변호사님께 상담신청을 해보세요.</b></td>
 							</tr>
 						</table>
 					<%}else{ %>
 						<%for(LawReview r : rList){ %>
+							<input type="hidden" value="<%=r.getReviewNo() %>">
 							<table>
-								<tr>
-									<td><%=r.getStar() %></td>
-									<td><%=r.getUserId() %></td>
-								</tr>
-								<tr id="review-content">
-									<td colspan="2"><%=r.getReviewContent() %></td>
-								</tr>
+								<tbody>
+									<tr>
+										<td><%=r.getStar() %></td>
+										<td><%=r.getUserId() %></td>
+									</tr>
+									<tr id="review-content">
+										<td colspan="2"><%=r.getReviewContent() %></td>
+									</tr>
+								</tbody>
 							</table>
 						<%} %>
 					<%} %>
-					<table> <!-- 테스트용 나중에 삭제 -->
-						<tr>
-							<td>★★★</td>
-							<td>테스트***</td>
-						</tr>
-						<tr id="review-content">
-							<td colspan="2">정말최고이십니다.정말최고이십니다.정말최고이십니다.정말최고이십니다.정말최고이십니다.정말최고이십니다.정말최고이십니다.정말최고이십니다.정말최고이십니다</td>
-						</tr>
-					</table>
 				</div>
 	       </div>
 	   </div>
@@ -291,8 +292,8 @@
 	</script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJwp5ZEf5Vi5Gz_5RiU4Sxzt2IfSTeuDM&callback=myMap"></script>
 	
-	
-	<%if(loginUser != null){ %>
+	<!-- 관리자일 경우는 관리자 만들 때  -->
+	<%if(loginUser != null && loginUser.getLawyer().equals("N")){ %> <!-- 일반회원일 경우 -->
 	
 		<script>
 			 $(function(){ //현재 찜한 여부 확인
@@ -352,20 +353,43 @@
 			});
 		
 			$("#addFunction tr:eq(1)").click(function(){ //상담신청 페이지로 이동
-				location.href="<%=contextPath%>/counsel.la?lno=<%=law.getLawNo() %>";
+				location.href="<%=contextPath%>/counselEnroll.la?lno=<%=law.getLawNo() %>";
 			});
+			
+			$(function(){ //리뷰 상세보기로 이동   //table넣으면 오류 사라지는 이유?
+				$("#review-area table").on("click", "tbody", function(){
+					var reNo = $(this).parent().prev().val();
+					location.href="<%=contextPath%>/reviewDetail.la?reNo="+reNo;
+				});
+			});
+			
+			$("#emptyReview").click(function(){ //상담신청 페이지로 이동
+				location.href="<%=contextPath%>/counselEnroll.la?lno=<%=law.getLawNo() %>";
+			});
+			
 		</script>
 		
-	<%}else{ %>
+	<%}else if(loginUser != null && (loginUser.getLawyer().equals("Y")||loginUser.getAdmin().equals("Y"))){ %> <!-- 변호사 회원일 경우 -->
 	
 		<script>
-			$("#addFunction tr:eq(0),#addFunction tr:eq(1)").click(function(){ //비회원은 찜하기/상담기능 막기
-				if(confirm("로그인한 회원만 이용가능한 메뉴입니다.")){
-					location.href="<%=contextPath%>/enroll.me";
+			$("#addFunction tr:eq(0),#addFunction tr:eq(1),#emptyReview").click(function(){
+				if(confirm("일반 회원만 이용가능한 메뉴입니다.")){
+					location.href="<%=contextPath%>/login.me";
 				}
 			});
 		</script>
 		
+	<%}else { %>
+	
+		<script>
+			//로그인 전에는 찜하기/상담기능/리뷰 상세보기 기능 막기
+			$("#addFunction tr:eq(0),#addFunction tr:eq(1),#review-area>table").click(function(){
+				if(confirm("로그인한 회원만 이용가능한 메뉴입니다. 로그인 페이지로 이동하시겠습니까?")){
+					location.href="<%=contextPath%>/login.me";
+				}
+			});
+		</script>
+	
 	<%} %>
 	
 	<script>

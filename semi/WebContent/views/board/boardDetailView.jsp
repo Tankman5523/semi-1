@@ -132,14 +132,12 @@
 						},
 						success:function(jobj){
 							if(jobj.result==1){
-								console.log("됏냐?");
 								alert("이 게시글을 좋아합니다.");
 								
 								$("#liked_count").text(jobj.cnt);
 							}else if(jobj.result==2){
-								console.log("안됐냐?");
 								alert("좋아요 취소! 흥");
-								
+
 								$("#liked_count").text(jobj.cnt);
 							}
 						},

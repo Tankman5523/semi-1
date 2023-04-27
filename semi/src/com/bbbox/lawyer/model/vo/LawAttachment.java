@@ -9,10 +9,17 @@ public class LawAttachment {
 	private String filePath;
 	private String status;
 	
-	
+	private String lawImag; //사진 조회용 필드 
 	
 	public LawAttachment() {
 		super();
+	}
+
+	
+	//사진 조회용 생성자 
+	public LawAttachment(String lawImag) {
+		super();
+		this.lawImag = lawImag;
 	}
 
 	public LawAttachment(int fileNo, String refUno, String originName, String changeName, String filePath, String status) {
@@ -24,6 +31,17 @@ public class LawAttachment {
 		this.filePath = filePath;
 		this.status = status;
 	}
+
+	//사진 조회용 
+	public String getLawImag() {
+		return lawImag;
+	}
+
+
+	public void setLawImag(String lawImag) {
+		this.lawImag = lawImag;
+	}
+
 
 	public int getFileNo() {
 		return fileNo;

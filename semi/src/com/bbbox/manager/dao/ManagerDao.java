@@ -6,13 +6,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import com.bbbox.board.model.vo.Attachment;
 import com.bbbox.board.model.vo.Board;
+import com.bbbox.board.model.vo.Reply;
 import com.bbbox.common.JDBCTemplate;
 import com.bbbox.common.model.vo.PageInfo;
+import com.bbbox.member.model.vo.Member;
 
 
 
@@ -281,6 +283,171 @@ Properties prop = new Properties();
 		return result;
 	}
 
+	public int accidentReviewDelete(Connection conn, int accNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("accidentReviewDelete");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, accNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	
+
+	public ArrayList<Attachment> selectAttachmentForManage(Connection conn, int bno) {
+		ArrayList<Attachment> alist = new ArrayList<Attachment>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectAttachmentForManage");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bno);
+			
+			rset = pstmt.executeQuery();
+					
+			while(rset.next()) {
+				Attachment at = new Attachment();
+				
+				at.setChangeName(rset.getString("CHANGE_NAME"));
+				at.setFilePath(rset.getString("FILE_PATH"));
+				at.setOriginName(rset.getString("ORIGIN_NAME"));
+				at.setRefBno(bno);
+				
+				alist.add(at);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return alist;
+	}
+	//있는지 확인만 할거라서 객체 하나만 가져오기
+	public Reply selectRpListForManage(Connection conn, int bno) {
+		Reply rp = null;
+			
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("selectRpListForManage");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bno);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				rp = new Reply(rset.getInt("RP_NO"),
+								   rset.getString("USER_ID"),
+								   rset.getString("CONTENT"),
+								   rset.getString("CREATE_DATE"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return rp;
+	}
+	
+	//변호사신청 조회 리스트 
+	public ArrayList<Member> selectApplyLaw(Connection conn) {
+
+		ResultSet rset = null;
+		
+		PreparedStatement pstmt = null;
+		
+		ArrayList <Member> applyLaw  = new ArrayList<>();
+		
+		String sql = prop.getProperty("selectApplyLaw");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				applyLaw.add(new Member(rset.getInt("LAW_NO"),
+										rset.getInt("REF_UNO"),
+										rset.getString("USER_NAME"),
+										rset.getString("USER_ID"),
+										rset.getDate("ENROLL_DATE"),
+										rset.getString("LAWYER")));		
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return applyLaw;
+	}
+	
+	//전체 회원 조회 메소드 
+	public ArrayList<Member> selectAllMember(Connection conn) {
+		
+		ResultSet rset = null;
+		
+		PreparedStatement pstmt = null;
+		
+		ArrayList <Member> memberList = new ArrayList<>();
+		
+		String sql = prop.getProperty("selectAllMember");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				memberList.add(new Member (rset.getInt("USER_NO"),
+										   rset.getString("USER_ID"),
+										   rset.getString("USER_NAME"),
+										   rset.getString("LAWYER"),
+										   rset.getDate("ENROLL_DATE"),
+										   rset.getString("STATUS"),
+										   rset.getInt("게시글수"),
+										   rset.getInt("댓글수")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+			
+		}
+		
+		return memberList;
+	}
+	
 	//자유게시판 게시글 총 갯수
 	public int freeBoardCount(Connection conn, int[] cArr) {
 		
@@ -311,7 +478,7 @@ Properties prop = new Properties();
 		return count;
 	}
 
-	
+		
 	//자유게시판 게시글 리스트조회
 	public ArrayList<Board> selectFreeBoardList(Connection conn, PageInfo pi, int[] cArr) {
 		
@@ -356,9 +523,5 @@ Properties prop = new Properties();
 		
 		return list;
 	}
-	
-	
-	
-	
 	
 }

@@ -33,6 +33,9 @@ public class ResolvedBoardListSearchController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		//리스트,서치 트리거
+		int a=1;
+		
 		//페이징처리
 		int listCount; //현재 총 게시글의 갯수
 		int currentPage; //현재 페이지

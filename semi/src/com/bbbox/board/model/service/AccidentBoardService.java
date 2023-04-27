@@ -9,8 +9,10 @@ import com.bbbox.board.model.vo.AccidentReview;
 import com.bbbox.board.model.vo.Attachment;
 import com.bbbox.board.model.vo.Board;
 import com.bbbox.board.model.vo.Reply;
+import com.bbbox.board.model.vo.Search;
 import com.bbbox.common.JDBCTemplate;
 import com.bbbox.common.model.vo.PageInfo;
+
 
 public class AccidentBoardService {
 
@@ -353,6 +355,16 @@ public class AccidentBoardService {
 		
 		return result;
 	}
+	public int searchedListCount(Search s) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int listCount = new AccidentBoardDao().searchedListCount(conn,s);
+		
+		JDBCTemplate.close(conn);
+		
+		return listCount;
+	}
+	
 
 	
 	

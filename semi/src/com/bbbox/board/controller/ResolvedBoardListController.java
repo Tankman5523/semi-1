@@ -36,6 +36,10 @@ public class ResolvedBoardListController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		
+		//리스트 , 서치 트리거
+		int a=0;
+		
 		//페이징처리
 		int listCount; //현재 총 게시글의 갯수
 		int currentPage; //현재 페이지
@@ -57,7 +61,7 @@ public class ResolvedBoardListController extends HttpServlet {
 		}
 		
 		//pageLimit : 페이지 하단에 보여질 페이징 바의 페이지 최대개수 (목록단위)
-		pageLimit = 15;
+		pageLimit = 5;
 		
 		//boardLimit : 한 페이지에 보여질 게시글 개수 (게시글 단위)
 		boardLimit = 15;
@@ -78,13 +82,23 @@ public class ResolvedBoardListController extends HttpServlet {
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		//현재 페이지에 보여질 개수 매개변수로 넣기
 		
+		//게시판 종류
+		int categoryNo = 4;
+		
+		//sort 키워드 가져오기
+//		String sort = null;
+//		if(request.getParameter("searchSort")!=null) {
+//			sort = request.getParameter("searchSort"); 
+//		}
+		
 		ArrayList<Board> blist = new AccidentBoardService().selectResolvedBoardList(pi);
 		
 		
 		if(blist!=null) {
+			request.setAttribute("a", a);
 			request.setAttribute("pi", pi);
 			request.setAttribute("blist", blist);
-			
+			//request.setAttribute("sort", sort);
 			request.getRequestDispatcher("views/board/resolvedBoardListView.jsp").forward(request, response);;
 		}else {
 			request.setAttribute("errorMsg", "해결영상 게시판 조회 실패");
