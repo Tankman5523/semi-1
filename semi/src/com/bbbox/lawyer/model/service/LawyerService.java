@@ -7,6 +7,7 @@ import com.bbbox.board.model.vo.Accident;
 import com.bbbox.common.JDBCTemplate;
 import com.bbbox.lawyer.model.dao.LawyerDao;
 import com.bbbox.lawyer.model.vo.Counsel;
+import com.bbbox.lawyer.model.vo.LawAttachment;
 import com.bbbox.lawyer.model.vo.LawReview;
 import com.bbbox.lawyer.model.vo.Lawyer;
 import com.bbbox.lawyer.model.vo.PartCategory;
@@ -256,6 +257,53 @@ public class LawyerService {
 		JDBCTemplate.close(conn);
 				
 		return re;
+	}
+	
+	//변호사 신청내용 조회
+	public Lawyer selectApply(int userNo) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		Lawyer apply = new LawyerDao().selectApply(conn, userNo);
+		
+		JDBCTemplate.close(conn);
+		
+		return apply;
+	}
+	
+	//신청서 사진 조회 
+	public String selectLawAttachment(int userNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		String lat = new LawyerDao().selectLawAttachment(conn, userNo);
+		
+		JDBCTemplate.close(conn);
+		
+		return lat;
+	}
+
+	/* ================================== 관리자용 ===================================== */
+	
+	//변호사 리스트 조회 (관리자용)
+	public ArrayList<Lawyer> manageSelectLawList() {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Lawyer> list = new LawyerDao().manageSelectLawList(conn);
+		
+		JDBCTemplate.close(conn);
+		
+		return list;
+	}
+
+	//조건으로 검색한 변호사 리스트 조회 (관리자용)
+	public ArrayList<Lawyer> manageSearchLawList(String nameKey, String cateKey, String localKey) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Lawyer> lawList = new LawyerDao().manageSearchLawList(conn, nameKey, cateKey, localKey);
+		
+		JDBCTemplate.close(conn);
+		
+		return lawList;
 	}
 	
 	

@@ -111,51 +111,54 @@
 	    /* 메인페이지 버튼 클릭 함수 script */
 		function main(){
 			location.href="<%=contextPath%>";
-		}
+
+    /* 메인페이지 버튼 클릭 함수 script */
+	function main(){
+		location.href="<%=contextPath%>";
+	}
+	
+	/* 회원정보 수정페이지로 이동 script */
+	function modify(){
+		location.href="<%=contextPath%>/update_info.me";
+	}
+	
+    /* 회원 탈퇴 스크립트 영역  */
+	function memberDelete(){
 		
-		/* 회원정보 수정페이지로 이동 script */
-		function modify(){
-			location.href="<%=contextPath%>/update_info.me";
-		}
+		if(confirm("회원 탈퇴시 해당 아이디 복구 및 재가입이 불가능 합니다. 탈퇴 하시겠습니까?")){
 		
-	    /* 회원 탈퇴 스크립트 영역  */
-		function memberDelete(){
-			
-			if(confirm("회원 탈퇴시 해당 아이디 복구 및 재가입이 불가능 합니다. 탈퇴 하시겠습니까?")){
-			
-			}
-			
 		}
-	    
-		/* 변호사회원 신청페이지로 이동 */
-		function apply(){
-			/* 클릭시 이미 신청한 회원이라면, 알림 띄워주기 */
-			$.ajax({
-			 	url : "chkapply.me",
-			 	
-			 	data : { userNo : <%=loginUser.getUserNo()%>},
-			 	
-			 	type : "post",
-			 	
-			 	success : function(result){
-			 			console.log(result);
-			 			
-			 			if(result == 'W'){
-			 			 	alert("이미 신청하였습니다.");
-			 			 	return false;
-			 			}else{
-							location.href="<%=contextPath%>/apply_Lawyer.me;"
-			 			}
-			 	},
-			 	
-			 	error : function(){
-			 		console.log("통신 실패")
-			 	}
-			}); //ajax 끝
-			
-		}//함수 끝 
-    </script>
+    }
     
+	/* 변호사회원 신청페이지로 이동 */
+	function apply(){
+		/* 클릭시 이미 신청한 회원이라면, 알림 띄워주기 */
+		$.ajax({
+		 	url : "chkapply.me",
+		 	
+		 	data : { userNo : <%=loginUser.getUserNo()%>},
+		 	
+		 	type : "post",
+		 	
+		 	success : function(result){
+		 			console.log(result);
+		 			
+		 			if(result == 'W'){
+		 			 	alert("이미 신청하였습니다.");
+		 			 	return false;
+		 			}else{
+						location.href="<%=contextPath%>/apply_Lawyer.me"
+		 			}
+		 	},
+		 	
+		 	error : function(){
+		 		console.log("통신 실패")
+		 	}
+		}); //ajax 끝
+		
+	}//함수 끝 
+	</script>
+	
     <%if(loginUser.getLawyer().equals("N")){ %>
     <hr>
     <!-- 찜한리스트 뷰 (일반회원일 경우)-->
@@ -685,7 +688,8 @@
 	
     <br><br><br>
 
-	
+</div>
+
 	<script>
 	/*리뷰 삭제 script 영역 */
 	
@@ -715,9 +719,11 @@
       				
       			}); // ajax 끝 
 			}
+
 		});
-	});//함수 끝 
+	});
+
+	</script>			
 	
-	</script>
 </body>
 </html>

@@ -172,5 +172,25 @@
 		WHERE REF_BNO = ?
 	</entry>
 	
-
+	<!-- 변호사신청 조회 -->
+	<entry key="selectApplyLaw">
+		SELECT REF_UNO, LAW_NO, USER_NAME, USER_ID, ENROLL_DATE, LAWYER
+		FROM LAW_USER
+		JOIN MEMBER ON (USER_NO = REF_UNO)
+		WHERE STATUS = 'Y'
+		ORDER BY ENROLL_DATE DESC
+	</entry>
+	
+	<!-- 전체회원 조회 -->
+	<entry key="selectAllMember">
+		SELECT USER_NO, USER_ID, USER_NAME, LAWYER, ENROLL_DATE, M.STATUS AS "STATUS",
+		        (SELECT COUNT(BOARD_NO)
+		        FROM BOARD
+		        WHERE BOARD_WRITER = USER_NO) AS "게시글수",
+		        (SELECT COUNT(RP_NO)
+		        FROM REPLY
+		        WHERE RP_WRITER = USER_NO) AS "댓글수"
+		FROM MEMBER M
+		ORDER BY USER_NO DESC
+	</entry>
 </properties>

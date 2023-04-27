@@ -2,6 +2,7 @@ package com.bbbox.manager.service;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+
 import com.bbbox.board.model.dao.AccidentBoardDao;
 import com.bbbox.board.model.vo.AccidentReview;
 import com.bbbox.board.model.vo.Attachment;
@@ -10,6 +11,8 @@ import com.bbbox.board.model.vo.Reply;
 import com.bbbox.common.JDBCTemplate;
 import com.bbbox.common.model.vo.PageInfo;
 import com.bbbox.manager.dao.ManagerDao;
+import com.bbbox.member.model.dao.MemberDao;
+import com.bbbox.member.model.vo.Member;
 
 public class ManagerService {
 
@@ -150,6 +153,29 @@ public class ManagerService {
 		return result*result2*result3;
 	}
 	
+	//변호사회원 전환 신청 조회
+	public ArrayList<Member> selectApplyLaw() {
+
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList < Member> applyLaw = new ManagerDao().selectApplyLaw(conn);
+		
+		JDBCTemplate.close(conn);
+		
+		return applyLaw;
+	}
+
+	//전체 회원 조회 메소드 
+	public ArrayList<Member> selectAllMember() {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList <Member> memberList = new ManagerDao().selectAllMember(conn);
+		
+		JDBCTemplate.close(conn);
+		
+		return memberList;
+	}
 	
 	
 }

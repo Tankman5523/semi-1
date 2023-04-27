@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+    <style>
+        /* 영역잡기 */
+        .wrap div{
+            border: 1px solid black;
+            /* border: 0px; */
+            box-sizing: border-box;
+        }
+        .wrap{
+            border: 1px solid black;
+            width: 1200px;
+            height: 600px;
+            margin: auto;
+        }
+        .wrap>div{
+            width: 100%;
+        }
+        #head{
+            height: 15%;
+        }
+        #search{
+            height: 5%;
+        }
+        #content{
+            height: 80%;
+        }
+        #content>div{
+            height: 100%;
+        }
+        #lawList{
+            width: 80%;
+            overflow-y: scroll;
+            margin: auto;
+        }
+    
+        /* 대표 문구 */
+        #head>p{
+            text-align: center;
+            font-size: 20px;
+            font-weight: 900;
+            line-height: 50px;
+        }
+    
+        /* 검색창 */
+        #search_form{
+            width: 80%;
+            height: 100%;
+            margin-left: 200px;
+        }
+        #search_form>div{
+            height: 100%;
+            float: left;
+            margin: 0px 10px;
+        }
+        
+        /* 변호사 나열 */
+        #lawList>table{
+            width: 100%;
+        }
+        #List-title{
+	        background-color: rgb(223, 220, 220);
+	    }
+        a{
+	        text-decoration: none;
+	        color: black;
+	        display: block;
+	    }
+    
+    </style>
+    </head>
+    <body>
+        <div class="wrap">
+            <div id="head">
+                <p>변호사 관리 [관리자용]</p>
+            </div>
+            <div id="search">
+                <form id="search_form" action="<%=contextPath%>/list.la" method="post">
+                    <div id="searchName">변호사이름
+                        <input type="search" name="nameKey" placeholder="변호사 이름 입력">
+                    </div>
+                    <div> 분야별
+                        <select name="cateKey" id="category">
+                            <option value="전체">전체</option>
+                            <%for(PartCategory p : pList) { %>
+                                <option value="<%=p.getPartNo() %>"><%=p.getPartName() %></option>
+                            <%} %>
+                        </select>
+                    </div>
+                    <div>지역별
+                        <select name="localKey" id="local">
+                            <option value="전체">전체</option>
+                            <option value="서울">서울</option>
+                            <option value="경기">경기도</option>
+                            <option value="강원">강원도</option>
+                            <option value="충청">충청도</option>
+                            <option value="전라">전라도</option>
+                            <option value="경상">경상도</option>
+                            <option value="제주">제주도</option>
+                        </select>
+                    </div>
+                    <div>
+                        <!-- 이걸 넣어야하나?
+                        <%if(!lawList.isEmpty()){ %>
+                        <%} %>
+                         -->
+                        <button type="submit">검색</button>
+                    </div>
+                </form>
+            </div>
+            <div id="content">
+                <div id="lawList" >
+                    <table>
+                        <thead id="List-title">
+                            <tr>
+                                <td width="50">No.</td>
+                                <td width="100">이름</td>
+                                <td width="100">분야</td>
+                                <td width="50">해결영상 개수</td>
+                                <td width="50">상담매칭 개수</td>
+                                <td width="50">리뷰 평점</td>
+                                <td width="100">변호사 권한</td>
+                            </tr>
+                        </thead>
+                        <!-- 찜한 변호사 리스트가 비어있지 않다면 -->
+                        <%if(!applyLaw.isEmpty()){ %>
+                        <tbody id="apply-list">
+                            <%for(int i= 0 ; i < applyLaw.size() ; i++){%>
+                            <tr>
+                                <td><%=i+1%></td>
+                                <td><a href="<%=contextPath%>/detail.apply.me?nuo="<%=applyLaw.get(i).getUserNo()%>><%=applyLaw.get(i).getUserName()%></a></td>
+                                <td><%=applyLaw.get(i).getUserId()%></td>
+                                <td><%=applyLaw.get(i).getEnrollDate()%></td>
+                                <%if(applyLaw.get(i).getLawyer().equals("W")){ %>
+                                    <td style="color: green">대기중</td>
+                                <%}else if(applyLaw.get(i).getLawyer().equals("Y")){ %>
+                                    <td style="color: blue">승인</td>
+                                <%}else{ %>
+                                    <td style="color: red">거절</td>
+                                <%} %>	
+                                <td><button>변경하기</button></td>
+                            </tr>
+                            <%} %>
+                         <%}else{ %>   
+                        <!-- 찜한 변호사 리스트가 비어있다면  -->    
+                               <tr>
+                                   <td></td>
+                                   <td colspan ="5">신청 회원이 존재하지 않습니다.	</td>
+                               </tr>
+                        </tbody>
+                        <%} %>
+                    </table>
+                </div>
+            </div>
+        </div>
+</body>
+</html>

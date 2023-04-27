@@ -49,6 +49,7 @@ public class CounselAnswerController extends HttpServlet {
 		if(result>0) {
 			request.getSession().setAttribute("alertMsg", "답변 등록 완료");
 			response.sendRedirect(request.getContextPath()+"/myPage.me");
+			//myPageController post방식으로 바꿔서인지 페이지 이동 안됨 다시해보기
 		}else {
 			request.setAttribute("errorMsg", "답변 등록 실패");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);

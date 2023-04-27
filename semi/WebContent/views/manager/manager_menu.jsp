@@ -2,6 +2,7 @@
     pageEncoding="UTF-8" import ="com.bbbox.member.model.vo.Member" %>
 <%
 	String contextPath = request.getContextPath();
+	
 	Member loginUser = (Member)session.getAttribute("loginUser");
 
 	String alertMsg = (String)session.getAttribute("alertMsg");
@@ -209,11 +210,11 @@
         <div id="header3">
             <div id="user-info">
                  <div id = "username">
-						<a href="<%=contextPath%>" style="color:blue;text-decoration:none;font-weight:bold">일반모드 </a><br>
+						<a href="<%=contextPath%>" style="color:blue;text-decoration:none;font-weight:bold">일반모드 </a>
+						<br>
 						<b><%=loginUser.getUserName()%> 님</b>						
                 </div>
                 <div id="mypage" align = "center">
-                    <a href="<%=contextPath%>/myPage.me">마이페이지</a>
                     <a href="<%=contextPath%>/logout.me">로그아웃</a>
                 </div>
             </div>
@@ -231,7 +232,7 @@
                 </li>    
                 <li><a href="">변호사</a>
                     <ul>
-                        <li><a href="<%=contextPath %>/manage.la">변호사 관리</a></li>
+                        <li><a href="<%=contextPath %>/lawyerList.ma">변호사 관리</a></li>
                         <li><a href="">상담 게시판 관리</a></li>
                     </ul>
 
@@ -242,9 +243,11 @@
                         <li><a href="<%=contextPath%>/manage.vi?currentPage=1">영상 게시판 관리</a></li>
                     </ul>
                 </li>    
-                <li><a href="">고객문의</a>
+                <li><a href="">회원관리</a>
                     <ul>
-                    	<li><a href="">회원관리</a></li>
+                    	<li><a href="<%=contextPath%>/manage.info.me">회원조회</a></li>
+                    	<li><a href="<%=contextPath%>/manage.apply.la">신청관리</a></li>
+                    	<li><a href="">탈퇴회원관리</a></li>
                         <li><a href="">1:1 문의</a></li>
                         <li><a href="">FQA</a></li>
                         
