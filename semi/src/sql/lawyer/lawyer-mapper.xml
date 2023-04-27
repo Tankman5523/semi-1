@@ -17,7 +17,7 @@
 		JOIN LAW_ATTACHMENT A ON (L.REF_UNO = A.REF_UNO)
 		WHERE M.STATUS = 'Y'
 		AND M.LAWYER = 'Y'
-		ORDER BY LAW_NO ASC
+		ORDER BY LAW_NO DESC
 	</entry>
 	
 	<!-- 전체 변호사 분야 조회 -->
@@ -265,5 +265,67 @@
 	FROM LAW_USER
 	WHERE REF_UNO = ?
 	</entry>
+	
+	<!-- =================================== 관리자용 ==================================== -->
+	
+	<!-- 변호사 리스트 조회 (관리자용)  -->
+	<entry key="manageSelectLawList">
+		SELECT LAW_NO,
+		       USER_NAME,
+		       PART_NAME,
+		       COMPANY_ADDRESS,
+		       (SELECT COUNT(*)
+		        FROM ACCIDENT A
+		        WHERE A.SOLVE = 'Y'
+		        AND L.LAW_NO = A.REF_LNO) AS "해결영상수",
+		       (SELECT COUNT(*)
+		        FROM COUNSEL C
+		        WHERE C.ACCEPT = 'Y'
+		        AND L.LAW_NO = C.REF_LNO) AS  "상담매칭수",
+		       (SELECT ROUND(AVG(LENGTH(STAR)),1)
+		        FROM LAW_REVIEW LR
+		        JOIN ACCIDENT AC ON (LR.REF_ANO = AC.ACC_NO)
+		        WHERE LR.STATUS = 'Y'
+		        AND AC.SOLVE = 'Y'
+		        AND AC.REF_LNO = L.LAW_NO) AS "리뷰평점"
+		        ,LAWYER
+		FROM LAW_USER L
+		JOIN MEMBER M ON (L.REF_UNO = M.USER_NO)
+		JOIN PART_CATEGORY P ON (L.REF_PNO = P.PART_NO)
+		WHERE M.STATUS = 'Y'
+		ORDER BY LAW_NO DESC
+	</entry>
+	
+	<!-- 조건으로 검색한 변호사 리스트 조회 (관리자용) -->
+	<entry key="manageSearchLawList">
+		SELECT LAW_NO,
+		       USER_NAME,
+		       PART_NAME,
+		       COMPANY_ADDRESS,
+		       (SELECT COUNT(*)
+		        FROM ACCIDENT A
+		        WHERE A.SOLVE = 'Y'
+		        AND L.LAW_NO = A.REF_LNO) AS "해결영상수",
+		       (SELECT COUNT(*)
+		        FROM COUNSEL C
+		        WHERE C.ACCEPT = 'Y'
+		        AND L.LAW_NO = C.REF_LNO) AS  "상담매칭수",
+		       (SELECT ROUND(AVG(LENGTH(STAR)),1)
+		        FROM LAW_REVIEW LR
+		        JOIN ACCIDENT AC ON (LR.REF_ANO = AC.ACC_NO)
+		        WHERE LR.STATUS = 'Y'
+		        AND AC.SOLVE = 'Y'
+		        AND AC.REF_LNO = L.LAW_NO) AS "리뷰평점"
+		        ,LAWYER
+		FROM LAW_USER L
+		JOIN MEMBER M ON (L.REF_UNO = M.USER_NO)
+		JOIN PART_CATEGORY P ON (L.REF_PNO = P.PART_NO)
+		WHERE M.STATUS = 'Y'
+		AND USER_NAME LIKE ?
+		AND REF_PNO LIKE ?
+		AND COMPANY_ADDRESS LIKE ?
+		ORDER BY LAW_NO DESC
+	</entry>
+	
 	
 </properties>

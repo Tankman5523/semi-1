@@ -281,6 +281,30 @@ public class LawyerService {
 		
 		return lat;
 	}
+
+	/* ================================== 관리자용 ===================================== */
+	
+	//변호사 리스트 조회 (관리자용)
+	public ArrayList<Lawyer> manageSelectLawList() {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Lawyer> list = new LawyerDao().manageSelectLawList(conn);
+		
+		JDBCTemplate.close(conn);
+		
+		return list;
+	}
+
+	//조건으로 검색한 변호사 리스트 조회 (관리자용)
+	public ArrayList<Lawyer> manageSearchLawList(String nameKey, String cateKey, String localKey) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Lawyer> lawList = new LawyerDao().manageSearchLawList(conn, nameKey, cateKey, localKey);
+		
+		JDBCTemplate.close(conn);
+		
+		return lawList;
+	}
 	
 	
 }

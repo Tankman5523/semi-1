@@ -721,4 +721,100 @@ public class LawyerDao {
 		return null;
 		
 	}
+
+	/* ================================== 관리자용 ===================================== */
+	
+	//변호사 리스트 조회 (관리자용)
+	public ArrayList<Lawyer> manageSelectLawList(Connection conn) {
+
+		ArrayList<Lawyer> list = new ArrayList<>();
+		
+		Statement stmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("manageSelectLawList");
+		
+		try {
+			stmt = conn.createStatement();
+			rset = stmt.executeQuery(sql);
+			
+			while(rset.next()) {
+				list.add(new Lawyer(rset.getInt("LAW_NO"),
+									rset.getString("USER_NAME"),
+									rset.getString("PART_NAME"),
+									rset.getString("COMPANY_ADDRESS"),
+									rset.getInt("해결영상수"),
+									rset.getInt("상담매칭수"),
+									rset.getDouble("리뷰평점"),
+									rset.getString("LAWYER")));
+			}
+			
+			System.out.println("dao 관리자용 list"+list);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(stmt);
+		}
+		
+		return list;
+	}
+
+	//조건으로 검색한 변호사 리스트 조회 (관리자용)
+	public ArrayList<Lawyer> manageSearchLawList(Connection conn, String nameKey, String cateKey, String localKey) {
+
+		ArrayList<Lawyer> lawList = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("manageSearchLawList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+		
+			//이름 값
+			if(nameKey.equals("")) {
+				pstmt.setString(1, "%%");
+			}else {
+				pstmt.setString(1, "%"+nameKey+"%");
+			}
+			
+			//분야 값
+			if(cateKey.equals("전체")) {
+				pstmt.setString(2, "%%");
+			}else {
+				pstmt.setString(2, "%"+cateKey+"%");
+			}
+			
+			//지역 값
+			if(localKey.equals("전체")) {
+				pstmt.setString(3, "%%");
+			}else {
+				pstmt.setString(3, "%"+localKey+"%");
+			}
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				lawList.add(new Lawyer(rset.getInt("LAW_NO"),
+									   rset.getString("USER_NAME"),
+								   	   rset.getString("PART_NAME"),
+									   rset.getString("COMPANY_ADDRESS"),
+									   rset.getInt("해결영상수"),
+									   rset.getInt("상담매칭수"),
+									   rset.getDouble("리뷰평점"),
+									   rset.getString("LAWYER")));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return lawList;
+	}
 }

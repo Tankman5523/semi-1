@@ -3,7 +3,7 @@
 
 <properties>
 	<entry key="insertLiked">
-		INSERT INTO LIKED`
+		INSERT INTO LIKED
 		VALUES(?,?)
 	</entry>
 	
