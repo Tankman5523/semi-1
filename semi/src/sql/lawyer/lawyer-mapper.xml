@@ -259,5 +259,11 @@
 		AND REVIEW_NO = ?
 	</entry>
 	
+	<!-- 변호사 신청 내용 조회  -->
+	<entry key="selectApply">
+	SELECT LAW_NO, REF_PNO, EXAM,EXAM_SESSION, PASS_DATE, COMPANY_NAME, COMPANY_ADDRESS, COMPANY_PN,LAW_COMMENT, CAREER
+	FROM LAW_USER
+	WHERE REF_UNO = ?
+	</entry>
 	
 </properties>
