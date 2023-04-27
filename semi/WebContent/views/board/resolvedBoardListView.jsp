@@ -1,3 +1,4 @@
+<%@page import="com.bbbox.board.model.vo.Search"%>
 <%@page import="com.bbbox.common.model.vo.PageInfo"%>
 <%@page import="com.bbbox.board.model.vo.Board"%>
 <%@page import="com.bbbox.board.model.vo.Attachment"%>
@@ -8,7 +9,9 @@
 <%	
 	ArrayList<Board> blist = (ArrayList<Board>)request.getAttribute("blist");
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
-
+	Search s = (Search)request.getAttribute("search");
+	int a = (int)request.getAttribute("a");
+	
 %>    
 <!DOCTYPE html>
 <html>
@@ -218,24 +221,40 @@
             </div>
              <!-- 페이징바 -->
             <div class="pageMover" align="center">
-            <%if(blist!=null){ %>
-               	 <%if(pi.getCurrentPage() != 1){ %>
-					<button onclick="location.href='<%=contextPath%>/list.rb?currentPage=<%=pi.getCurrentPage()-1%>'">&lt;</button>
-				<%} %>
-			
-				<%for(int i=pi.getStartPage(); i<pi.getEndPage(); i++){ %>
-				<!-- 내가 보고있는 페이지 버튼은 비활성화 하기 -->
-					<%if(i != pi.getCurrentPage()){ %>
-						<button onclick="location.href='<%=contextPath%>/list.rb?currentPage=<%=i%>';"><%=i %></button>
-					<%}else{ %> <!-- 내가 보고있는 페이지와 페이징바 버튼의 수가 같아면 i와 currenPage -->
-						<button disabled><%=i %></button>
+            <%if(a==1){ %>
+            		<%if(pi.getCurrentPage() != 1){ %>
+						<button onclick="location.href='<%=contextPath%>/search.rb?currentPage=<%=pi.getCurrentPage()-1%>&categoryNo=3&region=<%=s.getRegion()%>&partType=<%=s.getPartType()%>&insuranceType=<%=s.getInsuranceType()%>&searchFilter=<%=s.getSearchFilter()%>&keyword=<%=s.getKeyword()%>'">prev</button>
 					<%} %>
-				<%} %>
+					<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++){ %>
+					<!-- 내가 보고있는 페이지 버튼은 비활성화 -->
+						<%if(i != pi.getCurrentPage()){ %>
+							<button onclick="location.href='<%=contextPath%>/search.rb?currentPage=<%=i%>&categoryNo=3&region=<%=s.getRegion()%>&partType=<%=s.getPartType()%>&insuranceType=<%=s.getInsuranceType()%>&searchFilter=<%=s.getSearchFilter()%>&keyword=<%=s.getKeyword()%>'"><%=i %></button>
+						<%}else{ %> <!-- 내가 보고있는 페이지와 페이징바 버튼의 수가 같으면 i와 currenPage -->
+							<input type="button" disabled value="<%=i%>">
+						<%} %>
+					<%} %>
+					<%if(pi.getCurrentPage() != pi.getMaxPage()) {%>
+						<button onclick="location.href='<%=contextPath%>/search.rb?currentPage=<%=pi.getCurrentPage()+1%>&categoryNo=3&region=<%=s.getRegion()%>&partType=<%=s.getPartType()%>&insuranceType=<%=s.getInsuranceType()%>&searchFilter=<%=s.getSearchFilter()%>&keyword=<%=s.getKeyword()%>'">next</button>
+					<%} %>
+					
+            	<%}else if(a == 0){ %>
+	               	<%if(pi.getCurrentPage() != 1){ %>
+						<button onclick="location.href='<%=contextPath%>/list.rb?currentPage=<%=pi.getCurrentPage()-1%>'">&lt;</button>
+					<%} %>
 				
-				<%if(pi.getCurrentPage() != pi.getMaxPage()) {%>
-					<button onclick="location.href='<%=contextPath%>/list.rb?currentPage=<%=pi.getCurrentPage()+1%>'">&gt;</button>
-				<%} %>	
-			<%} %>
+					<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++){ %>
+					<!-- 내가 보고있는 페이지 버튼은 비활성화 -->
+						<%if(i != pi.getCurrentPage()){ %>
+							<button onclick="location.href='<%=contextPath%>/list.rb?currentPage=<%=i%>';"><%=i %></button>
+						<%}else{ %> <!-- 내가 보고있는 페이지와 페이징바 버튼의 수가 같으면 i와 currenPage -->
+							<button disabled><%=i%></button>
+						<%} %>
+					<%} %>
+					
+					<%if(pi.getCurrentPage() != pi.getMaxPage()) {%>
+						<button onclick="location.href='<%=contextPath%>/list.rb?currentPage=<%=pi.getCurrentPage()+1%>'">&gt;</button>
+					<%} %>	
+				<%} %>
             </div>
         </div>
     </div>

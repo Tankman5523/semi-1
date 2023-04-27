@@ -106,8 +106,12 @@
 	        <button onclick = "memberDelete();"> 회원탈퇴 </button>
 	    </div>
     </form>
-    
-    <script>
+ 
+	<script>
+	    /* 메인페이지 버튼 클릭 함수 script */
+		function main(){
+			location.href="<%=contextPath%>";
+
     /* 메인페이지 버튼 클릭 함수 script */
 	function main(){
 		location.href="<%=contextPath%>";
@@ -124,8 +128,7 @@
 		if(confirm("회원 탈퇴시 해당 아이디 복구 및 재가입이 불가능 합니다. 탈퇴 하시겠습니까?")){
 		
 		}
-		
-	}
+    }
     
 	/* 변호사회원 신청페이지로 이동 */
 	function apply(){
@@ -684,16 +687,15 @@
 	<%} %>
 	
     <br><br><br>
+
 </div>
+
 	<script>
 	/*리뷰 삭제 script 영역 */
 	
 	$(function(){
-		
 		$("#user-review tr td").on('click','button',function(){
-			
 			if(confirm("삭제한 리뷰내역은 복구가 불가능 합니다. 정말 삭제하시겠습니까?")){
-				
 				var $reNo = $(this).next().val(); //리뷰 번호 
 				
 				$.ajax({
@@ -716,13 +718,10 @@
       				}
       				
       			}); // ajax 끝 
-				
 			}
-			
 
 		});
-		
-	});//함수 끝 
+	});
 
 	</script>			
 	

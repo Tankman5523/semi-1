@@ -6,7 +6,6 @@
 		INSERT INTO LIKED
 		VALUES(?,?)
 	</entry>
-	
 
 	<entry key="deleteLiked">
 		DELETE FROM LIKED
@@ -14,11 +13,17 @@
 		AND REF_BNO = ?
 	</entry>
 
-
 	<entry key="insertDislike">
 		INSERT INTO DISLIKE
 		VALUES(?,?)
 	</entry>
+	
+	<entry key="deleteDislike">
+		DELETE FROM DISLIKE
+		WHERE REF_UNO = ?
+		AND REF_BNO = ?
+	</entry>
+	
 	
 
 </properties>

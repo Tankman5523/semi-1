@@ -118,6 +118,8 @@ public class ManagerService {
 			System.out.println("영상정보없음");
 		}
 		
+		
+		
 		int result2 = new ManagerDao().accidentInfoDelete(conn,bno);
 		int result = new ManagerDao().accidentBoardDelete(conn,bno);
 		

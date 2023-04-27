@@ -128,7 +128,7 @@
                 <p>제보 영상 게시판 관리</p>
             </div>
           
-            <div class="sort" style="float: right;margin-top: 20px;" >
+            <!-- <div class="sort" style="float: right;margin-top: 20px;" >
                 <form action="list.mac">
                 <input type="radio" name="searchSort" id="sortRecommend" value="recommend"><label for="sortRecommend">추천순</label>
                 <input type="radio" name="searchSort" id="sortDislike" value="dislike"><label for="sortDislike">비추순</label>
@@ -136,7 +136,7 @@
                 <input type="radio" name="searchSort" id="sortNew" value="date"><label for="sortNew">최신순</label>
                 <input type="submit" value="정렬">
                 </form>
-            </div> 
+            </div>  --> 
             <div class="search">
                 <form action="search.mac">
                 	<input type="hidden" name="categoryNo" value="3">
@@ -210,7 +210,7 @@
 	                	<%if(blist!=null){ %>
 		                	<%for(int i=0;i<blist.size();i++){ %>
 			                  	<tr onclick="location.href='<%=contextPath%>/detail.ac?bno='+<%=blist.get(i).getBoardNo()%>">
-			                        <td><input type="checkbox" name="selectBoard" style="height:100%;width:100%;margin:0px;padding:0px;"></td>
+			                        <th class="noEvent"><input type="checkbox" name="selectBoard" style="height:100%;width:100%;margin:0px;padding:0px;"></th>
 			                        <td><%=blist.get(i).getBoardNo()%></td>
 			                        <td><%=blist.get(i).getBoardWriter()%></td>
 			                        <td><%=blist.get(i).getTitle()%></td>
@@ -221,7 +221,7 @@
 			                        <td><%=blist.get(i).getRegion()%></td>
 			                        <td><%=blist.get(i).getLiked()%></td>
 			                        <td><%=blist.get(i).getReportCount()%></td>
-		                        	<td id="statusShift">
+		                        	<td id="statusShift" class="noEvent">
 			                        		<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
 			                        <%if(blist.get(i).getStatus().equals("N")) {%>
 			                        <!-- 아직 게시되지 않았다면 -->
@@ -233,10 +233,10 @@
 				                        	<!-- <input type="button" class="statusOff" value="ON" style="background-color: green; color: white; width:100%;height:100%"> -->
 			                        </td>
 			                        <%} %>
-			                        <td><!-- DB에서 전부 날려버리기 -->
+			                        <th class="noEvent"><!-- DB에서 전부 날려버리기 -->
 			                        	<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
 			                        	<button name="delete" class="deleteBoardBtn" id="deleteBoardBtn" style="width:100%;height:100%">글삭제</button>
-		                        	</td>
+		                        	</th>
 			                    </tr>
 		                    <%} %>
 		                    
@@ -248,13 +248,14 @@
 	                    
 	                </tbody>    
             	</table>
-	        <!-- 글게시 on/off 토글처리 -->
+	        
 	        <script>
 	        $(function(){
-	        	
+	        	$(".noEvent").on("click",function(){
+	        		event.cancelBubble = true;
+	        	});
 	        });
-	        
-	        //글 게시
+            // 글게시 on/off 토글처리 
 	        $(function(){
 	        	$(".statusOn").on("click",function(){
 		        	$.ajax({

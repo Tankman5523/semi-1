@@ -136,17 +136,13 @@
 								
 								$("#liked_count").text(jobj.cnt);
 							}else if(jobj.result==2){
-								alert("좋아요 취소! 흥");
+								alert("좋아요 취소");
 								
 								$("#liked_count").text(jobj.cnt);
 							}
 						},
 						error:function(){
 							alert("통신 에러");
-						},
-						complete:function(){
-							//$("#liked_count").load(location.reload());
-							// 리로드 처리 쉽게 해버리기 - 여기서는 사용이 맞지않음
 						}
 					});
 				<%}%>
