@@ -705,6 +705,81 @@ public class MemberDao {
 		return qList;
 	}
 
+	//변호사 신청 회원 정보 조회(관리자)
+	public Member selectMemberInfo(Connection conn, int userNo) {
+		
+		ResultSet rset = null;
+		
+		PreparedStatement pstmt = null;
+		
+		Member applyMem = null;
+		
+		String sql = prop.getProperty("selectMemberInfo");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+		
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				
+				applyMem = new Member(rset.getInt("USER_NO"),
+									  rset.getString("USER_ID"),
+									  rset.getString("USER_NAME"),
+									  rset.getString("PHONE"),
+									  rset.getString("EMAIL"),
+									  rset.getString("ADDRESS"));
+				
+				
+			}
+					
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+			
+		}
+		
+		return applyMem;
+	}
+
+	public int acceptLawyer(Connection conn, int uno, int resultNum) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = "";
+		
+		if(resultNum > 0){
+			sql = prop.getProperty("acceptLawyer"); //승인 
+		}else { //거절 
+			sql = prop.getProperty("refuseLawyer"); //거절
+		}
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, uno);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	
+
 	
 
 }

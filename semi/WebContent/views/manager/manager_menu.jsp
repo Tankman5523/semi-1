@@ -245,7 +245,7 @@
                 </li>    
                 <li><a href="">회원관리</a>
                     <ul>
-                    	<li><a href="">회원조회</a></li>
+                    	<li><a href="<%=contextPath%>/manage.info.me">회원조회</a></li>
                     	<li><a href="<%=contextPath%>/manage.apply.la">신청관리</a></li>
                     	<li><a href="">탈퇴회원관리</a></li>
                         <li><a href="">1:1 문의</a></li>

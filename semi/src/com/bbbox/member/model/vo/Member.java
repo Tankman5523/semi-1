@@ -15,7 +15,10 @@ public class Member {
 	private String admin;		//ADMIN	VARCHAR2(1 BYTE)-- Y/N
 	private String lawyer; 		//LAWYER	VARCHAR2(1 BYTE) --Y/N
 	
-	private int lawNo; // 관리자에서 사용하는 필드 
+	// 관리자 사용 필드 
+	private int lawNo; // 변호사 번호  
+	private int boardCount; // 게시글 수 
+	private int replyCount; // 댓글 수 
 	
 	
 	public Member() {
@@ -24,7 +27,6 @@ public class Member {
 
 	
 	//회원정보수정 생성자 
-
 	public Member(int userNo, String userId, String userPwd, String userName, String phone, String email,
 			String address, Date enrollDate, String status, String admin, String lawyer) {
 		super();
@@ -76,14 +78,59 @@ public class Member {
 		this.enrollDate = enrollDate;
 		this.lawyer = lawyer;
 	}
+	
+	//관리자 _ 변호사 회원 신청 내용 조회 생성자
+	
+	public Member(int userNo, String userId, String userName, String phone, String email, String address) {
+		super();
+		this.userNo = userNo;
+		this.userId = userId;
+		this.userName = userName;
+		this.phone = phone;
+		this.email = email;
+		this.address = address;
+	}
 
-
+	//관리자_ 전체 회원 조회 생성자 
+	
+	
+	
 	public int getUserNo() {
 		return userNo;
 	}
 
+	public Member(int userNo, String userId, String userName, String lawyer, Date enrollDate, String status, 
+			 int boardCount, int replyCount) {
+		super();
+		this.userNo = userNo;
+		this.userId = userId;
+		this.userName = userName;
+		this.lawyer = lawyer;
+		this.enrollDate = enrollDate;
+		this.status = status;
+		this.boardCount = boardCount;
+		this.replyCount = replyCount;
+	}
 
 
+	public int getBoardCount() {
+		return boardCount;
+	}
+
+
+	public void setBoardCount(int boardCount) {
+		this.boardCount = boardCount;
+	}
+
+
+	public int getReplyCount() {
+		return replyCount;
+	}
+
+
+	public void setReplyCount(int replyCount) {
+		this.replyCount = replyCount;
+	}
 
 
 	public void setUserNo(int userNo) {

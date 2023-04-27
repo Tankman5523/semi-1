@@ -408,6 +408,43 @@ Properties prop = new Properties();
 		return applyLaw;
 	}
 	
-	
+	//전체 회원 조회 메소드 
+		public ArrayList<Member> selectAllMember(Connection conn) {
+			
+			ResultSet rset = null;
+			
+			PreparedStatement pstmt = null;
+			
+			ArrayList <Member> memberList = new ArrayList<>();
+			
+			String sql = prop.getProperty("selectAllMember");
+			
+			try {
+				pstmt = conn.prepareStatement(sql);
+				
+				rset = pstmt.executeQuery();
+				
+				while(rset.next()) {
+					
+					memberList.add(new Member (rset.getInt("USER_NO"),
+											   rset.getString("USER_ID"),
+											   rset.getString("USER_NAME"),
+											   rset.getString("LAWYER"),
+											   rset.getDate("ENROLL_DATE"),
+											   rset.getString("STATUS"),
+											   rset.getInt("게시글수"),
+											   rset.getInt("댓글수")));
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				JDBCTemplate.close(rset);
+				JDBCTemplate.close(pstmt);
+				
+			}
+			
+			return memberList;
+		}
 	
 }

@@ -169,5 +169,25 @@
 		WHERE Q_WRITER = ?
 		AND STATUS = 'Y'
 	</entry>
-
+	
+	<!-- 회원정보 조회(관리자,변호사신청) -->
+	<entry key="selectMemberInfo">
+		SELECT USER_NO, USER_ID, USER_NAME, PHONE, EMAIL, ADDRESS
+		FROM MEMBER
+		WHERE USER_NO = ?	
+	</entry>
+	
+	<!-- 변호사회원 전환 승인(관리자)	 -->
+	<entry key="acceptLawyer">
+		UPDATE MEMBER
+       		   SET LAWYER = 'Y'
+       		   WHERE USER_NO = ?
+	</entry>
+	
+	<!-- 변호사회원 전환 거절(관리자)	 -->
+	<entry key="refuseLawyer">
+		UPDATE MEMBER
+       		   SET LAWYER = 'N'
+       		   WHERE USER_NO = ?
+	</entry>
 </properties>

@@ -691,7 +691,7 @@ public class LawyerDao {
 			if(rset.next()) {
 				
 				apply= new Lawyer(rset.getInt("LAW_NO"),
-								   rset.getString("REF_LNO"),
+								   rset.getString("PART_NAME"),
 								   rset.getString("EXAM"),
 								   rset.getInt("EXAM_SESSION"),
 								   rset.getInt("PASS_DATE"),
@@ -716,9 +716,37 @@ public class LawyerDao {
 	
 	
 	//변호사 사진 조회 
-	public LawAttachment selectLawAttachment(Connection conn, int userNo) {
-		// TODO Auto-generated method stub
-		return null;
+	public String selectLawAttachment(Connection conn, int userNo) {
+	
+		ResultSet rset = null;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("selectLawAttachment");
+		
+		String lat = "";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				
+				lat = rset.getString("LAW_IMG");
+			
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return lat;
 		
 	}
 }
