@@ -265,6 +265,36 @@ public class MemberService {
 		
 		return qList;
 	}
+	
+	//변호사 신청 회원 정보 조회(관리자)
+	public Member selectMemberInfo(int userNo) {
+
+		Connection conn = JDBCTemplate.getConnection();
+		
+		Member applyMem = new MemberDao().selectMemberInfo(conn, userNo);
+		
+		JDBCTemplate.close(conn);
+		
+		return applyMem;
+	}
+	
+	//변호사 신청 승인(관리자) 
+	public int acceptLawyer(int uno, int resultNum) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new MemberDao().acceptLawyer(conn, uno, resultNum);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		return result;
+	}
+	
+	
 
 	
 

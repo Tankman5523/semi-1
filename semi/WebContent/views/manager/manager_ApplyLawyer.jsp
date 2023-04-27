@@ -61,16 +61,15 @@
                     <td width="100">아이디</td>
                     <td width="100">가입일</td>
                     <td width="100">상태</td>
-                    <td width="50">변경</td>
                 </tr>
             </thead>
-            <!-- 찜한 변호사 리스트가 비어있지 않다면 -->
+            <!-- 신청한 변호사 내역이 존재할 경우 -->
             <%if(!applyLaw.isEmpty()){ %>
             <tbody id="apply-list">
 				<%for(int i= 0 ; i < applyLaw.size() ; i++){%>
 	            <tr>
 	                <td><%=i+1%></td>
-	                <td><a href="<%=contextPath%>/detail.apply.me?nuo="<%=applyLaw.get(i).getUserNo()%>><%=applyLaw.get(i).getUserName()%></a></td>
+	                <td><a href="<%=contextPath%>/detail.apply.me?uno=<%=applyLaw.get(i).getUserNo()%>"><%=applyLaw.get(i).getUserName()%></a></td>
 	                <td><%=applyLaw.get(i).getUserId()%></td>
 	                <td><%=applyLaw.get(i).getEnrollDate()%></td>
 	                <%if(applyLaw.get(i).getLawyer().equals("W")){ %>
@@ -80,11 +79,9 @@
 	                <%}else{ %>
 		                <td style="color: red">거절</td>
 	                <%} %>	
-	                <td><button>변경하기</button></td>
 	            </tr>
 	            <%} %>
 	         <%}else{ %>   
-	        <!-- 찜한 변호사 리스트가 비어있다면  -->    
 	       		<tr>
 	       			<td></td>
 	       			<td colspan ="5">신청 회원이 존재하지 않습니다.	</td>
@@ -93,11 +90,6 @@
             <%} %>
         </table>
         
-        <script>
-        /*신청내역 상세보기*/
-        
-        
-        </script>
 </div>
 
 </body>

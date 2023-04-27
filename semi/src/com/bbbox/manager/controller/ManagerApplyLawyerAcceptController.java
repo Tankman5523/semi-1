@@ -1,4 +1,4 @@
-package com.bbbox.member.controller;
+package com.bbbox.manager.controller;
 
 import java.io.IOException;
 
@@ -8,23 +8,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bbbox.lawyer.model.service.LawyerService;
-import com.bbbox.lawyer.model.vo.LawAttachment;
-import com.bbbox.lawyer.model.vo.Lawyer;
 import com.bbbox.member.model.service.MemberService;
-import com.bbbox.member.model.vo.Member;
 
 /**
- * Servlet implementation class MemberApplyLawyerDetailController
+ * Servlet implementation class ManagerApplyLawyerAcceptController
  */
-@WebServlet("/detail.apply.me")
-public class MemberApplyLawyerDetailController extends HttpServlet {
+@WebServlet("/apply.ac")
+public class ManagerApplyLawyerAcceptController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MemberApplyLawyerDetailController() {
+    public ManagerApplyLawyerAcceptController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,22 +29,20 @@ public class MemberApplyLawyerDetailController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
-		int userNo = Integer.parseInt(request.getParameter("uno"));
 		
-		System.out.println(userNo); // 확인용
+		//변호사 회원 승인
 		
-		Member applyMem = new MemberService().selectMemberInfo(userNo);
+		int uno = Integer.parseInt(request.getParameter("uno"));
 		
-		Lawyer apply = new LawyerService().selectApply(userNo); //변호사 정보 
+		int resultNum = Integer.parseInt(request.getParameter("resultNum"));
 		
-		String lat = new LawyerService().selectLawAttachment(userNo); 
+		int result = new MemberService().acceptLawyer(uno, resultNum);	
 		
-		request.setAttribute("applyMem", applyMem);
-		request.setAttribute("apply", apply);
-		request.setAttribute("lat", lat);
-		request.getRequestDispatcher("views/manager/manage_applyLawyerDetailForm.jsp").forward(request, response);
-		
+		if(result>0) {
+			response.getWriter().print("YY");
+		}else {
+			response.getWriter().print("NN");
+		}
 	
 	}
 
