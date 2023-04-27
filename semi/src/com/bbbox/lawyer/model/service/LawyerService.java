@@ -272,10 +272,10 @@ public class LawyerService {
 	}
 	
 	//신청서 사진 조회 
-	public LawAttachment selectLawAttachment(int userNo) {
+	public String selectLawAttachment(int userNo) {
 		Connection conn = JDBCTemplate.getConnection();
 		
-		LawAttachment lat = new LawyerDao().selectLawAttachment(conn, userNo);
+		String lat = new LawyerDao().selectLawAttachment(conn, userNo);
 		
 		JDBCTemplate.close(conn);
 		
