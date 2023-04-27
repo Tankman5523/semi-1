@@ -57,10 +57,12 @@ public class LikedController extends HttpServlet {
 				result2 = new BoardService().deleteLiked(boardNo);
 			}
 		}
-		
+
 		//좋아요갯수
 		int cnt = new BoardService().LikedCount(boardNo);
 
+
+		
 		JSONObject jobj = new JSONObject();
 		jobj.put("result", result2);
 		jobj.put("cnt", cnt);

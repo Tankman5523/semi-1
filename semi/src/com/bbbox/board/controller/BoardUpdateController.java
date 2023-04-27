@@ -58,7 +58,7 @@ public class BoardUpdateController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		request.setCharacterEncoding("UTF-8");
 		
 		if(ServletFileUpload.isMultipartContent(request)) {
@@ -110,7 +110,6 @@ public class BoardUpdateController extends HttpServlet {
 			
 		}
 
-		
 	}
 
 }

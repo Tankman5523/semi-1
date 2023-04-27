@@ -410,5 +410,25 @@ public class BoardService {
 		return result;
 	}
 
+	//일반영상페이지 업데이트
+	public int updateVideo(Board b, Attachment at) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new BoardDao().updateBoard(conn, b);
+		
+		int result2 = new BoardDao().updateVideoAttachment(conn, at, b.getBoardNo());
+		
+		if(result>0 && result2>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
 
 }

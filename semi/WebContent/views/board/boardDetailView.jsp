@@ -136,14 +136,15 @@
 								
 								$("#liked_count").text(jobj.cnt);
 							}else if(jobj.result==2){
-								alert("좋아요 취소");
-								
+								alert("좋아요 취소! 흥");
+
 								$("#liked_count").text(jobj.cnt);
 							}
 						},
 						error:function(){
 							alert("통신 에러");
 						}
+						
 					});
 				<%}%>
 			});
@@ -221,9 +222,7 @@
 		//댓글 삭제기능
 		$(function(){
 			$("#reply-area").on("click", "#delRp", function(){
-				console.log($(this).parent().siblings("input[type=hidden]").val());
-				
-				
+				<%if(loginUser != null && loginUser.getUserId().equals(b.getBoardWriter())){%>
 				$.ajax({
 					url:"delRp",
 					data:{
@@ -243,9 +242,12 @@
 						alert("댓글 삭제 통신실패!")
 					}
 				});
-				
+				<%}else{%>
+				alert("댓글 삭제 권한이 없습니다.");
+				<%}%>
 			});
 		});
+		
 		
 	</script>
 	

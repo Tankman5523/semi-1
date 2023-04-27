@@ -14,7 +14,6 @@ import com.bbbox.board.model.vo.Board;
 import com.bbbox.board.model.vo.Reply;
 import com.bbbox.common.JDBCTemplate;
 import com.bbbox.common.model.vo.PageInfo;
-import com.bbbox.lawyer.model.vo.Lawyer;
 import com.bbbox.member.model.vo.Member;
 
 
@@ -280,7 +279,7 @@ Properties prop = new Properties();
 		} finally {
 			JDBCTemplate.close(pstmt);
 		}
-		System.out.println("빠져나오나?");
+		
 		return result;
 	}
 
@@ -305,6 +304,8 @@ Properties prop = new Properties();
 		
 		return result;
 	}
+
+	
 
 	public ArrayList<Attachment> selectAttachmentForManage(Connection conn, int bno) {
 		ArrayList<Attachment> alist = new ArrayList<Attachment>();
@@ -409,42 +410,118 @@ Properties prop = new Properties();
 	}
 	
 	//전체 회원 조회 메소드 
-		public ArrayList<Member> selectAllMember(Connection conn) {
+	public ArrayList<Member> selectAllMember(Connection conn) {
+		
+		ResultSet rset = null;
+		
+		PreparedStatement pstmt = null;
+		
+		ArrayList <Member> memberList = new ArrayList<>();
+		
+		String sql = prop.getProperty("selectAllMember");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
 			
-			ResultSet rset = null;
+			rset = pstmt.executeQuery();
 			
-			PreparedStatement pstmt = null;
-			
-			ArrayList <Member> memberList = new ArrayList<>();
-			
-			String sql = prop.getProperty("selectAllMember");
-			
-			try {
-				pstmt = conn.prepareStatement(sql);
+			while(rset.next()) {
 				
-				rset = pstmt.executeQuery();
-				
-				while(rset.next()) {
-					
-					memberList.add(new Member (rset.getInt("USER_NO"),
-											   rset.getString("USER_ID"),
-											   rset.getString("USER_NAME"),
-											   rset.getString("LAWYER"),
-											   rset.getDate("ENROLL_DATE"),
-											   rset.getString("STATUS"),
-											   rset.getInt("게시글수"),
-											   rset.getInt("댓글수")));
-				}
-				
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}finally {
-				JDBCTemplate.close(rset);
-				JDBCTemplate.close(pstmt);
-				
+				memberList.add(new Member (rset.getInt("USER_NO"),
+										   rset.getString("USER_ID"),
+										   rset.getString("USER_NAME"),
+										   rset.getString("LAWYER"),
+										   rset.getDate("ENROLL_DATE"),
+										   rset.getString("STATUS"),
+										   rset.getInt("게시글수"),
+										   rset.getInt("댓글수")));
 			}
 			
-			return memberList;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+			
 		}
+		
+		return memberList;
+	}
+	
+	//자유게시판 게시글 총 갯수
+	public int freeBoardCount(Connection conn, int[] cArr) {
+		
+		int count = 0;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("freeBoardCount");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cArr[0]);
+			pstmt.setInt(2, cArr[1]);
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				count = rset.getInt("COUNT");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		
+		return count;
+	}
+
+		
+	//자유게시판 게시글 리스트조회
+	public ArrayList<Board> selectFreeBoardList(Connection conn, PageInfo pi, int[] cArr) {
+		
+		ArrayList<Board> list = new ArrayList<Board>();
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("selectFreeBoardList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			int startRow=(pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
+			int endRow=(startRow+pi.getBoardLimit())-1;
+			
+			pstmt.setInt(1, cArr[0]);
+			pstmt.setInt(2, cArr[1]);
+			pstmt.setInt(3, startRow);
+			pstmt.setInt(4, endRow);
+			
+			rset=pstmt.executeQuery();
+			//BOARD_NO, USER_ID, CATEGORY_NO, TITLE, COUNT, CREATE_DATE, LIKED, REPORT_COUNT, RP_COUNT, B.STATUS
+			while(rset.next()) {
+				list.add(new Board(rset.getInt("BOARD_NO"),
+								   rset.getString("USER_ID"),
+								   rset.getInt("CATEGORY_NO"),
+								   rset.getString("TITLE"),
+								   rset.getInt("COUNT"),
+								   rset.getDate("CREATE_DATE"),
+								   rset.getInt("LIKED"),
+								   rset.getInt("REPORT_COUNT"),
+								   rset.getInt("RP_COUNT"),
+								   rset.getString("STATUS")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return list;
+	}
 	
 }
