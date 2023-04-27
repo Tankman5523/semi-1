@@ -132,10 +132,12 @@
 						},
 						success:function(jobj){
 							if(jobj.result==1){
+								console.log("됏냐?");
 								alert("이 게시글을 좋아합니다.");
 								
 								$("#liked_count").text(jobj.cnt);
 							}else if(jobj.result==2){
+								console.log("안됐냐?");
 								alert("좋아요 취소! 흥");
 								
 								$("#liked_count").text(jobj.cnt);
@@ -143,11 +145,8 @@
 						},
 						error:function(){
 							alert("통신 에러");
-						},
-						complete:function(){
-							//$("#liked_count").load(location.reload());
-							// 리로드 처리 쉽게 해버리기 - 여기서는 사용이 맞지않음
 						}
+						
 					});
 				<%}%>
 			});
@@ -225,9 +224,7 @@
 		//댓글 삭제기능
 		$(function(){
 			$("#reply-area").on("click", "#delRp", function(){
-				console.log($(this).parent().siblings("input[type=hidden]").val());
-				
-				
+				<%if(loginUser != null && loginUser.getUserId().equals(b.getBoardWriter())){%>
 				$.ajax({
 					url:"delRp",
 					data:{
@@ -247,9 +244,12 @@
 						alert("댓글 삭제 통신실패!")
 					}
 				});
-				
+				<%}else{%>
+				alert("댓글 삭제 권한이 없습니다.");
+				<%}%>
 			});
 		});
+		
 		
 	</script>
 	

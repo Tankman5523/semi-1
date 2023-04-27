@@ -280,6 +280,82 @@ Properties prop = new Properties();
 		
 		return result;
 	}
+
+	//자유게시판 게시글 총 갯수
+	public int freeBoardCount(Connection conn, int[] cArr) {
+		
+		int count = 0;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("freeBoardCount");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cArr[0]);
+			pstmt.setInt(2, cArr[1]);
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				count = rset.getInt("COUNT");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		
+		return count;
+	}
+
+	
+	//자유게시판 게시글 리스트조회
+	public ArrayList<Board> selectFreeBoardList(Connection conn, PageInfo pi, int[] cArr) {
+		
+		ArrayList<Board> list = new ArrayList<Board>();
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("selectFreeBoardList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			int startRow=(pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
+			int endRow=(startRow+pi.getBoardLimit())-1;
+			
+			pstmt.setInt(1, cArr[0]);
+			pstmt.setInt(2, cArr[1]);
+			pstmt.setInt(3, startRow);
+			pstmt.setInt(4, endRow);
+			
+			rset=pstmt.executeQuery();
+			//BOARD_NO, USER_ID, CATEGORY_NO, TITLE, COUNT, CREATE_DATE, LIKED, REPORT_COUNT, RP_COUNT, B.STATUS
+			while(rset.next()) {
+				list.add(new Board(rset.getInt("BOARD_NO"),
+								   rset.getString("USER_ID"),
+								   rset.getInt("CATEGORY_NO"),
+								   rset.getString("TITLE"),
+								   rset.getInt("COUNT"),
+								   rset.getDate("CREATE_DATE"),
+								   rset.getInt("LIKED"),
+								   rset.getInt("REPORT_COUNT"),
+								   rset.getInt("RP_COUNT"),
+								   rset.getString("STATUS")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return list;
+	}
 	
 	
 	

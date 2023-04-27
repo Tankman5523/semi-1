@@ -102,23 +102,26 @@
 	            		<%for(Board b : vlist){ %>
 						<table style="height:350px; width:350px;"border="1" class="videos" onclick="location.href='<%=contextPath%>/detail.vi?bno='+<%=b.getBoardNo()%>">
 		                    <tr>
-		                        <td colspan="4"><video style="height:100%; width:100%" preload="metadata" src="<%=contextPath+b.getFilePath()+b.getChangeName()%>#t=1.0"></video></td>
+		                        <td colspan="6"><video style="height:100%; width:100%" preload="metadata" src="<%=contextPath+b.getFilePath()+b.getChangeName()%>#t=1.0"></video></td>
 		                    </tr>
 		                    <tr>
 		                    	<th>제목</th>
-		                        <td colspan="3"><%=b.getTitle()%></td>
+		                        <td colspan="6"><%=b.getTitle()%></td>
 		                    </tr>
 		                    <tr>
+		                    	
 		                        <th width="100">작성일</th>
 		                        <td width="100"><%=b.getCreateDate()%></td>
-		                        <th width="100">댓글</th>
-		                        <td width="100"><%=b.getRpCount()%></td>
+		                        <th width="100">작성자</th>
+		                    	<td width="100"><%=b.getBoardWriter()%></td>
 		                    </tr>
 		                    <tr>
+		                    	<th>댓글</th>
+		                        <td><%=b.getRpCount()%></td>
 		                        <th>조회수</th>
 		                        <td><%=b.getCount()%></td>
 		                        <th>추천</th>
-		                        <td><%=b.getLiked() %></td>
+		                        <td><%=b.getLiked()%></td>
 		                    </tr>
 		                </table>
 						<%} %>	
@@ -158,15 +161,7 @@
 		<script>
 			
 			
-			//일반 게시글
-			$(function(){
-				$("tbody>tr").on("click", function(){
-					
-					var bno = $(this).children().eq(0).text();
-					
-					location.href = "<%=contextPath%>/detail.bo?bno="+bno;
-				});
-			});
+			
 			
 			//공지 게시글
 			$(function(){

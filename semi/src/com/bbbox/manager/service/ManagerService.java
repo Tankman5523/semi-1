@@ -92,6 +92,30 @@ public class ManagerService {
 		
 		return result*result2*result3*result4;
 	}
+
+	//자유게시판 게시글 총 갯수
+	public int freeBoardCount(int[] cArr) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int count = new ManagerDao().freeBoardCount(conn, cArr);
+		
+		JDBCTemplate.close(conn);
+		
+		return count;
+	}
+
+	//자유게시판 게시글 리스트조회
+	public ArrayList<Board> selectFreeBoardList(PageInfo pi, int[] cArr) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Board> list = new ManagerDao().selectFreeBoardList(conn, pi, cArr);
+		
+		JDBCTemplate.close(conn);
+		
+		return list;
+	}
 	
 	
 	
