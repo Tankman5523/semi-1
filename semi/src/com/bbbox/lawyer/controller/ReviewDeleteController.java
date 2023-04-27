@@ -48,8 +48,19 @@ public class ReviewDeleteController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		
+		//마이페이지에서 리뷰 삭제하기 
+		
+		int reNo = Integer.parseInt(request.getParameter("reNo"));
+	
+		int result = new LawyerService().deleteReview(reNo);
+		
+		if(result>0) {
+			response.getWriter().print("YY");
+		}else {
+			response.getWriter().print("NN");
+		}
+		
 	}
 
 }

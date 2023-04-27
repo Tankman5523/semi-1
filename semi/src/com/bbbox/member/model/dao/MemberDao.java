@@ -19,6 +19,7 @@ import com.bbbox.lawyer.model.vo.LawAttachment;
 import com.bbbox.lawyer.model.vo.LawReview;
 import com.bbbox.lawyer.model.vo.Lawyer;
 import com.bbbox.member.model.vo.Member;
+import com.bbbox.qaboard.model.vo.Question;
 
 public class MemberDao {
 	
@@ -230,6 +231,33 @@ public class MemberDao {
 		return result;
 	}
 	
+	//회원 탈퇴 메소드 
+	public int deleteMember(Connection conn, int userNo) {
+		
+		int result = 0 ;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("deleteMember");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, userNo);
+			
+			result = pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		
+		return result;
+	}
+	
 	//프로필 사진 등록 
 	public int insertProfile(Connection conn, LawAttachment lat) {
 		
@@ -385,7 +413,8 @@ public class MemberDao {
 		
 		return lawList;
 	}
-
+	
+	//내가 쓴 게시글 조회 
 	public ArrayList<Board> selectBoardList(Connection conn, int userNo) {
 		
 		ResultSet rset = null;
@@ -421,6 +450,7 @@ public class MemberDao {
 		return boardList;
 	}
 
+	//내가 쓴 댓글 조회 
 	public ArrayList<Reply> selectReplyList(Connection conn, int userNo) {
 		
 		ResultSet rset = null;
@@ -442,8 +472,9 @@ public class MemberDao {
 				replyList.add(new Reply(rset.getInt("RP_NO"),
 										rset.getInt("REF_BNO"),
 										rset.getString("RP_CONTENT"),
-										rset.getString("RP_CREATE_DATE"),
-										rset.getString("CATEGORY")));
+										rset.getDate("RP_CREATE_DATE"),
+										rset.getString("CATEGORY"),
+										rset.getString("BOARD_STATUS")));
 			}
 			
 		} catch (SQLException e) {
@@ -635,5 +666,45 @@ public class MemberDao {
 		
 		return cListLaw;
 	}
+
+	//1대1 문의글 조회 메소드 
+	public ArrayList<Question> selectQuestionList(Connection conn, int userNo) {
+
+		ResultSet rset = null;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("selectQuestionList");
+		
+		ArrayList<Question> qList = new ArrayList<>();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				qList.add(new Question(rset.getInt("QNO"),
+									   rset.getString("TITLE"),
+									   rset.getString("CATEGORY_NAME"),
+									   rset.getDate("CREATE_DATE")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		
+		
+		return qList;
+	}
+
+	
 
 }

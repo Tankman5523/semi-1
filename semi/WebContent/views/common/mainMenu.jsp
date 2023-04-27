@@ -184,7 +184,7 @@
     <div class ="header">
         <div id="header1"></div>
         <div id="header2">
-            <a href="<%=contextPath%>">블변의 법칙</a>    
+            <a href="<%=contextPath%>/index.jsp">블변의 법칙</a>    
         </div>
         <div id="header3">
             <div id="login-area" align = "right">
@@ -219,7 +219,7 @@
                     <%} %>
                 </div>
                 <div id="mypage" align = "center">
-                    <a href="<%=contextPath%>/myPage.me">마이페이지</a>
+                    <a href="<%=contextPath%>/confirm.me">마이페이지</a>
                     <a href="<%=contextPath%>/logout.me">로그아웃</a>
                 </div>
             </div>
@@ -259,6 +259,6 @@
                 </li>    
             </ul>
     </div>
-
+	
 </body>
 </html>

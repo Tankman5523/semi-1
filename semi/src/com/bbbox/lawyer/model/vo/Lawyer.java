@@ -73,6 +73,22 @@ public class Lawyer {
 		this.lawImg = lawImg;
 	}
 	
+	//변호사 신청 내용 조회 생성자 
+	public Lawyer(int lawNo, String refPno, String exam, int examSession, int passDate, String companyName,
+			String companyAddress, String companyPn, String lawComment, String career) {
+		super();
+		this.lawNo = lawNo;
+		this.refPno = refPno;
+		this.exam = exam;
+		this.examSession = examSession;
+		this.passDate = passDate;
+		this.companyName = companyName;
+		this.companyAddress = companyAddress;
+		this.companyPn = companyPn;
+		this.lawComment = lawComment;
+		this.career = career;
+	}
+
 	public int getLawNo() {
 		return lawNo;
 	}

@@ -1,6 +1,7 @@
-package com.bbbox.qaboard.controller;
+package com.bbbox.manager.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,21 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.bbbox.manager.service.ManagerService;
 import com.bbbox.member.model.vo.Member;
-import com.bbbox.qaboard.model.service.QuestionService;
-import com.bbbox.qaboard.model.vo.Question;
 
 /**
- * Servlet implementation class QuestionDetailViewController
- */ 
-@WebServlet("/detail.qa")
-public class QuestionDetailViewController extends HttpServlet {
+ * Servlet implementation class ManagerApplyLawyerController
+ */
+@WebServlet("/manage.apply.la")
+public class ManagerApplyLawyerController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public QuestionDetailViewController() {
+    public ManagerApplyLawyerController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,29 +31,12 @@ public class QuestionDetailViewController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
 		
-		int qno = Integer.parseInt(request.getParameter("qno"));
-
-		int userNo = ((Member)(request.getSession().getAttribute("loginUser"))).getUserNo();
+		ArrayList <Member> applyLaw = new ManagerService().selectApplyLaw();
 		
-		String admin = ((Member)(request.getSession().getAttribute("loginUser"))).getAdmin();
-		
-		Question qa = new Question();
-		
-		if(admin.equals("Y")) {
-			qa = new QuestionService().selectQuestion(qno, admin);
-		}else {
-			
-			qa = new QuestionService().selectQuestion(qno,userNo);
-		}
-		
-		request.setAttribute("qa", qa);
-		
-		request.getRequestDispatcher("views/board/questionBoard/questionDetailView.jsp").forward(request, response);
-		
-		
-		
-		
+		request.setAttribute("applyLaw", applyLaw);
+		request.getRequestDispatcher("views/manager/manager_ApplyLawyer.jsp").forward(request, response);
 		
 		
 	}

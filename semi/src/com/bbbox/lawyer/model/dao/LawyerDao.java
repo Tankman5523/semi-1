@@ -13,6 +13,7 @@ import java.util.Properties;
 import com.bbbox.board.model.vo.Accident;
 import com.bbbox.common.JDBCTemplate;
 import com.bbbox.lawyer.model.vo.Counsel;
+import com.bbbox.lawyer.model.vo.LawAttachment;
 import com.bbbox.lawyer.model.vo.LawReview;
 import com.bbbox.lawyer.model.vo.Lawyer;
 import com.bbbox.lawyer.model.vo.PartCategory;
@@ -667,5 +668,57 @@ public class LawyerDao {
 	
 		return re;
 	}
+	
+	//변호사 신청 내용 조회
+	public Lawyer selectApply(Connection conn, int userNo) {
+		
+		ResultSet rset = null;
+		
+		PreparedStatement pstmt = null;
 
+		Lawyer apply = null;
+		
+		String sql = prop.getProperty("selectApply");
+		
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				
+				apply= new Lawyer(rset.getInt("LAW_NO"),
+								   rset.getString("REF_LNO"),
+								   rset.getString("EXAM"),
+								   rset.getInt("EXAM_SESSION"),
+								   rset.getInt("PASS_DATE"),
+								   rset.getString("COMPANY_NAME"),
+								   rset.getString("COMPANY_ADDRESS"),
+								   rset.getString("COMPANY_PN"),
+								   rset.getString("LAW_COMMENT"),
+								   rset.getString("CAREER"));
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		
+		return apply;
+	}
+	
+	
+	//변호사 사진 조회 
+	public LawAttachment selectLawAttachment(Connection conn, int userNo) {
+		// TODO Auto-generated method stub
+		return null;
+		
+	}
 }

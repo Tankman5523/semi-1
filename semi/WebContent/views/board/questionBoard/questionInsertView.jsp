@@ -61,25 +61,6 @@
 			</div>
 		</form>
         
-        <!-- 관리자에게만 보이는 여역 -->
-        <form action="" id="reply-form">
-            <table id="reply" align="center" border="1" style="width:80%; height:70%;">
-                <tr>
-                    <th>작성자</th>
-                    <td colspan="2">내용</td>
-                </tr>
-                <tr>
-                    <th>관리자</th>
-                    <td>
-                        <textarea name="reply-content" cols="30" rows="3" style="resize:none; width:90%; height:100%;"></textarea>
-                    </td>
-                    <td>
-                        <button style="width:30%; height: 80% ;"> 등록 </button>
-                    </td>
-                </tr>
-            </table>
-
-        </form>
 	</div>
 </body>
 </html>

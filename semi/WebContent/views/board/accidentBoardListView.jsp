@@ -1,3 +1,4 @@
+<%@page import="com.bbbox.board.model.vo.Search"%>
 <%@page import="com.bbbox.common.model.vo.PageInfo"%>
 <%@page import="com.bbbox.board.model.vo.Board"%>
 <%@page import="java.util.ArrayList"%>
@@ -7,7 +8,8 @@
 <%	
 	ArrayList<Board> blist = (ArrayList<Board>)request.getAttribute("blist");
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
-	
+	Search s = (Search)request.getAttribute("search");
+	int a = (int)request.getAttribute("a");
 %>    
 <!DOCTYPE html>
 <html>
@@ -122,23 +124,31 @@
 <body>
 
 <%@include file="../common/mainMenu.jsp" %>
-
+	<%	
+	//로그인 안됬으면 홈으로 보내기
 	
+	/*if(loginUser==null){
+		session.setAttribute("alertMsg", "로그인한 유저만 이용할 수 있습니다.");
+		response.sendRedirect(contextPath);
+	}*/
+	%>		
     <div class="outer">
         <div id="accidentBoardHead">
             <div class="boardName">
                 <p>사건 영상 게시판</p>
+               	<input type="button" value="제보하기" style="margin-top:15px" onclick="location.href='<%=contextPath%>/enroll.ac'">
             </div>
             <div class="sort" style="float: right;margin-top: 20px;" >
                 <form action="list.ac">
-                <input type="radio" name="searchSort" id="sortRecommend" value="recommend"><label for="sortRecommend">추천순</label>
-                <input type="radio" name="searchSort" id="sortView" value="view"><label for="sortView">조회순</label>
-                <input type="radio" name="searchSort" id="sortNew" value="date"><label for="sortNew">최신순</label>
-                <input type="submit" value="정렬">
+	                <input type="radio" name="searchSort" id="sortRecommend" value="recommend"><label for="sortRecommend">추천순</label>
+	                <input type="radio" name="searchSort" id="sortView" value="view"><label for="sortView">조회순</label>
+	                <input type="radio" name="searchSort" id="sortNew" value="date"><label for="sortNew">최신순</label>
+	                <input type="submit" value="정렬">
                 </form>
             </div> 
             <div class="search">
                 <form action="search.ac">
+                	<input type="hidden" name="currentPage" value="1">
                 	<input type="hidden" name="categoryNo" value="3">
                     <div class="typeFilter">
                         <select name="region" id="region">
@@ -219,24 +229,49 @@
             </div>
             <!-- 페이징바 -->
             <div class="pageMover" align="center">
-               	 <%if(pi.getCurrentPage() != 1){ %>
-					<button onclick="location.href='<%=contextPath%>/list.ac?currentPage=<%=pi.getCurrentPage()-1%>'">&lt;</button>
-				<%} %>
-			
-				<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++){ %>
-				<!-- 내가 보고있는 페이지 버튼은 비활성화 -->
-					<%if(i != pi.getCurrentPage()){ %>
-						<button onclick="location.href='<%=contextPath%>/list.ac?currentPage=<%=i%>';"><%=i %></button>
-					<%}else{ %> <!-- 내가 보고있는 페이지와 페이징바 버튼의 수가 같으면 i와 currenPage -->
-						<button disabled><%=i%></button>
+            	<%if(a==1){ %>
+            		<%if(pi.getCurrentPage() != 1){ %>
+            			 <!-- search.ac?currentPage=1&categoryNo=3&region=&partType=0&insurance=&title_writer=%EC%A0%9C%EB%AA%A9&keyword=1 --> 
+						<!--<input type="submit" onclick="location.href='<%=contextPath%>/search.ac?currentPage=<%=pi.getCurrentPage()-1%>'" value="&lt;">-->
+						<input type="button" onclick="location.href='<%=contextPath%>/search.ac?currentPage=<%=pi.getCurrentPage()-1%>&categoryNo=3&region=<%=s.getRegion()%>&partType=<%=s.getPartType()%>&insuranceType=<%=s.getInsuranceType()%>&searchFilter=<%=s.getSearchFilter()%>&keyword=<%=s.getKeyword()%>'" value="&lt;">
 					<%} %>
-				<%} %>
+					<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++){ %>
+					<!-- 내가 보고있는 페이지 버튼은 비활성화 -->
+						<%if(i != pi.getCurrentPage()){ %>
+							<!-- <input type="submit" onclick="location.href='<%=contextPath%>/search.ac?currentPage=<%=i%>';" value="<%=i %>">-->
+							<input type="button" onclick="location.href='<%=contextPath%>/search.ac?currentPage=<%=i%>&categoryNo=3&region=<%=s.getRegion()%>&partType=<%=s.getPartType()%>&insuranceType=<%=s.getInsuranceType()%>&searchFilter=<%=s.getSearchFilter()%>&keyword=<%=s.getKeyword()%>';" value="<%=i %>">
+						<%}else{ %> <!-- 내가 보고있는 페이지와 페이징바 버튼의 수가 같으면 i와 currenPage -->
+							<!-- <input type="submit" disabled value="<%=i%>">-->
+							<input type="button" disabled value="<%=i%>">
+						<%} %>
+					<%} %>
+					<%if(pi.getCurrentPage() != pi.getMaxPage()) {%>
+						<!-- <input type="submit" onclick="location.href='<%=contextPath%>/search.ac?currentPage=<%=pi.getCurrentPage()+1%>'" value="&gt;"> -->
+						<input type="button" onclick="location.href='<%=contextPath%>/search.ac?currentPage=<%=pi.getCurrentPage()+1%>&categoryNo=3&region=<%=s.getRegion()%>&partType=<%=s.getPartType()%>&insuranceType=<%=s.getInsuranceType()%>&searchFilter=<%=s.getSearchFilter()%>&keyword=<%=s.getKeyword()%>'" value="&gt;">
+					<%} %>
+					
+            	<%}else if(a == 0){ %>
+	               	<%if(pi.getCurrentPage() != 1){ %>
+						<button onclick="location.href='<%=contextPath%>/search.ac?currentPage=<%=pi.getCurrentPage()-1%>'">&lt;</button>
+					<%} %>
 				
-				<%if(pi.getCurrentPage() != pi.getMaxPage()) {%>
-					<button onclick="location.href='<%=contextPath%>/list.ac?currentPage=<%=pi.getCurrentPage()+1%>'">&gt;</button>
-				<%} %>	
+					<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++){ %>
+					<!-- 내가 보고있는 페이지 버튼은 비활성화 -->
+						<%if(i != pi.getCurrentPage()){ %>
+							<button onclick="location.href='<%=contextPath%>/list.ac?currentPage=<%=i%>';"><%=i %></button>
+						<%}else{ %> <!-- 내가 보고있는 페이지와 페이징바 버튼의 수가 같으면 i와 currenPage -->
+							<button disabled><%=i%></button>
+						<%} %>
+					<%} %>
+					
+					<%if(pi.getCurrentPage() != pi.getMaxPage()) {%>
+						<button onclick="location.href='<%=contextPath%>/list.ac?currentPage=<%=pi.getCurrentPage()+1%>'">&gt;</button>
+					<%} %>	
+				<%} %>
             </div>
         </div>
     </div>
+    
+   
 </body>
 </html>   
