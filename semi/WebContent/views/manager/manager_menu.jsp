@@ -232,7 +232,7 @@
                 </li>    
                 <li><a href="">변호사</a>
                     <ul>
-                        <li><a href="<%=contextPath %>/manage.la">변호사 관리</a></li>
+                        <li><a href="<%=contextPath %>/lawyerList.ma">변호사 관리</a></li>
                         <li><a href="">상담 게시판 관리</a></li>
                     </ul>
 

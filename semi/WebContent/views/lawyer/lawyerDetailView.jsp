@@ -162,6 +162,8 @@
 	   <div id="space"></div>
 	   <div id="head"> <!-- 뒤로가기 버튼 -->
 	      <a href="<%=contextPath %>/list.la"><i class="fa-solid fa-angle-left fa-2xl" style="color: #878787;"></i></a>
+	      <!-- 테스트용 삭제예정 -->
+	      <a href="<%=contextPath %>/review.la?accNo=1">리뷰 작성하기</a>
 	      <a href="<%=contextPath %>/reviewDetail.la?reNo=2">리뷰 상세보기</a>
 	      <a href="<%=contextPath %>/reviewDetail.la?reNo=2">리뷰 삭제하기</a>
 	   </div>
@@ -290,8 +292,8 @@
 	</script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJwp5ZEf5Vi5Gz_5RiU4Sxzt2IfSTeuDM&callback=myMap"></script>
 	
-	
-	<%if(loginUser != null){ %>
+	<!-- 관리자일 경우는 관리자 만들 때  -->
+	<%if(loginUser != null && loginUser.getLawyer().equals("N")){ %> <!-- 일반회원일 경우 -->
 	
 		<script>
 			 $(function(){ //현재 찜한 여부 확인
@@ -367,7 +369,17 @@
 			
 		</script>
 		
-	<%}else{ %>
+	<%}else if(loginUser != null && (loginUser.getLawyer().equals("Y")||loginUser.getAdmin().equals("Y"))){ %> <!-- 변호사 회원일 경우 -->
+	
+		<script>
+			$("#addFunction tr:eq(0),#addFunction tr:eq(1),#emptyReview").click(function(){
+				if(confirm("일반 회원만 이용가능한 메뉴입니다.")){
+					location.href="<%=contextPath%>/login.me";
+				}
+			});
+		</script>
+		
+	<%}else { %>
 	
 		<script>
 			//로그인 전에는 찜하기/상담기능/리뷰 상세보기 기능 막기
@@ -377,7 +389,7 @@
 				}
 			});
 		</script>
-		
+	
 	<%} %>
 	
 	<script>

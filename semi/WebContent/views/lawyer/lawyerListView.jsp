@@ -144,7 +144,7 @@
         <div id="content">
             <div id="lawList" >
                 <%if(lawList.isEmpty()){ %>
-					<div>
+					<div style="pointer-events: none;">
                 		존재하는 변호사가 없습니다.
 					</div>
                 <%}else{ %>
