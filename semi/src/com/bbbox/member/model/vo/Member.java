@@ -15,6 +15,7 @@ public class Member {
 	private String admin;		//ADMIN	VARCHAR2(1 BYTE)-- Y/N
 	private String lawyer; 		//LAWYER	VARCHAR2(1 BYTE) --Y/N
 	
+	private int lawNo; // 관리자에서 사용하는 필드 
 	
 	
 	public Member() {
@@ -23,7 +24,6 @@ public class Member {
 
 	
 	//회원정보수정 생성자 
-
 
 	public Member(int userNo, String userId, String userPwd, String userName, String phone, String email,
 			String address, Date enrollDate, String status, String admin, String lawyer) {
@@ -66,7 +66,18 @@ public class Member {
 		this.userName = userName;
 	}
 	
-	
+	//관리자_변호사회원 신청 조회 생성자 
+	public Member(int lawNo, int userNo, String userName, String userId,  Date enrollDate, String lawyer) {
+		super();
+		this.lawNo = lawNo;
+		this.userNo = userNo;
+		this.userName = userName;
+		this.userId = userId;
+		this.enrollDate = enrollDate;
+		this.lawyer = lawyer;
+	}
+
+
 	public int getUserNo() {
 		return userNo;
 	}

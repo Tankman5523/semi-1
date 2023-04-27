@@ -14,6 +14,8 @@ import com.bbbox.board.model.vo.Board;
 import com.bbbox.board.model.vo.Reply;
 import com.bbbox.common.JDBCTemplate;
 import com.bbbox.common.model.vo.PageInfo;
+import com.bbbox.lawyer.model.vo.Lawyer;
+import com.bbbox.member.model.vo.Member;
 
 
 
@@ -366,6 +368,44 @@ Properties prop = new Properties();
 		}
 		
 		return rp;
+	}
+	
+	//변호사신청 조회 리스트 
+	public ArrayList<Member> selectApplyLaw(Connection conn) {
+
+		ResultSet rset = null;
+		
+		PreparedStatement pstmt = null;
+		
+		ArrayList <Member> applyLaw  = new ArrayList<>();
+		
+		String sql = prop.getProperty("selectApplyLaw");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				applyLaw.add(new Member(rset.getInt("LAW_NO"),
+										rset.getInt("REF_UNO"),
+										rset.getString("USER_NAME"),
+										rset.getString("USER_ID"),
+										rset.getDate("ENROLL_DATE"),
+										rset.getString("LAWYER")));		
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return applyLaw;
 	}
 	
 	

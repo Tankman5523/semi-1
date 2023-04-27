@@ -172,5 +172,13 @@
 		WHERE REF_BNO = ?
 	</entry>
 	
+	<!-- 변호사신청 조회 -->
+	<entry key="selectApplyLaw">
+		SELECT REF_PNO, LAW_NO, USER_NAME, USER_ID, ENROLL_DATE, LAWYER
+		FROM LAW_USER
+		JOIN MEMBER ON (USER_NO = REF_UNO)
+		WHERE STATUS = 'Y'
+		ORDER BY ENROLL_DATE DESC
+	</entry>
 
 </properties>

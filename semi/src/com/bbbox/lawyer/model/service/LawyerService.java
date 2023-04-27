@@ -7,6 +7,7 @@ import com.bbbox.board.model.vo.Accident;
 import com.bbbox.common.JDBCTemplate;
 import com.bbbox.lawyer.model.dao.LawyerDao;
 import com.bbbox.lawyer.model.vo.Counsel;
+import com.bbbox.lawyer.model.vo.LawAttachment;
 import com.bbbox.lawyer.model.vo.LawReview;
 import com.bbbox.lawyer.model.vo.Lawyer;
 import com.bbbox.lawyer.model.vo.PartCategory;
@@ -256,6 +257,29 @@ public class LawyerService {
 		JDBCTemplate.close(conn);
 				
 		return re;
+	}
+	
+	//변호사 신청내용 조회
+	public Lawyer selectApply(int userNo) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		Lawyer apply = new LawyerDao().selectApply(conn, userNo);
+		
+		JDBCTemplate.close(conn);
+		
+		return apply;
+	}
+	
+	//신청서 사진 조회 
+	public LawAttachment selectLawAttachment(int userNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		LawAttachment lat = new LawyerDao().selectLawAttachment(conn, userNo);
+		
+		JDBCTemplate.close(conn);
+		
+		return lat;
 	}
 	
 	
