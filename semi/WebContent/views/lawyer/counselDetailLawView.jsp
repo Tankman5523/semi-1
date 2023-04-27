@@ -115,7 +115,7 @@ input, textarea{
 			                    </table>
 			                    <br>
 			                    <div>
-			                        <button onclick="history.back()">뒤로가기</button>
+			                        <button onclick="history.back()">뒤로가기</button> <!-- 수정하기 잘못된 알림 뜸 -->
 			                    </div>
 			                </div>
                         <%}else{ %>
@@ -134,12 +134,12 @@ input, textarea{
                             <th>답변</th>
                         </tr>
                         <tr>
-                            <td><textarea id="answer" name="answer" cols="50" rows="15" style="resize:none" required></textarea></td>
+                            <td><textarea id="answer" name="answer" cols="50" rows="15" style="resize:none" placeholder="사건에 대한 간단한 답변을 남겨주세요." required></textarea></td>
                         </tr>
                     </table>
                     <br>
                     <div id="button_2">
-                        <button type="submit">답변 저장 (수정못하게 막기)</button>
+                        <button type="submit">답변 저장</button> <!-- 답변 작성 시 수정불가능 알림 넣기 -->
                     </div>
                 </form>
             </div>
