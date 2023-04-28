@@ -63,12 +63,12 @@
                     </tr>
                     <tr>
                         <td>이름</td>
-                        <td><input type="text" id="name" name="newName" placeholder="-포함하여 입력해주세요" value="<%=loginUser.getUserName()%>"></td>
+                        <td><input type="text" id="name" name="newName" value="<%=loginUser.getUserName()%>"></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>핸드폰</td>
-                        <td><input type="text" id="phone" name="newPhone" value="<%=loginUser.getPhone()%>"></td>
+                        <td><input type="text" id="phone" name="newPhone" placeholder="-포함하여 입력해주세요" value="<%=loginUser.getPhone()%>"></td>
                     </tr>
                     <tr>
                         <td>email</td>
@@ -134,26 +134,26 @@
         	
        	function access(){
        		
-       		var $pwd = $("#pwd").val();
+       		var pwd = $("#pwd").val();
        		
-       		var $chk = $("#chkPwd").val();
+       		var chk = $("#chkPwd").val();
        		
-       		var num = $pwd.search(/[0-9]/g);
+       		var num = pwd.search(/[0-9]/g);
        		
-       		var eng = $pwd.search(/[a-z]/ig);
+       		var eng = pwd.search(/[a-z]/ig);
        		
-       		var spe = $pwd.search(/[~!@#$%^&*?]/gi);
+       		var spe = pwd.search(/[~!@#$%^&*?]/gi);
        		
-    			if($pwd != $chk){
+    			if(pwd != chk){
     				alert("비밀번호가 일치하지 않습니다.");
  	       		return false;
  	       		
-    			}else if($pwd.length < 8 || $pwd.length > 15){
+    			}else if(pwd.length < 8 || 15< pwd.length){
     				alert("8자리 이상, 15자리 이하로만 입력해주세요.");
     				$("#pwd").focus();
     				return false;
     				
-    			}else if($pwd.search(/\s/)!=-1){
+    			}else if(pwd.search(/\s/)!=-1){
     				alert("비밀번호는 공백 없이 입력해주세요.");
     				$("#pwd").focus();
     				return false;

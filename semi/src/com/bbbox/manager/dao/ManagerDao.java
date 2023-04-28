@@ -446,5 +446,41 @@ Properties prop = new Properties();
 			
 			return memberList;
 		}
+		
+		//탈퇴 회원 조회 메소드 
+		public ArrayList<Member> selectDeleteMember(Connection conn) {
+			ResultSet rset = null;
+			
+			PreparedStatement pstmt = null;
+			
+			ArrayList <Member> deleteMemList = new ArrayList<>();
+			
+			String sql = prop.getProperty("selectDeleteMember");
+			
+			try {
+				pstmt = conn.prepareStatement(sql);
+				
+				rset = pstmt.executeQuery();
+				
+				while(rset.next()) {
+					
+					deleteMemList.add(new Member (rset.getInt("USER_NO"),
+											   rset.getString("USER_ID"),
+											   rset.getString("USER_NAME"),
+											   rset.getString("LAWYER"),
+											   rset.getDate("ENROLL_DATE"),
+											   rset.getString("STATUS")));
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				JDBCTemplate.close(rset);
+				JDBCTemplate.close(pstmt);
+				
+			}
+			
+			return deleteMemList;
+		}
 	
 }

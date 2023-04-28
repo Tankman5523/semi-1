@@ -193,4 +193,12 @@
 		FROM MEMBER M
 		ORDER BY USER_NO DESC
 	</entry>
+	
+	<!-- 탈퇴회원 조회 -->
+	<entry key="selectDeleteMember">
+		SELECT USER_NO, USER_ID, USER_NAME, LAWYER, ENROLL_DATE, STATUS
+		FROM MEMBER
+		WHERE STATUS = 'N'
+		ORDER BY USER_NO DESC
+	</entry>
 </properties>

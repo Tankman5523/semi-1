@@ -44,6 +44,25 @@
 		AND STATUS = 'Y'	
 	</entry>
 	
+	<!-- 변호사 회원 정보 수정  -->
+	<entry key="updateLawyer">
+		UPDATE LAW_USER
+			SET COMPANY_NAME = ?,
+			COMPANY_ADDRESS = ?,
+			COMPANY_PN =?,
+			LAW_COMMENT =?,
+			CAREER = ?
+		WHERE REF_UNO =?
+	</entry>
+	
+	<entry key="updateProfile">
+		UPDATE LAW_ATTACHMENT	
+				SET ORIGIN_NAME = ?,
+				CHANGE_NAME = ?,
+				FILE_PATH=?,
+				REF_UNO =?
+	</entry>
+	
 	<entry key="updatePwd">
 		UPDATE MEMBER
 			SET USER_PWD = ?
@@ -190,4 +209,5 @@
        		   SET LAWYER = 'N'
        		   WHERE USER_NO = ?
 	</entry>
+	
 </properties>

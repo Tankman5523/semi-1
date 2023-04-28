@@ -175,5 +175,16 @@ public class ManagerService {
 		return memberList;
 	}
 	
+	//탈퇴 회원 조회 메소드 
+	public ArrayList<Member> selectDeleteMember() {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList <Member> deleteMemList = new ManagerDao().selectDeleteMember(conn);
+		
+		JDBCTemplate.close(conn);		
+		
+		return deleteMemList;
+	}
+	
 	
 }

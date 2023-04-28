@@ -15,6 +15,7 @@ public class Lawyer {
 	private String lawComment; //한줄 소개
 	private String career; //경력
 	
+	
 	//변호사 이미지 경로+(변경된)파일명 담을 필드 생성
 	private String lawImg;
 	
@@ -89,9 +90,23 @@ public class Lawyer {
 		this.career = career;
 	}
 
+	//변호사 회원정보 수정 생성자 
+	public Lawyer(String refUno, String companyName, String companyAddress, String companyPn, String lawComment,
+			String career) {
+		super();
+		this.refUno = refUno;
+		this.companyName = companyName;
+		this.companyAddress = companyAddress;
+		this.companyPn = companyPn;
+		this.lawComment = lawComment;
+		this.career = career;
+	}
+	
+	
 	public int getLawNo() {
 		return lawNo;
 	}
+
 	public void setLawNo(int lawNo) {
 		this.lawNo = lawNo;
 	}
