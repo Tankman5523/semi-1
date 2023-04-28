@@ -34,7 +34,7 @@ public class ManageAccidentBoardDeleteController extends HttpServlet {
 		int bno = Integer.parseInt(request.getParameter("bno"));
 		//첨부파일 정보 날아가기전에 셀렉트 
 		ArrayList<Attachment> alist = new ManagerService().selectAttachmentForManage(bno);
-		 
+		
 		int result = new ManagerService().accidentBoardDelete(bno,alist); 
 		
 		if(result>0) { //성공하면 파일지워주기		

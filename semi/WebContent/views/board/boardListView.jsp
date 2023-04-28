@@ -182,7 +182,8 @@
 	            	<%if(!nlist.isEmpty()){ %>
 	            		<%for(Board b : nlist){ %>
 	            		<tr class="notice_line">
-							<td>공지<input type="hidden" name="bno" value="<%=b.getBoardNo() %>"></td>
+	            			<input id="bno" type="hidden" name="bno" value="<%=b.getBoardNo() %>">
+							<td>공지</td>
 							<td style="text-align: left; padding-left: 5px;">
 								<%=b.getTitle()%>	
 								<%if(b.getRpCount()>0){ %>
@@ -289,9 +290,11 @@
 			$(function(){
 				$(".notice_line").on("click", function(){
 					
-					var bno = $(".notice_line input[type=hidden]").val();
+					var bno = $(this).children().eq(0).val();
 					
 					location.href = "<%=contextPath%>/detail.bo?bno="+bno;
+					
+					
 					
 				});
 			});
@@ -302,12 +305,15 @@
 
 	</div>
 	
-	<%@include file="../common/footer.jsp" %>
+	<%@include file="../common/footer.jsp"%>
 	
 	<script>
 		$(function(){
 			$("input").attr("autocomplete", "off");
 		});
+		
+		
+		
 	</script>
 	
 		

@@ -136,6 +136,22 @@ public class Board {
 		this.categoryName = categoryName;
 	}
 	
+	//관리자 자유게시판 글관리위한 생성자
+	public Board(int boardNo, String boardWriter, int categoryNo, String title, int count, Date createDate, int liked,
+			int reportCount, int rpCount, String status) {
+		super();
+		this.boardNo = boardNo;
+		this.boardWriter = boardWriter;
+		this.categoryNo = categoryNo;
+		this.title = title;
+		this.count = count;
+		this.createDate = createDate;
+		this.liked = liked;
+		this.reportCount = reportCount;
+		this.rpCount = rpCount;
+		this.status = status;
+	}
+
 	//마이페이지용 카테고리 이름 게터세터 
 	public String getCategoryName() {
 		return categoryName;
