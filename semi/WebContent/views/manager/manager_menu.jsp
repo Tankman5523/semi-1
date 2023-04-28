@@ -261,9 +261,9 @@
 		}
 		
 		//홈페이지 관리자 클릭 시 메인화면으로
-		$("#header2").onclick(){
+		$("#header2").click(function(){
 			location.href="<%=contextPath%>/views/manager/manager_index.jsp";
-		};
+		});
 	</script>
 
 </body>
