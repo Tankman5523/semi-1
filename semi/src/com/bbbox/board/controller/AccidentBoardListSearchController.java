@@ -54,13 +54,21 @@ public class AccidentBoardListSearchController extends HttpServlet {
 		
 		//필터값 추출
 		String region = request.getParameter("region"); 
-		String partType2 = request.getParameter("partType");
-		System.out.println(partType2);
+		if(region.equals("none")) {//기본값 넘어오면 비워주기
+			region="";
+		}
+		
 		int partType = Integer.parseInt(request.getParameter("partType"));
-		String insuranceType = request.getParameter("insurance");
+		
+		String insuranceType = request.getParameter("insuranceType");
+		
+		if(insuranceType.equals("none")) {
+			insuranceType = "";
+		}
 		
 		//검색방식
-		String searchFilter = request.getParameter("title_writer");
+		String searchFilter = request.getParameter("searchFilter");
+		
 		String keyword = request.getParameter("keyword");
 		ArrayList<Board> list = null;
 		
@@ -69,7 +77,7 @@ public class AccidentBoardListSearchController extends HttpServlet {
 		//listCount = new AccidentBoardService().selectBoardListCount();
 		
 		listCount = new AccidentBoardService().searchedListCount(s);
-
+		
 		
 		//현재 페이지
 		if(request.getParameter("currentPage")==null) {
@@ -103,6 +111,15 @@ public class AccidentBoardListSearchController extends HttpServlet {
 		
 		
 		list = new AccidentBoardService().searchAccidentBoard(searchFilter,region,partType,insuranceType,keyword,categoryNo,pi);
+		
+		
+		//값이 비워져있으면 에러나지 않도록 none으로 변경
+		if(s.getRegion().equals("")) {
+			s.setRegion("none");
+		}
+		if(s.getInsuranceType().equals("")) {
+			s.setInsuranceType("none");
+		}
 		
 		if(list!=null) {
 			request.setAttribute("a", a);

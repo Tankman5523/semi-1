@@ -294,7 +294,7 @@ public class AccidentBoardDao {
 		String sql = null;
 		
 		//검색필터가 제목일때
-		if(searchFilter.equals("제목")||searchFilter.equals("")) {
+		if(searchFilter.equals("title")||searchFilter.equals("")) {
 			sql = prop.getProperty("searchAccidentBoardByTitle");
 		}else {
 		//검색필터가 작성자일때
@@ -1111,7 +1111,7 @@ public class AccidentBoardDao {
 		PreparedStatement pstmt = null;
 		String sql = null; //prop.getProperty("searchedListCount");
 		
-		if(s.getSearchFilter().equals("제목")||s.getSearchFilter().equals("")) {
+		if(s.getSearchFilter().equals("title")||s.getSearchFilter().equals("")) {
 			sql = prop.getProperty("searchedListCountByTitle");
 		}else {
 		//검색필터가 작성자일때

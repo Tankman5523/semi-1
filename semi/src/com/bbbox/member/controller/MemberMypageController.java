@@ -97,6 +97,7 @@ public class MemberMypageController extends HttpServlet {
 				
 				request.getRequestDispatcher("views/member/mypage.jsp").forward(request, response);
 			
-			}
+		}
+	
 
 }

@@ -201,4 +201,27 @@
 		WHERE STATUS = 'N'
 		ORDER BY USER_NO DESC
 	</entry>
+	
+	<!-- 자유게시판 관리 영역 start -->
+	<entry key="freeBoardCount">
+		SELECT COUNT(BOARD_NO) "COUNT"
+		FROM BOARD
+		WHERE STATUS = 'Y'
+		AND CATEGORY_NO = ? OR CATEGORY_NO = ?
+		AND NOTICE = 'N'
+	</entry>
+	
+	<entry key="selectFreeBoardList">
+		SELECT *
+		FROM (SELECT ROWNUM RUM, A.*
+				FROM (SELECT BOARD_NO, USER_ID, CATEGORY_NO, TITLE, COUNT, CREATE_DATE, LIKED, REPORT_COUNT, RP_COUNT, B.STATUS "STATUS"
+			            FROM BOARD B
+			            JOIN MEMBER M ON(BOARD_WRITER=USER_NO)
+			            WHERE (CATEGORY_NO = ? OR CATEGORY_NO = ?)
+			            AND NOTICE = 'N'
+			            AND B.STATUS = 'Y'
+			            ORDER BY CREATE_DATE DESC) A)
+		WHERE RUM BETWEEN ? AND ?
+	</entry>
+	<!-- 자유게시판 관리 영역 end -->
 </properties>

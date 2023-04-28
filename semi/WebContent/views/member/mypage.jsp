@@ -106,6 +106,13 @@
 	    </div>
     
     <script>
+    </form>
+ 
+	<script>
+	    /* 메인페이지 버튼 클릭 함수 script */
+		function main(){
+			location.href="<%=contextPath%>";
+
 		/* 변호사회원 신청페이지로 이동 */
 		function apply(){
 			/* 클릭시 이미 신청한 회원이라면, 알림 띄워주기 */
@@ -141,27 +148,17 @@
 		}
 		
 		
-		/* 회원정보 수정페이지로 이동 script */
-		$("#modify").on('click',function(){
-			
-			if(<%=loginUser.getLawyer().equals("Y")%>){
-				/* 변호사 회원 정보 수정 */
-				location.href="<%=contextPath%>/update_info.la";
-			}else{
-				/*일반회원 정보 수정 */
-				location.href="<%=contextPath%>/update_info.me";
-				
-			}
-			
-		});		
+		}
 		
 		
 	    /* 회원 탈퇴 스크립트 영역  */
 		function memberDelete(){
 			
 			if(confirm("회원 탈퇴시 해당 아이디 복구 및 재가입이 불가능 합니다. 탈퇴 하시겠습니까?")){
-			
-			}
+				
+				location.href="<%=contextPath%>/delete.me";
+				
+			}	
 			
 		}
 	    

@@ -79,7 +79,7 @@
 		 <script>
 		 	$(function(){
 		 		$("#delAt").on("click", function(){
-		 			location.href = "<%=contextPath%>/atDel?fno=<%=at.getFileNo()%>&bno=<%=b.getBoardNo()%>";
+		 			location.href = "<%=contextPath%>/atDel?fno=<%=at.getFileNo()%>&bno=<%=b.getBoardNo()%>&c=1";
 		 		});
 		 	});
 		 </script>

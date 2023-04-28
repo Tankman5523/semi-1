@@ -139,12 +139,14 @@
                	<input type="button" value="제보하기" style="margin-top:15px" onclick="location.href='<%=contextPath%>/enroll.ac'">
             </div>
             <div class="sort" style="float: right;margin-top: 20px;" >
+            <!-- 솔트 하지마 
                 <form action="list.ac">
 	                <input type="radio" name="searchSort" id="sortRecommend" value="recommend"><label for="sortRecommend">추천순</label>
 	                <input type="radio" name="searchSort" id="sortView" value="view"><label for="sortView">조회순</label>
 	                <input type="radio" name="searchSort" id="sortNew" value="date"><label for="sortNew">최신순</label>
 	                <input type="submit" value="정렬">
                 </form>
+             -->    
             </div> 
             <div class="search">
                 <form action="search.ac">
@@ -152,7 +154,7 @@
                 	<input type="hidden" name="categoryNo" value="3">
                     <div class="typeFilter">
                         <select name="region" id="region">
-                            <option value="">지역별</option>
+                            <option value="none">지역별</option>
                             <option value="서울">서울</option>
                             <option value="경기">경기</option>
                             <option value="충청">충청</option>
@@ -161,15 +163,15 @@
                             <option value="강원">강원</option>
                             <option value="제주">제주</option>
                         </select>
-                        <select name="partType" id="type">
+                        <select name="partType" id="partType">
                             <option value="0">사건유형</option>
                             <option value="1">대인</option>
                             <option value="2">대물</option>
                             <option value="3">음주운전</option>
                             <option value="4">뺑소니</option>
                         </select>
-                        <select name="insurance" id="insurance">
-                            <option value="">과실처리</option>
+                        <select name="insuranceType" id="insuranceType">
+                            <option value="none">과실처리</option>
                             <option value="합의">합의</option>
                             <option value="보험">보험</option>
                         </select>
@@ -183,9 +185,9 @@
                         </div> -->
                         <div class="searchInput">
                             <div class="searchFilter">
-                                <select name="title_writer" id="filter">
-                                    <option value="제목">제목</option>
-                                    <option value="제보자">제보자</option>
+                                <select name="searchFilter" id="filter">
+                                    <option value="title">제목</option>
+                                    <option value="writer">제보자</option>
                                 </select>
                             </div>
                             <div class="searchBar">
@@ -231,28 +233,23 @@
             <div class="pageMover" align="center">
             	<%if(a==1){ %>
             		<%if(pi.getCurrentPage() != 1){ %>
-            			 <!-- search.ac?currentPage=1&categoryNo=3&region=&partType=0&insurance=&title_writer=%EC%A0%9C%EB%AA%A9&keyword=1 --> 
-						<!--<input type="submit" onclick="location.href='<%=contextPath%>/search.ac?currentPage=<%=pi.getCurrentPage()-1%>'" value="&lt;">-->
-						<input type="button" onclick="location.href='<%=contextPath%>/search.ac?currentPage=<%=pi.getCurrentPage()-1%>&categoryNo=3&region=<%=s.getRegion()%>&partType=<%=s.getPartType()%>&insuranceType=<%=s.getInsuranceType()%>&searchFilter=<%=s.getSearchFilter()%>&keyword=<%=s.getKeyword()%>'" value="&lt;">
+						<button onclick="location.href='<%=contextPath%>/search.ac?currentPage=<%=pi.getCurrentPage()-1%>&categoryNo=3&region=<%=s.getRegion()%>&partType=<%=s.getPartType()%>&insuranceType=<%=s.getInsuranceType()%>&searchFilter=<%=s.getSearchFilter()%>&keyword=<%=s.getKeyword()%>'">prev</button>
 					<%} %>
 					<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++){ %>
 					<!-- 내가 보고있는 페이지 버튼은 비활성화 -->
 						<%if(i != pi.getCurrentPage()){ %>
-							<!-- <input type="submit" onclick="location.href='<%=contextPath%>/search.ac?currentPage=<%=i%>';" value="<%=i %>">-->
-							<input type="button" onclick="location.href='<%=contextPath%>/search.ac?currentPage=<%=i%>&categoryNo=3&region=<%=s.getRegion()%>&partType=<%=s.getPartType()%>&insuranceType=<%=s.getInsuranceType()%>&searchFilter=<%=s.getSearchFilter()%>&keyword=<%=s.getKeyword()%>';" value="<%=i %>">
+							<button onclick="location.href='<%=contextPath%>/search.ac?currentPage=<%=i%>&categoryNo=3&region=<%=s.getRegion()%>&partType=<%=s.getPartType()%>&insuranceType=<%=s.getInsuranceType()%>&searchFilter=<%=s.getSearchFilter()%>&keyword=<%=s.getKeyword()%>'"><%=i %></button>
 						<%}else{ %> <!-- 내가 보고있는 페이지와 페이징바 버튼의 수가 같으면 i와 currenPage -->
-							<!-- <input type="submit" disabled value="<%=i%>">-->
 							<input type="button" disabled value="<%=i%>">
 						<%} %>
 					<%} %>
 					<%if(pi.getCurrentPage() != pi.getMaxPage()) {%>
-						<!-- <input type="submit" onclick="location.href='<%=contextPath%>/search.ac?currentPage=<%=pi.getCurrentPage()+1%>'" value="&gt;"> -->
-						<input type="button" onclick="location.href='<%=contextPath%>/search.ac?currentPage=<%=pi.getCurrentPage()+1%>&categoryNo=3&region=<%=s.getRegion()%>&partType=<%=s.getPartType()%>&insuranceType=<%=s.getInsuranceType()%>&searchFilter=<%=s.getSearchFilter()%>&keyword=<%=s.getKeyword()%>'" value="&gt;">
+						<button onclick="location.href='<%=contextPath%>/search.ac?currentPage=<%=pi.getCurrentPage()+1%>&categoryNo=3&region=<%=s.getRegion()%>&partType=<%=s.getPartType()%>&insuranceType=<%=s.getInsuranceType()%>&searchFilter=<%=s.getSearchFilter()%>&keyword=<%=s.getKeyword()%>'">next</button>
 					<%} %>
 					
             	<%}else if(a == 0){ %>
 	               	<%if(pi.getCurrentPage() != 1){ %>
-						<button onclick="location.href='<%=contextPath%>/search.ac?currentPage=<%=pi.getCurrentPage()-1%>'">&lt;</button>
+						<button onclick="location.href='<%=contextPath%>/list.ac?currentPage=<%=pi.getCurrentPage()-1%>'">&lt;</button>
 					<%} %>
 				
 					<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++){ %>

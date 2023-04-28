@@ -96,7 +96,7 @@
 					<th>
 						추천수
 					</th>
-					<td>
+					<td id="liked_count">
 						<%=b.getLiked()%>
 					</td>
 				</tr>
@@ -119,8 +119,8 @@
 		
 		<%if(loginUser != null && loginUser.getUserId().equals(b.getBoardWriter())){%>
 		<div id="update-area" align="center" style="border:none; padding:10px; hieght:10%;">
-			<button onclick="location.href='<%=contextPath%>/update.bo?bno=<%=b.getBoardNo()%>'" style="margin:5px;">수정하기</button>
-			<button onclick="location.href='<%=contextPath%>/delete.bo?bno=<%=b.getBoardNo()%>'" style="margin:5px;">삭제하기</button>
+			<button onclick="location.href='<%=contextPath%>/update.vi?bno=<%=b.getBoardNo()%>'" style="margin:5px;">수정하기</button>
+			<button onclick="location.href='<%=contextPath%>/delete.vi?bno=<%=b.getBoardNo()%>'" style="margin:5px;">삭제하기</button>
 		</div>
 		<%}%>
 	
@@ -146,6 +146,7 @@
 				
 				</tfoot>
 			</table>
+			
 		</div>
 	</div>
 	
@@ -182,10 +183,6 @@
 						},
 						error:function(){
 							alert("통신 에러");
-						},
-						complete:function(){
-							//$("#liked_count").load(location.reload());
-							// 리로드 처리 쉽게 해버리기 - 여기서는 사용이 맞지않음
 						}
 					});
 				<%}%>
@@ -264,13 +261,13 @@
 		//댓글 삭제기능
 		$(function(){
 			$("#reply-area").on("click", "#delRp", function(){
-				console.log($(this).parent().siblings("input[type=hidden]").val());
 				
-				
+				<%if(loginUser != null && loginUser.getUserId().equals(b.getBoardWriter())){%>
 				$.ajax({
 					url:"delRp",
 					data:{
-						rpNo:$("#reply-area tfoot *").siblings("input[type=hidden]").val()
+						rpNo:$("#reply-area tfoot *").siblings("input[type=hidden]").val(),
+						bno:<%=b.getBoardNo()%>
 					},
 					success:function(result){
 						if(result>0){
@@ -285,6 +282,9 @@
 						alert("댓글 삭제 통신실패!")
 					}
 				});
+				<%}else{%>
+				alert("댓글 삭제 권한이 없습니다.");
+				<%}%>
 				
 			});
 		});

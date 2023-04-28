@@ -34,7 +34,7 @@ public class AtDelController extends HttpServlet {
 
 		int fno = Integer.parseInt(request.getParameter("fno"));
 		int bno = Integer.parseInt(request.getParameter("bno"));
-		
+		int category = Integer.parseInt(request.getParameter("c"));
 //		System.out.println("fno"+fno);
 //		System.out.println("bno"+bno);
 		
@@ -42,15 +42,19 @@ public class AtDelController extends HttpServlet {
 		
 //		System.out.println(at);
 //		System.out.println(at.getFilePath());
-		
-		String savePath = request.getSession().getServletContext().getRealPath("/resources/1_board/");
+		String savePath = "";
+		if(category == 1) {
+			savePath = request.getSession().getServletContext().getRealPath("/resources/1_board/");			
+		}else if(category == 2) {
+			savePath = request.getSession().getServletContext().getRealPath("/resources/2_board/");			
+		}
 		new File(savePath+at.getChangeName()).delete();
 		
 		int result = new BoardService().delAt(fno);
 		
 		if(result>0) {
 			
-			response.sendRedirect(request.getContextPath()+"/update.bo?bno="+bno);
+			response.sendRedirect(request.getContextPath()+"/update.vi?bno="+bno);
 		}else {
 			request.setAttribute("errorMsg", "안될리가 없지만 혹시 모르니");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);

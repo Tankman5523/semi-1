@@ -211,7 +211,7 @@
 	                	<%if(blist!=null){ %>
 		                	<%for(int i=0;i<blist.size();i++){ %>
 		                    <tr onclick="location.href='<%=contextPath%>/detail.rb?bno='+<%=blist.get(i).getBoardNo()%>">
-		                        <td><input type="checkbox" name="selectBoard"></td>
+		                        <td class="noEvent"><input type="checkbox" name="selectBoard"></td>
 		                        <td><%=blist.get(i).getBoardNo()%></td>
 		                        <td><%=blist.get(i).getBoardWriter()%></td>
 		                        <td><%=blist.get(i).getTitle()%></td>
@@ -223,7 +223,7 @@
 		                        <td><%=blist.get(i).getLiked()%></td>
 		                        <td><%=blist.get(i).getReportCount()%></td>
 		                        <td><%=blist.get(i).getCategoryName()%></td>
-	                        	<td id="statusShift">
+	                        	<td id="statusShift" class="noEvent">
 		                        		<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
 		                        <%if(blist.get(i).getStatus().equals("N")) {%>
 		                        <!-- 아직 게시되지 않았다면 -->
@@ -233,11 +233,11 @@
 		                        		<button name="statusOff" class="statusOff" style="background-color: green; color: white;width:100%;height:100%">ON</button>
 		                        	</td>
 		                        <%} %>
-		                        <td>
+		                        <td class="noEvent">
 		                        	<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
 		                        	<button name="delRev" class="deleteReviewBtn">리뷰삭제</button>
 		                        </td>
-		                        <td>
+		                        <td class="noEvent">
 		                        	<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
 		                        	<button name="delete" class="deleteBoardBtn">글삭제</button>
 		                        </td>
@@ -252,9 +252,13 @@
 	                    
 	                </tbody>    
             	</table>
-	        <!-- 글게시 on/off 토글처리 -->
-	        <script>
 	        
+	        <script>
+	        $(function(){
+	        	$(".noEvent").on("click",function(){
+	        		event.cancelBubble = true;
+	        	});
+	        });
 	        //글 게시
 	        $(function(){
 	        	$(".statusOn").on("click",function(){

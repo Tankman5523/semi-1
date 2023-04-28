@@ -53,7 +53,7 @@ public class CounselUpdateController extends HttpServlet {
 			
 			if(result>0) {
 				if(aResult.equals("accept")) {
-					request.getSession().setAttribute("alertMsg", "매칭이 완료되었습니다.");
+					request.getSession().setAttribute("alertMsg", "매칭이 완료되었습니다. "+l.getRefUno()+"변호사님과 자세한 법률상담을 통해 사건해결을 진행하시기 바랍니다.");
 				}else {
 					request.getSession().setAttribute("alertMsg", "상담이 종료되었습니다.");
 				}

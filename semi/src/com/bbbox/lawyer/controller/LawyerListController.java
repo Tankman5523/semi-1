@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.bbbox.lawyer.model.service.LawyerService;
 import com.bbbox.lawyer.model.vo.Lawyer;
 import com.bbbox.lawyer.model.vo.PartCategory;
-import com.google.gson.Gson;
 
 /**
  * Servlet implementation class LawyerListController
@@ -37,7 +36,6 @@ public class LawyerListController extends HttpServlet {
 		
 		ArrayList<Lawyer> lawList = new LawyerService().selectList();
 		ArrayList<PartCategory> pList = new LawyerService().selectPart();
-		
 		
 		request.setAttribute("lawList", lawList);
 		request.setAttribute("pList", pList);

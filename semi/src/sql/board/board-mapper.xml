@@ -308,4 +308,10 @@
 		AND USER_ID LIKE '%'||?||'%'
 		AND NOTICE = 'N'
 	</entry>
+	
+	<!-- 일반영상게시판 첨부파일 수정 -->
+	<entry key="updateVideoAttachment">
+		INSERT INTO ATTACHMENT(FILE_NO, REF_BNO, ORIGIN_NAME, CHANGE_NAME, FILE_PATH, FILE_TYPE)
+		VALUES(SEQ_FNO.NEXTVAL, ?, ?, ?, ?, 2)
+	</entry>
 </properties>

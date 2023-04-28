@@ -19,6 +19,12 @@ public class Lawyer {
 	//변호사 이미지 경로+(변경된)파일명 담을 필드 생성
 	private String lawImg;
 	
+	//통계 담을 필드 생성 (관리자용)
+	private int solvedAccCount; //해결영상 수
+	private int counselMatchCount; //상담매칭 수
+	private double reviewAverage; //리뷰 평점
+	private String lawyer; //변호사 권한
+	
 	public Lawyer() {
 		super();
 	}
@@ -88,6 +94,20 @@ public class Lawyer {
 		this.companyPn = companyPn;
 		this.lawComment = lawComment;
 		this.career = career;
+	}
+	
+	//변호사 리스트 조회 생성자 (관리자용)
+	public Lawyer(int lawNo, String refUno, String refPno, String companyAddress, int solvedAccCount,
+			int counselMatchCount, double reviewAverage, String lawyer) {
+		super();
+		this.lawNo = lawNo;
+		this.refUno = refUno;
+		this.refPno = refPno;
+		this.companyAddress = companyAddress;
+		this.solvedAccCount = solvedAccCount;
+		this.counselMatchCount = counselMatchCount;
+		this.reviewAverage = reviewAverage;
+		this.lawyer = lawyer;
 	}
 
 	//변호사 회원정보 수정 생성자 
@@ -179,6 +199,38 @@ public class Lawyer {
 		this.lawImg = lawImg;
 	}
 	
+	public int getSolvedAccCount() {
+		return solvedAccCount;
+	}
+
+	public void setSolvedAccCount(int solvedAccCount) {
+		this.solvedAccCount = solvedAccCount;
+	}
+
+	public int getCounselMatchCount() {
+		return counselMatchCount;
+	}
+
+	public void setCounselMatchCount(int counselMatchCount) {
+		this.counselMatchCount = counselMatchCount;
+	}
+
+	public double getReviewAverage() {
+		return reviewAverage;
+	}
+
+	public void setReviewAverage(double reviewAverage) {
+		this.reviewAverage = reviewAverage;
+	}
+	
+	public String getLawyer() {
+		return lawyer;
+	}
+
+	public void setLawyer(String lawyer) {
+		this.lawyer = lawyer;
+	}
+
 	@Override
 	public String toString() {
 		return "Lawyer [lawNo=" + lawNo + ", refUno=" + refUno + ", refPno=" + refPno + ", exam=" + exam

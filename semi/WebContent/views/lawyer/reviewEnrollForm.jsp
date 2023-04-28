@@ -66,6 +66,8 @@
 	}
 	.star{
 		cursor: pointer;
+		color : gold;
+		font-size: 20px;
 	}
 	</style>
 </head>
@@ -103,7 +105,7 @@
 	                       <th>내용</th>
 	                       <td>
 	                       	<textarea name="content" cols="40" rows="4" maxlength="80" style="resize:none" required></textarea>
-	                       	<br><p style="font-size:7px"><span id="count">0</span>/80자</p>
+	                       	<br><p style="font-size:13px; color:red;"><span id="count">0</span>/80자</p>
 	                       </td>
 	                   </tr>
 	               </table>

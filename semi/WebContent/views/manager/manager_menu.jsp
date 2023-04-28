@@ -232,15 +232,14 @@
                 </li>    
                 <li><a href="">변호사</a>
                     <ul>
-                        <li><a href="<%=contextPath %>/manage.la">변호사 관리</a></li>
+                        <li><a href="<%=contextPath %>/lawyerList.ma">변호사 관리</a></li>
                         <li><a href="">상담 게시판 관리</a></li>
                     </ul>
 
                 </li>    
-                <li><a href="<%=contextPath%>/manage.bo?currentPage=1">자유게시판</a>
+                <li><a href="<%=contextPath%>/manage.bo">자유게시판</a>
                     <ul>
-                        <li><a href="<%=contextPath%>/manage.bo?currentPage=1">일반 게시판 관리</a></li>
-                        <li><a href="<%=contextPath%>/manage.vi?currentPage=1">영상 게시판 관리</a></li>
+                        <li><a href="<%=contextPath%>/manage.bo">게시판 관리</a></li>
                     </ul>
                 </li>    
                 <li><a href="">회원관리</a>
