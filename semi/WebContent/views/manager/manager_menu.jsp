@@ -230,8 +230,14 @@
                     <ul>
                     	<li><a href="<%=contextPath%>/manage.info.me">회원조회</a></li>
                     	<li><a href="<%=contextPath%>/manage.apply.la">신청관리</a></li>
+<<<<<<< HEAD
+                    	<li><a href="<%=contextPath%>/manage.delete.me">탈퇴회원관리</a></li>
+                        <li><a href="<%=contextPath%>/manage.list.qa">1:1 문의</a></li>
+                 
+=======
                     	<li><a href="">탈퇴회원관리</a></li>
                         <li><a href="">1:1 문의</a></li>
+>>>>>>> refs/remotes/origin/master
                         
                     </ul>
                 </li>    
@@ -240,7 +246,16 @@
 	
 	<script>
 		function mypage(){
+			//홈페이지 관리자 클릭 시 메인화면으로
 			
+<<<<<<< HEAD
+			$('#header2').on('click',function(){
+				location.href="<%=contextPath%>/views/manager/manager_index.jsp";
+				
+			});
+		
+=======
+>>>>>>> refs/remotes/origin/master
 		}
 	</script>
 

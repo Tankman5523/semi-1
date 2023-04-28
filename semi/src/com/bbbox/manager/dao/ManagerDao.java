@@ -53,8 +53,7 @@ Properties prop = new Properties();
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1, categoryNo);
-			
+			pstmt.setInt(1, categoryNo);			
 			rset=pstmt.executeQuery();
 			
 			while(rset.next()) {
@@ -84,7 +83,7 @@ Properties prop = new Properties();
 		}
 		return blist;
 	}
-	//해결된 게시판 전부 조회
+
 	public ArrayList<Board> selectAllResolvedBoard(Connection conn, String sort) {
 		ArrayList<Board> blist = new ArrayList<Board>();
 		ResultSet rset = null;
@@ -162,6 +161,7 @@ Properties prop = new Properties();
 		return result;
 	}
 	
+	
 	//게시판 글 게시 끝
 	
 	//제보게시판 글 회수
@@ -186,6 +186,8 @@ Properties prop = new Properties();
 		
 		return result;
 	}
+
+	
 	//사건게시글 삭제
 	public int boardDelete(Connection conn, int bno) {
 		int result = 0;
@@ -208,6 +210,9 @@ Properties prop = new Properties();
 		
 		return result;
 	}
+	
+	
+	
 	//사건정보 삭제
 	public int accidentInfoDelete(Connection conn, int bno) {
 		int result = 0;
@@ -235,7 +240,7 @@ Properties prop = new Properties();
 		
 		int result = 0;
 		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("attachmentDelete");
+		String sql = prop.getProperty("accidentAttachmentDelete");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -272,7 +277,7 @@ Properties prop = new Properties();
 		} finally {
 			JDBCTemplate.close(pstmt);
 		}
-
+		
 		return result;
 	}
 	//사건리뷰 삭제
@@ -297,6 +302,7 @@ Properties prop = new Properties();
 		
 		return result;
 	}
+
 
 	//첨부파일 전부 조회
 
@@ -403,43 +409,44 @@ Properties prop = new Properties();
 	}
 	
 	//전체 회원 조회 메소드 
-	public ArrayList<Member> selectAllMember(Connection conn) {
-		
-		ResultSet rset = null;
-		
-		PreparedStatement pstmt = null;
-		
-		ArrayList <Member> memberList = new ArrayList<>();
-		
-		String sql = prop.getProperty("selectAllMember");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
+		public ArrayList<Member> selectAllMember(Connection conn) {
 			
-			rset = pstmt.executeQuery();
+			ResultSet rset = null;
 			
-			while(rset.next()) {
+			PreparedStatement pstmt = null;
+			
+			ArrayList <Member> memberList = new ArrayList<>();
+			
+			String sql = prop.getProperty("selectAllMember");
+			
+			try {
+				pstmt = conn.prepareStatement(sql);
 				
-				memberList.add(new Member (rset.getInt("USER_NO"),
-										   rset.getString("USER_ID"),
-										   rset.getString("USER_NAME"),
-										   rset.getString("LAWYER"),
-										   rset.getDate("ENROLL_DATE"),
-										   rset.getString("STATUS"),
-										   rset.getInt("게시글수"),
-										   rset.getInt("댓글수")));
+				rset = pstmt.executeQuery();
+				
+				while(rset.next()) {
+					
+					memberList.add(new Member (rset.getInt("USER_NO"),
+											   rset.getString("USER_ID"),
+											   rset.getString("USER_NAME"),
+											   rset.getString("LAWYER"),
+											   rset.getDate("ENROLL_DATE"),
+											   rset.getString("STATUS"),
+											   rset.getInt("게시글수"),
+											   rset.getInt("댓글수")));
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				JDBCTemplate.close(rset);
+				JDBCTemplate.close(pstmt);
+				
 			}
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(pstmt);
-			
+			return memberList;
 		}
-		return memberList;
-		}
-		
+	
 		//제보영상게시판 검색 조회
 		public ArrayList<Board> searchAccidentBoard(Connection conn, String searchFilter, String region, int partType,
 				String insuranceType, String keyword, int categoryNo) {
@@ -510,110 +517,148 @@ Properties prop = new Properties();
 			}
 			
 			return blist;
-		}
-	
-	//자유게시판 게시글 총 갯수
-	public int freeBoardCount(Connection conn, int[] cArr) {
+		}	
 		
-		int count = 0;
-		
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		
-		String sql = prop.getProperty("freeBoardCount");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, cArr[0]);
-			pstmt.setInt(2, cArr[1]);
+		//자유게시판 게시글 총 갯수
+		public int freeBoardCount(Connection conn, int[] cArr) {
 			
-			rset = pstmt.executeQuery();
-			if(rset.next()) {
-				count = rset.getInt("COUNT");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(pstmt);
-		}
-		
-		
-		return count;
-	}
-		
-	//자유게시판 게시글 리스트조회
-	public ArrayList<Board> selectFreeBoardList(Connection conn, PageInfo pi, int[] cArr) {
-		
-		ArrayList<Board> list = new ArrayList<Board>();
-		ResultSet rset = null;
-		PreparedStatement pstmt = null;
-		
-		String sql = prop.getProperty("selectFreeBoardList");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
+			int count = 0;
 			
-			int startRow=(pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
-			int endRow=(startRow+pi.getBoardLimit())-1;
+			PreparedStatement pstmt = null;
+			ResultSet rset = null;
 			
-			pstmt.setInt(1, cArr[0]);
-			pstmt.setInt(2, cArr[1]);
-			pstmt.setInt(3, startRow);
-			pstmt.setInt(4, endRow);
+			String sql = prop.getProperty("freeBoardCount");
 			
-			rset=pstmt.executeQuery();
-			//BOARD_NO, USER_ID, CATEGORY_NO, TITLE, COUNT, CREATE_DATE, LIKED, REPORT_COUNT, RP_COUNT, B.STATUS
-			while(rset.next()) {
-				list.add(new Board(rset.getInt("BOARD_NO"),
-								   rset.getString("USER_ID"),
-								   rset.getInt("CATEGORY_NO"),
-								   rset.getString("TITLE"),
-								   rset.getInt("COUNT"),
-								   rset.getDate("CREATE_DATE"),
-								   rset.getInt("LIKED"),
-								   rset.getInt("REPORT_COUNT"),
-								   rset.getInt("RP_COUNT"),
-								   rset.getString("STATUS")));
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(pstmt);
-		}
-		
-		return list;
-	}
-	public AccidentReview selectAccidentReviewForManage(Connection conn, int accNo) {
-		AccidentReview ar = null;
-		
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		String sql = prop.getProperty("selectAccidentReviewForManage");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, accNo);
-			
-			rset = pstmt.executeQuery();
-					
-			while(rset.next()) {
-				ar = new AccidentReview();
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, cArr[0]);
+				pstmt.setInt(2, cArr[1]);
 				
-				ar.setArNo(rset.getInt("AR_NO"));
-				//대충 있는지만 확인
+				rset = pstmt.executeQuery();
+				if(rset.next()) {
+					count = rset.getInt("COUNT");
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				JDBCTemplate.close(rset);
+				JDBCTemplate.close(pstmt);
 			}
 			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(pstmt);
+			
+			return count;
 		}
-		return ar;
-	}
+			
+		//자유게시판 게시글 리스트조회
+		public ArrayList<Board> selectFreeBoardList(Connection conn, PageInfo pi, int[] cArr) {
+			
+			ArrayList<Board> list = new ArrayList<Board>();
+			ResultSet rset = null;
+			PreparedStatement pstmt = null;
+			
+			String sql = prop.getProperty("selectFreeBoardList");
+			
+			try {
+				pstmt = conn.prepareStatement(sql);
+				
+				int startRow=(pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
+				int endRow=(startRow+pi.getBoardLimit())-1;
+				
+				pstmt.setInt(1, cArr[0]);
+				pstmt.setInt(2, cArr[1]);
+				pstmt.setInt(3, startRow);
+				pstmt.setInt(4, endRow);
+				
+				rset=pstmt.executeQuery();
+				//BOARD_NO, USER_ID, CATEGORY_NO, TITLE, COUNT, CREATE_DATE, LIKED, REPORT_COUNT, RP_COUNT, B.STATUS
+				while(rset.next()) {
+					list.add(new Board(rset.getInt("BOARD_NO"),
+									   rset.getString("USER_ID"),
+									   rset.getInt("CATEGORY_NO"),
+									   rset.getString("TITLE"),
+									   rset.getInt("COUNT"),
+									   rset.getDate("CREATE_DATE"),
+									   rset.getInt("LIKED"),
+									   rset.getInt("REPORT_COUNT"),
+									   rset.getInt("RP_COUNT"),
+									   rset.getString("STATUS")));
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				JDBCTemplate.close(rset);
+				JDBCTemplate.close(pstmt);
+			}
+			
+			return list;
+		}
+		public AccidentReview selectAccidentReviewForManage(Connection conn, int accNo) {
+			AccidentReview ar = null;
+			
+			PreparedStatement pstmt = null;
+			ResultSet rset = null;
+			String sql = prop.getProperty("selectAccidentReviewForManage");
+			
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, accNo);
+				
+				rset = pstmt.executeQuery();
+						
+				while(rset.next()) {
+					ar = new AccidentReview();
+					
+					ar.setArNo(rset.getInt("AR_NO"));
+					//대충 있는지만 확인
+				}
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				JDBCTemplate.close(rset);
+				JDBCTemplate.close(pstmt);
+			}
+			return ar;
+		}		
+		
+		//탈퇴 회원 조회 메소드 
+		public ArrayList<Member> selectDeleteMember(Connection conn) {
+			ResultSet rset = null;
+			
+			PreparedStatement pstmt = null;
+			
+			ArrayList <Member> deleteMemList = new ArrayList<>();
+			
+			String sql = prop.getProperty("selectDeleteMember");
+			
+			try {
+				pstmt = conn.prepareStatement(sql);
+				
+				rset = pstmt.executeQuery();
+				
+				while(rset.next()) {
+					
+					deleteMemList.add(new Member (rset.getInt("USER_NO"),
+											   rset.getString("USER_ID"),
+											   rset.getString("USER_NAME"),
+											   rset.getString("LAWYER"),
+											   rset.getDate("ENROLL_DATE"),
+											   rset.getString("STATUS")));
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				JDBCTemplate.close(rset);
+				JDBCTemplate.close(pstmt);
+				
+			}
+			
+			return deleteMemList;
+		}
+
+		
 	
 }

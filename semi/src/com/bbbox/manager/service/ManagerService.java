@@ -11,7 +11,6 @@ import com.bbbox.board.model.vo.Reply;
 import com.bbbox.common.JDBCTemplate;
 import com.bbbox.common.model.vo.PageInfo;
 import com.bbbox.manager.dao.ManagerDao;
-import com.bbbox.member.model.dao.MemberDao;
 import com.bbbox.member.model.vo.Member;
 
 public class ManagerService {
@@ -213,5 +212,17 @@ public class ManagerService {
 		return list;
 	}
 
+	
+	//탈퇴 회원 조회 메소드 
+	public ArrayList<Member> selectDeleteMember() {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList <Member> deleteMemList = new ManagerDao().selectDeleteMember(conn);
+		
+		JDBCTemplate.close(conn);		
+		
+		return deleteMemList;
+	}
+	
 	
 }

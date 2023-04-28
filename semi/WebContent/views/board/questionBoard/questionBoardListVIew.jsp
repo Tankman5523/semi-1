@@ -82,7 +82,7 @@
 									<%if(q.getOpen().equals("N")){%>
 										<td><b>비공개</b></td> <!-- 나중에 아이콘으로 변경하기  -->
 									<%}else{ %>
-										<td>공개</td>
+										<td><b>공개</b></td>
 									<%} %>
 								</tr>
 							<%} %>
@@ -120,7 +120,7 @@
 				<%}else{ %>
 					$(function(){
 						
-						$("#qa-list").on('click','tr',function(){
+						$("#qa-list").on('click','tr',function(){z
 							alert("해당 게시글은 비공개 글입니다.");
 						});
 

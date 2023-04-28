@@ -3,151 +3,136 @@
 
 <properties>
 	<entry key="selectAllAccidentBoard">
-   		 SELECT BOARD_NO
-		       ,M.USER_ID
-		       ,CATEGORY_NO
-		       ,TITLE
-		       ,COUNT
-		       ,B.CREATE_DATE
-		       ,AC.REF_PNO
-		       ,INSURANCE_TYPE
-		       ,REGION
-		       ,LIKED
-		       ,REPORT_COUNT
-		       ,B.STATUS
-		       ,PART_NAME
-		       ,LM.USER_NAME
-		FROM BOARD B
-		JOIN MEMBER M ON (BOARD_WRITER = M.USER_NO)
-		
-		JOIN ACCIDENT AC ON(BOARD_NO=AC.REF_BNO)
-		JOIN LAW_USER L ON (L.LAW_NO=REF_LNO)
-		JOIN MEMBER LM ON (LM.USER_NO=REF_UNO)
-		JOIN PART_CATEGORY ON (AC.REF_PNO = PART_NO)
-		WHERE CATEGORY_NO = ?
-		ORDER BY B.CREATE_DATE DESC
-			
+		SELECT *	
+		FROM  (SELECT ROWNUM RNUM,A.*
+			   FROM(SELECT BOARD_NO
+					       ,M.USER_ID
+					       ,CATEGORY_NO
+					       ,TITLE
+					       ,COUNT
+					       ,B.CREATE_DATE
+					       ,AC.REF_PNO
+					       ,INSURANCE_TYPE
+					       ,REGION
+					       ,LIKED
+					       ,REPORT_COUNT
+					       ,B.STATUS
+					       ,PART_NAME
+					       ,LM.USER_NAME
+					FROM BOARD B
+					JOIN MEMBER M ON (BOARD_WRITER = M.USER_NO)
+					
+					JOIN ACCIDENT AC ON(BOARD_NO=AC.REF_BNO)
+					JOIN LAW_USER L ON (L.LAW_NO=REF_LNO)
+					JOIN MEMBER LM ON (LM.USER_NO=REF_UNO)
+					JOIN PART_CATEGORY ON (AC.REF_PNO = PART_NO)
+					WHERE CATEGORY_NO = ?
+					ORDER BY B.CREATE_DATE DESC)A)
+		WHERE RNUM BETWEEN ? AND ?		
 	</entry>
 	
 	<entry key="sortAccidentBoardByLiked">
-	
-   		 SELECT BOARD_NO
-		       ,M.USER_ID
-		       ,CATEGORY_NO
-		       ,TITLE
-		       ,COUNT
-		       ,B.CREATE_DATE
-		       ,AC.REF_PNO
-		       ,INSURANCE_TYPE
-		       ,REGION
-		       ,LIKED
-		       ,REPORT_COUNT
-		       ,B.STATUS
-		       ,PART_NAME
-		       ,LM.USER_NAME
-		FROM BOARD B
-		JOIN MEMBER M ON (BOARD_WRITER = M.USER_NO)
-		
-		JOIN ACCIDENT AC ON(BOARD_NO=AC.REF_BNO)
-		JOIN LAW_USER L ON (L.LAW_NO=REF_LNO)
-		JOIN MEMBER LM ON (LM.USER_NO=REF_UNO)
-		JOIN PART_CATEGORY ON (AC.REF_PNO = PART_NO)
-		WHERE CATEGORY_NO = ?
-		ORDER BY B.LIKED DESC
-	
+		SELECT *	
+		FROM  (SELECT ROWNUM RNUM,A.*
+			   FROM(SELECT BOARD_NO
+					       ,M.USER_ID
+					       ,CATEGORY_NO
+					       ,TITLE
+					       ,COUNT
+					       ,B.CREATE_DATE
+					       ,AC.REF_PNO
+					       ,INSURANCE_TYPE
+					       ,REGION
+					       ,LIKED
+					       ,REPORT_COUNT
+					       ,B.STATUS
+					       ,PART_NAME
+					       ,LM.USER_NAME
+					FROM BOARD B
+					JOIN MEMBER M ON (BOARD_WRITER = M.USER_NO)
+					
+					JOIN ACCIDENT AC ON(BOARD_NO=AC.REF_BNO)
+					JOIN LAW_USER L ON (L.LAW_NO=REF_LNO)
+					JOIN MEMBER LM ON (LM.USER_NO=REF_UNO)
+					JOIN PART_CATEGORY ON (AC.REF_PNO = PART_NO)
+					WHERE CATEGORY_NO = ?
+					ORDER BY B.LIKED DESC)A)
+		WHERE RNUM BETWEEN ? AND ?		
 	</entry>
 	
 	<entry key="sortAccidentBoardByDislike">
-		 SELECT BOARD_NO
-		       ,M.USER_ID
-		       ,CATEGORY_NO
-		       ,TITLE
-		       ,COUNT
-		       ,B.CREATE_DATE
-		       ,AC.REF_PNO
-		       ,INSURANCE_TYPE
-		       ,REGION
-		       ,LIKED
-		       ,REPORT_COUNT
-		       ,B.STATUS
-		       ,PART_NAME
-		       ,LM.USER_NAME
-		FROM BOARD B
-		JOIN MEMBER M ON (BOARD_WRITER = M.USER_NO)
-		
-		JOIN ACCIDENT AC ON(BOARD_NO=AC.REF_BNO)
-		JOIN LAW_USER L ON (L.LAW_NO=REF_LNO)
-		JOIN MEMBER LM ON (LM.USER_NO=REF_UNO)
-		JOIN PART_CATEGORY ON (AC.REF_PNO = PART_NO)
-		WHERE CATEGORY_NO = ?
-		ORDER BY B.REPORT_COUNT DESC	
+		SELECT *	
+		FROM  (SELECT ROWNUM RNUM,A.*
+			   FROM(SELECT BOARD_NO
+					       ,M.USER_ID
+					       ,CATEGORY_NO
+					       ,TITLE
+					       ,COUNT
+					       ,B.CREATE_DATE
+					       ,AC.REF_PNO
+					       ,INSURANCE_TYPE
+					       ,REGION
+					       ,LIKED
+					       ,REPORT_COUNT
+					       ,B.STATUS
+					       ,PART_NAME
+					       ,LM.USER_NAME
+					FROM BOARD B
+					JOIN MEMBER M ON (BOARD_WRITER = M.USER_NO)
+					
+					JOIN ACCIDENT AC ON(BOARD_NO=AC.REF_BNO)
+					JOIN LAW_USER L ON (L.LAW_NO=REF_LNO)
+					JOIN MEMBER LM ON (LM.USER_NO=REF_UNO)
+					JOIN PART_CATEGORY ON (AC.REF_PNO = PART_NO)
+					WHERE CATEGORY_NO = ?
+					ORDER BY B.REPORT_COUNT DESC)A)
+		WHERE RNUM BETWEEN ? AND ?		
 	</entry>
 	
 	<entry key="sortAccidentBoardByCount">
-		 SELECT BOARD_NO
-		       ,M.USER_ID
-		       ,CATEGORY_NO
-		       ,TITLE
-		       ,COUNT
-		       ,B.CREATE_DATE
-		       ,AC.REF_PNO
-		       ,INSURANCE_TYPE
-		       ,REGION
-		       ,LIKED
-		       ,REPORT_COUNT
-		       ,B.STATUS
-		       ,PART_NAME
-		       ,LM.USER_NAME
-		FROM BOARD B
-		JOIN MEMBER M ON (BOARD_WRITER = M.USER_NO)
-		
-		JOIN ACCIDENT AC ON(BOARD_NO=AC.REF_BNO)
-		JOIN LAW_USER L ON (L.LAW_NO=REF_LNO)
-		JOIN MEMBER LM ON (LM.USER_NO=REF_UNO)
-		JOIN PART_CATEGORY ON (AC.REF_PNO = PART_NO)
-		WHERE CATEGORY_NO = ?
-		ORDER BY B.COUNT DESC
-				
+		SELECT *	
+		FROM  (SELECT ROWNUM RNUM,A.*
+			   FROM(SELECT BOARD_NO
+					       ,M.USER_ID
+					       ,CATEGORY_NO
+					       ,TITLE
+					       ,COUNT
+					       ,B.CREATE_DATE
+					       ,AC.REF_PNO
+					       ,INSURANCE_TYPE
+					       ,REGION
+					       ,LIKED
+					       ,REPORT_COUNT
+					       ,B.STATUS
+					       ,PART_NAME
+					       ,LM.USER_NAME
+					FROM BOARD B
+					JOIN MEMBER M ON (BOARD_WRITER = M.USER_NO)
+					
+					JOIN ACCIDENT AC ON(BOARD_NO=AC.REF_BNO)
+					JOIN LAW_USER L ON (L.LAW_NO=REF_LNO)
+					JOIN MEMBER LM ON (LM.USER_NO=REF_UNO)
+					JOIN PART_CATEGORY ON (AC.REF_PNO = PART_NO)
+					WHERE CATEGORY_NO = ?
+					ORDER BY B.COUNT DESC)A)
+		WHERE RNUM BETWEEN ? AND ?		
 	</entry>
 
 	<entry key="boardStatusOn">
 		UPDATE BOARD
 		SET STATUS = 'Y'
 		WHERE BOARD_NO = ?
+		AND STATUS = 'N'
 	</entry>
-	
-	<entry key="accidentInfoOn">
-		UPDATE ACCIDENT
-		SET STATUS = 'Y'
-		WHERE REF_BNO = ?
-	</entry>
-	
-	<entry key="attachmentOn">
-		UPDATE ATTACHMENT
-		SET STATUS = 'Y'
-		WHERE REF_BNO = ?
-	</entry>
-	
 	
 	<entry key="boardStatusOff">
 		UPDATE BOARD
 		SET STATUS = 'N'
 		WHERE BOARD_NO = ?
+		AND STATUS = 'Y'
 	</entry>
 	
-	<entry key="accidentInfoOff">
-		UPDATE ACCIDENT
-		SET STATUS = 'N'
-		WHERE REF_BNO = ?
-	</entry>
-	
-	<entry key="attachmentOff">
-		UPDATE ATTACHMENT
-		SET STATUS = 'N'
-		WHERE REF_BNO = ?
-	</entry>
-	
-	<entry key="boardDelete">
+	<entry key="accidentBoardDelete">
 		DELETE BOARD
 		WHERE BOARD_NO = ?
 	</entry>
@@ -157,12 +142,12 @@
 		WHERE REF_BNO = ?
 	</entry>
 	
-	<entry key="attachmentDelete">
+	<entry key="accidentAttachmentDelete">
 		DELETE ATTACHMENT
 		WHERE REF_BNO = ?
 	</entry>
 	
-	<entry key="replyDelete">
+	<entry key="accidentReplyDelete">
 		DELETE REPLY
 		WHERE REF_BNO = ?
 	</entry>
@@ -208,39 +193,13 @@
 		FROM MEMBER M
 		ORDER BY USER_NO DESC
 	</entry>
-
-	<entry key="searchAccidentBoardByTitleForManage">
-		SELECT BOARD_NO
-		       ,M.USER_ID
-		       ,CATEGORY_NO
-		       ,TITLE
-		       ,COUNT
-		       ,B.CREATE_DATE
-		       ,AC.REF_PNO
-		       ,INSURANCE_TYPE
-		       ,REGION
-		       ,LIKED
-		       ,REPORT_COUNT
-		       ,B.STATUS
-		       ,PART_NAME
-		       ,LM.USER_NAME
-		FROM BOARD B
-		<!-- 작성자 조회 -->		
-		JOIN MEMBER M ON (BOARD_WRITER = M.USER_NO)
-		
-		JOIN ACCIDENT AC ON(BOARD_NO=AC.REF_BNO)
-		JOIN LAW_USER L ON (L.LAW_NO=REF_LNO)
-		<!-- 담당 변호사 조회 -->
-		JOIN MEMBER LM ON (LM.USER_NO=REF_UNO)
-		JOIN PART_CATEGORY ON (AC.REF_PNO = PART_NO)
-		
-		WHERE REGION LIKE ?
-		AND AC.REF_PNO LIKE ?
-		AND INSURANCE_TYPE LIKE ?
-		AND B.TITLE LIKE ? 
-		AND CATEGORY_NO = ?
-		
-		ORDER BY B.CREATE_DATE DESC
+	
+	<!-- 탈퇴회원 조회 -->
+	<entry key="selectDeleteMember">
+		SELECT USER_NO, USER_ID, USER_NAME, LAWYER, ENROLL_DATE, STATUS
+		FROM MEMBER
+		WHERE STATUS = 'N'
+		ORDER BY USER_NO DESC
 	</entry>
 	
 	<entry key="searchAccidentBoardByWriterForManage">
@@ -300,10 +259,4 @@
 		WHERE RUM BETWEEN ? AND ?
 	</entry>
 	<!-- 자유게시판 관리 영역 end -->
-	
-	<entry key="selectAccidentReviewForManage">
-		SELECT *
-		FROM ACCI_REVIEW
-		WHERE REF_ACCNO = ?
-	</entry>	
 </properties>
