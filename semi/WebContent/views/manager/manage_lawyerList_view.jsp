@@ -27,10 +27,10 @@
         width: 100%;
     }
     #head{
-        height: 15%;
+        height: 10%;
     }
     #search{
-        height: 5%;
+        height: 10%;
     }
     #content{
         height: 80%;
@@ -54,9 +54,9 @@
 
     /* 검색창 */
     #search_form{
-        width: 80%;
+        width: 90%;
         height: 100%;
-        margin-left: 200px;
+        margin-left: 100px;
     }
     #search_form>div{
         height: 100%;
@@ -111,10 +111,14 @@
                     </select>
                 </div>
                 <div>
-                    <!-- 이걸 넣어야하나?
-                    <%if(!lawList.isEmpty()){ %>
-                    <%} %>
-                     -->
+                	<fieldset>
+                		<legend>정렬</legend>
+                		<label><input type="radio" name="sort" value="solvedAccCount">해결영상 수</label>
+	                	<label><input type="radio" name="sort" value="counselMatchCount">상담매칭 수</label>
+	                	<label><input type="radio" name="sort" value="reviewAverage">리뷰 평점순</label>
+                	</fieldset>
+                </div>
+                <div>
                     <button type="submit">검색</button>
                 </div>
             </form>
@@ -124,7 +128,8 @@
                 <table>
                     <thead id="List-title">
                         <tr>
-                            <td width="30">No.</td>
+                            <td width="10">No.</td>
+                            <td width="30">변호사 번호</td>
                             <td width="30">이름</td>
                             <td width="30">분야</td>
                             <td width="40">해결영상 개수</td>
@@ -138,18 +143,19 @@
                     <tbody id="apply-list">
                         <%for(int i= 0 ; i < lawList.size(); i++){%>
                         <tr>
-                            <td><%=i+1%><a href="<%=contextPath%>/manageLawDetail.ma?lno="<%=lawList.get(i).getLawNo()%>></a></td>
+                            <td><%=i+1%><input type="hidden" name="lno" value="<%=lawList.get(i).getLawNo()%>"></td>
+                            <td><%=lawList.get(i).getLawNo()%></td>
                             <td><%=lawList.get(i).getRefUno()%></td>
                             <td><%=lawList.get(i).getRefPno()%></td>
                             <td><%=lawList.get(i).getSolvedAccCount()%></td>
                             <td><%=lawList.get(i).getCounselMatchCount()%></td>
                             <td><%=lawList.get(i).getReviewAverage()%></td>
                             <%if(lawList.get(i).getLawyer().equals("Y")){ %>
-                                <td><button style="color: green">ON</button></td>
+                                <td><button id="onBtn" style="color: green">ON</button></td>
                             <%}else if(lawList.get(i).getLawyer().equals("N")){ %>
-                                <td><button style="color: red">OFF</button></td>
+                                <td><button id="offBtn" style="color: red">OFF</button></td>
                            	<%}else { %>
-                           		<td><button style="color: gray">대기중</button></td>
+                           		<td>대기중</td>
                             <%} %>
                         </tr>
                         <%} %>
@@ -167,10 +173,45 @@
     </div>
     
     <script>
-    	//변호사 상세페이지로 이동시키는 함수
-    	$("#lawList>div").click(function(){
-    		location.href="<%=contextPath%>/detail.la?lno="+$(this).children("input[name=lno]").val();
+    	$("#apply-list ").on("click", "td", function(){ //변호사 상세페이지로 이동시키는 함수
+    		var lno = $(this).parent().find("input").val();
+    		location.href="<%=contextPath%>/manageLawDetail.ma?lno="+lno;
+    		/* 관리자용 변호사 모든정보 확인할 수 있는 상세보기 페이지로 이동시키기 */
+    		/* lawyer 상태값 상관없이 가져오기 */
     	});
+    	
+    	$("#apply-list ").on("click", "button", function(){ //변호사 권한 바꾸기
+    		
+    		var $lno = $(this).parent().siblings().find("input").val();
+    		var $button = $(this).html(); //"ON"/"OFF"
+    		
+    		if(confirm("변호사 권한을 변경하시겠습니까?")){
+    			$.ajax({
+        			url: "manageLawLawyer.ma",
+        			data: {
+        				lno : $lno,
+        				button : $button
+        			},
+        			type: "get",
+        			success : function(result){
+        				if(result == "YY"){
+        					if($button == "ON"){
+            					$(this).html("OFF");
+            					$(this).css("color", "red");
+            				}else{
+            					$(this).html("ON");
+            					$(this).css("color", "green");
+            				}
+        					$("#apply-list button").load(location.reload());
+        				}else{
+        					alert("변호사 권한 변경을 실패했습니다.");
+        				}
+        			}
+        		});
+    		}
+    	});
+    	
+    	
     </script>
 </body>
 </html>

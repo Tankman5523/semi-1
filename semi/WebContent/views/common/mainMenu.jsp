@@ -184,7 +184,7 @@
     <div class ="header">
         <div id="header1"></div>
         <div id="header2">
-            <a href="<%=contextPath%>/index.jsp">블변의 법칙</a>    
+            <a href="<%=contextPath%>">블변의 법칙</a>    
         </div>
         <div id="header3">
             <div id="login-area" align = "right">
@@ -203,7 +203,7 @@
     <div class ="header">
         <div id="header1"></div>
         <div id="header2">
-            <a href="">블변의 법칙</a>    
+            <a href="<%=contextPath%>">블변의 법칙</a>    
         </div>
         <div id="header3">
             <div id="user-info">

@@ -39,7 +39,7 @@ public class MemberMypageController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+		//href로 이동 시 get방식으로 요청되어 오류 발생함 - get방식 추가 or get 방식으로 변경 
 	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

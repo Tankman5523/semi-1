@@ -53,8 +53,9 @@ public class ManageLawyerListController extends HttpServlet {
 		String nameKey = request.getParameter("nameKey");
 		String cateKey = request.getParameter("cateKey");
 		String localKey = request.getParameter("localKey");
+		String sort = request.getParameter("sort");
 		
-		ArrayList<Lawyer> lawList = new LawyerService().manageSearchLawList(nameKey, cateKey, localKey);
+		ArrayList<Lawyer> lawList = new LawyerService().manageSearchLawList(nameKey, cateKey, localKey, sort);
 		ArrayList<PartCategory> pList = new LawyerService().selectPart();
 		
 		request.setAttribute("lawList", lawList);

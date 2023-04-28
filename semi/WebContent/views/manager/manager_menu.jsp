@@ -233,7 +233,7 @@
                 <li><a href="">변호사</a>
                     <ul>
                         <li><a href="<%=contextPath %>/lawyerList.ma">변호사 관리</a></li>
-                        <li><a href="">상담 게시판 관리</a></li>
+                        <li><a href="<%=contextPath %>/counselList.ma">상담 게시판 관리</a></li>
                     </ul>
 
                 </li>    
@@ -260,11 +260,6 @@
 		function mypage(){
 			
 		}
-		
-		//홈페이지 관리자 클릭 시 메인화면으로
-		$("#header2").onclick(){
-			location.href="<%=contextPath%>/views/manager/manager_index.jsp";
-		};
 	</script>
 
 </body>
