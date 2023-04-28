@@ -79,6 +79,8 @@ public class AccidentReviewEnrollController extends HttpServlet {
 			//uno로 lawNo을 가져온다
 			int lawNo = new AccidentBoardService().selectLawNoByUno(uno);
 			
+			
+			
 			AccidentReview ar = new AccidentReview();
 			ar.setContent(content);
 			ar.setCorrectRateMe(correctRateMe);
@@ -86,15 +88,17 @@ public class AccidentReviewEnrollController extends HttpServlet {
 			ar.setRefAccNo(accNo);
 			ar.setLawNo(lawNo);
 			
+			
 			//리뷰정보 넣기
 			int result = new AccidentBoardService().insertAccidentReview(ar);
 			
 			if(result>0) {
 				// SOLVE(해결) , CATEGORY_TYPE(게시판종류) 변경해주기
-				result = new AccidentBoardService().shiftBoard(bno,accNo);
+				result = new AccidentBoardService().shiftBoard(bno,accNo,lawNo);
 			
+				
+				
 				//파일 파라메터
-			
 				if(result>0) {//리뷰정보 입력 성공
 					if(multiRequest.getOriginalFileName("reviewVideo")!=null) {
 						Attachment at = new Attachment();

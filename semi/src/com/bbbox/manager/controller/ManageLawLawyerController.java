@@ -1,30 +1,25 @@
 package com.bbbox.manager.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bbbox.board.model.service.AccidentBoardService;
-import com.bbbox.board.model.vo.Board;
-import com.bbbox.common.model.vo.PageInfo;
-import com.bbbox.manager.service.ManagerService;
+import com.bbbox.lawyer.model.service.LawyerService;
 
 /**
- * Servlet implementation class ManageResolvedBoardListController
+ * Servlet implementation class ManageLawLawyerController
  */
-@WebServlet("/list.mrb")
-public class ManageResolvedBoardListController extends HttpServlet {
+@WebServlet("/manageLawLawyer.ma")
+public class ManageLawLawyerController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ManageResolvedBoardListController() {
+    public ManageLawLawyerController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,13 +29,17 @@ public class ManageResolvedBoardListController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//sort 키워드 가져오기
-		String sort = request.getParameter("searchSort"); 
+		int lno = Integer.parseInt(request.getParameter("lno"));
+		String button = request.getParameter("button");
 		
-		ArrayList<Board> blist = new ManagerService().selectAllResolvedBoard(sort);
+		int result = new LawyerService().manageLawLawyer(lno, button);
 		
-		request.setAttribute("blist", blist);
-		request.getRequestDispatcher("views/manager/manage_resolvedBoardList_view.jsp").forward(request, response);
+		if(result>0) {
+			response.getWriter().print("YY");
+		}else {
+			response.getWriter().print("NN");
+		}
+				
 	}
 
 	/**

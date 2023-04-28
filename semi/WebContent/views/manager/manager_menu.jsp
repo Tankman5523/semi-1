@@ -172,35 +172,19 @@
 		
 		if(errmsg != "null"){
 			alert(errmsg);
-			
 			<% session.removeAttribute("errorMsg"); %>
 		}
 		
-	
 	</script>
-
-
-    <% if(loginUser == null){%>
-    <!-- 로그인 전에 보여질 화면 -->
-    <div class ="header">
-        <div id="header1"></div>
-        <div id="header2">
-            <a href="<%=contextPath%>">블변의 법칙</a>    
-        </div>
-        <div id="header3">
-            <div id="login-area" align = "right">
-                <div id = "enroll">
-                    <a href="<%=contextPath%>/enroll.me"> 회원가입 </a>
-                </div>
-                <div id="login">
-                    <a href="<%=contextPath%>/login.me"> 로그인 </a>
-                </div>
-            </div>
-        </div>
-    </div>
+	
+	<!-- 관리자 아니면 뒤로 날려버리기 -->
+	<% if(loginUser == null &&loginUser.getAdmin().equals("N")){  
+		
+		session.setAttribute("alertMsg", "로그인한 유저만 이용할 수 있습니다.");
+		response.sendRedirect(contextPath+"/index.jsp");
+		
+	}%>
     
-    <%}else{%>
-    <!-- 로그인 후에 보여질 화면 -->
     <div class ="header">
         <div id="header1"></div>
         <div id="header2">
@@ -220,7 +204,7 @@
             </div>
         </div>
     </div>
-	<%} %>
+	
     <!-- 메뉴바 영역 -->
     <div class="menubar">
             <ul id="navi">
@@ -230,7 +214,7 @@
                         <li><a href="<%=contextPath%>/list.mrb?currentPage=1">해결 영상 관리</a></li>
                     </ul>
                 </li>    
-                <li><a href="">변호사</a>
+                <li><a href="<%=contextPath %>/lawyerList.ma">변호사</a>
                     <ul>
                         <li><a href="<%=contextPath %>/lawyerList.ma">변호사 관리</a></li>
                         <li><a href="">상담 게시판 관리</a></li>
@@ -242,13 +226,14 @@
                         <li><a href="<%=contextPath%>/manage.bo">게시판 관리</a></li>
                     </ul>
                 </li>    
-                <li><a href="">회원관리</a>
+                <li><a href="<%=contextPath%>/manage.info.me">회원관리</a>
                     <ul>
                     	<li><a href="<%=contextPath%>/manage.info.me">회원조회</a></li>
                     	<li><a href="<%=contextPath%>/manage.apply.la">신청관리</a></li>
-                    	<li><a href="">탈퇴회원관리</a></li>
-                        <li><a href="">1:1 문의</a></li>
-                        <li><a href="">FQA</a></li>
+                    	<li><a href="<%=contextPath%>/manage.delete.me">탈퇴회원관리</a></li>
+                        <li><a href="<%=contextPath%>/manage.list.qa">1:1 문의</a></li>
+                 
+
                         
                     </ul>
                 </li>    
@@ -257,13 +242,16 @@
 	
 	<script>
 		function mypage(){
+			//홈페이지 관리자 클릭 시 메인화면으로
 			
-		}
+
+			$('#header2').on('click',function(){
+				
+				location.href="<%=contextPath%>/views/manager/manager_index.jsp";
+			});
+
 		
-		//홈페이지 관리자 클릭 시 메인화면으로
-		$("#header2").click(function(){
-			location.href="<%=contextPath%>/views/manager/manager_index.jsp";
-		});
+
 	</script>
 
 </body>

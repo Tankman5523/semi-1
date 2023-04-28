@@ -296,14 +296,40 @@ public class LawyerService {
 	}
 
 	//조건으로 검색한 변호사 리스트 조회 (관리자용)
-	public ArrayList<Lawyer> manageSearchLawList(String nameKey, String cateKey, String localKey) {
+	public ArrayList<Lawyer> manageSearchLawList(String nameKey, String cateKey, String localKey, String sort) {
 		Connection conn = JDBCTemplate.getConnection();
 		
-		ArrayList<Lawyer> lawList = new LawyerDao().manageSearchLawList(conn, nameKey, cateKey, localKey);
+		ArrayList<Lawyer> lawList = new LawyerDao().manageSearchLawList(conn, nameKey, cateKey, localKey, sort);
 		
 		JDBCTemplate.close(conn);
 		
 		return lawList;
+	}
+
+	//변호사 권한 변경 (관리자용)
+	public int manageLawLawyer(int lno, String button) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new LawyerDao().manageLawLawyer(conn, lno, button);
+	
+		if(result==0) {
+			JDBCTemplate.rollback(conn);
+		}else {
+			JDBCTemplate.commit(conn);
+		}
+		
+		return result;
+	}
+
+	//상담 리스트 조회 (관리자용)
+	public ArrayList<Counsel> selectCounselList() {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Counsel> cList = new LawyerDao().selectCounselList(conn);
+		
+		JDBCTemplate.close(conn);
+		
+		return cList;
 	}
 	
 	

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import = "com.bbbox.lawyer.model.vo.*" %>
 <%
-	Lawyer apply = (Lawyer)request.getAttribute("apply");
+	Lawyer lawInfo = (Lawyer)request.getAttribute("lawInfo");
 
 	String lat = (String)request.getAttribute("lat"); 
 	
@@ -87,42 +87,42 @@
 	                </tr>
 	                <tr>
 	                    <td>시험</td>
-	                    <td><%=apply.getExam()%></td>
+	                    <td><%=lawInfo.getExam()%></td>
 	                </tr>
 	                <tr>
 	                    <td>회차</td>
-	                    <td><%=apply.getExamSession()%>회</td>
+	                    <td><%=lawInfo.getExamSession()%>회</td>
 	                </tr>
 	                <tr>
 	                    <td>합격년도</td>
-	                    <td><%=apply.getPassDate()%>년도</td>
+	                    <td><%=lawInfo.getPassDate()%>년도</td>
 	                </tr>
 	                <tr>
 	                    <td>전문분야</td>
-	                    <td><%=apply.getRefPno()%></td>
+	                    <td><%=lawInfo.getRefPno()%></td>
 	                </tr>
 	                <tr>
 	                    <td>주소</td>
-	                    <td><%=apply.getCompanyAddress() %></td>
+	                    <td><%=lawInfo.getCompanyAddress() %></td>
 	                </tr>
 	                <tr>
 	                    <td>사무소 이름</td>
-	                    <td><%=apply.getCompanyName() %></td>
+	                    <td><%=lawInfo.getCompanyName() %></td>
 	                </tr>
 	                <tr>
 	                    <td>사무소 번호</td>
-	                    <td><%=apply.getCompanyPn()%></td>
+	                    <td><%=lawInfo.getCompanyPn()%></td>
 	                </tr>
 	            </table> 
 	        <hr>
 	            <table id="lawComent">
 	                <tr>
 	                    <td>한줄소개</td>
-	                    <td><textarea name="comment" id="" cols="40" rows="3" style="resize: none;"><%=apply.getLawComment()%></textarea></td>
+	                    <td><textarea name="comment" id="" cols="40" rows="3" style="resize: none;"><%=lawInfo.getLawComment()%></textarea></td>
 	                </tr>
 	                <tr>
 	                    <td>경력</td>
-	                    <td><textarea name="career" id="" cols="40" rows="5" style="resize: none;"><%=apply.getCareer()%></textarea></td>
+	                    <td><textarea name="career" id="" cols="40" rows="5" style="resize: none;"><%=lawInfo.getCareer()%></textarea></td>
 	                </tr>
 	            </table>    
 	        <hr>

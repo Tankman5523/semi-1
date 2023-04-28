@@ -144,45 +144,46 @@
                     <td colspan ="5" height="30" align="left" ><label for="userId" >아이디</label></td>
                 </tr>
                 <tr>
-                    <td><input type="text" name="inputId" id="userId" maxlength="12" required> <button id ="check_btn" type="button" onclick = "return chkId();"> 중복확인 </button></td>
+                    <td><input type="text" name="inputId" id="userId" maxlength="12" required placeholder = "아이디를 입력해주세요"> <button id ="check_btn" type="button" onclick = "return chkId();"> 중복확인 </button></td>
+               		<td><p>영어와 숫자만을 사용하여 4~11자로 작성해주세요</p></td>
                 </tr>  
                 <tr>
-                	<td><label id="checkResult"></label></td>
+                	<td><label id="checkResult"></label></td> <!-- 아이디 중복확인 keyUp영역 -->
                 </tr>
                 <tr>
                     <td><label for="userPwd">비밀번호</label></td>
                 </tr>  
                 <tr>
-                    <td><input type="password" name="inputPwd" id="userPwd" maxlength="15" required></td>
+                    <td><input type="password" name="inputPwd" id="userPwd" maxlength="15" required placeholder = "숫자,영어,특수문자를 포함하여 4~15자로 작성해주세요" ></td>
                 </tr>
                 <tr>
                     <td><label for="chkPwd">비밀번호 확인</label></td>
                 </tr>
                 <tr>
-                    <td><input type="password" id="checkPwd" name="checkPwd"maxlength="15" required></td>
+                    <td><input type="password" id="checkPwd" name="checkPwd"maxlength="15" required placeholder = "숫자,영어,특수문자를 포함하여 4~15자로 작성해주세요"></td>
                 </tr>
                 <tr>
-                    <td><label id="success">비밀번호가 일치합니다.</label> <label id="fail">비밀번호가 일치하지 않습니다.</label></td>                    
+                    <td><label id="success">비밀번호가 일치합니다.</label> <label id="fail">비밀번호가 일치하지 않습니다.</label></td> <!-- 비밀번호일치 keyUP영  -->                  
                 </tr>
                 <tr>
                     <td><label for="userName">이름</label></td>
                 </tr>
                 <tr>
-                    <td><input type="text" name = "inputName" id="userName" required></td>
+                    <td><input type="text" name = "inputName" id="userName" required placeholder="예)홍길동"></td>
                 </tr>
                 <tr>
                     <td><label for="inputEmail">이메일</label></td>
                 </tr>
                 <tr>
-                	<td><input type="text" name="email"id="inputEmail"><button type="button" onclick="return doubleChk();">이메일 확인</button></td>
+                	<td><input type="text" name="email"id="inputEmail" required><button type="button" onclick="return doubleChk();"  >이메일 확인</button></td>
                 </tr>
 				<tr>
-					<td><label id="emailTestResult"></label></td>
+					<td><label id="emailTestResult"></label></td> <!-- 이메일사용 가능 여부 keyUp영역 -->
 				</tr>
-					<td><input id="authentication" type ="text"><button type="button" onclick="return emailSubmit();">인증하기</button></td>
+					<td><input id="authentication" type ="text" required ><button type="button" onclick="return emailSubmit();">인증하기</button></td>
 				<tr>
                 <tr>
-                	<td><label id=emailChk></label></td>
+                	<td><label id=emailChk></label></td> <!-- 이메일인증 keyUp영역 -->
                 </tr>
                 <tr>
                     <td><label for="inputPhone">핸드폰 번호</label><br></td>
@@ -253,7 +254,7 @@
                 var userPwd = $('#userPwd').val();
                 var checkPwd = $('#checkPwd').val();
 
-                var idCheck =/^[a-zA-Z]{1}[a-zA-Z0-9]{3,11}$/;
+                var idCheck =/^[a-zA-Z0-9]{4,11}$/;
                 var pwdCheck = /^[a-zA-Z0-9!@#$%^&*]{8,15}$/;
 
                 if(!idCheck.test(inputId)){

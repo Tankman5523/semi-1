@@ -12,7 +12,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>1대1문의 게시판</title>
+<title>1대1문의 게시판(관리자)</title>
 <style>
 	
     div, input, textarea, h2{
@@ -42,17 +42,15 @@
 </style>
 </head>
 <body>
-<%@ include file = "../../common/mainMenu.jsp" %>
+<%@ include file = "../common/mainMenu.jsp" %>
 
 	<div class="outer">
 		<h2 align="center" style="border: none;">1:1 문의 게시판</h2>
 		<hr>
 		<div id="content">
-			<%if (loginUser != null) {%>
 			<div id="btn-area" style="height:10%; border:none;" align="right">
 				<button onclick="questionWrite();" style="margin: 10px">글쓰기</button>
 			</div>
-			<%} %>
 			<script>
 				function questionWrite(){
 					location.href="<%=contextPath%>/insert.qa";
@@ -67,6 +65,7 @@
 						<th width="80">작성자</th>
 						<th width="80">작성일</th>
 						<th width="50">공개여부</th>
+						<th width="50">답변여부</th>
 					</tr>
 				</thead>
 				<tbody id="qa-list">
@@ -78,17 +77,23 @@
 									<td style="text-align: left; padding-left: 5px;"><%=q.getTitle()%></td>
 									<td><%=q.getqWriter()%></td>
 									<td><%=q.getDate()%></td>
-									
 									<%if(q.getOpen().equals("N")){%>
 										<td><b>비공개</b></td> <!-- 나중에 아이콘으로 변경하기  -->
 									<%}else{ %>
 										<td><b>공개</b></td>
 									<%} %>
+									<!-- 답변 여부  -->
+									<%if(q.getAnswer() == null){%>
+										<td><b style = "color : blue">대기중</b></td> 
+									<%}else{ %>
+										<td><b style = "color : green">완료</b></td>
+									<%} %>
+									
 								</tr>
 							<%} %>
 					<%}else{%>
 						<tr>
-							<td colspan="5">작성된 게시글이 없습니다.</td>
+							<td colspan="6">작성된 게시글이 없습니다.</td>
 						</tr>
 					<%} %>
 				</tbody>
@@ -120,7 +125,7 @@
 				<%}else{ %>
 					$(function(){
 						
-						$("#qa-list").on('click','tr',function(){
+						$("#qa-list").on('click','tr',function(){z
 							alert("해당 게시글은 비공개 글입니다.");
 						});
 

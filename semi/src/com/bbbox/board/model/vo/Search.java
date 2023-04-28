@@ -7,19 +7,26 @@ public class Search {
 	private int partType;
 	private String insuranceType;
 	private String keyword;
+	private int categoryNo;
 	
 	public Search() {
 		super();
 	}
 
-	public Search(String searchFilter, String region, int partType, String insuranceType, String keyword) {
+	
+
+	public Search(String searchFilter, String region, int partType, String insuranceType, String keyword,
+			int categoryNo) {
 		super();
 		this.searchFilter = searchFilter;
 		this.region = region;
 		this.partType = partType;
 		this.insuranceType = insuranceType;
 		this.keyword = keyword;
+		this.categoryNo = categoryNo;
 	}
+
+
 
 	public String getSearchFilter() {
 		return searchFilter;
@@ -61,11 +68,21 @@ public class Search {
 		this.keyword = keyword;
 	}
 
+	public int getCategoryNo() {
+		return categoryNo;
+	}
+
+	public void setCategoryNo(int categoryNo) {
+		this.categoryNo = categoryNo;
+	}
+
 	@Override
 	public String toString() {
-		return "search [searchFilter=" + searchFilter + ", region=" + region + ", partType=" + partType
-				+ ", insuranceType=" + insuranceType + ", keyword=" + keyword + "]";
+		return "Search [searchFilter=" + searchFilter + ", region=" + region + ", partType=" + partType
+				+ ", insuranceType=" + insuranceType + ", keyword=" + keyword + ", categoryNo=" + categoryNo + "]";
 	}
+
+	
 	
 	
 	

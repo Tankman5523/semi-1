@@ -131,7 +131,13 @@
 </head>
 <body>
 <%@include file="../common/mainMenu.jsp" %>
-
+	<%	
+	//로그인 안됬으면 홈으로 보내기
+	if(loginUser==null){
+		session.setAttribute("alertMsg", "로그인한 유저만 이용할 수 있습니다.");
+		response.sendRedirect(contextPath);
+	}
+	%>	
     <div class="outer">
         <div class="accidentBoardDetailHeader">
             <h1>사건제보영상</h1>
@@ -139,7 +145,7 @@
         <div class="accidentBoardDetailBody">
             <div class="bodyLeft">
                 <div class="videoArea">
-                    <video src="<%=contextPath%>/resources/accident_board_file/video1.mp4" controls poster="" id="video"></video>
+                    <video src="<%=contextPath%><%=b.getFilePath()%>" controls id="video"></video>
                 </div>
                 <div class="contentArea">
                     <div class="infoArea">

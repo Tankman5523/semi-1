@@ -99,12 +99,12 @@ input, textarea{
                             <td><%=l.getRefPno()%></td>
                         </tr>
                         <tr>
-                            <th>내용</th>
+                            <th>내용</th> <!-- 클릭 시 창 눌리는거 없애기 -->
                             <td colspan="3"><textarea cols="50" rows="15" style="resize:none" readonly><%=c.getCsContent() %></textarea></td>
                         </tr>
                     </table>
                         <%if(c.getCsAnswer() != null){ %>
-                        	<div class="answer-area" action="<%=contextPath%>/counselUpdate.la" method="get"">
+                        	<div class="answer-area" action="<%=contextPath%>/counselUpdate.la" method="get">
 			                    <table align="center">
 			                        <tr>
 			                            <th>답변</th>
@@ -151,8 +151,6 @@ input, textarea{
     	$(function(){
     		$("#acceptBtn").click(function(){
         		$(".answer-form").css("display","block");
-        		var info = "";
-        		$("#answer").html("사무실 번호 : <%=l.getCompanyPn()%>");
         		$("#button").css("display","none");
         		$(".answer-form>input[name=result]").val("accept");
         	});

@@ -853,6 +853,8 @@ public class AccidentBoardDao {
 			JDBCTemplate.close(pstmt);
 		}
 		
+		
+		
 		return result;
 	}
 
@@ -902,14 +904,15 @@ public class AccidentBoardDao {
 		return result;
 	}
 
-	public int updateSolve(Connection conn, int accNo) {
+	public int updateAccident(Connection conn, int accNo, int lawNo) {
 		int result = 0;
 		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("updateSolve");
+		String sql = prop.getProperty("updateAccident");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, accNo);
+			pstmt.setInt(1, lawNo);
+			pstmt.setInt(2, accNo);
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -1137,7 +1140,7 @@ public class AccidentBoardDao {
 			pstmt.setString(3, s.getInsuranceType());
 			}
 			pstmt.setString(4, "%"+s.getKeyword()+"%");
-			
+			pstmt.setInt(5, s.getCategoryNo());
 			
 			rset=pstmt.executeQuery();
 			
@@ -1151,6 +1154,5 @@ public class AccidentBoardDao {
 		}
 		return listCount;
 	}
-
 	
 }

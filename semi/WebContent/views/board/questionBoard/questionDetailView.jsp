@@ -114,11 +114,9 @@
 	</div>
 	
 	<script>
-	
-		//안되는 이유 못찾겠음.. 확인하기 
+		/*답변 등록 script*/
 		$(function(){
 			answerView();
-		/*답변 등록 script*/
 		$("#reply-btn").on('click',function(){
 			var qno = <%=qa.getqNo()%>; //글번호
 			console.log(qno);
@@ -152,7 +150,8 @@
 			});
 		});//함수 끝  
 			
-			/*답변 조회 리스트*/
+		
+		/*답변 조회*/
 		function answerView(){
 				
 				$.ajax({

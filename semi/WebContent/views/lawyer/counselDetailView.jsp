@@ -5,6 +5,7 @@
 	Lawyer l = (Lawyer)request.getAttribute("l");
 %>
 <%@ include file = "../common/mainMenu.jsp" %>
+<% System.out.println("상담디테일뷰 로그인유저"+loginUser); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -67,6 +68,10 @@ table,td,th{
 input, textarea{
    border: none;	
 }
+#info{
+	text-align: right;
+	font-size: 13px;
+}
 
 </style>
 </head>
@@ -95,28 +100,34 @@ input, textarea{
                             <th>내용</th>
                             <td><textarea cols="50" rows="15" style="resize:none" readonly><%=c.getCsContent() %></textarea></td>
                         </tr>
-                        <%if(c.getCsAnswer() != null){ %> <!-- ACCETP가 'Y'가 되는기준이 변호사 답변인지/회원의 수락인지 확인 후 조건 수정하기 -->
+                        <%if(c.getCsAnswer() != null){ %>
 	                        <tr>
 	                            <th>답변</th>
-	                            <td><textarea cols="50" rows="15" style="resize:none" readonly><%=c.getCsAnswer() %></textarea></td>
+	                            <td>
+	                            	<textarea cols="50" rows="15" style="resize:none" readonly><%=c.getCsAnswer() %></textarea>
+	                            	<div id="info">사무실 번호 : <%=l.getCompanyPn() %><br>사무실 주소 : <%=l.getCompanyAddress() %></div>
+	                            </td>
 	                        </tr>
                         <%} %>
                     </table>
                     <div id="button">
-                    	<%if(c.getCsAnswer() == null){ %> <!-- 아직 답변이 없는 경우 수정 가능 -->
-                        	<button type="submit">수정하기</button>
-	                        <button type="button" onclick="history.back()">취소</button>
-                        <%}else{ %>
-                        	<%if(c.getAccept().equals("W")){ %> <!-- 회원의 수락대기중인 상태 -->
-	                        	<button type="submit" id="acceptBtn">매칭 수락하기</button>
-	                        	<!-- 수락버튼 클릭시 컴펌 후 accept y로 바꾸기 -->
-	                        	<button type="submit" id="declineBtn">상담 종료하기</button>
-	                        	<!-- 이대로 상담을 종료하시겟습니까 띄우고 완료 / accept n으로 바꾸기 -->
-	                        <%}else{ %> <!-- 거절답변 or 매칭실패일 경우 -->
-	                        	<button type="button" onclick="history.back()">확인</button>
-                        	<%} %>
-                        <%} %>
-                        
+                    	<%if(loginUser.getAdmin().equals("Y")){ %> <!-- 관리자라면 -->
+                    		<button type="button" onclick="history.back()">확인</button>
+                    	<%}else{ %>
+	                    	<%if(c.getCsAnswer() == null){ %> <!-- 아직 답변이 없는 경우 수정 가능 -->
+	                        	<button type="submit">수정하기</button>
+		                        <button type="button" onclick="history.back()">취소</button>
+	                        <%}else{ %>
+	                        	<%if(c.getAccept().equals("W")){ %> <!-- 회원의 수락대기중인 상태 -->
+		                        	<button type="submit" id="acceptBtn">매칭 수락하기</button>
+		                        	<!-- 수락버튼 클릭시 컴펌 후 accept y로 바꾸기 -->
+		                        	<button type="submit" id="declineBtn">상담 종료하기</button>
+		                        	<!-- 이대로 상담을 종료하시겟습니까 띄우고 완료 / accept n으로 바꾸기 -->
+		                        <%}else{ %> <!-- 거절답변 or 매칭실패일 경우 -->
+		                        	<button type="button" onclick="history.back()">확인</button>
+	                        	<%} %>
+	                        <%} %>
+                    	<%} %>
                     </div>
                 </form>
             </div>
@@ -124,7 +135,7 @@ input, textarea{
     </div>
     
     <script>
-    	//아직 기능 확인 안함//이거는 그냥 마이페이지 에다가 해놓자
+    	//아직 기능 확인 안함
     	function counselDelete(){
     		if(confirm=("상담내역을 삭제하시겠습니까? 삭제하시면 내용을 복구할 수 없습니다.")){
     			location.href="<%=contextPath%>/counselDelete.la?cno=<%=c.getCsNo()%>";

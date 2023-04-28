@@ -93,7 +93,7 @@
 	               </table>
 	               <div id="button">
 	                   <button type="submit">수정하기</button>
-	                   <button type="button" onclick="back();">취소</button>
+	                   <button type="button" onclick="back();">취소</button> <!-- 마이페이지 이동으로 변경하기 -->
 	               </div>
 	           </form>
 	       </div>

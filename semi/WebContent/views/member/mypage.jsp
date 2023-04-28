@@ -70,93 +70,107 @@
     <h4>기본정보</h4>
     <hr>
     <!-- 기본정보 뷰 -->
-        <table id="info">
-            <tr>
-                <td width="150">아이디 </td>
-                <td width="200"><%=loginUser.getUserId()%></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>이름 </td>
-                <td><%=loginUser.getUserName()%></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>email </td>
-                <td><%=loginUser.getEmail()%></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>회원타입 </td>
-            <%if(!loginUser.getLawyer().equals("Y")){ %>
-	            <td>일반회원</td>
-               	<td><button id="applyLawyer" onclick = "return apply();">변호사회원 신청하기</button></td>
-             <%}else{%>
-	         	<td>변호사회원</td>   
-	         <%} %>	
-            </tr>
-        </table>
+    	<form action="<%=contextPath%>/apply_Lawyer.me" method ="get">
+	        <table id="info">
+	            <tr>
+	                <td width="150">아이디 </td>
+	                <td width="200"><%=loginUser.getUserId()%></td>
+	                <td></td>
+	            </tr>
+	            <tr>
+	                <td>이름 </td>
+	                <td><%=loginUser.getUserName()%></td>
+	                <td></td>
+	            </tr>
+	            <tr>
+	                <td>email </td>
+	                <td><%=loginUser.getEmail()%></td>
+	                <td></td>
+	            </tr>
+	            <tr>
+	                <td>회원타입 </td>
+	            <%if(!loginUser.getLawyer().equals("Y")){ %>
+		            <td>일반회원</td>
+	               	<td><button onclick=" return law();">변호사회원 신청하기</button></td>
+	             <%}else{%>
+		         	<td>변호사회원</td>   
+		         <%} %>	
+	            </tr>
+	        </table>
+    	</form>
         <br>
     <!-- 버튼 -->
 
-    <form action="<%=contextPath%>/confirm.me" method = "post">
 	    <div id="btn" align="center">
-	        <button onclick = "main();">메인으로</button>
-	        <button onclick = "modify();">수정하기</button>
+	        <button onclick = "home();">메인으로</button>
+	        <button id="modify">수정하기</button>
 	        <button onclick = "memberDelete();"> 회원탈퇴 </button>
 	    </div>
-    </form>
- 
-	<script>
+    
+    <script>
 	    /* 메인페이지 버튼 클릭 함수 script */
 		function main(){
 			location.href="<%=contextPath%>";
 
-    /* 메인페이지 버튼 클릭 함수 script */
-	function main(){
-		location.href="<%=contextPath%>";
-	}
-	
-	/* 회원정보 수정페이지로 이동 script */
-	function modify(){
-		location.href="<%=contextPath%>/update_info.me";
-	}
-	
-    /* 회원 탈퇴 스크립트 영역  */
-	function memberDelete(){
+		/* 변호사회원 신청페이지로 이동 */
+		function law(){
+				/* 클릭시 이미 신청한 회원이라면, 알림 띄워주기 */
+				$.ajax({
+				 	url : "chkapply.me",
+				 	
+				 	data : { userNo : <%=loginUser.getUserNo()%>},
+				 	
+				 	type : "post",
+				 	
+				 	success : function(result){
+				 			
+				 			if(result == 'W'){
+				 			 	alert("이미 신청하였습니다.");
+				 			 	return false;
+				 			}else{
+								location.href="<%=contextPath%>/apply_Lawyer.me"
+				 			}
+				 	},
+				 	
+				 	error : function(){
+				 		console.log("통신 실패")
+				 	}
+				}); //ajax 끝
+				
+			}//함수 끝 
+	    
+		/* 메인페이지 버튼 클릭 함수 script */
+		function home(){
+			
+			location.href="<%=contextPath%>";	
+		}
 		
-		if(confirm("회원 탈퇴시 해당 아이디 복구 및 재가입이 불가능 합니다. 탈퇴 하시겠습니까?")){
 		
 		}
-    }
-    
-	/* 변호사회원 신청페이지로 이동 */
-	function apply(){
-		/* 클릭시 이미 신청한 회원이라면, 알림 띄워주기 */
-		$.ajax({
-		 	url : "chkapply.me",
-		 	
-		 	data : { userNo : <%=loginUser.getUserNo()%>},
-		 	
-		 	type : "post",
-		 	
-		 	success : function(result){
-		 			console.log(result);
-		 			
-		 			if(result == 'W'){
-		 			 	alert("이미 신청하였습니다.");
-		 			 	return false;
-		 			}else{
-						location.href="<%=contextPath%>/apply_Lawyer.me"
-		 			}
-		 	},
-		 	
-		 	error : function(){
-		 		console.log("통신 실패")
-		 	}
-		}); //ajax 끝
 		
-	}//함수 끝 
+	    /*회원정보 수정 스크립트 영역*/
+	    $('#modify').on('click',function(){
+	    	
+	    	if(<%=loginUser.getLawyer().equals("Y")%>){
+	    		location.href="<%=contextPath%>/update_info.la";
+	    	
+	    	}else{
+	    		location.href="<%=contextPath%>/update_info.me";
+	    	}
+	    		
+	    	
+	    });
+		
+	    /* 회원 탈퇴 스크립트 영역  */
+		function memberDelete(){
+			
+			if(confirm("회원 탈퇴시 해당 아이디 복구 및 재가입이 불가능 합니다. 탈퇴 하시겠습니까?")){
+				
+				location.href="<%=contextPath%>/confirm.me";
+			}	
+			
+		}
+	    
 	</script>
 	
     <%if(loginUser.getLawyer().equals("N")){ %>
@@ -193,6 +207,7 @@
             </tbody>
         </table>
     	<hr>
+    <%} %>
     	
     	<script>
 	    	/* 찜하기 취소 script*/
@@ -229,10 +244,9 @@
 	    	}); //함수 끝 
 			
     	</script>
-        <%} %>
     <% if(loginUser.getLawyer().equals("Y")){ %>
     <!-- 변호사 회원으로 로그인 했을 때 -->
-    <h3>해결 사건 관리</h3>
+    <h3>해결 사건 리뷰</h3>
     <hr>
     	<table>
             <thead id="List">
@@ -246,7 +260,7 @@
             	<%for(int i = 0 ; i < accRev.size() ; i++){ %>
 		            <tr>
 		                <td><%= i+1 %></td>
-		                <td><a href=""><%= accRev.get(i).getContent() %></a></td>
+		                <td><%= accRev.get(i).getContent() %></td>
 		            </tr>
 	            <%} %>
 	        <%}else{ %>    
@@ -256,38 +270,6 @@
 	       			<td colspan="3"> 조회된 게시글이 없습니다. </td>
 	       		</tr>
 	       	<%} %>	
-        </table>
-        <h3>내 사건 관리</h3>
-    	<!-- 내가 맡은 사건(해결X)-->
-    	<hr>
-    	<% if(!accident.isEmpty()){ %>
-    	<table>
-            <thead id="List">
-                <tr>
-                    <td width="50">No.</td>
-                    <td width="230">게시글 제목 </td>
-                    <td width="70">분야</td>
-                    <td width="50">해결여부</td>
-                    <td width="50">리뷰작성</td>
-                </tr>
-            </thead>
-            <!-- 사건 리스트가 비어있지 않다면  -->
-            	<% for (int i = 0 ; i < accident.size() ; i++){ %>
-		            <tr>
-		                <td><%=i+1%></td>
-		                <td><a href=""><%=accident.get(i).getTitle()%></a></td>
-		               	<td><%=accident.get(i).getPartName()%></td>
-		                <td><%=accident.get(i).getSolve()%></td>
-		                <td><button type="button">리뷰 작성</button></td>
-		            </tr>
-            	<%} %>
-			<!-- 사건 리스트가 비어있다면  -->	
-    	<%}else{%>
-				<tr>
-	       			<td></td>
-	       			<td colspan="4"> 조회된 게시글이 없습니다. </td>
-	       		</tr>
-    	<%} %>
         </table>
         <h3>내 상담 내역</h3>
 	    <hr>
@@ -348,7 +330,7 @@
 	                <td><%=i+1 %></td>
 	                <td><a href="<%=contextPath%>/detail.bo?bno=<%=boardList.get(i).getBoardNo()%>"><%=boardList.get(i).getTitle()%></a></td>
 	                <%if(boardList.get(i).getCategoryName().equals("해결")){ %>
-	               	 	<td><%=boardList.get(i).getCategoryName()%> <button id="review-btn">리뷰작성</button></td>
+	               	 	<td><%=boardList.get(i).getCategoryName()%> <a class="review-btn">리뷰작성</a> <input type=hidden value = <%=boardList.get(i).getAccNo()%>></td>
 	                <%}else{ %>
 	                <td><%=boardList.get(i).getCategoryName()%></td>
 	                <%} %>
@@ -367,7 +349,8 @@
         </table>
         
         <script>
-        /* 내 게시글 삭제 script*/
+       
+       
         $(function(){
         	$("#board-list tr td").on('click','button',function(){
 				
@@ -400,8 +383,23 @@
         	})	
         
         });
+       
+        
+        /*회원이 작성하는 변호사 리뷰 */
+        $('#board-list tr td ').on('click','.review-btn',function(){
+        	
+        	var accNo = $(this).next().val();
+        	
+        	console.log(accNo);
+        	
+        	location.href = "<%=contextPath%>/review.la?accNo="+accNo;
+        	
+        	
+        });//함수 끝 
         
         </script>
+        
+       
         
     <h3>1:1 문의 </h3>
     <hr>
@@ -491,7 +489,12 @@
 				<%for(int i = 0 ; i<replyList.size() ; i++){%>
 	            <tr>
 	                <td><%=i+1 %><input type = "hidden" value = "<%=replyList.get(i).getRefBno()%>"></td>
-	                <td><%=replyList.get(i).getContent()%><input type = "hidden" value ="<%=replyList.get(i).getStatus()%>"></td>
+	                <%if(replyList.get(i).getStatus().equals("N")){%>
+	               		<td>삭제된 게시글 입니다. </td>
+	               	<%}else{ %>
+	                	<td><a href="<%=contextPath%>/detail.bo?bno=<%=replyList.get(i).getRefBno()%>"><%=replyList.get(i).getContent()%></a></td>
+	                <%} %>
+	                
 					<td><%= replyList.get(i).getCategoryName()%></td>               
 	                <td><%= replyList.get(i).getDate()%></td>
 	                <td><button>삭제</button> <input type="hidden" value="<%=replyList.get(i).getRpNo()%>"></td>
@@ -508,22 +511,6 @@
         </table>
         
         <script>
-        /*삭제된 게시글에 달렸던 댓글 조회시 이벤트 함수 영역*/
-        $(function(){
-        	$('#reply-list tr').on('click', 'td', function(){
-        		
-        		var $boardStatus = $(this).children().val(); // 참조 게시글의 상태값 
-        		
-        		var $bno = $(this).prev().children().val(); // 참조 게시글의 번호
-        		
-        		if($boardStatus == 'N'){
-        			alert("이미 삭제된 게시글로 댓글을 조회할 수 없습니다.")
-        		}else{
-        			location.href="<%=contextPath%>/detail.bo?bno="+$bno;
-        		}
-        	})
-        }); //함수 끝 
-        
         
         /*댓글 삭제 script */
          $(function(){
@@ -532,12 +519,14 @@
         		 
         		 if(confirm("삭제한 댓글 은 복구가 불가능 합니다. 정말 삭제하시겠습니까?")){
          			var $rpno = $(this).next().val();
+         			var $bno = $(this).parent().prevAll().eq(3).children().val();
          			
          			$.ajax({
          				
          				url : "delRp",
          				
-         				data : { rpNo : $rpno },
+         				data : { rpNo : $rpno,
+         						 bno : $bno},
          				
          				type : "get",
          				
@@ -652,26 +641,14 @@
 	                    
 	                </tr>
 	            </thead>
-	    <% if(loginUser.getLawyer().equals("Y")){ %>
-			<!-- 변호사 회원의 사건 리뷰 위치  -->
-			<tbody>
-				<tr>
-					<td></td> <!-- 누를시에 어디로 이동할지 정하기  -->
-			        <td><a href=""></a></td>
-			   		<td><a href=""></a></td>
-			   		<td><button>삭제하기</button></td>
-					
-				</tr>	    
-			</tbody>
-	    <%}else{ %>
 	    <!-- 일반 회원 리뷰 영역  -->
 				<% if(!lawRev.isEmpty()){%>
 					<tbody id=user-review>
 					<%for(int i = 0 ; i < lawRev.size() ; i++){ %>
 		            <tr>
 		                <td><%= i+1 %></td> <!-- 누를시에 어디로 이동할지 정하기  -->
-		                <td><a href=""><%= lawRev.get(i).getReviewContent()%></a></td>
-		                <td><a href=""><%= lawRev.get(i).getStar()%></a></td>
+		                <td><a href="<%=contextPath%>/reviewDelete.la=ano?=<%=lawRev.get(i).getRefAno()%>"><%= lawRev.get(i).getReviewContent()%></a></td>
+		                <td><%= lawRev.get(i).getStar()%></td>
 		                <td><button>삭제</button> <input type=hidden value = "<%=lawRev.get(i).getReviewNo()%>"></td>
 		            </tr>
 		            <%} %>
@@ -684,18 +661,17 @@
 	            <%} %>
 	    <%} %>
 	        </table>
-	<%} %>
-	
     <br><br><br>
-
 </div>
-
 	<script>
 	/*리뷰 삭제 script 영역 */
 	
 	$(function(){
+		
 		$("#user-review tr td").on('click','button',function(){
+			
 			if(confirm("삭제한 리뷰내역은 복구가 불가능 합니다. 정말 삭제하시겠습니까?")){
+				
 				var $reNo = $(this).next().val(); //리뷰 번호 
 				
 				$.ajax({
@@ -718,10 +694,13 @@
       				}
       				
       			}); // ajax 끝 
+				
 			}
+			
 
 		});
-	});
+		
+	});//함수 끝 
 
 	</script>			
 	

@@ -13,11 +13,9 @@
         input{
             box-sizing: border-box;
         }
-        div{
-            border: 1px solid black;
-            box-sizing: border-box;
-        }
-        
+        .outer div{
+       		border:none;
+       	}
         .outer{
             width: 1200px;
             height: 1000px;
@@ -48,7 +46,7 @@
             height: 100%;
         }
         .title{
-            height: 15%;
+            height: 5%;
         }
         .inputTitle{
             font-size: 20px;
@@ -68,7 +66,7 @@
         }
 
         .accidentInfo{
-            height: 50%;
+            height: 55%;
         }
         .accidentInfo>table{
             display: inline-table;
@@ -77,7 +75,7 @@
             
         }
         .submitArea{
-            height: 10%;
+            height: 15%;
             text-align: center;
         }
         .submitArea>*{

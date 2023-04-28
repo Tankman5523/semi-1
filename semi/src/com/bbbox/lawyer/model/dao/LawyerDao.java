@@ -592,8 +592,6 @@ public class LawyerDao {
 			
 			result = pstmt.executeUpdate();
 			
-			System.out.println(result+"result dao");
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -776,8 +774,6 @@ public class LawyerDao {
 									rset.getString("LAWYER")));
 			}
 			
-			System.out.println("dao 관리자용 list"+list);
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -790,13 +786,22 @@ public class LawyerDao {
 	}
 
 	//조건으로 검색한 변호사 리스트 조회 (관리자용)
-	public ArrayList<Lawyer> manageSearchLawList(Connection conn, String nameKey, String cateKey, String localKey) {
+	public ArrayList<Lawyer> manageSearchLawList(Connection conn, String nameKey, String cateKey, String localKey, String sort) {
 
 		ArrayList<Lawyer> lawList = new ArrayList<>();
 		
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("manageSearchLawList");
+		String sql = "";
+		if(sort == null) {
+			sql = prop.getProperty("manageSearchLawList");
+		} else if(sort.equals("solvedAccCount")) {
+			sql = prop.getProperty("manageSearchLawListSolved");
+		}else if(sort.equals("counselMatchCount")) {
+			sql = prop.getProperty("manageSearchLawListMatch");
+		}else {
+			sql = prop.getProperty("manageSearchLawListAverage");
+		}
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -844,5 +849,72 @@ public class LawyerDao {
 		}
 		
 		return lawList;
+	}
+
+	//변호사 권한 변경 (관리자용)
+	public int manageLawLawyer(Connection conn, int lno, String button) {
+
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = "";
+		
+		if(button.equals("ON")) { //변호사 권한을 'N'으로
+			sql = prop.getProperty("manageLawLawyerN");
+		}else { //"OFF"일 경우 변호사 권한을 'Y'으로
+			sql = prop.getProperty("manageLawLawyerY");
+		}
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, lno);
+			
+			result = pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			JDBCTemplate.close(pstmt);
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	//상담 리스트 조회 (관리자용)
+	public ArrayList<Counsel> selectCounselList(Connection conn) {
+
+		ArrayList<Counsel> cList = new ArrayList<>();
+		
+		Statement stmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectCounselList");
+		
+		try {
+			stmt = conn.createStatement();
+			rset = stmt.executeQuery(sql);
+			
+			while(rset.next()) {
+				cList.add(new Counsel(rset.getInt("CS_NO"),
+									  rset.getString("LAW_NAME"),
+									  rset.getString("USER_ID"),
+									  rset.getString("CS_TITLE"),
+									  rset.getString("CS_CONTENT"),
+									  rset.getDate("CREATE_DATE"),
+									  rset.getString("CS_ANSWER"),
+									  rset.getString("ACCEPT"),
+									  rset.getString("STATUS")));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(stmt);
+		}
+		
+		return cList;
 	}
 }
