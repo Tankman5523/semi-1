@@ -11,7 +11,6 @@ import com.bbbox.board.model.vo.Reply;
 import com.bbbox.common.JDBCTemplate;
 import com.bbbox.common.model.vo.PageInfo;
 import com.bbbox.manager.dao.ManagerDao;
-import com.bbbox.member.model.dao.MemberDao;
 import com.bbbox.member.model.vo.Member;
 
 public class ManagerService {
