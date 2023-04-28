@@ -202,6 +202,41 @@
 		ORDER BY USER_NO DESC
 	</entry>
 	
+	<entry key="searchAccidentBoardByWriterForManage">
+		SELECT BOARD_NO
+		       ,M.USER_ID
+		       ,CATEGORY_NO
+		       ,TITLE
+		       ,COUNT
+		       ,B.CREATE_DATE
+		       ,AC.REF_PNO
+		       ,INSURANCE_TYPE
+		       ,REGION
+		       ,LIKED
+		       ,REPORT_COUNT
+		       ,B.STATUS
+		       ,PART_NAME
+		       ,LM.USER_NAME
+		FROM BOARD B
+		<!-- 작성자 조회 -->		
+		JOIN MEMBER M ON (BOARD_WRITER = M.USER_NO)
+		
+		JOIN ACCIDENT AC ON(BOARD_NO=AC.REF_BNO)
+		JOIN LAW_USER L ON (L.LAW_NO=REF_LNO)
+		<!-- 담당 변호사 조회 -->
+		JOIN MEMBER LM ON (LM.USER_NO=REF_UNO)
+		JOIN PART_CATEGORY ON (AC.REF_PNO = PART_NO)
+		
+		WHERE REGION LIKE ?
+		AND AC.REF_PNO LIKE ?
+		AND INSURANCE_TYPE LIKE ?
+		AND USER_ID LIKE ? 
+		AND CATEGORY_NO = ?
+		
+		ORDER BY B.CREATE_DATE DESC
+	</entry>
+	
+
 	<!-- 자유게시판 관리 영역 start -->
 	<entry key="freeBoardCount">
 		SELECT COUNT(BOARD_NO) "COUNT"

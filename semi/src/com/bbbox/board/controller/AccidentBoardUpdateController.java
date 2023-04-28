@@ -52,6 +52,8 @@ public class AccidentBoardUpdateController extends HttpServlet {
 			ac = new AccidentBoardService().resolvedAccidentSelectDetail(bno);
 		}
 		
+		
+		
 		if(b!=null && ac!=null) {
 			request.setAttribute("board", b);
 			request.setAttribute("accident", ac);
@@ -142,14 +144,17 @@ public class AccidentBoardUpdateController extends HttpServlet {
 					at.setFilePath("/resources/accident_board_file/");
 					
 					result = new AccidentBoardService().updateAccidentAttachment(at);
-					
 					if(result>0) {//첨부파일 입력 성공시
 						System.out.println("첨부파일 성공");
 						//기존파일 지워주기
 						new File(savePath+oldFileName).delete();
 						
 						request.getSession().setAttribute("alertMsg", "게시글이 성공적으로 수정되었습니다.");
-						request.getRequestDispatcher("/detail.ac?bno="+boardNo).forward(request, response);
+						if(categoryNo == 4) {
+							request.getRequestDispatcher("/detail.rb?bno="+boardNo).forward(request, response);
+						}else if(categoryNo == 3) {
+							request.getRequestDispatcher("/detail.ac?bno="+boardNo).forward(request, response);
+						}
 					}else {//첨부파일 입력 실패시
 						request.setAttribute("errorMsg", "게시글 수정 실패");
 						request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
@@ -158,7 +163,6 @@ public class AccidentBoardUpdateController extends HttpServlet {
 				}else {
 					System.out.println("게시글만 수정 성공");
 					request.getSession().setAttribute("alertMsg", "게시글이 성공적으로 수정되었습니다.");
-					System.out.println(categoryNo);
 					if(categoryNo == 4) {//해결게시판
 						response.sendRedirect(request.getContextPath()+"/detail.rb?bno="+boardNo);
 					}else if(categoryNo == 3) {//cno가 3일때 = 사건게시판

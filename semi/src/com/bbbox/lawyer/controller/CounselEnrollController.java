@@ -72,6 +72,8 @@ public class CounselEnrollController extends HttpServlet {
 		if(result>0) {
 			request.getSession().setAttribute("alertMsg", "상담신청 완료");
 			response.sendRedirect(request.getContextPath()+"/myPage.me");
+			//myPage가 post방식으로 변경되어 문제 발생
+			
 		}else {
 			request.setAttribute("errorMsg", "상담신청 작성 실패");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);

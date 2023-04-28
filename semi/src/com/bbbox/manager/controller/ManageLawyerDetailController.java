@@ -1,25 +1,29 @@
 package com.bbbox.manager.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bbbox.manager.service.ManagerService;
+import com.bbbox.lawyer.model.service.LawyerService;
+import com.bbbox.lawyer.model.vo.LawReview;
+import com.bbbox.lawyer.model.vo.Lawyer;
 
 /**
- * Servlet implementation class ManagerAccidentReviewDeleteController
+ * Servlet implementation class ManageLawyerDetailController
  */
-@WebServlet("/deleteReview.mac")
-public class ManagerAccidentReviewDeleteController extends HttpServlet {
+@WebServlet("/manageLawDetail.ma")
+public class ManageLawyerDetailController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ManagerAccidentReviewDeleteController() {
+    public ManageLawyerDetailController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,13 +32,17 @@ public class ManagerAccidentReviewDeleteController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//변호사 상세 정보 조회
 		
-		int bno = Integer.parseInt(request.getParameter("bno"));
+		int lno = Integer.parseInt(request.getParameter("lno"));
 		
-		int result = new ManagerService().accidentReviewDelete(bno);
+		Lawyer law = new LawyerService().selectLawyer(lno);
 		
-		response.getWriter().print(result);
+		ArrayList<LawReview> rList = new LawyerService().selectReviewList(lno);
 		
+		request.setAttribute("law", law);
+		request.setAttribute("rList", rList);
+		request.getRequestDispatcher("views/lawyer/lawyerDetailView.jsp").forward(request, response);
 	}
 
 	/**
