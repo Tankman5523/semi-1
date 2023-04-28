@@ -107,7 +107,7 @@
         <div class="title" style="text-align: center;">
             <h1>해결된 영상 게시판 게시글 수정</h1>
         </div>
-        <form action="<%=contextPath%>/update.ac" method="post" enctype="multipart/form-data">
+        <form action="<%=contextPath%>/update.ac?" method="post" enctype="multipart/form-data">
             <!-- 작성자 아이디 숨겨서 가져가주세요 -->
             <input type="hidden" name="userNo" value="<%=loginUser.getUserNo()%>">
             <input type="hidden" name="bno" value="<%=b.getBoardNo()%>">

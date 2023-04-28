@@ -60,7 +60,6 @@ public class ResolvedBoardDetailController extends HttpServlet {
 				
 				request.getRequestDispatcher("views/board/resolvedBoardDetailView.jsp").forward(request, response);
 			}else {//실패
-				System.out.println("왜안되니");
 				request.setAttribute("errorMsg", "게시물 조회 실패");
 				request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 			}

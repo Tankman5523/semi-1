@@ -95,7 +95,7 @@ public class ManagerService {
 		//리뷰정보 참조할 accNo 가져오기
 		int accNo = new AccidentBoardDao().selectAccNo(conn,bno);
 		//리뷰정보 가져오기(리뷰가 없을때 오류방지)
-		AccidentReview ar = new AccidentBoardDao().resolvedBoardReviewSelectDetail(conn, accNo);
+		AccidentReview ar = new ManagerDao().selectAccidentReviewForManage(conn, accNo);
 		if(ar!=null) {
 			result5 = new ManagerDao().accidentReviewDelete(conn,accNo); 
 		}else {
@@ -151,6 +151,30 @@ public class ManagerService {
 		}
 		
 		return result*result2*result3;
+	}
+
+	//자유게시판 게시글 총 갯수
+	public int freeBoardCount(int[] cArr) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int count = new ManagerDao().freeBoardCount(conn, cArr);
+		
+		JDBCTemplate.close(conn);
+		
+		return count;
+	}
+
+	//자유게시판 게시글 리스트조회
+	public ArrayList<Board> selectFreeBoardList(PageInfo pi, int[] cArr) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Board> list = new ManagerDao().selectFreeBoardList(conn, pi, cArr);
+		
+		JDBCTemplate.close(conn);
+		
+		return list;
 	}
 	
 	//변호사회원 전환 신청 조회

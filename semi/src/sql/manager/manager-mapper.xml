@@ -114,14 +114,37 @@
 		UPDATE BOARD
 		SET STATUS = 'Y'
 		WHERE BOARD_NO = ?
-		AND STATUS = 'N'
 	</entry>
+	
+	<entry key="accidentInfoOn">
+		UPDATE ACCIDENT
+		SET STATUS = 'Y'
+		WHERE REF_BNO = ?
+	</entry>
+	
+	<entry key="attachmentOn">
+		UPDATE ATTACHMENT
+		SET STATUS = 'Y'
+		WHERE REF_BNO = ?
+	</entry>
+	
 	
 	<entry key="boardStatusOff">
 		UPDATE BOARD
 		SET STATUS = 'N'
 		WHERE BOARD_NO = ?
-		AND STATUS = 'Y'
+	</entry>
+	
+	<entry key="accidentInfoOff">
+		UPDATE ACCIDENT
+		SET STATUS = 'N'
+		WHERE REF_BNO = ?
+	</entry>
+	
+	<entry key="attachmentOff">
+		UPDATE ATTACHMENT
+		SET STATUS = 'N'
+		WHERE REF_BNO = ?
 	</entry>
 	
 	<entry key="boardDelete">
@@ -185,7 +208,7 @@
 		FROM MEMBER M
 		ORDER BY USER_NO DESC
 	</entry>
-	
+
 	<entry key="searchAccidentBoardByTitleForManage">
 		SELECT BOARD_NO
 		       ,M.USER_ID
@@ -254,4 +277,33 @@
 		ORDER BY B.CREATE_DATE DESC
 	</entry>
 	
+
+	<!-- 자유게시판 관리 영역 start -->
+	<entry key="freeBoardCount">
+		SELECT COUNT(BOARD_NO) "COUNT"
+		FROM BOARD
+		WHERE STATUS = 'Y'
+		AND CATEGORY_NO = ? OR CATEGORY_NO = ?
+		AND NOTICE = 'N'
+	</entry>
+	
+	<entry key="selectFreeBoardList">
+		SELECT *
+		FROM (SELECT ROWNUM RUM, A.*
+				FROM (SELECT BOARD_NO, USER_ID, CATEGORY_NO, TITLE, COUNT, CREATE_DATE, LIKED, REPORT_COUNT, RP_COUNT, B.STATUS "STATUS"
+			            FROM BOARD B
+			            JOIN MEMBER M ON(BOARD_WRITER=USER_NO)
+			            WHERE (CATEGORY_NO = ? OR CATEGORY_NO = ?)
+			            AND NOTICE = 'N'
+			            AND B.STATUS = 'Y'
+			            ORDER BY CREATE_DATE DESC) A)
+		WHERE RUM BETWEEN ? AND ?
+	</entry>
+	<!-- 자유게시판 관리 영역 end -->
+	
+	<entry key="selectAccidentReviewForManage">
+		SELECT *
+		FROM ACCI_REVIEW
+		WHERE REF_ACCNO = ?
+	</entry>	
 </properties>

@@ -145,11 +145,11 @@ public class AccidentBoardService {
 		
 		int result = new AccidentBoardDao().deleteAccidentBoard(conn,bno);
 		
-		int result2=0;
-		int result3=0;
+		int result2=1;
+		int result3=1;
 		
-		result2 = new AccidentBoardDao().deleteAccident(conn,bno);
-		result3 = new AccidentBoardDao().deleteAccidentAttachment(conn,bno);
+		//result2 = new AccidentBoardDao().deleteAccident(conn,bno);
+		//result3 = new AccidentBoardDao().deleteAccidentAttachment(conn,bno);
 		
 		if(result>0&&result2>0&&result3>0) {
 			JDBCTemplate.commit(conn);
@@ -248,6 +248,7 @@ public class AccidentBoardService {
 		
 		int result = new AccidentBoardDao().insertAccidentReview(conn,ar);
 		
+		
 		if(result>0) {
 			JDBCTemplate.commit(conn);
 		}else {
@@ -267,12 +268,13 @@ public class AccidentBoardService {
 		
 		return lawNo;
 	}
-	public int shiftBoard(int bno, int accNo) {
+	public int shiftBoard(int bno, int accNo, int lawNo) {
 		Connection conn = JDBCTemplate.getConnection();
 		
 		int result = new AccidentBoardDao().updateBoardCategory(conn,bno);
 		
-		int result2 = new AccidentBoardDao().updateSolve(conn,accNo);
+		//해결 , 참조 변호사 변경
+		int result2 = new AccidentBoardDao().updateAccident(conn,accNo,lawNo);
 		
 		if(result>0&&result2>0) {
 			JDBCTemplate.commit(conn);
@@ -346,6 +348,7 @@ public class AccidentBoardService {
 		
 		int result = new AccidentBoardDao().returnBoardCategory(conn,bno);
 		int result2 = new AccidentBoardDao().returnSolve(conn,accNo); 
+		
 		
 		if(result>0 && result2>0) {
 			JDBCTemplate.commit(conn);

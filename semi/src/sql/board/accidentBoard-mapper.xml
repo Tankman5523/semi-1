@@ -410,9 +410,10 @@
 		
 	</entry>
 	
-	<entry key="updateSolve">
+	<entry key="updateAccident">
 		UPDATE ACCIDENT
 		SET SOLVE = 'Y'
+		   ,REF_LNO = ?
 		WHERE ACC_NO = ?
 		AND STATUS = 'Y'
 	</entry>
