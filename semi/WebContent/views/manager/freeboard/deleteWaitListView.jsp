@@ -69,10 +69,9 @@
 	<div class="outer">
 		<div class="sort_area" style="height: 10%;">
 			정렬기준 :
-			<button type="button" name="sort" value="liked">추천수</button>
-			<button type="button" name="sort" value="report">비추천수</button>
-			<button type="button" name="sort" value="count">조회수</button>
-			<button type="button" name="sort" value="reply">댓글수</button>
+			<button type="button" name="sort" value="recent">최신순</button>
+			<button type="button" name="sort" value="old">오래된 순</button>
+
 		</div>
 		
 		<script>
@@ -80,13 +79,13 @@
 				
 	            $(".sort_area button").on("click", function(){
 	            	
-	            	location.href = "<%=contextPath%>/boardList.ma?sort="+$(this).val();
+	            	location.href = "<%=contextPath%>/deleteWait.ma?sort="+$(this).val();
 	            });
 			});
 		</script>
 
 		
-		<div class="list_area" style="hieght:60%;">
+		<div class="list_area">
 			<table border="1" align="center">
 				<thead>
 					<tr>
@@ -125,7 +124,7 @@
 								<td><%=b.getRpCount()%></td>
 								<td id="statusShift" class="noEvent">
 									<input type="hidden" class="hideBno" value="<%=b.getBoardNo()%>">
-									<button name="statusOff" class="statusOff" style="background-color: darkblue; color: white; width:100%;height:100%">click!</button>
+									<button  name="statusOn" class="statusOn" style="background-color: darkblue; color: white; width:100%;height:100%">click!</button>
 								</td>
 								<td class="noEvent">
 									<!-- DB에서 전부 날려버리기 -->
@@ -150,19 +149,19 @@
 	        	});
 				
 	        
-				//삭제 대기 게시글 관리로 이동시키기
+				//게시글 관리로 이동시키기
 		        $(function(){
-		        	$(".statusOff").on("click",function(){
+		        	$(".statusOn").on("click",function(){
 			        	$.ajax({
-			        		url: "statusOff.mac",
+			        		url: "statusOn.mac",
 			        		data:{
 			        			bno:$(this).parent().children("input[type=hidden]").val()
 			        		},
 			        		success: function(result){
 			        			if(result>0){
-			        				alert("삭제 대기 게시글로 이동합니다.");
+			        				alert("상태값 변경 성공!");
 			        			}else{
-			        				alert("이동 실패!");
+			        				alert("상태값 변경 실패!");
 			        			}
 			        		},
 			        		error: function(){
@@ -206,8 +205,8 @@
 		</div>
 		
 		<div class="page-trans" style="height:10%">
+			<a href="<%=contextPath%>/boardList.ma" style="padding: 10px;">자유게시글 관리페이지로</a>
 			<a href="<%=contextPath%>/noticeList.ma" style="padding: 10px;">공지사항 관리페이지로</a>
-			<a href="<%=contextPath%>/deleteWait.ma" style="padding: 10px;">삭제대기 관리페이지로</a>
 		</div>
 	</div>
 	

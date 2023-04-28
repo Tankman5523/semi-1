@@ -27,7 +27,7 @@ public class BoardManager extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		request.getRequestDispatcher("views/manager/manageBoard.jsp").forward(request, response);
+		request.getRequestDispatcher("views/manager/managerBoard.jsp").forward(request, response);
 	}
 
 	/**

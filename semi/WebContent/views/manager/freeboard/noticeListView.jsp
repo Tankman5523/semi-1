@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="java.util.ArrayList, com.bbbox.board.model.vo.Board"%>
 <%
-	ArrayList<Board> list = (ArrayList<Board>)request.getAttribute("boardList");
+	ArrayList<Board> nlist = (ArrayList<Board>)request.getAttribute("nlist");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>자유게시판 게시글 관리 페이지</title>
+<title>자유게시판 공지 게시글 관리 페이지</title>
 <style>
 	div{
 	    border: 1px solid black;
@@ -19,6 +19,11 @@
         height: 600px;
         margin: auto;
         text-align: center;
+    }
+    
+    tbody>tr:hover{
+    	cursor: pointer;
+    	background-color: gray;
     }
     
     tbody>tr:hover{
@@ -58,65 +63,38 @@
 	table th:nth-of-type(10), table td:nth-of-type(10) {width: 5%;}
 	table th:nth-of-type(11) {width: 5%;}
 	table td:nth-of-type(11) {width: 5%-18px;}
-
-	
-	
 </style>
 </head>
 <body>
 	<%@include file="../manager_menu.jsp"%>
 	
 	<div class="outer">
-		<div class="sort_area" style="height: 10%;">
-			정렬기준 :
-			<button type="button" name="sort" value="liked">추천수</button>
-			<button type="button" name="sort" value="report">비추천수</button>
-			<button type="button" name="sort" value="count">조회수</button>
-			<button type="button" name="sort" value="reply">댓글수</button>
+		<div style="height: 10%;">
+			
 		</div>
-		
-		<script>
-			$(function(){
-				
-	            $(".sort_area button").on("click", function(){
-	            	
-	            	location.href = "<%=contextPath%>/boardList.ma?sort="+$(this).val();
-	            });
-			});
-		</script>
-
-		
-		<div class="list_area" style="hieght:60%;">
-			<table border="1" align="center">
+	
+		<div class="list_area" style="height: 80%;">
+			<table border="1" align="center" style="height:100%; width:70%;">
 				<thead>
 					<tr>
 						<th>글번호</th>
 						<th>작성자</th>
-						<th>카테고리</th>
 						<th>제목</th>
 						<th>조회수</th>
 						<th>작성일</th>
 						<th>추천수</th>
 						<th>비추천수</th>
 						<th>댓글수</th>
-						<th>상태변경</th>
+						<th>상태</th>
 						<th>영구삭제</th>
 					</tr>
 				</thead>
-				
 				<tbody>
-					<%if(list != null){ %>
-						<%for(Board b : list){ %>
+					<%if(nlist != null){ %>
+						<%for(Board b : nlist){ %>
 							<tr>
 								<td><%=b.getBoardNo()%></td>
 								<td><%=b.getBoardWriter()%></td>
-								<td>
-									<%if(b.getCategoryNo()==1){%>
-										일반게시판
-									<%}else if(b.getCategoryNo()==2){ %>
-										영상게시판
-									<%} %>
-									</td>
 								<td><%=b.getTitle()%></td>
 								<td><%=b.getCount()%></td>
 								<td><%=b.getCreateDate()%></td>
@@ -124,9 +102,17 @@
 								<td><%=b.getReportCount()%></td>
 								<td><%=b.getRpCount()%></td>
 								<td id="statusShift" class="noEvent">
-									<input type="hidden" class="hideBno" value="<%=b.getBoardNo()%>">
-									<button name="statusOff" class="statusOff" style="background-color: darkblue; color: white; width:100%;height:100%">click!</button>
-								</td>
+			                        		<input type="hidden" class="hideBno" value="<%=b.getBoardNo()%>">
+			                        <%if(b.getStatus().equals("N")) {%>
+			                        <!-- 아직 게시되지 않았다면 -->
+			                        		<button  name="statusOn" class="statusOn" style="background-color: red; color: white; width:100%;height:100%">OFF</button>
+			                        		<!-- <input type="button" class="statusOn" value="OFF" style="background-color: red; color: white; width:100%;height:100%"> -->
+			                        <%}else if(b.getStatus().equals("Y")){ %>
+			                        <!-- 글이 게시 되어있다면 -->
+				                        	 <button name="statusOff" class="statusOff" style="background-color: green; color: white; width:100%;height:100%">ON</button>
+				                        	<!-- <input type="button" class="statusOff" value="ON" style="background-color: green; color: white; width:100%;height:100%"> -->
+			                        <%} %>
+			                        </td>
 								<td class="noEvent">
 									<!-- DB에서 전부 날려버리기 -->
 									<input type="hidden" class="hideBno" value="<%=b.getBoardNo()%>">
@@ -149,8 +135,32 @@
 		        	});
 	        	});
 				
+				//상태 Y으로 변경
+				$(function(){
+		        	$(".statusOn").on("click",function(){
+			        	$.ajax({
+			        		url: "statusOn.mac",
+			        		data:{
+			        			bno:$(this).parent().children("input[type=hidden]").val()
+			        		},
+			        		success: function(result){
+			        			if(result>0){
+			        				alert("상태값 변경 성공!");
+			        			}else{
+			        				alert("상태값 변경 실패!");
+			        			}
+			        		},
+			        		error: function(){
+			        			alert("통신 연결 실패");
+			        		},
+			        		complete: function() {
+			                    $('#statusShift').load(location.reload());
+			                }
+			        	});
+			        });
+		        });
 	        
-				//삭제 대기 게시글 관리로 이동시키기
+				//상태 N으로 변경
 		        $(function(){
 		        	$(".statusOff").on("click",function(){
 			        	$.ajax({
@@ -160,9 +170,9 @@
 			        		},
 			        		success: function(result){
 			        			if(result>0){
-			        				alert("삭제 대기 게시글로 이동합니다.");
+			        				alert("상태값 변경 성공!");
 			        			}else{
-			        				alert("이동 실패!");
+			        				alert("상태값 변경 실패!");
 			        			}
 			        		},
 			        		error: function(){
@@ -206,7 +216,7 @@
 		</div>
 		
 		<div class="page-trans" style="height:10%">
-			<a href="<%=contextPath%>/noticeList.ma" style="padding: 10px;">공지사항 관리페이지로</a>
+			<a href="<%=contextPath%>/boardList.ma" style="padding: 10px;">자유게시글 관리페이지로</a>
 			<a href="<%=contextPath%>/deleteWait.ma" style="padding: 10px;">삭제대기 관리페이지로</a>
 		</div>
 	</div>

@@ -120,7 +120,7 @@
 				<%}else{ %>
 					$(function(){
 						
-						$("#qa-list").on('click','tr',function(){z
+						$("#qa-list").on('click','tr',function(){
 							alert("해당 게시글은 비공개 글입니다.");
 						});
 
