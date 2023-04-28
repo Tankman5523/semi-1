@@ -35,7 +35,6 @@ public class AccidentBoardListSearchController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		int a = 1;
-//		Search l = request.get
 		
 		//페이징처리
 		int listCount; //현재 총 게시글의 갯수
@@ -47,7 +46,7 @@ public class AccidentBoardListSearchController extends HttpServlet {
 		int startPage; //페이지 하단에 보여질 페이징 바의 시작 수
 		int endPage; //페이지 하단에 보여질 페이징 바의 끝 수
 		
-		//전체 글 갯수 구하는 메소드
+		
 		//게시판 종류 
 		//int categoryNo = Integer.parseInt(request.getParameter("categoryNo"));
 		int categoryNo = 3;
@@ -68,16 +67,12 @@ public class AccidentBoardListSearchController extends HttpServlet {
 		
 		//검색방식
 		String searchFilter = request.getParameter("searchFilter");
-		
 		String keyword = request.getParameter("keyword");
-		ArrayList<Board> list = null;
 		
-		Search s = new Search(searchFilter, region, partType, insuranceType, keyword);
+		Search s = new Search(searchFilter, region, partType, insuranceType, keyword,categoryNo);
 		
-		//listCount = new AccidentBoardService().selectBoardListCount();
-		
+		//전체 글 갯수 구하는 메소드
 		listCount = new AccidentBoardService().searchedListCount(s);
-		
 		
 		//현재 페이지
 		if(request.getParameter("currentPage")==null) {
@@ -108,12 +103,11 @@ public class AccidentBoardListSearchController extends HttpServlet {
 		//페이징 정보 객체에 넣기
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		
-		
+		ArrayList<Board> list = null;
 		
 		list = new AccidentBoardService().searchAccidentBoard(searchFilter,region,partType,insuranceType,keyword,categoryNo,pi);
 		
-		
-		//값이 비워져있으면 에러나지 않도록 none으로 변경
+		//페이징바에서 url넘길때 에러나지 않도록 none으로 변경
 		if(s.getRegion().equals("")) {
 			s.setRegion("none");
 		}
@@ -131,8 +125,6 @@ public class AccidentBoardListSearchController extends HttpServlet {
 			request.setAttribute("errorMsg", "사건게시판 조회 실패");
 			request.getRequestDispatcher(request.getContextPath()).forward(request, response);
 		}
-		
-		
 	}
 
 	/**

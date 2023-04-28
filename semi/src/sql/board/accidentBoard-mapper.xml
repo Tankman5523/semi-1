@@ -410,9 +410,10 @@
 		
 	</entry>
 	
-	<entry key="updateSolve">
+	<entry key="updateAccident">
 		UPDATE ACCIDENT
 		SET SOLVE = 'Y'
+		   ,REF_LNO = ?
 		WHERE ACC_NO = ?
 		AND STATUS = 'Y'
 	</entry>
@@ -467,12 +468,12 @@
 		JOIN ACCIDENT A ON(BOARD_NO=A.REF_BNO)
 		WHERE B.STATUS = 'Y'
 		AND A.STATUS='Y'
-		AND CATEGORY_NO = 3
 		AND NOTICE='N'
 		AND REGION LIKE ?
 		AND REF_PNO LIKE ?
 		AND INSURANCE_TYPE LIKE ?
 		AND TITLE LIKE ?
+		AND CATEGORY_NO = ?
 	</entry>
 	
 	<entry key="searchedListCountByWriter">
@@ -482,12 +483,12 @@
 		JOIN MEMBER M ON(BOARD_WRITER = USER_NO)
 		WHERE B.STATUS = 'Y'
 		AND A.STATUS='Y'
-		AND CATEGORY_NO = 3
 		AND NOTICE='N'
 		AND REGION LIKE ?
 		AND REF_PNO LIKE ?
 		AND INSURANCE_TYPE LIKE ?
 		AND USER_ID LIKE ?
+		AND CATEGORY_NO = ?
 	</entry>
 	
 	

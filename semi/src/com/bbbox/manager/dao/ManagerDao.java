@@ -9,14 +9,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import com.bbbox.board.model.vo.AccidentReview;
 import com.bbbox.board.model.vo.Attachment;
 import com.bbbox.board.model.vo.Board;
 import com.bbbox.board.model.vo.Reply;
 import com.bbbox.common.JDBCTemplate;
 import com.bbbox.common.model.vo.PageInfo;
 import com.bbbox.member.model.vo.Member;
-
-
 
 public class ManagerDao {
 	
@@ -32,8 +31,8 @@ Properties prop = new Properties();
 		}
 		
 	}
-
-	public ArrayList<Board> selectAllAccidentBoard(Connection conn, PageInfo pi, String sort) {
+	//사건 게시판 전부 조회
+	public ArrayList<Board> selectAllAccidentBoard(Connection conn, String sort) {
 		
 		ArrayList<Board> blist = new ArrayList<Board>();
 		ResultSet rset = null;
@@ -54,12 +53,7 @@ Properties prop = new Properties();
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			int startRow=(pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
-			int endRow=(startRow+pi.getBoardLimit())-1;
-			
 			pstmt.setInt(1, categoryNo);
-			pstmt.setInt(2, startRow);
-			pstmt.setInt(3, endRow);
 			
 			rset=pstmt.executeQuery();
 			
@@ -90,8 +84,8 @@ Properties prop = new Properties();
 		}
 		return blist;
 	}
-
-	public ArrayList<Board> selectAllResolvedBoard(Connection conn, PageInfo pi, String sort) {
+	//해결된 게시판 전부 조회
+	public ArrayList<Board> selectAllResolvedBoard(Connection conn, String sort) {
 		ArrayList<Board> blist = new ArrayList<Board>();
 		ResultSet rset = null;
 		PreparedStatement pstmt = null;
@@ -111,12 +105,8 @@ Properties prop = new Properties();
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			int startRow=(pi.getCurrentPage()-1)*pi.getBoardLimit()+1;
-			int endRow=(startRow+pi.getBoardLimit())-1;
-			
 			pstmt.setInt(1, categoryNo);
-			pstmt.setInt(2, startRow);
-			pstmt.setInt(3, endRow);
+			
 			
 			rset=pstmt.executeQuery();
 			
@@ -148,7 +138,7 @@ Properties prop = new Properties();
 		}
 		return blist;
 	}
-
+	//게시판 글 게시
 	public int boardStatusOn(Connection conn, int bno) {
 		
 		int result = 0;
@@ -171,7 +161,10 @@ Properties prop = new Properties();
 		
 		return result;
 	}
-
+	
+	//게시판 글 게시 끝
+	
+	//제보게시판 글 회수
 	public int boardStatusOff(Connection conn, int bno) {
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -193,11 +186,11 @@ Properties prop = new Properties();
 		
 		return result;
 	}
-
-	public int accidentBoardDelete(Connection conn, int bno) {
+	//사건게시글 삭제
+	public int boardDelete(Connection conn, int bno) {
 		int result = 0;
 		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("accidentBoardDelete");
+		String sql = prop.getProperty("boardDelete");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -215,7 +208,7 @@ Properties prop = new Properties();
 		
 		return result;
 	}
-
+	//사건정보 삭제
 	public int accidentInfoDelete(Connection conn, int bno) {
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -237,12 +230,12 @@ Properties prop = new Properties();
 		
 		return result;
 	}
-
-	public int accidentAttachmentDelete(Connection conn, int bno) {
+	//사건 첨부파일 삭제
+	public int attachmentDelete(Connection conn, int bno) {
 		
 		int result = 0;
 		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("accidentAttachmentDelete");
+		String sql = prop.getProperty("attachmentDelete");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -260,11 +253,11 @@ Properties prop = new Properties();
 		
 		return result;
 	}
-
-	public int accidentReplyDelete(Connection conn, int bno) {
+	//사건 리플 삭제
+	public int replyDelete(Connection conn, int bno) {
 		int result = 0;
 		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("accidentReplyDelete");
+		String sql = prop.getProperty("replyDelete");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -279,10 +272,10 @@ Properties prop = new Properties();
 		} finally {
 			JDBCTemplate.close(pstmt);
 		}
-		
+
 		return result;
 	}
-
+	//사건리뷰 삭제
 	public int accidentReviewDelete(Connection conn, int accNo) {
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -305,7 +298,7 @@ Properties prop = new Properties();
 		return result;
 	}
 
-	
+	//첨부파일 전부 조회
 
 	public ArrayList<Attachment> selectAttachmentForManage(Connection conn, int bno) {
 		ArrayList<Attachment> alist = new ArrayList<Attachment>();
@@ -444,9 +437,80 @@ Properties prop = new Properties();
 			JDBCTemplate.close(pstmt);
 			
 		}
-		
 		return memberList;
-	}
+		}
+		
+		//제보영상게시판 검색 조회
+		public ArrayList<Board> searchAccidentBoard(Connection conn, String searchFilter, String region, int partType,
+				String insuranceType, String keyword, int categoryNo) {
+			ArrayList<Board> blist = new ArrayList<Board>();
+			
+			PreparedStatement pstmt = null;
+			ResultSet rset = null;
+			String sql = null;
+			
+			//검색필터가 제목일때
+			if(searchFilter.equals("title")||searchFilter.equals("")) {
+				sql = prop.getProperty("searchAccidentBoardByTitleForManage");
+			}else {
+			//검색필터가 작성자일때
+				sql = prop.getProperty("searchAccidentBoardByWriterForManage");
+			}
+			
+			try {
+				pstmt = conn.prepareStatement(sql);
+				
+				if(region.equals("")) {
+					pstmt.setString(1, "%"+region+"%");
+				}else {
+					pstmt.setString(1, region);
+				}
+				if(partType!=0) {
+					pstmt.setInt(2, partType);
+				}else {
+					pstmt.setString(2, "%"+""+"%");
+				}
+				if(insuranceType.equals("")) {
+					pstmt.setString(3, "%"+insuranceType+"%");
+				}else {
+				pstmt.setString(3, insuranceType);
+				}
+				pstmt.setString(4, "%"+keyword+"%");
+				pstmt.setInt(5, categoryNo);
+				
+				rset = pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board();
+					b.setBoardNo(rset.getInt("BOARD_NO"));
+					b.setBoardWriter(rset.getString("USER_ID"));
+					b.setCategoryNo(rset.getInt("CATEGORY_NO"));
+					b.setTitle(rset.getString("TITLE"));
+					b.setCount(rset.getInt("COUNT"));
+					b.setCreateDate(rset.getDate("CREATE_DATE"));
+					b.setRef_pno(rset.getInt("REF_PNO"));
+					b.setInsuranceType(rset.getString("INSURANCE_TYPE"));
+					b.setRegion(rset.getString("REGION"));
+					b.setLiked(rset.getInt("LIKED"));
+					b.setReportCount(rset.getInt("REPORT_COUNT"));
+					b.setStatus(rset.getString("STATUS"));
+					b.setChangeName(rset.getString("PART_NAME"));
+					if(categoryNo==4) {
+					b.setCategoryName(rset.getString("USER_NAME"));	
+					}
+					blist.add(b);
+				}
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				JDBCTemplate.close(rset);
+				JDBCTemplate.close(pstmt);
+			}
+			
+			return blist;
+		}
 	
 	//자유게시판 게시글 총 갯수
 	public int freeBoardCount(Connection conn, int[] cArr) {
@@ -477,7 +541,6 @@ Properties prop = new Properties();
 		
 		return count;
 	}
-
 		
 	//자유게시판 게시글 리스트조회
 	public ArrayList<Board> selectFreeBoardList(Connection conn, PageInfo pi, int[] cArr) {
@@ -522,6 +585,35 @@ Properties prop = new Properties();
 		}
 		
 		return list;
+	}
+	public AccidentReview selectAccidentReviewForManage(Connection conn, int accNo) {
+		AccidentReview ar = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectAccidentReviewForManage");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, accNo);
+			
+			rset = pstmt.executeQuery();
+					
+			while(rset.next()) {
+				ar = new AccidentReview();
+				
+				ar.setArNo(rset.getInt("AR_NO"));
+				//대충 있는지만 확인
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return ar;
 	}
 	
 }

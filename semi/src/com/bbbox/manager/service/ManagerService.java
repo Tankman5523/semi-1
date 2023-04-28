@@ -16,19 +16,19 @@ import com.bbbox.member.model.vo.Member;
 
 public class ManagerService {
 
-	public ArrayList<Board> selectAllAccidentBoard(PageInfo pi, String sort) {
+	public ArrayList<Board> selectAllAccidentBoard(String sort) {
 		
 		Connection conn = JDBCTemplate.getConnection();
-		ArrayList<Board> blist = new ManagerDao().selectAllAccidentBoard(conn,pi,sort);
+		ArrayList<Board> blist = new ManagerDao().selectAllAccidentBoard(conn,sort);
 		
 		JDBCTemplate.close(conn);
 		
 		return blist;
 	}
 
-	public ArrayList<Board> selectAllResolvedBoard(PageInfo pi, String sort) {
+	public ArrayList<Board> selectAllResolvedBoard(String sort) {
 		Connection conn = JDBCTemplate.getConnection();
-		ArrayList<Board> blist = new ManagerDao().selectAllResolvedBoard(conn,pi,sort);
+		ArrayList<Board> blist = new ManagerDao().selectAllResolvedBoard(conn,sort);
 		
 		JDBCTemplate.close(conn);
 		
@@ -95,7 +95,7 @@ public class ManagerService {
 		//리뷰정보 참조할 accNo 가져오기
 		int accNo = new AccidentBoardDao().selectAccNo(conn,bno);
 		//리뷰정보 가져오기(리뷰가 없을때 오류방지)
-		AccidentReview ar = new AccidentBoardDao().resolvedBoardReviewSelectDetail(conn, accNo);
+		AccidentReview ar = new ManagerDao().selectAccidentReviewForManage(conn, accNo);
 		if(ar!=null) {
 			result5 = new ManagerDao().accidentReviewDelete(conn,accNo); 
 		}else {
@@ -106,14 +106,14 @@ public class ManagerService {
 		//리플없을때 오류 방지
 		Reply rp = new ManagerDao().selectRpListForManage(conn, bno);
 		if(rp!=null) {
-			result4 = new ManagerDao().accidentReplyDelete(conn,bno);
+			result4 = new ManagerDao().replyDelete(conn,bno);
 		}else {
 			System.out.println("리플정보없음");
 		}
 		
 		int result3 = 1; //첨부파일 없으면 패스
 		if(alist.size()!=0) {
-			result3 = new ManagerDao().accidentAttachmentDelete(conn,bno);
+			result3 = new ManagerDao().attachmentDelete(conn,bno);
 		}else {
 			System.out.println("영상정보없음");
 		}
@@ -121,7 +121,7 @@ public class ManagerService {
 		
 		
 		int result2 = new ManagerDao().accidentInfoDelete(conn,bno);
-		int result = new ManagerDao().accidentBoardDelete(conn,bno);
+		int result = new ManagerDao().boardDelete(conn,bno);
 		
 		if(result>0 && result2>0 && result3>0 && result4>0 && result5>0) {
 			JDBCTemplate.commit(conn);
@@ -200,6 +200,18 @@ public class ManagerService {
 		
 		return memberList;
 	}
-	
+
+	public ArrayList<Board> searchAccidentBoard(String searchFilter, String region, int partType, String insuranceType,
+			String keyword, int categoryNo) {
+
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Board> list = new ManagerDao().searchAccidentBoard(conn,searchFilter,region,partType,insuranceType,keyword,categoryNo);
+		
+		JDBCTemplate.close(conn);
+		
+		return list;
+	}
+
 	
 }
