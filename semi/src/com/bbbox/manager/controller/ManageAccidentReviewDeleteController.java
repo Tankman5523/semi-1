@@ -13,13 +13,13 @@ import com.bbbox.manager.service.ManagerService;
  * Servlet implementation class ManagerAccidentReviewDeleteController
  */
 @WebServlet("/deleteReview.mac")
-public class ManagerAccidentReviewDeleteController extends HttpServlet {
+public class ManageAccidentReviewDeleteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ManagerAccidentReviewDeleteController() {
+    public ManageAccidentReviewDeleteController() {
         super();
         // TODO Auto-generated constructor stub
     }

@@ -364,6 +364,15 @@ public class AccidentBoardService {
 		
 		return listCount;
 	}
+	public int searchedResolvedListCount(Search s) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int listCount = new AccidentBoardDao().searchedListCount(conn,s);
+		
+		JDBCTemplate.close(conn);
+		
+		return listCount;
+	}
 	
 
 	

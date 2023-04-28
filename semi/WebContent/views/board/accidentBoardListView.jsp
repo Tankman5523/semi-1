@@ -26,7 +26,11 @@
             height: 1200px;
             margin: auto;
         }
-
+		.outer div{
+       		border:none;
+       	}
+		
+		
         /*헤더 영역*/
         #accidentBoardHead{
             height: 10%;
@@ -122,16 +126,14 @@
     <title>Document</title>
 </head>
 <body>
-
 <%@include file="../common/mainMenu.jsp" %>
 	<%	
 	//로그인 안됬으면 홈으로 보내기
-	
-	/*if(loginUser==null){
+	if(loginUser==null){
 		session.setAttribute("alertMsg", "로그인한 유저만 이용할 수 있습니다.");
 		response.sendRedirect(contextPath);
-	}*/
-	%>		
+	}
+	%>	
     <div class="outer">
         <div id="accidentBoardHead">
             <div class="boardName">
@@ -151,7 +153,6 @@
             <div class="search">
                 <form action="search.ac">
                 	<input type="hidden" name="currentPage" value="1">
-                	<input type="hidden" name="categoryNo" value="3">
                     <div class="typeFilter">
                         <select name="region" id="region">
                             <option value="none">지역별</option>
@@ -177,12 +178,6 @@
                         </select>
                     </div>
                     <div>
-                    <!-- 
-                        <div class="sort">
-                            <input type="radio" name="searchSort" id="sortRecommend" value="recommend"><label for="sortRecommend">추천순</label>
-                            <input type="radio" name="searchSort" id="sortView" value="view"><label for="sortView">조회순</label>
-                            <input type="radio" name="searchSort" id="sortNew" value="date"><label for="sortNew">최신순</label>
-                        </div> -->
                         <div class="searchInput">
                             <div class="searchFilter">
                                 <select name="searchFilter" id="filter">
@@ -206,14 +201,11 @@
 	                 <table class="accidentBoardList" onclick="location.href='<%=contextPath%>/detail.ac?bno='+<%=blist.get(i).getBoardNo()%>">
 	                    <tr>
 	                        <td colspan="2">
-	                        	
 	                        	<video preload="metadata" src="<%=contextPath%><%=blist.get(i).getFilePath()%>#t=1.0"></video>
 	                        </td>
-	                    	
 	                    </tr>
 	                    <tr>
 	                        <td colspan="2"><%=blist.get(i).getTitle()%></td>
-	                        
 	                    </tr>
 	                    <tr>
 	                        <td>제보일</td>
@@ -249,7 +241,7 @@
 					
             	<%}else if(a == 0){ %>
 	               	<%if(pi.getCurrentPage() != 1){ %>
-						<button onclick="location.href='<%=contextPath%>/list.ac?currentPage=<%=pi.getCurrentPage()-1%>'">&lt;</button>
+						<button onclick="location.href='<%=contextPath%>/list.ac?currentPage=<%=pi.getCurrentPage()-1%>'">prev</button>
 					<%} %>
 				
 					<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++){ %>
@@ -262,13 +254,23 @@
 					<%} %>
 					
 					<%if(pi.getCurrentPage() != pi.getMaxPage()) {%>
-						<button onclick="location.href='<%=contextPath%>/list.ac?currentPage=<%=pi.getCurrentPage()+1%>'">&gt;</button>
+						<button onclick="location.href='<%=contextPath%>/list.ac?currentPage=<%=pi.getCurrentPage()+1%>'">next</button>
 					<%} %>	
 				<%} %>
             </div>
         </div>
     </div>
+    <script>
     
-   
+    $(function(){
+    	$(".boardName>p").on("click",function(){
+    		window.location.reload();
+    	});
+    });
+    
+    </script>
+    
+    
+    
 </body>
 </html>   

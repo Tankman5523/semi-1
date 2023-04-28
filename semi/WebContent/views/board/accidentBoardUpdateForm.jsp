@@ -55,7 +55,7 @@
             height: 100%;
         }
         .title{
-            height: 15%;
+            height: 5%;
         }
         .inputTitle{
             font-size: 20px;
@@ -75,7 +75,7 @@
         }
 
         .accidentInfo{
-            height: 50%;
+            height: 55%;
         }
         .accidentInfo>table{
             display: inline-table;
@@ -84,7 +84,7 @@
             
         }
         .submitArea{
-            height: 10%;
+            height: 15%;
             text-align: center;
         }
         .submitArea>*{
@@ -96,9 +96,13 @@
 </head>
 <body>
 <%@ include file="../common/mainMenu.jsp"%>
-
-	
-	
+	<%	
+	//로그인 안됬으면 홈으로 보내기
+	if(loginUser==null){
+		session.setAttribute("alertMsg", "로그인한 유저만 이용할 수 있습니다.");
+		response.sendRedirect(contextPath);
+	}
+	%>	
     <div class="outer">
         <div class="title" style="text-align: center;">
             <h1>영상 제보게시판 게시글 수정</h1>

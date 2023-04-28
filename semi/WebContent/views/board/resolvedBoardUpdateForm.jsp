@@ -96,9 +96,13 @@
 </head>
 <body>
 <%@ include file="../common/mainMenu.jsp"%>
-
-	
-	
+	<%	
+	//로그인 안됬으면 홈으로 보내기
+	if(loginUser==null){
+		session.setAttribute("alertMsg", "로그인한 유저만 이용할 수 있습니다.");
+		response.sendRedirect(contextPath);
+	}
+	%>	
     <div class="outer">
         <div class="title" style="text-align: center;">
             <h1>해결된 영상 게시판 게시글 수정</h1>

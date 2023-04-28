@@ -10,6 +10,9 @@
 		width: 1200px;
         margin: auto;
 	}
+	#footer_1{
+		text-align: center;
+	}
 </style>
 </head>
 <body>

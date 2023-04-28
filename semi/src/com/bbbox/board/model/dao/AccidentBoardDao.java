@@ -1137,7 +1137,7 @@ public class AccidentBoardDao {
 			pstmt.setString(3, s.getInsuranceType());
 			}
 			pstmt.setString(4, "%"+s.getKeyword()+"%");
-			
+			pstmt.setInt(5, s.getCategoryNo());
 			
 			rset=pstmt.executeQuery();
 			
@@ -1151,6 +1151,8 @@ public class AccidentBoardDao {
 		}
 		return listCount;
 	}
+
+	
 
 	
 }
