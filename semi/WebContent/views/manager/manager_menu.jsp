@@ -160,15 +160,13 @@
 <body>
 	
 	<script>
-	
-	
-	
 		var msg = "<%=alertMsg%>";
 		
 		var errmsg ="<%=errorMsg%>";
 		
 		if(msg != "null"){
 			alert(msg);	
+			
 			<% session.removeAttribute("alertMsg"); %>
 		}
 		
@@ -241,9 +239,9 @@
     </div>
 	
 	<script>
-		
-		
-		
+		function mypage(){
+			
+		}
 	</script>
 
 </body>

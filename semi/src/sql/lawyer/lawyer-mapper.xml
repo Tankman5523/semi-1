@@ -64,8 +64,7 @@
 		JOIN MEMBER M ON (L.REF_UNO = M.USER_NO)
 		JOIN PART_CATEGORY P ON (L.REF_PNO = P.PART_NO)
 		JOIN LAW_ATTACHMENT A ON (L.REF_UNO = A.REF_UNO)
-		WHERE M.STATUS = 'Y' <!-- 선택되기 전 전체 리스트와 중복되는 조건 / 없어도 되는건지? -->
-		AND M.LAWYER = 'Y'
+		WHERE M.STATUS = 'Y' <!-- 중복되는 조건 / 없어도 되는건지? -->
 		AND LAW_NO = ?
 	</entry>
 	
@@ -305,7 +304,7 @@
 	</entry>
 	
 	<!-- 조건으로 검색한 변호사 리스트 조회 (관리자용) -->
-	<entry key="manageSearchLawList">
+	<entry key="manageSearchLawList"> <!-- 전체 sort -->
 		SELECT LAW_NO,
 		       USER_NAME,
 		       PART_NAME,
@@ -333,6 +332,133 @@
 		AND REF_PNO LIKE ?
 		AND COMPANY_ADDRESS LIKE ?
 		ORDER BY LAW_NO DESC
+	</entry>
+	<entry key="manageSearchLawListSolved"> <!-- 해결영상수 -->
+		SELECT LAW_NO,
+		       USER_NAME,
+		       PART_NAME,
+		       COMPANY_ADDRESS,
+		       (SELECT COUNT(*)
+		        FROM ACCIDENT A
+		        WHERE A.SOLVE = 'Y'
+		        AND L.LAW_NO = A.REF_LNO) AS "해결영상수",
+		       (SELECT COUNT(*)
+		        FROM COUNSEL C
+		        WHERE C.ACCEPT = 'Y'
+		        AND L.LAW_NO = C.REF_LNO) AS  "상담매칭수",
+		       (SELECT ROUND(AVG(LENGTH(STAR)),1)
+		        FROM LAW_REVIEW LR
+		        JOIN ACCIDENT AC ON (LR.REF_ANO = AC.ACC_NO)
+		        WHERE LR.STATUS = 'Y'
+		        AND AC.SOLVE = 'Y'
+		        AND AC.REF_LNO = L.LAW_NO) AS "리뷰평점"
+		        ,LAWYER
+		FROM LAW_USER L
+		JOIN MEMBER M ON (L.REF_UNO = M.USER_NO)
+		JOIN PART_CATEGORY P ON (L.REF_PNO = P.PART_NO)
+		WHERE M.STATUS = 'Y'
+		AND USER_NAME LIKE ?
+		AND REF_PNO LIKE ?
+		AND COMPANY_ADDRESS LIKE ?
+		ORDER BY "해결영상수" DESC, LAW_NO DESC
+	</entry>
+	<entry key="manageSearchLawListMatch"> <!-- 상담매칭수 -->
+		SELECT LAW_NO,
+		       USER_NAME,
+		       PART_NAME,
+		       COMPANY_ADDRESS,
+		       (SELECT COUNT(*)
+		        FROM ACCIDENT A
+		        WHERE A.SOLVE = 'Y'
+		        AND L.LAW_NO = A.REF_LNO) AS "해결영상수",
+		       (SELECT COUNT(*)
+		        FROM COUNSEL C
+		        WHERE C.ACCEPT = 'Y'
+		        AND L.LAW_NO = C.REF_LNO) AS  "상담매칭수",
+		       (SELECT ROUND(AVG(LENGTH(STAR)),1)
+		        FROM LAW_REVIEW LR
+		        JOIN ACCIDENT AC ON (LR.REF_ANO = AC.ACC_NO)
+		        WHERE LR.STATUS = 'Y'
+		        AND AC.SOLVE = 'Y'
+		        AND AC.REF_LNO = L.LAW_NO) AS "리뷰평점"
+		        ,LAWYER
+		FROM LAW_USER L
+		JOIN MEMBER M ON (L.REF_UNO = M.USER_NO)
+		JOIN PART_CATEGORY P ON (L.REF_PNO = P.PART_NO)
+		WHERE M.STATUS = 'Y'
+		AND USER_NAME LIKE ?
+		AND REF_PNO LIKE ?
+		AND COMPANY_ADDRESS LIKE ?
+		ORDER BY "상담매칭수" DESC, LAW_NO DESC
+	</entry>
+	<entry key="manageSearchLawListAverage"> <!-- 리뷰평점 -->
+		SELECT LAW_NO,
+		       USER_NAME,
+		       PART_NAME,
+		       COMPANY_ADDRESS,
+		       (SELECT COUNT(*)
+		        FROM ACCIDENT A
+		        WHERE A.SOLVE = 'Y'
+		        AND L.LAW_NO = A.REF_LNO) AS "해결영상수",
+		       (SELECT COUNT(*)
+		        FROM COUNSEL C
+		        WHERE C.ACCEPT = 'Y'
+		        AND L.LAW_NO = C.REF_LNO) AS  "상담매칭수",
+		       (SELECT ROUND(AVG(LENGTH(STAR)),1)
+		        FROM LAW_REVIEW LR
+		        JOIN ACCIDENT AC ON (LR.REF_ANO = AC.ACC_NO)
+		        WHERE LR.STATUS = 'Y'
+		        AND AC.SOLVE = 'Y'
+		        AND AC.REF_LNO = L.LAW_NO) AS "리뷰평점"
+		        ,LAWYER
+		FROM LAW_USER L
+		JOIN MEMBER M ON (L.REF_UNO = M.USER_NO)
+		JOIN PART_CATEGORY P ON (L.REF_PNO = P.PART_NO)
+		WHERE M.STATUS = 'Y'
+		AND USER_NAME LIKE ?
+		AND REF_PNO LIKE ?
+		AND COMPANY_ADDRESS LIKE ?
+		ORDER BY "리뷰평점" DESC, LAW_NO DESC
+	</entry>
+	
+	<!-- 변호사 권한 박탈 -->
+	<entry key="manageLawLawyerN">
+		UPDATE MEMBER
+		SET LAWYER = 'N'
+		WHERE USER_NO = (SELECT USER_NO
+		                 FROM MEMBER M 
+		                 JOIN LAW_USER L ON (M.USER_NO = L.REF_UNO)
+		                 WHERE LAW_NO = ?)
+	</entry>
+	
+	<!-- 변호사 권한 부여 -->
+	<entry key="manageLawLawyerY">
+		UPDATE MEMBER
+		SET LAWYER = 'Y'
+		WHERE USER_NO = (SELECT USER_NO
+		                 FROM MEMBER M 
+		                 JOIN LAW_USER L ON (M.USER_NO = L.REF_UNO)
+		                 WHERE LAW_NO = ?)
+	</entry>
+	
+	<!-- 상담 리스트 조회 (관리자용) -->
+	<entry key="selectCounselList">
+		SELECT CS_NO,
+		       (SELECT USER_NAME
+		        FROM MEMBER M
+		        WHERE M.USER_NO = L.REF_UNO) AS "LAW_NAME",
+		       USER_ID,
+		       CS_TITLE,
+		       SUBSTR(CS_CONTENT,0,7)||'...' "CS_CONTENT",
+		       CREATE_DATE,
+		       NVL2(CS_ANSWER,'등록', '미등록') "CS_ANSWER",
+		       ACCEPT,
+		       C.STATUS
+		FROM COUNSEL C
+		JOIN LAW_USER L ON (C.REF_LNO = L.LAW_NO)
+		JOIN MEMBER M ON (C.CS_WRITER = M.USER_NO)
+		WHERE M.STATUS = 'Y'
+		ORDER BY CREATE_DATE DESC
 	</entry>
 	
 </properties>

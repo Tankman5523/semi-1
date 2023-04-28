@@ -1,6 +1,8 @@
 package com.bbbox.lawyer.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,9 +38,15 @@ public class CounselDetailController extends HttpServlet {
 		Counsel c = new LawyerService().selectCounsel(cno);
 		Lawyer l = new LawyerService().selectLawyer(Integer.parseInt(c.getRefLno()));
 		
-		request.setAttribute("c", c);
-		request.setAttribute("l", l);
-		request.getRequestDispatcher("views/lawyer/counselDetailView.jsp").forward(request, response);
+		if(l != null) {
+			request.setAttribute("c", c);
+			request.setAttribute("l", l);
+			request.getRequestDispatcher("views/lawyer/counselDetailView.jsp").forward(request, response);
+		}else { //회원탈퇴 하거나 없는경우 (mapper에서 조건걸 수 있으면 이 조건문 없애기)
+			request.getSession().setAttribute("alertMsg", "탈퇴하거나 존재하지 않는 회원입니다."); //뒤로가기하면 계속 반복해서 나옴
+			request.setAttribute("cList", new LawyerService().selectCounselList());
+			request.getRequestDispatcher("views/manager/manage_counselList_view.jsp").forward(request, response);
+		}
 		
 	}
 

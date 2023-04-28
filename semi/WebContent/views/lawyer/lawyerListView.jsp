@@ -110,7 +110,7 @@
         <div id="search">
             <form id="search_form" action="<%=contextPath%>/list.la" method="post">
                 <div id="searchName">변호사이름
-                    <input type="search" name="nameKey" placeholder="변호사 이름 입력">
+                    <input type="search" id="name" name="nameKey" placeholder="변호사 이름 입력">
                 </div>
                 <div> 분야별
                     <select name="cateKey" id="category">
@@ -133,10 +133,6 @@
                     </select>
                 </div>
 	            <div>
-	            	<!-- 이걸 넣어야하나?
-	            	<%if(!lawList.isEmpty()){ %>
-	            	<%} %>
-	            	 -->
 	            	<button type="submit">검색</button>
 	            </div>
             </form>
