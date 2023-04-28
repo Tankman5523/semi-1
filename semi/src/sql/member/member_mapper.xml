@@ -113,11 +113,15 @@
 	</entry>
 	
 	<entry key="selectBoardList">
-		SELECT BOARD_NO, TITLE, CREATE_DATE, CATEGORY_NAME
-		FROM BOARD 
+        
+		SELECT BOARD_NO, TITLE, CREATE_DATE, CATEGORY_NAME, 
+		       (SELECT ACC_NO
+		        FROM ACCIDENT A
+		        WHERE B.BOARD_NO = A.REF_BNO) AS "ACC_NO"
+		FROM BOARD B
 		JOIN BOARD_CATEGORY USING(CATEGORY_NO)
 		WHERE BOARD_WRITER = ?
-		AND STATUS = 'Y'
+		AND B.STATUS = 'Y'  
 	                       
 	</entry>
 	

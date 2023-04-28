@@ -436,7 +436,8 @@ public class MemberDao {
 				boardList.add(new Board(rset.getInt("BOARD_NO"),
 										rset.getString("TITLE"),
 										rset.getDate("CREATE_DATE"),
-										rset.getString("CATEGORY_NAME")));
+										rset.getString("CATEGORY_NAME"),
+										rset.getInt("ACC_NO")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -824,6 +825,8 @@ public class MemberDao {
 			pstmt.setString(2, lat.getChangeName());
 			pstmt.setString(3, lat.getFilePath());
 			pstmt.setString(4, lat.getRefUno());
+			
+			result2=pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -51,7 +51,7 @@
                     </tr>
                     <tr>
                         <td>비밀번호 변경</td>
-                        <td><input type="password" name="newPwd" id="pwd"></td> <!-- 회원가입이랑 동일하게 keyup 사용-->
+                        <td><input type="password" name="newPwd" id="pwd" value=<%=loginUser.getUserPwd()%>></td> <!-- 회원가입이랑 동일하게 keyup 사용-->
                     </tr>
                     <tr>
                         <td>비밀번호 확인</td>

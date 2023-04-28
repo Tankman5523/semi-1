@@ -38,9 +38,12 @@ public class MemberApplyLawyerDetailController extends HttpServlet {
 		
 		Lawyer lawInfo = new LawyerService().selectApply(userNo); //변호사 정보 
 		
-		String lat = new LawyerService().selectLawAttachment(userNo); 
+		String lat = new LawyerService().selectLawAttachment(userNo);
+		
+		Member applyMem = new MemberService().selectMemberInfo(userNo);
 		
 		request.setAttribute("lawInfo", lawInfo);
+		request.setAttribute("applyMem", applyMem);
 		request.setAttribute("lat", lat);
 		request.getRequestDispatcher("views/manager/manage_applyLawyerDetailForm.jsp").forward(request, response);
 		

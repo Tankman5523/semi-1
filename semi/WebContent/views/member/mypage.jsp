@@ -70,32 +70,34 @@
     <h4>기본정보</h4>
     <hr>
     <!-- 기본정보 뷰 -->
-        <table id="info">
-            <tr>
-                <td width="150">아이디 </td>
-                <td width="200"><%=loginUser.getUserId()%></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>이름 </td>
-                <td><%=loginUser.getUserName()%></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>email </td>
-                <td><%=loginUser.getEmail()%></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>회원타입 </td>
-            <%if(!loginUser.getLawyer().equals("Y")){ %>
-	            <td>일반회원</td>
-               	<td><button id="applyLawyer" onclick = "return apply();">변호사회원 신청하기</button></td>
-             <%}else{%>
-	         	<td>변호사회원</td>   
-	         <%} %>	
-            </tr>
-        </table>
+    	<form action="<%=contextPath%>/apply_Lawyer.me" method ="get">
+	        <table id="info">
+	            <tr>
+	                <td width="150">아이디 </td>
+	                <td width="200"><%=loginUser.getUserId()%></td>
+	                <td></td>
+	            </tr>
+	            <tr>
+	                <td>이름 </td>
+	                <td><%=loginUser.getUserName()%></td>
+	                <td></td>
+	            </tr>
+	            <tr>
+	                <td>email </td>
+	                <td><%=loginUser.getEmail()%></td>
+	                <td></td>
+	            </tr>
+	            <tr>
+	                <td>회원타입 </td>
+	            <%if(!loginUser.getLawyer().equals("Y")){ %>
+		            <td>일반회원</td>
+	               	<td><button onclick=" return law();">변호사회원 신청하기</button></td>
+	             <%}else{%>
+		         	<td>변호사회원</td>   
+		         <%} %>	
+	            </tr>
+	        </table>
+    	</form>
         <br>
     <!-- 버튼 -->
 
@@ -111,32 +113,31 @@
 			location.href="<%=contextPath%>";
 
 		/* 변호사회원 신청페이지로 이동 */
-		function apply(){
-			/* 클릭시 이미 신청한 회원이라면, 알림 띄워주기 */
-			$.ajax({
-			 	url : "chkapply.me",
-			 	
-			 	data : { userNo : <%=loginUser.getUserNo()%>},
-			 	
-			 	type : "post",
-			 	
-			 	success : function(result){
-			 			console.log(result);
-			 			
-			 			if(result == 'W'){
-			 			 	alert("이미 신청하였습니다.");
-			 			 	return false;
-			 			}else{
-							location.href="<%=contextPath%>/apply_Lawyer.me"
-			 			}
-			 	},
-			 	
-			 	error : function(){
-			 		console.log("통신 실패")
-			 	}
-			}); //ajax 끝
-			
-		}//함수 끝 
+		function law(){
+				/* 클릭시 이미 신청한 회원이라면, 알림 띄워주기 */
+				$.ajax({
+				 	url : "chkapply.me",
+				 	
+				 	data : { userNo : <%=loginUser.getUserNo()%>},
+				 	
+				 	type : "post",
+				 	
+				 	success : function(result){
+				 			
+				 			if(result == 'W'){
+				 			 	alert("이미 신청하였습니다.");
+				 			 	return false;
+				 			}else{
+								location.href="<%=contextPath%>/apply_Lawyer.me"
+				 			}
+				 	},
+				 	
+				 	error : function(){
+				 		console.log("통신 실패")
+				 	}
+				}); //ajax 끝
+				
+			}//함수 끝 
 	    
 		/* 메인페이지 버튼 클릭 함수 script */
 		function home(){
@@ -151,8 +152,8 @@
 	    $('#modify').on('click',function(){
 	    	
 	    	if(<%=loginUser.getLawyer().equals("Y")%>){
-	    		
 	    		location.href="<%=contextPath%>/update_info.la";
+	    	
 	    	}else{
 	    		location.href="<%=contextPath%>/update_info.me";
 	    	}
@@ -329,7 +330,7 @@
 	                <td><%=i+1 %></td>
 	                <td><a href="<%=contextPath%>/detail.bo?bno=<%=boardList.get(i).getBoardNo()%>"><%=boardList.get(i).getTitle()%></a></td>
 	                <%if(boardList.get(i).getCategoryName().equals("해결")){ %>
-	               	 	<td><%=boardList.get(i).getCategoryName()%> <button id="review-btn">리뷰작성</button></td>
+	               	 	<td><%=boardList.get(i).getCategoryName()%> <a class="review-btn">리뷰작성</a> <input type=hidden value = <%=boardList.get(i).getAccNo()%>></td>
 	                <%}else{ %>
 	                <td><%=boardList.get(i).getCategoryName()%></td>
 	                <%} %>
@@ -348,7 +349,8 @@
         </table>
         
         <script>
-        /* 내 게시글 삭제 script*/
+       
+       
         $(function(){
         	$("#board-list tr td").on('click','button',function(){
 				
@@ -381,8 +383,23 @@
         	})	
         
         });
+       
+        
+        /*회원이 작성하는 변호사 리뷰 */
+        $('#board-list tr td ').on('click','.review-btn',function(){
+        	
+        	var accNo = $(this).next().val();
+        	
+        	console.log(accNo);
+        	
+        	location.href = "<%=contextPath%>/review.la?accNo="+accNo;
+        	
+        	
+        });//함수 끝 
         
         </script>
+        
+       
         
     <h3>1:1 문의 </h3>
     <hr>
