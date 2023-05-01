@@ -4,24 +4,24 @@
 	Accident ac = (Accident)request.getAttribute("ac");
 	Lawyer l = (Lawyer)request.getAttribute("l");
 %>
-<%@ include file = "../common/mainMenu.jsp" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>리뷰작성</title>
+<%@ include file = "../common/header.jsp" %>
+
 	<style>
-	    /* 영역잡기 */
-	.wrap div{
-	   border: 0px;
-	   box-sizing: border-box;
+    /* 폰트, 색상 */
+    @font-face {
+	    font-family: 'Pretendard-Regular';
+	    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+	    font-weight: 400;
+	    font-style: normal;
 	}
-	.wrap{
-	   border: 1px solid black;
-	   width: 1200px;
-	   height: 600px;
-	   margin: auto;
+	#content *{
+		font-family: 'Pretendard-Regular';
+		font-size: 18px;
 	}
+	/* 영역잡기 */
+    #content *{
+   		color: white;
+    }
 	#enroll-area{
 	   width: 50%;
 	   height: 80%;
@@ -33,10 +33,12 @@
 	}
 	#title{
 	   height: 20%;
-	   line-height: 100px;
+	   line-height: 150px;
 	}
-	h2{
+	#title>h2{
 	   margin: 0;
+	   font-size: 30px;
+	   font-weight: 800;
 	}
 	#comment{
 	   height: 10%;
@@ -52,9 +54,9 @@
 	#enroll-form>table{
 	   height: 80%;
 	}
-	#enroll-form input{
-	   width: 80%;
-	   height: 70%;
+	#enroll-form textarea{
+	   border: none;
+	   outline: none;
 	}
 	#button{
 	   height: 20%;
@@ -62,17 +64,26 @@
 	}
 	table,td,th{
 	   border-collapse : collapse;
-	   border: 2px solid rgb(206, 255, 201);
+	   border: 2px solid rgb(200, 225, 255);
 	}
-	.star{
+	th{
+		background-color: rgb(218, 235, 255);
+	}
+	td{
+		background-color: white;
+	}
+	#enroll-form *{
+		color: black;
+	}
+	#enroll-form .star{
 		cursor: pointer;
 		color : gold;
-		font-size: 20px;
+		font-size: 25px;
 	}
+
 	</style>
-</head>
-<body>
-	<div class="wrap">
+	
+<div id="content">
 	   <div id="enroll-area">
 	       <div id="title"><h2>리뷰 작성</h2></div>
 	       <div id="comment">나의 사건을 해결해준 변호사님께 간단한 리뷰를 남겨주세요.</div>
@@ -82,15 +93,15 @@
 	               <input type="hidden" name="star" value=""><!-- 별점 히든으로 보내기 -->
 	               <table align="center">
 	                   <tr>
-	                       <th width="100px">사건 제목</th>
+	                       <th width="100px" height="50px">사건 제목</th>
 	                       <td width="400px"><%=ac.getTitle() %></td>
 	                   </tr>
 	                   <tr>
-	                       <th>변호사</th>
+	                       <th height="50px">변호사</th>
 	                       <td><%=l.getRefUno() %></td>
 	                   </tr>
 	                   <tr>
-	                       <th>별점</th>
+	                       <th height="50px">별점</th>
 	                       <td>
 	                       	<div class="star-box">
 		                       	<span class="star">☆</span>
@@ -105,7 +116,7 @@
 	                       <th>내용</th>
 	                       <td>
 	                       	<textarea name="content" cols="40" rows="4" maxlength="80" style="resize:none" required></textarea>
-	                       	<br><p style="font-size:13px; color:red;"><span id="count">0</span>/80자</p>
+	                       	<br><p style="color:rgb(1, 63, 134);"><span id="count">0</span>/80자</p>
 	                       </td>
 	                   </tr>
 	               </table>
@@ -145,6 +156,5 @@
 			}
 		});
 	</script>
-	
-</body>
-</html>
+
+<%@ include file = "../common/footer.jsp" %>

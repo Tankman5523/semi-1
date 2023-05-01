@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>변호사 회원 신청 페이지</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <style>
        .content{
             width: 1200px;
@@ -33,7 +35,12 @@
     </style>
 </head>
 <body>
-	<%@ include file="../common/header.jsp" %>
+<%@ include file="../common/header.jsp" %>
+<!-- Popper JS -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <div class="content">
     	<form class ="law_content" action="<%=contextPath%>/apply_Lawyer.me" method="post" enctype="multipart/form-data">
 	        <h2 align="center">변호사 회원 신청</h2>

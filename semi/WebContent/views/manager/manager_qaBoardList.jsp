@@ -13,43 +13,87 @@
 <head>
 <meta charset="UTF-8">
 <title>1대1문의 게시판(관리자)</title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    
 <style>
 	
-    div, input, textarea, h2{
-        border: 1px solid black;
-        box-sizing: border-box;
-    }
+    @font-face{
+   		font-family: 'SBAggroB';
+		src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');	
+   		font-weight: normal;
+		font-style: normal;
+	}    
+	
+	@font-face {
+    font-family: 'Cafe24Ohsquare';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/Cafe24Ohsquare.woff') format('woff');
+	    font-weight: normal;
+	    font-style: normal;
+	}
+	
+	@font-face {
+    font-family: 'HallymGothic-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2204@1.0/HallymGothic-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+	}
     
-    .outer{
-        border: 1px solid black;
+    #content>h2{
+    	font-family: 'SBAggroB';
+    	font-size: 30px;
+		font-weight:300;
+		color : white;    	
+    	
+    	padding-top: 70px;
+    
+    }
+    #board{
+		background-color : white;
         width: 1200px;
+        height : 550px;
         margin: auto;
+        overflow-y:scroll;
     }
 
-    #content{
-        width: 1000px;
-		margin: auto;
-		margin-top: 10px;
-    }
-    
-	#thead{
+	thead{
 		background-color: gainsboro;
 	}
-
-   
+	
+	thead th{
+		 font-family: 'Cafe24Ohsquare';
+		 font-size: 20px;
+		
+	}
+	
+	tbody td{
+		 font-family: 'HallymGothic-Regular';
+		 font-size: 18px;
+		 height: 35px;
+		 color: white;
+	}
     
+    #btn-area{
+    	margin-right: 15px;
+    	margin-bottom: 10px;
+    }
     
 </style>
 </head>
 <body>
-<%@ include file = "../common/mainMenu.jsp" %>
+<%@ include file = "manager_header.jsp" %>
+ <!-- Popper JS -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 
-	<div class="outer">
-		<h2 align="center" style="border: none;">1:1 문의 게시판</h2>
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<div id="content">
+	<h2 align="center" style="border: none;">1:1 문의 게시판</h2>
 		<hr>
-		<div id="content">
+		<div id="qustion-list">
 			<div id="btn-area" style="height:10%; border:none;" align="right">
-				<button onclick="questionWrite();" style="margin: 10px">글쓰기</button>
+				<button class="btn btn-primary" onclick="questionWrite();">글쓰기</button>
 			</div>
 			<script>
 				function questionWrite(){
@@ -60,8 +104,8 @@
 			<table style="width:100%; box-sizing:border-box; text-align: center" id="board-list">
 				<thead  id="thead">
 					<tr>
-						<th width="50">글번호</th>
-						<th width="420">제목</th>
+						<th width="70">글번호</th>
+						<th width="400">제목</th>
 						<th width="80">작성자</th>
 						<th width="80">작성일</th>
 						<th width="50">공개여부</th>
@@ -154,5 +198,5 @@
 			<%}%>
 		</div>
 	</div>
-</body>
-</html>
+</div>		
+<%@ include file = "../common/footer.jsp"%>

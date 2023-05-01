@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<%@ include file="manager_menu.jsp" %>
+<%@ include file="managerMainPage.jsp" %>
 
 <!-- 기본통계나 신규? 등등 띄우기 / 시간없으면 노노 -->
 </body>
