@@ -269,7 +269,7 @@
                             <td>비회원</td>
                         </tr>
                     </table>
-                    <textarea name="" id="reply_input" cols="20" rows="3" style="resize: none;" placeholder="로그인한 유저만 이용 가능합니다." disabled></textarea>
+                    <textarea name="" id="reply_input" cols="60" rows="3" style="resize: none;" placeholder="로그인한 유저만 이용 가능합니다." disabled></textarea>
                     <input type="button" id="reply_btn" value="댓글등록" disabled>
                 <%} %> 
                 <br>   

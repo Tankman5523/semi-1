@@ -29,7 +29,7 @@
 </head>
 <body>
 
-	<%@include file="../common/mainMenu.jsp" %>
+<%@include file="../common/header.jsp" %>
 	
 	<div class="outer">
 		<h2 align="center" style="height:10%">글작성</h2>

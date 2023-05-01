@@ -41,6 +41,7 @@ public class Board {
 
 	//마이페이지로 가져갈 categoryName 
 	private String categoryName;
+	private int accNo;
 
 	//생성자
 	public Board() {
@@ -128,12 +129,13 @@ public class Board {
 	}
 	
 	//마이페이지에서 내가쓴글 보여주기 위한 리스트 생성자 
-	public Board(int boardNo, String title, Date createDate, String categoryName) {
+	public Board(int boardNo, String title, Date createDate, String categoryName, int accNo) {
 		super();
 		this.boardNo = boardNo;
 		this.title = title;
 		this.createDate = createDate;
 		this.categoryName = categoryName;
+		this.accNo = accNo;
 	}
 	
 	//관리자 자유게시판 글관리위한 생성자
@@ -161,6 +163,15 @@ public class Board {
 		this.categoryName = categoryName;
 	}
 	
+	
+	public int getAccNo() {
+		return accNo;
+	}
+
+	public void setAccNo(int accNo) {
+		this.accNo = accNo;
+	}
+
 	//사건필드 게터세터
 	public int getRef_pno() {
 		return ref_pno;
@@ -282,9 +293,7 @@ public class Board {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
-	
-	
+
 	@Override
 	public String toString() {
 		return "Board [boardNo=" + boardNo + ", boardWriter=" + boardWriter + ", categoryNo=" + categoryNo + ", title="

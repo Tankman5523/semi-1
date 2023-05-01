@@ -59,10 +59,9 @@ public class MemberLoginController extends HttpServlet {
 			request.getSession().setAttribute("loginUser", loginUser);
 			request.getSession().setAttribute("alertMsg", "성공적으로 로그인이 완료되었습니다.");
 			
-			response.sendRedirect(request.getContextPath());
+			String before = request.getHeader("Referer");
+			response.sendRedirect(before);
 
-			//로그인을 시도한 화면으로 돌아가기
-//			String before = request.getHeader("Referer");
 			
 			
 		}else { //로그인 실패

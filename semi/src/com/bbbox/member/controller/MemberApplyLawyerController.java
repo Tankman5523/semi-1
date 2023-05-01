@@ -74,7 +74,6 @@ public class MemberApplyLawyerController extends HttpServlet {
 				lat.setChangeName(multiRequest.getFilesystemName("profile"));
 				lat.setFilePath("/resources/lawyer/");
 				
-				System.out.println(lat); //확인용도 
 			}
 			
 			

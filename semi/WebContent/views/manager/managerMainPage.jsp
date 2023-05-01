@@ -1,14 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import ="com.bbbox.member.model.vo.Member"%>
+
 <%
+	int mode = 2;
+	
 	String contextPath = request.getContextPath();
 	Member loginUser = (Member)session.getAttribute("loginUser");
 
 	String alertMsg = (String)session.getAttribute("alertMsg");
 	
 	String errorMsg = (String)session.getAttribute("errorMsg");
-	
-	int mode = 2; //일반모드:1 , 관리자모드:2
 %>        
 <!DOCTYPE html>
 <html>
@@ -24,9 +25,9 @@
     
     <style>
         /* ============================================전체 영역 */
-        body{
-        	margin:0;
-            padding:0;
+        *{
+        	margin: 0;
+        	padding: 0;
         }
         .wrap{
             width: 100%;
@@ -39,7 +40,7 @@
             height: 2%;
         }
         #outer{
-            width: 1400px;
+            width: 1300px;
             height: 96%;
             margin: auto;
         }
@@ -85,7 +86,6 @@
             color: white;
             position: absolute;
             margin: auto;
-            /* bottom: 0; */
         }
 
         /* ============================================ 네비바 */
@@ -104,7 +104,7 @@
         #navi a{
             text-decoration: none;
             color: white;
-            font-size: 20px;
+            font-size: 19px;
             font-weight: 800;
 
             width: 100%;
@@ -115,18 +115,19 @@
         }
         #navi a:hover{
             color: rgb(248, 245, 63);
-            font-size: 22px;
+            font-size: 20px;
         }
         #navi>li>ul{
+        	background-color: rgba(0, 0, 0, 0.7);
             list-style-type: none;
             padding: 0;
             display: none;
         }
         #navi>li>ul a{
-            font-size: 18px;
+            font-size: 17px;
         }
         #navi>li>ul a:hover{
-            font-size: 20px;
+            font-size: 18px;
         }
         #navi>li>a:hover+ul{
             display: block;
@@ -178,13 +179,14 @@
                             <li><a href="<%=contextPath%>/list.mac?currentPage=1">블랙박스 영상</a>
                                 <ul>
                                     <li><a href="<%=contextPath%>/list.mac?currentPage=1">사건 영상 관리</a></li>
+                                    <li><a href="<%=contextPath%>/list.rb?currentPage=1">해결 영상</a></li>
                                     <li><a href="<%=contextPath%>/list.mrb?currentPage=1">해결 영상 관리</a></li>
                                 </ul>
                             </li>    
                             <li><a href="<%=contextPath %>/lawyerList.ma">변호사</a>
                                 <ul>
                                     <li><a href="<%=contextPath %>/lawyerList.ma">변호사 관리</a></li>
-                                    <li><a href="">상담 게시판 관리</a></li>
+                                    <li><a href="<%=contextPath %>/counselList.ma">상담 게시판 관리</a></li>
                                 </ul>
             
                             </li>    
@@ -209,15 +211,16 @@
                     </div>
                 </div>
             </div>
-         
+            <div id="content">
+            </div>
         <script>
-        	/*메인으로 이동*/
-        	$(function(){
-        		
-        		$('#logo-area').on('click',function(){
-    				location.href="<%=contextPath%>/views/manager/manager_index.jsp";
-    			})	
-        		
-        	});
-        	
+        
+       	/*메인으로 이동*/
+       	$(function(){
+       		$('#logo-area').on('click',function(){
+   				location.href="<%=contextPath%>/views/manager/manager_index.jsp";
+   			})	
+       	});
         </script> 
+
+ <%@ include file = "../common/footer.jsp" %>

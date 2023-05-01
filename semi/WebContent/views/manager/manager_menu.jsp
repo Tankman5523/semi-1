@@ -160,15 +160,13 @@
 <body>
 	
 	<script>
-	
-	
-	
 		var msg = "<%=alertMsg%>";
 		
 		var errmsg ="<%=errorMsg%>";
 		
 		if(msg != "null"){
 			alert(msg);	
+			
 			<% session.removeAttribute("alertMsg"); %>
 		}
 		
@@ -232,8 +230,10 @@
                     <ul>
                     	<li><a href="<%=contextPath%>/manage.info.me">회원조회</a></li>
                     	<li><a href="<%=contextPath%>/manage.apply.la">신청관리</a></li>
-                    	<li><a href="">탈퇴회원관리</a></li>
-                        <li><a href="">1:1 문의</a></li>
+                    	<li><a href="<%=contextPath%>/manage.delete.me">탈퇴회원관리</a></li>
+                        <li><a href="<%=contextPath%>/manage.list.qa">1:1 문의</a></li>
+                 
+
                         
                     </ul>
                 </li>    
@@ -241,9 +241,17 @@
     </div>
 	
 	<script>
+		function mypage(){
+			//홈페이지 관리자 클릭 시 메인화면으로
+			
+
+			$('#header2').on('click',function(){
+				
+				location.href="<%=contextPath%>/views/manager/manager_index.jsp";
+			});
+
 		
-		
-		
+
 	</script>
 
 </body>

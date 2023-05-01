@@ -4,170 +4,177 @@
 	Counsel c = (Counsel)request.getAttribute("c");
 	Lawyer l = (Lawyer)request.getAttribute("l");
 %>
-<%@ include file = "../common/mainMenu.jsp" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<style>
+<%@ include file = "../common/header.jsp" %>
+	<style>
+	@font-face {
+	    font-family: 'Pretendard-Regular';
+	    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+	    font-weight: 400;
+	    font-style: normal;
+	}
+	#content *{
+		font-family: 'Pretendard-Regular';
+		font-size: 20px;
+	}
     /* 영역잡기 */
-.wrap div{
-   /* border: 1px; solid black; */
-   border: 0;
-   box-sizing: border-box;
-}
-.wrap{
-   /* border: 1px solid black; */
-   border: 0;
-   width: 1200px;
-   height: 600px;
-   margin: auto;
-}
-.enroll-area{
-   width: 60%;
-   height: 100%;
-   margin: auto;
-}
-.enroll-area>div{
-   width: 100%;
-   text-align: center;
-}
-#title{
-   height: 15%;
-   line-height: 100px;
-}
-h2{
-   margin: 0;
-}
-#comment{
-   height: 10%; /* 일단 삭제된 상태 */
-}
-#enroll{
-   height: 75%;
-}
-#enroll-form{
-   width: 100%;
-   height: 100%;
-}
-#enroll-form>table{
-   height: 80%;
-}
-#enroll-form input{
-   width: 80%;
-   height: 70%;
-}
-#button{
-   height: 20%;
-   line-height: 50px;
-}
-table,td,th{
-   border-collapse : collapse;
-   border: 2px solid rgb(248, 222, 214);
-}
-input, textarea{
-   border: none;	
-}
+   	#enroll-area{
+   		width: 60%;
+   		height: 100%;
+   		margin: auto;
+   		position: relative;
+   	}
+   	#enroll-area>div{
+	   width: 100%;
+	   text-align: center;
+	}
+	#title{
+	   height: 15%;
+	   line-height: 150px;
+	}
+	h2{
+	   margin: 0;
+	   font-size: 30px;
+	   font-weight: 800;
+	   color: white;
+	}
+	#comment{
+	   height: 10%;
+	   color: white;
+	}
+	#enroll-form input, #enroll-form textarea{ /* 수정 필요할수도 */
+	   width: 90%;
+	   height: 90%;
+	   border: none;
+	}
+	#enroll-form>table, #answer-form>table{
+		margin: auto;
+	}
+	#answer-form{
+		position: relative;
+	}
+	#button_2{
+		width: 15%;
+		height: 15%;
+		margin: auto;
+		position: absolute;
+		right: 0;
+		left: 0;
+	}
+	#button_2>button{
+		width: 100%;
+		height: 100%;
+	}
+	#button{
+	   height: 20%;
+   	   line-height: 50px;
+	}
+	table,td,th{
+	   border-collapse : collapse;
+	   border: 2px solid rgb(255, 229, 173);
+	}
+	th{
+		background-color: rgb(255, 243, 218);
+	}
+	td{
+		background-color: white;
+	}
+	#answer-form{
+		display: none;
+	}
+	#answer-form textarea{
+		width: 100%;
+		height: 90%;
+		resize: none;
+		border: none;
+		outline: none;
+	}
+	</style>
 
-.answer-area{
-    width: 80%;
-    height: 70%;
-    margin: auto;
-}
-.answer-form{
-	display: none;
-}
-
-</style>
-</head>
-<body>
-    <div class="wrap">
-        <div class="enroll-area">
-            <div id="title"><h2>상담 내용 확인 (변호사)</h2></div>
-            <div id="enroll">
-                <div  id="enroll-form">
+	<div id="content">
+         <div id="enroll-area">
+            <div id="title"><h2>답변 작성</h2></div>
+            <div id="comment">상담에 대한 답변을 반드시 작성해주세요.</div>
+            <div id="enroll-form">
                     <input type="hidden" name="cno" value="<%=c.getCsNo() %>">
                     <table align="center">
                         <tr>
-                            <th width="100px">제목</th>
-                            <td width="400px" colspan="3"><input type="text" value="<%=c.getCsTitle() %>" readonly></td>
+                            <th width="100px" height="40px">제목</th>
+                            <td width="400px" colspan="3"><%=c.getCsTitle() %></td>
                         </tr>
                         <tr>
-                            <th>회원 아이디</th>
+                            <th height="40px">회원 아이디</th>
                             <td><%=c.getCsWriter()%></td>
                             <th>분야</th>
                             <td><%=l.getRefPno()%></td>
                         </tr>
                         <tr>
-                            <th>내용</th>
-                            <td colspan="3"><textarea cols="50" rows="15" style="resize:none" readonly><%=c.getCsContent() %></textarea></td>
+                            <th height="200px">내용</th> <!-- 클릭 시 창 눌리는거 없애기 -->
+                            <td colspan="3"><%=c.getCsContent() %></td>
                         </tr>
-                    </table>
-                        <%if(c.getCsAnswer() != null){ %>
-                        	<div class="answer-area" action="<%=contextPath%>/counselUpdate.la" method="get"">
-			                    <table align="center">
-			                        <tr>
-			                            <th>답변</th>
-			                        </tr>
-			                        <tr>
-			                            <td><textarea cols="50" rows="15" style="resize:none" readonly><%=c.getCsAnswer() %></textarea></td>
-			                        </tr>
-			                    </table>
-			                    <br>
-			                    <div>
-			                        <button onclick="history.back()">뒤로가기</button> <!-- 수정하기 잘못된 알림 뜸 -->
-			                    </div>
-			                </div>
-                        <%}else{ %>
-		                    <div id="button">
-		                        <button type="button" id="acceptBtn">수락메세지 작성</button>
-		                        <button type="button" id="declineBtn">거절메세지 작성</button>
-		                        <button onclick="history.back()">뒤로가기</button>
-		                    </div>
-		                <%} %>
-                </div>
-                <form class="answer-form" action="<%=contextPath%>/counselAnswer.la" method="post">
-                <input type="hidden" name="result" value="">
-                <input type="hidden" name="csNo" value="<%=c.getCsNo()%>">
-                    <table align="center">
-                        <tr>
-                            <th>답변</th>
-                        </tr>
-                        <tr>
-                            <td><textarea id="answer" name="answer" cols="50" rows="15" style="resize:none" placeholder="사건에 대한 간단한 답변을 남겨주세요." required></textarea></td>
-                        </tr>
-                    </table>
-                    <br>
-                    <div id="button_2">
-                        <button type="submit">답변 저장</button> <!-- 답변 작성 시 수정불가능 알림 넣기 -->
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+                    <%if(c.getCsAnswer() != null){ %> <!-- 답변을 남긴 상태라면 확인만 -->
+		                       <tr>
+		                           <th height="200px">답변</th>
+		                           <td colspan="3"><%=c.getCsAnswer() %></td>
+		                       </tr>
+		                   </table>
+		                   <br>
+		                   <div>
+		                       <button onclick="history.back()">뒤로가기</button> <!-- 수정하기 잘못된 알림 뜸 -->
+		                   </div>
+                   <%}else{ %> <!-- 아직 답변이 등록되어있지 않다면 -->
+                   	  </table>
+                   	  <br>
+	                  <div id="button">
+	                      <button type="button" id="acceptBtn">수락메세지 작성</button>
+	                      <button type="button" id="declineBtn">거절메세지 작성</button>
+	                      <button onclick="history.back()">뒤로가기</button>
+	                  </div>
+	              <%} %>
+             </div> <!-- enroll-form 끝 -->
+             <form id="answer-form"  onsubmit="return answer();" action="<%=contextPath%>/counselAnswer.la" method="post">
+             <input type="hidden" name="result" value="">
+             <input type="hidden" name="csNo" value="<%=c.getCsNo()%>">
+                 <table align="center">
+                     <tr>
+                         <th width="100px" height="200px">답변</th>
+                         <td width="400px" height="200px"><textarea id="answer" name="answer" placeholder="사건에 대한 간단한 답변을 남겨주세요." required></textarea></td>
+                     </tr>
+                 </table>
+                 <br>
+                 <div id="button_2">
+                     <button type="submit">답변 저장</button> <!-- 답변 작성 시 수정불가능 알림 넣기 -->
+                 </div>
+            </form>
+        </div> <!-- enroll 끝 -->
+    </div><!-- 컨텐트 끝 -->
     
     <script>
     
     	$(function(){
     		$("#acceptBtn").click(function(){
-        		$(".answer-form").css("display","block");
-        		var info = "";
-        		$("#answer").html("사무실 번호 : <%=l.getCompanyPn()%>");
+        		$("#answer-form").css("display","block");
         		$("#button").css("display","none");
-        		$(".answer-form>input[name=result]").val("accept");
+        		$("#answer-form>input[name=result]").val("accept");
         	});
     		
     		$("#declineBtn").click(function(){
-        		$(".answer-form").css("display","block");
+        		$("#answer-form").css("display","block");
         		var info = "상담내용 확인해보았으나, 현재 업무 스케쥴상 담당하기 어려운 사건으로 보입니다. 블라블라";
         		$("#answer").html(info);
         		$("#button").css("display","none");
-        		$(".answer-form>input[name=result]").val("decline");
+        		$("#answer-form>input[name=result]").val("decline");
         	});
     	});
     	
+    	function answer(){ /* 마이페이지 넘어갈 때 다시 확인해보기 */
+    		if(confirm("답변을 저장하시면 더이상 수정이 불가능합니다. 답변 등록을 진행하시겠습니까?")){
+    			return true;
+    		}else{
+    			return false;
+    		}
+    	};
     	
     
     </script>
-</body>
-</html>
+
+<%@ include file = "../common/footer.jsp" %>

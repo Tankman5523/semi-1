@@ -15,7 +15,11 @@
 <head>
 <meta charset="UTF-8">
 <title>MainPage</title>
-    
+<!-- 아이콘 CDN (font-awesome Copy Link Tag) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+      
     <style>
         /* ============================================전체 영역 */
         body{
@@ -203,7 +207,7 @@
                             <li><a href="<%=contextPath %>/list.la">변호사</a>
                                 <ul>
                                     <li><a href="<%=contextPath %>/list.la">변호사 검색</a></li>
-                                    <li><a href="">소송 가이드</a></li>
+                                    <li><a href="<%=contextPath %>/guide.la">소송 가이드</a></li>
                                 </ul>
             
                             </li>    

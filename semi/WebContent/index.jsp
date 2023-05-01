@@ -164,6 +164,7 @@
     </style>
 
 </head>
+
 <body>
 	<script>
 		var msg = "<%=alertMsg%>";
@@ -228,7 +229,7 @@
     	               		<li><a href="<%=contextPath%>/logout.me">로그아웃</a></li>
 							<%} %>
                         </ul>
-                    </div>.
+                    </div>
                 </div>
             </div>
             <div id="content">
@@ -262,6 +263,8 @@
         </div>
         <div id="line"><img src="<%=contextPath%>/resources/common/menu-top.jpg" alt="" style="width: 100%; height: 100%;"></div>
     </div>
-    
-</body>
-</html>
+
+
+<%@ include file = "views/common/footer.jsp" %>	
+
+

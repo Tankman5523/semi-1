@@ -294,6 +294,26 @@ public class MemberService {
 		return result;
 	}
 	
+	//변호사 회원 정보 수정 메소드 
+	public int updateLawyer(Lawyer l, LawAttachment lat) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result1 = new MemberDao().updateLawyer(conn, l);
+		
+		int result2 = new MemberDao().updateProfile(conn, lat);
+		
+		if(result1*result2>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result1*result2;
+	}
+	
 	
 
 	

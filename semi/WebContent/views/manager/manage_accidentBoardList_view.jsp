@@ -192,6 +192,7 @@
 			background-color:red;
 			color:white;
 		}
+
         /* 스크롤바 스타일 적용 */
 
 	    ::-webkit-scrollbar {
@@ -204,6 +205,11 @@
 	        -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.8); 
 	    }
         
+        /*하단 페이징*/
+        .pageMover{
+            height: 5%;
+        }
+
     </style>
 </head>
 <body>

@@ -46,7 +46,7 @@
 </head>
 <body>
 	
-	<%@include file="../common/mainMenu.jsp" %>
+<%@include file="../common/header.jsp" %>
 	
 	<div class="outer">
  		<div id="header" style="height: 10%">
@@ -180,14 +180,11 @@
 
 	</div>
 	
-	<%@include file="../common/footer.jsp" %>
-	
 	<script>
 		$(function(){
 			$("input").attr("autocomplete", "off");
 		});
 	</script>
-	
-		
+<%@include file="../common/footer.jsp" %>
 </body>
 </html>

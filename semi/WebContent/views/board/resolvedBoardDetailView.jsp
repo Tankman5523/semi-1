@@ -70,7 +70,6 @@
         /*게시글 영역*/
         .contentArea{
             height: 40%;
-            
         }
         .contentArea>div{
            width: 90%;
@@ -158,7 +157,6 @@
             margin-left:30px;
             margin-right:30px;
             background-color: rgba(50, 50, 50, 0.6);
-        	
         }
         .replyWriteArea>*{
             float: left;

@@ -1,15 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import ="com.bbbox.member.model.vo.Member"%>
+    
 <%
+	int mode = 1; //일반모드:1 , 관리자모드:2	
+	
 	String contextPath = request.getContextPath();
+	
 	Member loginUser = (Member)session.getAttribute("loginUser");
 
 	String alertMsg = (String)session.getAttribute("alertMsg");
 	
 	String errorMsg = (String)session.getAttribute("errorMsg");
-	
-	int mode = 1; //일반모드:1 , 관리자모드:2
-%>        
+%>     
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,21 +20,16 @@
 <title>Including</title>
 
  	<!-- 아이콘 CDN (font-awesome Copy Link Tag) -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-	<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 
     
     <style>
         /* ============================================전체 영역 */
-        body{
-        	margin:0;
-            padding:0;
-        }
         .wrap{
             width: 100%;
-            height: 100vh;
-            
+            height: 1000px;
             background-image: url("https://cdn.pixabay.com/photo/2016/10/03/14/24/car-1711788_1280.jpg");
             background-size: cover;
         }
@@ -57,7 +55,7 @@
         }
         #content{
             height: 80%;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.9);
         }
         #footer{
             height: 10%;
@@ -126,7 +124,6 @@
         }
         #navi>li>ul a{
             font-size: 18px;
-            
         }
         #navi>li>ul a:hover{
             font-size: 20px;
@@ -137,22 +134,12 @@
         #navi>li>ul:hover{
             display: block;
         }
-        
-        ::-webkit-scrollbar {
-	        width: 6px;
-	    } 
-	    ::-webkit-scrollbar-track {
-	        -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.8); 
-	    } 
-	    ::-webkit-scrollbar-thumb {
-	        -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.8); 
-	    }
 
     </style>
 
 </head>
-<body>
-	<script>
+
+<script>
 		var msg = "<%=alertMsg%>";
 		
 		var errmsg ="<%=errorMsg%>";
@@ -168,13 +155,15 @@
 			
 			<% session.removeAttribute("errorMsg"); %>
 		}
+		
+	
 	</script>
-
+<body>
     <div class="wrap">
         <div id="line"><img src="<%=contextPath%>/resources/common/menu-top.jpg" alt="" style="width: 100%; height: 100%;"></div>
         <div id="outer">
             <div id="header">
-                <div id="logo-area" onclick="location='views/common/mainPage.jsp'">블변<span style="font-size: 40px;">의</span> 법칙</div>
+                <div id="logo-area" onclick="location='views/common/mainPage.jsp'">블변<span style="font-size: 40px;">의</span> 법칙<i class="fa-sharp fa-solid fa-gear fa-l" style="color: #bd0000;"></i></div>
                 <div id="navi-area">
                     <div id="navibar">
                         <ul id="navi">
@@ -188,7 +177,7 @@
                             <li><a href="<%=contextPath %>/list.la">변호사</a>
                                 <ul>
                                     <li><a href="<%=contextPath %>/list.la">변호사 검색</a></li>
-                                    <li><a href="">소송 가이드</a></li>
+                                    <li><a href="<%=contextPath %>/guide.la">소송 가이드</a></li>
                                 </ul>
             
                             </li>    
@@ -198,22 +187,17 @@
                                     <li><a href="<%=contextPath%>/list.vi?currentPage=1">영상 게시판</a></li>
                                 </ul>
                             </li>    
-                            <li><a href="">고객문의</a>
-                                <ul>
-                                    <li><a href="<%=contextPath%>/list.qa">1:1 문의</a></li>
-                                    <li><a href="">FQA</a></li>
-                                </ul>
+                            <li>
+                            	<a href="<%=contextPath%>/list.qa">1:1 문의</a>
                             </li>
                             <%if(loginUser == null) {%>
-                            <li><a href="<%=contextPath%>/login.me">로그인</a></li>
                             <li><a href="<%=contextPath%>/enroll.me">회원가입</a></li>
+                            <li><a href="<%=contextPath%>/login.me"><i class="fa-solid fa-door-open fa-xl" style="color: #ffffff;"></i></a></li>
                             <%}else{ %>
-	                            <li><form action="<%=contextPath%>/confirm.me" method = "post">
-	                            	<button type="submit" style = "margin-top: 12px;"><i class="fa-light fa-user fa-lg" style="color: #ffffff;"></i></button></form></li>
-    	               		<li><a href="<%=contextPath%>/logout.me">로그아웃</a></li>
+	                            <li><a href="<%=contextPath%>/entry.me">마이페이지</a></li>
+    	               			<li><a href="<%=contextPath%>/logout.me">로그아웃</a></li>
 							<%} %>
                         </ul>
                     </div>
                 </div>
             </div>
-         

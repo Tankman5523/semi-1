@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import = "com.bbbox.lawyer.model.vo.*" %>
 <%
-	Lawyer apply = (Lawyer)request.getAttribute("apply");
+	Lawyer lawInfo = (Lawyer)request.getAttribute("lawInfo");
 
 	String lat = (String)request.getAttribute("lat"); 
 	
@@ -13,70 +13,138 @@
 <head>
 <meta charset="UTF-8">
 <title>변호사 회원 신청 조회 페이지</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <style>
-       .content{
-            width: 1200px;
-            box-sizing: border-box;
-            margin-top:10px;
-            margin:auto;
-        }
-        
-        #info, #lawInfo, #lawComent{
-            width: 60%;
-            margin-left: 400px;
-         }
-		
-		#info td, #lawComent td{
-			width: 80px;
-			height: 35px;
-		}
+            /* 폰트 */
+   	@font-face{
+   		font-family: 'SBAggroB';
+ 		src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');	
+   		font-weight: normal;
+  		font-style: normal;
+	}    
 	
-		#lawInfo td{
-			width: 60px;
-			height: 35px;
-		}
+	@font-face {
+	    font-family: 'Cafe24Ohsquare';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/Cafe24Ohsquare.woff') format('woff');
+	    font-weight: normal;
+	    font-style: normal;
+	}
+	
+	@font-face {
+	    font-family: 'HallymGothic-Regular';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2204@1.0/HallymGothic-Regular.woff2') format('woff2');
+	    font-weight: 400;
+	    font-style: normal;
+	}
+       
+	.law_content{
+		width:1200px;
+		height:100%;
+	    margin: auto;
+	}
+	
+	#info, #lawComent{
+		width: 60%;
+		margin:auto;		
+	}
+	
+	#lawInfo{
+		width :60%;
+		margin:auto;
+	}
+	
+	#info th, #lawComent th{
+		width : 150px;
+	
+	}
+	
+	#lawInfo th{
+		width : 72px;
+	}
+	hr{
+		background : white;
+		height: 1.5px;
+		border:0;
+	}
+	.law_content h2{
+		font-family: 'SBAggroB';
+		font-weight:300;
+		font-size: 30px;
+		color:white;
+		padding-top : 50px;
+	}	
+	
+	h4{
+		font-family: 'SBAggroB';
+		font-weight:300;
+		font-size: 20px;
+		color:white;
+		margin-left: 250px;
+		margin-bottom: 20px;
+		
+	}	
+	
+	 
+	td, th{
+		 font-family: 'Cafe24Ohsquare';
+		 color: white;
+		 height: 36px;
+		 width: 100px;
+		 font-size: 18px;
+	} 
+	 
+	a{
+	    text-decoration: none;
+	    color: black;
+	    display: block;
+	}
+	
+	#applybtn button{
+	    margin-left: 20px;
+	    margin-right: 20px;
+    }
     </style>
-</head>
-<body>
-	<%@ include file="../common/header.jsp" %>
-    <div class="content">
-	        <h2 align="center">변호사 회원 신청</h2>
+<%@ include file="../common/header.jsp" %>
+<!-- Popper JS -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->	
+<div id="content" style="overflow: auto;">
+	<div class="law_content">
+    	<h2 align="center">변호사 회원 신청</h2>
 	        <hr>
+	        <h4>INFO</h4>
 	        <!-- 기본정보 뷰 -->
 	            <table id="info">
-	            	<thead>
-		            	<tr>
-		            		<td><b>[기본회원 정보]</b></td>
-	    	        	</tr>
-	            	</thead>
 	                <tr>
-	                    <td>아이디</td>
+	                    <th>아이디</th>
 	                    <td><%=applyMem.getUserId()%></td>
 	                    <td></td>
 	                </tr>
 	                <tr>
-	                    <td>이름</td>
+	                    <th>이름</th>
 	                    <td><%=applyMem.getUserName()%></td>
 	                    <td></td>
 	                </tr>
 	                <tr>
-	                    <td>핸드폰번호</td>
+	                    <th>핸드폰번호</th>
 	                    <td><%=applyMem.getPhone()%></td>
 	                </tr>
 	                <tr>
-	                    <td>email</td>
+	                    <th>email</th>
 	                    <td><%=applyMem.getEmail()%></td>
 	                    <td></td>
 	                </tr>
 	                <tr>
-	                    <td>주소</td>
+	                    <th>주소</th>
 	                    <td><%=applyMem.getAddress()%></td>
 	                </tr>
 	            </table>
 	        <hr>
 	            <table id="lawInfo">
 	                <tr>
-	                    <td rowspan="4">사진</td>
+	                    <th>사진</th>
 	                    <td rowspan="4" colspan ="4"><img width="150" height="180" src="<%=contextPath+lat%>"></td>
 	                </tr>
 	                <tr>
@@ -85,54 +153,56 @@
 	                </tr>
 	                <tr>
 	                </tr>
+					<tr>
+					</tr>	                
 	                <tr>
-	                    <td>시험</td>
-	                    <td><%=apply.getExam()%></td>
+	                    <th>시험</th>
+	                    <td><%=lawInfo.getExam()%></td>
 	                </tr>
 	                <tr>
-	                    <td>회차</td>
-	                    <td><%=apply.getExamSession()%>회</td>
+	                    <th>회차</th>
+	                    <td><%=lawInfo.getExamSession()%>회</td>
 	                </tr>
 	                <tr>
-	                    <td>합격년도</td>
-	                    <td><%=apply.getPassDate()%>년도</td>
+	                    <th>합격년도</th>
+	                    <td><%=lawInfo.getPassDate()%>년도</td>
 	                </tr>
 	                <tr>
-	                    <td>전문분야</td>
-	                    <td><%=apply.getRefPno()%></td>
+	                    <th>전문분야</th>
+	                    <td><%=lawInfo.getRefPno()%></td>
 	                </tr>
 	                <tr>
-	                    <td>주소</td>
-	                    <td><%=apply.getCompanyAddress() %></td>
+	                    <th>주소</th>
+	                    <td><%=lawInfo.getCompanyAddress() %></td>
 	                </tr>
 	                <tr>
-	                    <td>사무소 이름</td>
-	                    <td><%=apply.getCompanyName() %></td>
+	                    <th>사무소 이름</th>
+	                    <td><%=lawInfo.getCompanyName() %></td>
 	                </tr>
 	                <tr>
-	                    <td>사무소 번호</td>
-	                    <td><%=apply.getCompanyPn()%></td>
+	                    <th>사무소 번호</th>
+	                    <td><%=lawInfo.getCompanyPn()%></td>
 	                </tr>
 	            </table> 
 	        <hr>
 	            <table id="lawComent">
 	                <tr>
-	                    <td>한줄소개</td>
-	                    <td><textarea name="comment" id="" cols="40" rows="3" style="resize: none;"><%=apply.getLawComment()%></textarea></td>
+	                    <th>한줄소개</th>
+	                    <td><textarea name="comment" id="" cols="40" rows="3" style="resize: none;" readonly><%=lawInfo.getLawComment()%></textarea></td>
 	                </tr>
 	                <tr>
-	                    <td>경력</td>
-	                    <td><textarea name="career" id="" cols="40" rows="5" style="resize: none;"><%=apply.getCareer()%></textarea></td>
+	                    <th>경력</th>
+	                    <td><textarea name="career" id="" cols="40" rows="5" style="resize: none;" readonly><%=lawInfo.getCareer()%></textarea></td>
 	                </tr>
 	            </table>    
 	        <hr>
 	        
-	       <div class="applybtn" align="center">
-	       		<button id="accept">승인</button>
-	       		<button id="refuse">거절</button>
+	       <div id="applybtn" align="center">
+	       		<button class= "btn btn-primary" id="accept">승인</button>
+	       		<button class= "btn btn-danger" id="refuse">거절</button>
 	       </div>     
     </div>
-  	<br><br><br>
+</div>    
   	
   	<script>
   		/* 승인버튼 클릭시 발생하는 이벤트 함수  */
@@ -193,5 +263,5 @@
   		});
   	
   	</script>
-</body>
-</html>
+  	
+<%@ include file = "../common/footer.jsp"%>

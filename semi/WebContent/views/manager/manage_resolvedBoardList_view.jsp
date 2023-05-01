@@ -14,6 +14,7 @@
 <meta charset="UTF-8">
 <title>해결 영상 게시판 관리</title>
     <style>
+
         #content{
             border:none;
             width: 1300px;
@@ -52,6 +53,7 @@
            margin:0;
             margin-top:20px;
             margin-left:30px;
+
         }
 
         /*서치 영역*/
@@ -148,6 +150,7 @@
         	height:100%;
         	padding:0;
         	margin:0;
+
 		}	
 		/*테이블 사이징*/
         .tbl-header{
@@ -192,10 +195,12 @@
 			background-color:red;
 			color:white;
 		}
+
     </style>
 </head>
 <body>
 <%@ include file="managerMainPage.jsp" %>
+
     <div id="content">
         <div id="accidentBoardHead">
             <div class="boardName">
@@ -254,6 +259,7 @@
                 <input type="radio" name="searchSort" id="sortView" value="view"><label for="sortView">조회순</label>
                 <input type="radio" name="searchSort" id="sortNew" value="date"><label for="sortNew">최신순</label>
                 <input type="submit" class="yellowBtn" value="정렬" style="margin-left:5px;">
+
                 </form>
             </div> 
         </div>

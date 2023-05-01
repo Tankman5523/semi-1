@@ -12,7 +12,6 @@
               	 		<%} %>
               	 	<%} %>
                </div>
-              
             </div>
         </div>
         <div id="line"><img src="<%=contextPath%>/resources/common/menu-top.jpg" alt="" style="width: 100%; height: 100%;"></div>
