@@ -4,38 +4,41 @@
 	ArrayList<Lawyer> lawList = (ArrayList<Lawyer>)request.getAttribute("lawList");
 	ArrayList<PartCategory> pList = (ArrayList<PartCategory>)request.getAttribute("pList");
 %>
-<%@ include file="manager_menu.jsp" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<%@ include file = "../manager/manager_header.jsp" %>
 <style>
+
+	/* 폰트, 색상 */
+    @font-face {
+	    font-family: 'Pretendard-Regular';
+	    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+	    font-weight: 400;
+	    font-style: normal;
+	}
+
     /* 영역잡기 */
-    .wrap div{
-        /* border: 1px solid black; */
-        border: 0px;
-        box-sizing: border-box;
-    }
-    .wrap{
-        /* border: 1px solid black; */
-        width: 1200px;
-        height: 600px;
+    #content *{
+    	color: white;
+    	font-family: 'Pretendard-Regular';
+    	font-size: 18px;
         margin: auto;
     }
-    .wrap>div{
+	#content>div{
         width: 100%;
     }
-    #head{
+    #space{
+    	height: 10%;
+    }
+	#title{
+        height: 5%;
+    }
+    #search-area{
         height: 10%;
     }
-    #search{
-        height: 10%;
+    #list-area{
+        height: 75%;
+        border-collapse: collapse;
     }
-    #content{
-        height: 80%;
-    }
-    #content>div{
+    #list-area>div{
         height: 100%;
     }
     #lawList{
@@ -45,32 +48,41 @@
     }
 
     /* 대표 문구 */
-    #head>p{
+    #title>p{
         text-align: center;
-        font-size: 20px;
+        font-size: 30px;
         font-weight: 900;
-        line-height: 50px;
+        line-height: 30px;
     }
 
     /* 검색창 */
     #search_form{
         width: 90%;
         height: 100%;
-        margin-left: 100px;
+        margin-left: 150px;
     }
     #search_form>div{
         height: 100%;
         float: left;
         margin: 0px 10px;
     }
-    
+    #search_form select, #search_form option, #search_form button, #searchName>input{
+    color: black;
+    }
     /* 변호사 나열 */
     #lawList table{
         width: 100%;
         text-align: center;
     }
-    #List-title{
+    #list-title{
         background-color: rgb(223, 220, 220);
+    }
+    #lawList th{
+    	color: black;
+    	height: 40px;
+    }
+    #lawList td{
+    	height: 40px;
     }
     a{
         text-decoration: none;
@@ -79,14 +91,22 @@
     }
 
 </style>
-</head>
-<body>
-    <div class="wrap">
-        <div id="head">
-            <p>변호사 관리 [관리자용]</p>
-        </div>
-        <div id="search">
+
+<div id="content">
+		<div id="space"></div>
+        <div id="title"><p>변호사 관리 페이지</p></div>
+        <div id="search-area">
             <form id="search_form" action="<%=contextPath%>/lawyerList.ma" method="post">
+                  
+                 <div>
+                	<fieldset>
+                		<legend>정렬</legend>
+                		<label><input type="radio" name="sort" value="solvedAccCount">해결영상 수&nbsp;&nbsp;</label>
+	                	<label><input type="radio" name="sort" value="counselMatchCount">상담매칭 수&nbsp;&nbsp;</label>
+	                	<label><input type="radio" name="sort" value="reviewAverage">리뷰 평점순</label>
+                	</fieldset>
+                </div>
+                <br>
                 <div id="searchName">변호사이름
                     <input type="search" name="nameKey" placeholder="변호사 이름 입력">
                 </div>
@@ -110,32 +130,25 @@
                         <option value="제주">제주도</option>
                     </select>
                 </div>
-                <div>
-                	<fieldset>
-                		<legend>정렬</legend>
-                		<label><input type="radio" name="sort" value="solvedAccCount">해결영상 수</label>
-	                	<label><input type="radio" name="sort" value="counselMatchCount">상담매칭 수</label>
-	                	<label><input type="radio" name="sort" value="reviewAverage">리뷰 평점순</label>
-                	</fieldset>
-                </div>
+              
                 <div>
                     <button type="submit">검색</button>
                 </div>
             </form>
         </div>
-        <div id="content">
+        <div id="list-area">
             <div id="lawList" >
                 <table>
-                    <thead id="List-title">
+                    <thead id="list-title">
                         <tr>
-                            <td width="10">No.</td>
-                            <td width="30">변호사 번호</td>
-                            <td width="30">이름</td>
-                            <td width="30">분야</td>
-                            <td width="40">해결영상 개수</td>
-                            <td width="40">상담매칭 개수</td>
-                            <td width="40">리뷰 평점</td>
-                            <td width="40">변호사 권한</td>
+                            <th width="50px">No.</th>
+                            <th width="50px">변호사 번호</th>
+                            <th width="50px">이름</th>
+                            <th width="50px">분야</th>
+                            <th width="50px">해결영상 개수</th>
+                            <th width="50px">상담매칭 개수</th>
+                            <th width="50px">리뷰 평점</th>
+                            <th width="50px">변호사 권한</th>
                         </tr>
                     </thead>
                     <!-- 찜한 변호사 리스트가 비어있지 않다면 -->
@@ -210,8 +223,6 @@
         		});
     		}
     	});
-    	
-    	
     </script>
-</body>
-</html>
+
+<%@ include file = "../common/footer.jsp" %>

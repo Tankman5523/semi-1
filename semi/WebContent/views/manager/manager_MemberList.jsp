@@ -12,57 +12,108 @@
 <title>전체 회원 관리</title>
 
 	<style>
-	.content{
-	        width: 800px;
-	        box-sizing: border-box;
-	        margin : auto;
-	        margin-top: 20px;
-	    }
-	    #info, table{
-	        width: 100%;
-	    }
-	    #List{
-	        background-color: rgb(223, 220, 220);
-	    }
-	    a{
-	        text-decoration: none;
-	        color: black;
-	        display: block;
-	    }
-	    
-	    #counsel-list a{
-	    	width : 50%;
-	    	float : left;
-	    }
-	    
-	    #review-btn{
-	    	margin-left: 10px;
-	    }
-	    a:hover +{
-	        cursor: pointer;
-	        
-	    }
+	/* 폰트 */
+   	@font-face{
+   		font-family: 'SBAggroB';
+ 		src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');	
+   		font-weight: normal;
+  		font-style: normal;
+	}    
+	
+	@font-face {
+	    font-family: 'Cafe24Ohsquare';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/Cafe24Ohsquare.woff') format('woff');
+	    font-weight: normal;
+	    font-style: normal;
+	}
+	
+	@font-face {
+	    font-family: 'HallymGothic-Regular';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2204@1.0/HallymGothic-Regular.woff2') format('woff2');
+	    font-weight: 400;
+	    font-style: normal;
+	}
+	
+
+	#member-list{
+        width: 1200px;
+        hegight : 800px
+        box-sizing: border-box;
+        margin : auto;
+        margin-top: 20px;
+    }
+    
+    #member-list>h2{
+   		 font-family: 'SBAggroB';
+   		 font-size : 30px;
+   		 font-weight : 300;
+   		 color: white;
+   		 padding-top: 10px;
+    }
+    
+    table{
+    	width: 100%;
+    	
+    }
+    
+    table th{
+    	font-family: 'Cafe24Ohsquare';
+    	font-size: 18px;
+    	height : 35px;
+    }
+    
+    table td{
+    	font-family: 'HallymGothic-Regular';
+    	font-size: 15px;
+    	text-align: center;
+    	color : white; 
+    	height : 30px;
+    }	 
+    #List{
+        background-color: rgb(223, 220, 220);
+    }
+    
+    
+    a{
+        text-decoration: none;
+        color: black;
+        display: block;
+    }
+    
+    #counsel-list a{
+    	width : 50%;
+    	float : left;
+    }
+    
+    #review-btn{
+    	margin-left: 10px;
+    }
+    a:hover +{
+        cursor: pointer;
+        
+    }
 	</style>
 </head>
 <body>
 
-<%@ include file="manager_menu.jsp" %>
+<%@ include file="manager_header.jsp" %>
 
-<div class="content">
+<div id="content" style="overflow-y:scroll;">
 	
+	<div id="member-list">
 	<h2 align="center">회원 관리</h2>
 	<hr>
         <table>
             <thead id="List">
                 <tr>
-                    <td width="50">회원번호</td>
-                    <td width="70">아이디</td>
-                    <td width="70">이름</td>
-                    <td width="70">회원 타입</td>
-                    <td width="80">가입일</td>
-                    <td width="50">탈퇴여부</td>
-                    <td width="70">작성 게시글 수</td>
-                    <td width="70">작성 댓글 수</td>
+                    <th width="50">회원번호</th>
+                    <th width="70">아이디</th>
+                    <th width="70">이름</th>
+                    <th width="70">회원 타입</th>
+                    <th width="100">가입일</th>
+                    <th width="50">탈퇴여부</th>
+                    <th width="50">작성 게시글 수</th>
+                    <th width="50">작성 댓글 수</th>
                 </tr>
             </thead>
             <!-- 전체 회원 조회 -->
@@ -94,5 +145,6 @@
             </tbody>
         </table>
 	</div>
-</body>
-</html>
+</div>
+	
+<%@ include file="../common/footer.jsp" %>

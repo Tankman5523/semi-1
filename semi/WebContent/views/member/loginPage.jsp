@@ -5,44 +5,79 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인 페이지</title>
- 
-<!-- jquery CDN --> 
- <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>  
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 
 <style>
-        /* div{
-            border : 1px solid black;
-            box-sizing: border-box;
-        }  */
-        /* ------  로그인 폼 영역 ------- */
-        .login-form{
-            width: 1200px;
-            margin:auto;
-        }
+		@font-face{
+    		font-family: 'SBAggroB';
+  			src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');	
+    		font-weight: normal;
+   			font-style: normal;
+		}    
+		
+		@font-face {
+		    font-family: 'ChosunSg';
+		    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunSg.woff') format('woff');
+		    font-weight: normal;
+		    font-style: normal;
+		}
+		
+		#content>#login-area{
+			width:80%;
+			height:50%;
+			margin:auto;
+			margin-top:150px;
+			margin-bottom: 150px;
+			background-color: white; /*나중에 지우기*/
+		}
+
         #login-area>h1{
             width: 100%;
-            margin: auto;
-        }
-        #login-area table{
-            width : 30%;
-            margin-left: 510px;
-            margin-top: 10px
-        }
+            color: black;
+            padding-top : 50px;
+            font-family : 'SBAggroB';
+			       
+		}
+		
+       #login-table{
+       		margin:auto;
+       
+       }
+       
+       #login-table {
+       
+       
+       }
+       #login-table label{
+       		font-size: 18px; 
+       		font-weight: 300; 
+       		font-family : 'SBAggroB';
+       		color:black;
+       		margin-top:5px;
+       		margin-bottom:0px;
+       	
+       }     
 
-        #login-area input{
-            margin-top: 5px;
-            margin-bottom: 5px;
-        }
-
-        #login-area a{
+        #login-table a{
+        	font-family : 'SBAggroB';
+        	font-size: 18px;
             text-decoration: none;
+            margin-right:15px;
             color: black;
         }
+        
+        #login-table input{
+        	width:90%;
+        }
+        
         #btn-area {
             width: 50%;
             height: 120px;
-            margin: auto;
+            margin-left:250px;
         }
+        
         #btn-area div{
             width: 30%;
             height: 40px;
@@ -50,7 +85,7 @@
         }
   
         #btn-area button{
-            width: 100%;
+            width: 120%;
             height: 80%;
             
             
@@ -88,7 +123,7 @@
             display: flex;/*로고 이미지나 텍스트를 중앙 정렬 하기 위해 flex및 정렬*/
             align-items: center;
             justify-content: center;
-
+           	font-family : 'SBAggroB';
 
         }
         
@@ -100,20 +135,24 @@
         .body-content{ /*몸통 내부 컨텐츠 영역*/
         	margin: auto;
             width: 80%;
-            padding: 20px; /*좌우 내용 붙음 방지 */
+            padding: 10px; /*좌우 내용 붙음 방지 */
         }
 
         .body-titlebox{ /*컨텐츠 타이틀 영역*/
             text-align: center;
             width: 100%;
             height: 40px;
-            margin-bottom:10px; /*내용과 간격 조정*/
-           
+            margin-bottom:15px; /*내용과 간격 조정*/
+            font-family: 'ChosunSg';
+        	font-size:15px;
         }
         
         .body-titlebox>h2{
         	margin:auto;
         	margin-top:5px;
+        	font-family : 'SBAggroB';
+        	font-size:25px;
+        	font-weight: 300;
         }
         	
 
@@ -121,9 +160,15 @@
             word-break:break-word;    /*단어가 짤리지 않음*/
             overflow-y:auto;          /*내부요소가 지정한 세로 값보다 클 경우 스크롤 생성 */
             min-height:100px;         /*최소 높이*/
-            max-height:200px;         /*최대 높이*/
+            max-height:200px;          /*최대 높이*/
         }
-
+        
+        .body-contentbox>p{
+        	font-family: 'ChosunSg';
+        	font-size:15px;
+        	color: blue;
+        }
+		
         .popup-foot{
             width:100%;
             height:50px;
@@ -138,52 +183,69 @@
             color:#ffffff;                /*글자색*/
             cursor:pointer;                 /*마우스 포인터 효과*/
         }
-        .pop-btn.confirm{                    /*확인버튼*/
+        .pop-btn-confirm{                    /*확인버튼*/
             border-right:1px solid #3b5fbf; /*오른쪽 줄*/
+            font-family : 'SBAggroB';
+            margin-right: 20px;
+            margin-left: 10px;
+            
+        }
+        
+        .pop-btn-close{
+            font-family : 'SBAggroB';
+            margin-right: 20px;
+            margin-left: 10px;
+        
         }
 
+		
 </style>
 
-</head>
+ <%@include file="../common/header.jsp" %>
+ 
+ <!-- Popper JS -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 
-<body>
-<%@ include file ="../common/header.jsp" %>
-
- <div class="login-form">
-        <br>
-         <form id="login-area" action="<%=contextPath%>/login.me" method="post">
-            <h1 align="center">로그인</h1>
-            <table>
-                <tbody>
-                    <tr> 
-                        <td><label for="inputId" name="inputId" style="font-size: 18px; font-weight: 600;">아이디</label></td>
-                    </tr>
-                    <tr>
-                        <td><input type="text" name="userId" maxlength="12" required></td>
-                    </tr>  
-                    <tr>
-                        <td><label for="inputPwd" style="font-size: 18px; font-weight: 600;">비밀번호</label></td>
-                    </tr>  
-                    <tr>
-                        <td><input type="password" name="userPwd" id=inputPwd maxlength="15" required oninput= "noempty()"></td>
-                    </tr>
-                    <tr>
-                        <td><a id="findId">아이디 찾기</a> <a id="findPwd">비밀번호 찾기 </a> </td>
-                    </tr>
-                </tbody>
-            </table> 
-            <br>
-            
-            <div id="btn-area" align="center">
-                <div>
-                    <button type="submit">로그인</button>
-                </div>
-                <div>
-                    <button type="button" onclick = "intoEnroll();">회원가입</button>
-                </div>
-		   </div>
-        </form>
-
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+	
+	<div id="content"> 
+	<br>
+	    <form id="login-area" action="<%=contextPath%>/login.me" method="post">
+	    	<h1 align="center">로그인</h1>
+	            <table id=login-table align="center">
+	                <tbody>
+	                    <tr> 
+	                        <td><label for="inputId" name="inputId">아이디</label></td>
+	                    </tr>
+	                    <tr>
+	                        <td><input class="input-group-prepend" type="text" name="userId" maxlength="12" required></td>
+	                    </tr>  
+	                    <tr>
+	                        <td><label for="inputPwd">비밀번호</label></td>
+	                    </tr>  
+	                    <tr>
+	                        <td><input type="password" name="userPwd" id=inputPwd maxlength="15" required></td>
+	                    </tr>
+	                </tbody>
+	                <tfoot>
+	                    <tr>
+	                        <td><a id="findId">아이디 찾기</a> <a id="findPwd">비밀번호 찾기 </a> </td>
+	                    </tr>
+	                </tfoot>
+	            </table> 
+	            <br>
+	            
+	            <div id="btn-area" align="center">
+	                <div>
+	                    <button type="submit" class="btn btn-primary">로그인</button>
+	                </div>
+	                <div>
+	                    <button type="button" class="btn btn-light" onclick = "intoEnroll();">회원가입</button>
+	                </div>
+			   </div>
+	        </form>
+		</div>
         <!-- modal 팝업 창 -->
         <div class="container">
             <div class="popup-wrap" id="popup"> <!-- 모달을 감싸줄 박스 -->
@@ -197,9 +259,9 @@
                             <div class="body-titlebox">
                                 <h2 id="id_pwd" align="center"></h2>
                             </div>
-                            <div class="body-contentbox" align="center">
-                                <p>이메일</p>
-                                <input type="email" id="email"> <button id="chkemail">이메일확인</button>
+                            <div class="body-contentbox">
+                                <p>이메일을 입력해주세요</p>
+                                <input type="email" id="email"> <button id="chkemail" class="btn btn-outline-secondary">메일보내기</button>
                                 <p id="resultemail"></p>
                                 <br>
                             </div>
@@ -212,8 +274,6 @@
                 </div>
             </div>
         </div>
-	</div>
-        <br><br><br><br>
 
     <script>
     	/* 회원가입 페이지로 이동*/
@@ -377,6 +437,6 @@
    		 	};
        });
     </script>
-
+<%@include file="../common/footer.jsp" %>
 </body>
 </html>

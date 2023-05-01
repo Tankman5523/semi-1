@@ -1,24 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import = "java.util.ArrayList, com.bbbox.qaboard.model.vo.Question, 
     								com.bbbox.common.model.vo.PageInfo"%>
+    
 <%
 
 	ArrayList<Question> qList = (ArrayList<Question>)request.getAttribute("qList");
-	
-	System.out.print(qList);
+	PageInfo pi = (PageInfo)request.getAttribute("pageInfo");
 
 %>    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>1대1문의 게시판</title>
+<title>1대1문의 게시판(관리자)</title>
+
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-
+    
 <style>
 	
-	@font-face{
+    @font-face{
    		font-family: 'SBAggroB';
 		src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');	
    		font-weight: normal;
@@ -70,42 +71,45 @@
 		 font-family: 'HallymGothic-Regular';
 		 font-size: 18px;
 		 height: 35px;
+		 color: white;
 	}
-	
-	
+    
+    #btn-area{
+    	margin-right: 15px;
+    	margin-bottom: 10px;
+    }
+    
 </style>
-<%@ include file = "../../common/header.jsp" %>
-<!-- Popper JS -->
+</head>
+<body>
+<%@ include file = "manager_header.jsp" %>
+ <!-- Popper JS -->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 
 <!-- Latest compiled JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-
-	<div id="content">
-		<h2 align="center" style="border: none;">1:1 문의 게시판</h2>
+<div id="content">
+	<h2 align="center" style="border: none;">1:1 문의 게시판</h2>
 		<hr>
-		<div id="board">
-			<%if (loginUser != null) {%>
+		<div id="qustion-list">
 			<div id="btn-area" style="height:10%; border:none;" align="right">
-				<button class="btn btn-primary"onclick="questionWrite();" style="margin: 10px">글쓰기</button>
+				<button class="btn btn-primary" onclick="questionWrite();">글쓰기</button>
 			</div>
-			<%} %>
-			
 			<script>
-				/*글쓰기 버튼 눌렀을 때 발생하는 이벤트 */
 				function questionWrite(){
 					location.href="<%=contextPath%>/insert.qa";
 				}
 			</script>
 			
 			<table style="width:100%; box-sizing:border-box; text-align: center" id="board-list">
-				<thead>
+				<thead  id="thead">
 					<tr>
-						<th width="50">글번호</th>
-						<th width="420">제목</th>
+						<th width="70">글번호</th>
+						<th width="400">제목</th>
 						<th width="80">작성자</th>
 						<th width="80">작성일</th>
 						<th width="50">공개여부</th>
+						<th width="50">답변여부</th>
 					</tr>
 				</thead>
 				<tbody id="qa-list">
@@ -122,11 +126,18 @@
 									<%}else{ %>
 										<td><b>공개</b></td>
 									<%} %>
+									<!-- 답변 여부  -->
+									<%if(q.getAnswer() == null){%>
+										<td><b style = "color : blue">대기중</b></td> 
+									<%}else{ %>
+										<td><b style = "color : green">완료</b></td>
+									<%} %>
+									
 								</tr>
 							<%} %>
 					<%}else{%>
 						<tr>
-							<td colspan="5">작성된 게시글이 없습니다.</td>
+							<td colspan="6">작성된 게시글이 없습니다.</td>
 						</tr>
 					<%} %>
 				</tbody>
@@ -141,14 +152,9 @@
 						$("#qa-list").on('click','tr' ,function(){
 							
 							var qWriter = $(this).children().eq(2).text();
-							//console.log(qWriter); // 작성자
-							
-							var open = $(this).children().eq(4).text();
-							//console.log(open); // 공개여부 
-								
-							var qno = $(this).children().eq(0).text(); //글번호	
-							
-							if(loginUser == qWriter || admin =="Y" || open == "공개"){
+						
+							if(loginUser == qWriter || admin =="Y"){
+								var qno = $(this).children().eq(0).text(); //글번호	
 								
 								location.href="<%=contextPath%>/detail.qa?qno="+qno; //해당 글 상세페이지로 이동 
 								
@@ -160,21 +166,11 @@
 						})
 						
 					}); //함수 끝  
-				<%}else{ %> 
+				<%}else{ %>
 					$(function(){
-						$("#qa-list").on('click','tr',function(){
-							
-							var qno = $(this).children().eq(0).text(); //글번호	
-							
-							var open = $(this).children().eq(4).text();
-							
-							if(open == "공개"){
-								
-								location.href="<%=contextPath%>/detail.qa?qno="+qno; //해당 글 상세페이지로 이동 
-								
-							}else{
-								alert("해당 게시글은 비공개 글입니다.");
-							} 	
+						
+						$("#qa-list").on('click','tr',function(){z
+							alert("해당 게시글은 비공개 글입니다.");
 						});
 
 					});	//함수 끝			
@@ -183,5 +179,24 @@
 				</script>
 		</div>
 		<br><br>
+		<div align ="center" class = "paging-area">
+			<%if(pi.getCurrentPage() != 1) {%>
+			<button onclick = "location.href='<%=contextPath%>/list.qa?currentPage=<%=pi.getCurrentPage()-1%>'">&lt;</button>
+			<%} %>
+			
+			<%for (int i=pi.getStartPage() ;  i<=pi.getEndPage() ; i++){%>
+			<!-- 내가 보고있는 페이지 버튼은 비활성화 시키기 -->
+				<%if(i !=pi.getCurrentPage()) {%>
+					<button onclick = "location.href='<%=contextPath%>list.qa?currentPage=<%=i%>';"><%=i%></button>				
+				<%}else{ %> <!-- 내가 보고있는 페이지와 페이징바 버튼의 수가 같으면 i와 currenPage -->
+					<button  disabled><%=i %></button>
+				<%} %>
+			<%} %>
+			
+			<%if(pi.getCurrentPage() != pi.getMaxPage()){ %>
+			<button onclick = "location.href='<%=contextPath%>/list.qa?currentPage=<%=pi.getCurrentPage()+1%>'">&gt;</button>
+			<%}%>
+		</div>
 	</div>
-<%@ include file = "../../common/footer.jsp" %>
+</div>		
+<%@ include file = "../common/footer.jsp"%>

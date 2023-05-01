@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>변호사 회원 신청 페이지</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <style>
        .content{
             width: 1200px;
@@ -33,7 +35,12 @@
     </style>
 </head>
 <body>
-	<%@ include file="../common/header.jsp" %>
+<%@ include file="../common/header.jsp" %>
+<!-- Popper JS -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <div class="content">
     	<form class ="law_content" action="<%=contextPath%>/apply_Lawyer.me" method="post" enctype="multipart/form-data">
 	        <h2 align="center">변호사 회원 신청</h2>
@@ -87,17 +94,16 @@
 	                </tr>
 	                <tr>
 	                    <td>회차</td>
-	                    <td><input type="text" name="pass" id="pass" placeholder="숫자만 입력해주세요"></td>
+	                    <td><input type="text" name="pass" id="pass" placeholder="숫자만 입력해주세요" required></td>
 	                </tr>
 	                <tr>
 	                    <td>합격년도</td>
-	                    <td><input type="text" name="passdate" id="passdate" placeholder="숫자만 입력해주세요"></td>
+	                    <td><input type="text" name="passdate" id="passdate" placeholder="숫자만 입력해주세요" required></td>
 	                    <td></td>
 	                </tr>
 	                <tr>
 	                    <td>전문분야</td>
-	                    <td><select name="category" id="category">
-	                        <option value="0">분야를 선택해주세요</option>
+	                    <td><select name="category" id="category" required>
 	                        <option value="1">대인</option>
 	                        <option value="2">대물</option>
 	                        <option value="3">음주</option>
@@ -106,8 +112,7 @@
 	                </tr>
 	                <tr>
 	                    <td>주소</td>
-	                    <td><select name="region" id="region">
-	                        <option value="지역">지역 선택</option>
+	                    <td><select name="region" id="region" required >
 	                        <option value="서울 ">서울</option>
 	                        <option value="경기도 ">경기도</option>
 	                        <option value="강원도 ">강원도</option>
@@ -115,27 +120,27 @@
 	                        <option value="전라도 ">전라도</option>
 	                        <option value="경상도 ">경상도</option>
 	                        <option value="제주도 ">제주도</option>
-	                    </select> <input type="text" name="address" id="address"></td>
-	                    <td><input type="hidden" id="resultAddress" name="resultAddress"></td>  <!-- 주소 합쳐서 문자열로 데이터베이스에 넘기기 -->
+	                    </select> <input type="text" name="address" id="address" required></td>
+	                    <td><input type="hidden" id="resultAddress" name="resultAddress" required></td>  <!-- 주소 합쳐서 문자열로 데이터베이스에 넘기기 -->
 	                </tr>
 	                <tr>
 	                    <td>사무소 이름</td>
-	                    <td><input type="text" name="companyName"></td>
+	                    <td><input type="text" name="companyName" required></td>
 	                </tr>
 	                <tr>
 	                    <td>사무소 번호</td>
-	                    <td><input type="text" name="companyPhone"></td>
+	                    <td><input type="text" name="companyPhone" required></td>
 	                </tr>
 	            </table> 
 	        <hr>
 	            <table id="lawComent">
 	                <tr>
 	                    <td width="150">한줄소개</td>
-	                    <td><textarea name="comment" id="" cols="40" rows="3" style="resize: none;"></textarea></td>
+	                    <td><textarea name="comment" id="" cols="40" rows="3" style="resize: none;" required></textarea></td>
 	                </tr>
 	                <tr>
 	                    <td>경력</td>
-	                    <td><textarea name="career" id="" cols="40" rows="5" style="resize: none;"></textarea></td>
+	                    <td><textarea name="career" id="" cols="40" rows="5" style="resize: none;" required></textarea></td>
 	                </tr>
 	            </table>    
 	        <hr>    

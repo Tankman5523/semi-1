@@ -11,12 +11,7 @@
 </head>
 <body>
 
-
-<%@ include file = "views/common/mainMenu.jsp" %>	
-
-
-
-	
+<%@ include file = "views/common/mainPage.jsp" %>
 
 </body>
 </html>

@@ -13,54 +13,102 @@
 <title>변호사회원 전환신청 관리 페이지</title>
 
 	<style>
-	.content{
-	        width: 800px;
-	        box-sizing: border-box;
-	        margin : auto;
-	        margin-top: 20px;
-	    }
-	    #info, table{
-	        width: 100%;
-	    }
-	    #List{
-	        background-color: rgb(223, 220, 220);
-	    }
-	    a{
-	        text-decoration: none;
-	        color: black;
-	        display: block;
-	    }
-	    
-	    #counsel-list a{
-	    	width : 50%;
-	    	float : left;
-	    }
-	    
-	    #review-btn{
-	    	margin-left: 10px;
-	    }
-	    a:hover +{
-	        cursor: pointer;
-	        
-	    }
+	
+/* 폰트 */
+   	@font-face{
+   		font-family: 'SBAggroB';
+ 		src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');	
+   		font-weight: normal;
+  		font-style: normal;
+	}    
+	
+	@font-face {
+	    font-family: 'Cafe24Ohsquare';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/Cafe24Ohsquare.woff') format('woff');
+	    font-weight: normal;
+	    font-style: normal;
+	}
+	
+	@font-face {
+	    font-family: 'HallymGothic-Regular';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2204@1.0/HallymGothic-Regular.woff2') format('woff2');
+	    font-weight: 400;
+	    font-style: normal;
+	}
+	
+
+	#apply-law{
+        width: 1200px;
+        box-sizing: border-box;
+        margin : auto;
+        margin-top: 20px;
+    }
+    
+   #apply-law>h2{
+   		 font-family: 'SBAggroB';
+   		 font-size : 30px;
+   		 font-weight : 300;
+   		 color: white;
+   		 padding-top: 10px;
+    }
+    
+    table{
+    	width: 100%;
+    }
+    
+    table th{
+    	font-family: 'Cafe24Ohsquare';
+    	font-size: 18px;
+    	height : 35px;
+    }
+    
+    table td{
+    	font-family: 'HallymGothic-Regular';
+    	font-size: 15px;
+    	text-align: center;
+    	color : white; 
+    }	 
+    #List{
+        background-color: rgb(223, 220, 220);
+    }
+    
+    
+    a{
+        text-decoration: none;
+        display: block;
+		color : white;        
+    }
+    
+    #counsel-list a{
+    	width : 50%;
+    	float : left;
+    }
+    
+    #review-btn{
+    	margin-left: 10px;
+    }
+    a:hover +{
+        cursor: pointer;
+        
+    }
 	</style>
 </head>
 <body>
 
-<%@ include file="manager_menu.jsp" %>
+<%@ include file="manager_header.jsp" %>
 
-<div class="content">
-	
+<div id="content" style="overflow:auto;">
+	<div id="apply-law">
 	<h2 align="center">변호사회원 전환신청 관리</h2>
 	<hr>
         <table>
             <thead id="List">
                 <tr>
-                    <td width="50">No.</td>
-                    <td width="100">이름</td>
-                    <td width="100">아이디</td>
-                    <td width="100">가입일</td>
-                    <td width="100">상태</td>
+                    <th width="50">No.</th>
+                    <th width="100">이름</th>
+                    <th width="100">아이디</th>
+                    <th width="100">가입일</th>
+                    <th width="100">상태</th>
                 </tr>
             </thead>
             <!-- 신청한 변호사 내역이 존재할 경우 -->
@@ -89,8 +137,9 @@
             </tbody>
             <%} %>
         </table>
-        
+	</div>
 </div>
 
+<%@ include file = "../common/footer.jsp" %>
 </body>
 </html>

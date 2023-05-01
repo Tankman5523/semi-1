@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import = "com.bbbox.qaboard.model.vo.Question"%>
+<%
+
+	Question qa = (Question)request.getAttribute("qa");
+
+%>    
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -76,21 +82,20 @@
     	margin: 10px;
     }
     </style>
-    
 <%@ include file = "../../common/header.jsp" %>
 
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <!-- Latest compiled JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-
 <div id="content">
 	<div class="outer">
 		<h2 align="center" style="height:10%">1:1 문의</h2>
-		<form action="<%=contextPath%>/insert.qa" method="post" id="insertqa">
-			<input type="hidden" name="userNo">
+		
+		<form action="<%=contextPath%>/modify.qa" method="post" id="insertqa">
+			<input type=hidden value="<%=qa.getqNo()%>" name="qno">
             <div id="option" class="option">
                 <select name="open" id="open">
-                    <option value="N">공개여부를 선택해 주세요</option>
+                    <option value="<%=qa.getOpen()%>">공개여부를 선택해 주세요</option>
                     <option value="Y">공개</option>
                     <option value="N">비공개</option>
                 </select>
@@ -99,23 +104,22 @@
 				<tr>
 					<th>제목</th>
 					<td>
-						<input type="text" name="title" style="width: 100%;" required placeholder="제목을 입력해주세요.">
+						<input type="text" name="title" style="width: 100%;" required placeholder="제목을 입력해주세요." value = "<%=qa.getTitle()%>">
 					</td>
 				</tr>
 				
 				<tr>
 					<th>내용</th>
 					<td>
-						<textarea rows="10" cols="30" name="content" style="resize:none; width:100%; height:100%;" required placeholder="내용을 입력하세요."></textarea>
+						<textarea rows="10" cols="30" name="content" style="resize:none; width:100%; height:100%;" required placeholder="내용을 입력하세요."><%=qa.getContent()%></textarea>
 					</td>
 				</tr>
 			</table>
 			
 			<div id="submit-area" style="border:none; padding:10px; height:10%;">
-				<button class = "btn btn-primary" type="submit">작성하기</button>
+				<button class="btn btn-primary" type="submit">작성하기</button>
 			</div>
 		</form>
-        
 	</div>
-</div>
+</div>	
 <%@ include file = "../../common/footer.jsp" %>

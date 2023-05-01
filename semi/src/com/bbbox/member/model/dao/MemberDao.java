@@ -436,7 +436,8 @@ public class MemberDao {
 				boardList.add(new Board(rset.getInt("BOARD_NO"),
 										rset.getString("TITLE"),
 										rset.getDate("CREATE_DATE"),
-										rset.getString("CATEGORY_NAME")));
+										rset.getString("CATEGORY_NAME"),
+										rset.getInt("ACC_NO")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

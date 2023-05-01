@@ -3,26 +3,14 @@
 <%
 	ArrayList<Lawyer> lawList = (ArrayList<Lawyer>)request.getAttribute("lawList");
 	ArrayList<PartCategory> pList = (ArrayList<PartCategory>)request.getAttribute("pList");
-	
 %>
-<%@ include file = "../common/mainMenu.jsp" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>상담신청</title>
-	<style>
-	    /* 영역잡기 */
-	.wrap div{
-	   border: 0px;
-	   box-sizing: border-box;
-	}
-	.wrap{
-	   border: 1px solid black;
-	   width: 1200px;
-	   height: 600px;
-	   margin: auto;
-	}
+<%@ include file = "../common/header.jsp" %>
+<style>
+    /* 영역잡기 */
+    #content *{
+    	color: white;
+    	margin: auto;
+    }
 	#enroll-area{
 	   width: 60%;
 	   height: 100%;
@@ -34,10 +22,12 @@
 	}
 	#title{
 	   height: 15%;
-	   line-height: 100px;
+	   line-height: 150px;
 	}
 	h2{
 	   margin: 0;
+	   font-size: 30px;
+	   font-weight: 800;
 	}
 	#comment{
 	   height: 10%;
@@ -52,23 +42,47 @@
 	#enroll-form>table{
 	   height: 80%;
 	}
-	#enroll-form input{
-	   width: 80%;
-	   height: 70%;
+	#enroll-form input, #enroll-form textarea{
+	   width: 90%;
+	   height: 90%;
+	   border: none;
+		outline: none;
 	}
 	#button{
 	   height: 20%;
 	   line-height: 100px;
 	}
+	#enroll-form *{
+		color: black;
+		font-size: 18px;
+	}
 	table,td,th{
 	   border-collapse : collapse;
-	   border: 2px solid rgb(248, 222, 214);
+	   border: 2px solid rgb(255, 229, 173);
+	}
+	th{
+		background-color: rgb(255, 243, 218);
+	}
+	td{
+		background-color: white;
+	}
+	#enroll-form input{
+		width: 80%;
+		height: 100%;
+	}
+	@font-face {
+	    font-family: 'Pretendard-Regular';
+	    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+	    font-weight: 400;
+	    font-style: normal;
+	}
+	#content *{
+		font-family: 'Pretendard-Regular';
 	}
 	</style>
-</head>
-<body>
-	<div class="wrap">
-	   <div id="enroll-area">
+
+<div id="content">
+	<div id="enroll-area">
 	       <div id="title"><h2>상담신청</h2></div>
 	       <div id="comment">온라인 상담 신청을 해주시면 전문가가 신속히 답변 드리겠습니다.</div>
 	       <div id="enroll">
@@ -102,7 +116,7 @@
 	                   </tr>
 	                   <tr>
 	                       <th>내용</th>
-	                       <td><textarea name="content" cols="50" rows="15" style="resize:none" placeholder="해결을 원하는 사건에 대해 간단한 상담을 남겨주시면 담당 변호사가 확인 후 상담 가능여부에 대한 답변을 남겨드립니다." required></textarea></td>
+	                       <td><textarea name="content" cols="45" rows="15" style="resize:none;" placeholder="해결을 원하는 사건에 대해 간단한 상담을 남겨주시면 담당 변호사가 확인 후 상담 가능여부에 대한 답변을 남겨드립니다." required></textarea></td>
 	                   </tr>
 	               </table>
 	               <div id="button">
@@ -112,7 +126,6 @@
 	           </form>
 	       </div>
 	   </div>
-	</div>
 	
 	<script>
 	//해당 변호사의 분야/이름 이 선택되어 있도록 하는 함수
@@ -157,5 +170,6 @@
 		});
 	};
 	</script>
-</body>
-</html>
+</div>
+
+<%@ include file = "../common/footer.jsp" %>
