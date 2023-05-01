@@ -20,7 +20,7 @@
 </style>
 </head>
 <body>
-	<%@ include file="manager_menu.jsp" %>
+	<%@ include file="manager_header.jsp" %>
 	
 	<div class="outer">
 	
@@ -30,6 +30,7 @@
 	<a href="<%=contextPath%>/deleteWait.ma">삭제요청 관리</a>
 	
 	</div>
+	
 	<%@ include file="../common/footer.jsp" %>
 </body>
 </html>

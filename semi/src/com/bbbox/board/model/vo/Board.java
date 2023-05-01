@@ -293,13 +293,6 @@ public class Board {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public int getAccNo() {
-		return accNo;
-	}
-
-	public void setAccNo(int accNo) {
-		this.accNo = accNo;
-	}
 
 	@Override
 	public String toString() {

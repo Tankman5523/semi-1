@@ -35,13 +35,14 @@ public class Question {
 	}
 	
 	//문의글 목록 조회용 생성자  
-	public Question(int qNo, String qWriter, String title, Date date, String open) {
+	public Question(int qNo, String qWriter, String title, Date date, String open, String answer) {
 		super();
 		this.qNo = qNo;
 		this.qWriter = qWriter;
 		this.title = title;
 		this.date = date;
 		this.open = open;
+		this.answer = answer;
 	}
 
 	//디테일뷰 조회용 생성자 

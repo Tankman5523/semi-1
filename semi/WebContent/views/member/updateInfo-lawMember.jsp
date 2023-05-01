@@ -78,7 +78,7 @@
 		 height: 36px;
 		 font-size: 18px;
 	} 
-	 
+
 	a{
 	    text-decoration: none;
 	    color: black;
@@ -90,6 +90,7 @@
 	    margin-right: 20px;
         }
     </style>
+    
 <%@ include file="../common/header.jsp" %>
 <!-- Popper JS -->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -130,9 +131,13 @@
                         <td><input type="text" id="phone" name="newPhone" placeholder="-포함하여 입력해주세요" value="<%=loginUser.getPhone()%>"></td>
                     </tr>
                     <tr>
-                        <td>email</td>
-                        <td><input type="email" id="email" name="newEmail" value="<%=loginUser.getEmail()%>"> <button class= "btn btn-light btn-sm"type="button" >이메일 인증</button> </td>
+                        <th>email</th>
+                        <td><input type="email" id="email" name="newEmail" value="<%=loginUser.getEmail()%>"> <button class="btn btn-light btn-sm "type="button" id="applyEmail">이메일 인증</button> </td>
                     </tr>
+                    <tr>
+                    	<th></th>
+                    	<td><input type="text" id="authentication" name="authentication" placeholder="인증번호를 입력해주세요"> <button class="btn btn-light btn-sm "type="button" id="authEmail">확인</button></td>
+                    </tr>	
                     <tr>
                         <td></td>
                         <td><p style="font-size: 13px; color: yellow;">이메일주소는 개인정보찾기에 사용되어지니 정확한 이메일주소를 입력해주세요</p></td>
@@ -217,8 +222,8 @@
 	        <!-- 버튼 -->
 	        <br><br>
 	        <div id="btn" align="center">
-	            <button onclick ="return cancel();">취소</button>
-	            <button type="submit" onclick ="intoUpdate();">저장하기</button>
+	            <button class = "btn btn-secondary" onclick ="return cancel();">취소</button>
+	            <button class = "btn btn-primary" type="submit" onclick ="intoUpdate();">저장하기</button>
 	        </div>
 	        <br><br>
     	</form>
@@ -235,15 +240,17 @@
     		});
     		
     	})	
+    	
     /*주소 잘라서 보여주기 */
     $(function(){
     	
     	var address = '<%=lawInfo.getCompanyAddress()%>' //전체 주소 
+    	console.log(address);
     	
     	//지역
     	var region = address.substring(0,2);
     	$('#userRegion').val(region);
-    	$('#userRegion').text(region);
+   		$('#userRegion').text(region);
     	
     	//상세주소 
     	var detailaddress = address.substring(2); 
@@ -342,6 +349,130 @@
        			
        		}
        	
+	</script>
+	<script>
+	/* 이메일 변경시 이메일 재 인증 script */
+   	var autKey = ""; // 인증번호 담을 변수 
+   	
+   	$(function(){
+       	$('#email').on('click', function(){
+       		
+       		if(confirm('이메일 변경시, 이메일을 재인증 해야합니다 변경하시겠습니까?')){
+       			
+       			$('#email').val("");
+       		}
+       	
+       	});
+   		
+   	});
+   	
+   	/*인증창 키업*/
+   	$(function(){
+   		/*인증창 숨겨두기*/
+   		$('#info tr:eq(7)').hide()
+   		
+   		$('#applyEmail').on('click',function(){
+   			
+       		var $email = $('#email').val();
+	   		console.log($email);
+   			
+	   		if($email =="" ||!($email.includes("@"))){
+   				
+   				alert("올바른 형식의 이메일을 작성해주세요");
+   				return false;
+   				
+   			}else{
+   				
+   				/*이메일 중복 체크*/
+   				$.ajax({
+   					url : "email.chk.me",
+   					
+   					data :{testEmail : $email},
+   					
+   					type : "post",
+					
+					success : function(result){
+						console.log(result);
+						
+						if(result == "YYYYY" ){
+								Authentication(); // 인증번호 발송 함수 호출
+						}else{
+							alert("이미 사용중인 이메일 입니다. 다시 입력해주세요");
+						}
+								
+					},
+					
+					error : function(){
+						console.log("통신 실패");
+					}
+   				
+   				})
+       		}
+   		})
+   });
+   	
+   	/* 이메일 발송 함수 */
+		function Authentication(){
+			
+			var $sendEmail = $('#email');
+			
+			$.ajax({
+				url : "authentication.me",
+				
+				data : {sendEmail : $sendEmail.val()},
+				
+				type: "post",
+				
+				success: function (key){
+					
+					console.log(key);
+					
+					if(key.using == 'Y'){
+						
+						authKey = key.chord;
+						
+						console.log(authKey);
+						
+						$('#info tr:eq(7)').show()
+						
+						alert("이메일 인증번호 발송 완료! 이메일을 확인해주세요");
+						
+					}
+					
+					
+				},
+				
+				error: function(){
+					console.log("통신실패");
+				}
+			
+			});
+			
+		}	
+   	
+   	/*인증번호 확인 함수*/
+   	$(function(){
+   		
+   		$('#authEmail').on('click', function(){
+   			
+   			if("" == authKey){
+				alert("인증번호를 입력해주세요");
+				return false;
+    		
+    		}else if(($("#authentication").val()) == authKey){
+    			
+    			if(confirm("이메일 인증이 완료되었습니다.!")){
+        			$("#authentication").attr("readonly",true);
+    			}	
+    			
+    		}else{
+    			alert("이메일 인증에 실패하였습니다. 다시 시도해 주세요");
+    			return false;
+    		}
+   			
+   		});
+   	});
+	
 	</script>
 	
 </body>

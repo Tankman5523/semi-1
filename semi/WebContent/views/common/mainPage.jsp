@@ -13,7 +13,11 @@
 <head>
 <meta charset="UTF-8">
 <title>MainPage</title>
-    
+<!-- 아이콘 CDN (font-awesome Copy Link Tag) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+  
     <style>
         /* ============================================전체 영역 */
         *{
@@ -194,18 +198,15 @@
                                     <li><a href="<%=contextPath%>/list.vi?currentPage=1">영상 게시판</a></li>
                                 </ul>
                             </li>    
-                            <li><a href="">고객문의</a>
-                                <ul>
-                                    <li><a href="<%=contextPath%>/list.qa">1:1 문의</a></li>
-                                    <li><a href="">FQA</a></li>
-                                </ul>
+                            <li>
+                            	<a href="<%=contextPath%>/list.qa">1:1 문의</a>
                             </li>
                             <%if(loginUser == null) {%>
-                            <li><a href="<%=contextPath%>/login.me">로그인</a></li>
+                            <li><a href="<%=contextPath%>/login.me"><i class="fa-solid fa-door-open fa-xl" style="color: #ffffff;"></i></a></li>
                             <li><a href="<%=contextPath%>/enroll.me">회원가입</a></li>
                             <%}else{ %>
-                            <li><a href="<%=contextPath%>/entry.me">마이페이지</a></li>
-    	               		<li><a href="<%=contextPath%>/logout.me">로그아웃</a></li>
+	                        	<li><a href="<%=contextPath%>/entry.me">마이페이지</a></li>
+    	               			<li><a href="<%=contextPath%>/logout.me">로그아웃</a></li>
 							<%} %>
                         </ul>
                         </div>
@@ -237,5 +238,6 @@
 	        </div>
 	    </div>
     <div id="line"><img src="<%=contextPath%>/resources/common/menu-top.jpg" alt="" style="width: 100%; height: 100%;"></div>
+</div>    
 </body>
 </html>

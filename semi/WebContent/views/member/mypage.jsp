@@ -367,6 +367,10 @@
 		    		});//하트 아이콘 클릭시 발생하는 이벤트 함수 끝 
 		    		
 		    	}); //함수 끝 
+<<<<<<< HEAD
+				
+=======
+>>>>>>> refs/remotes/origin/master
 	    	</script>
 	    <% if(loginUser.getLawyer().equals("Y")){ %>
 	    <!-- 변호사 회원으로 로그인 했을 때 -->

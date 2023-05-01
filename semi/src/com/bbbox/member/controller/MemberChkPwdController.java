@@ -28,9 +28,8 @@ public class MemberChkPwdController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//비밀번호 확인 페이지로 위임(마이페이지) 
-		request.getRequestDispatcher("/views/member/chkPwdPage-mypage.jsp").forward(request, response);
-		
+		//비밀번호 확인 페이지로 위임(회원 탈퇴) 
+		request.getRequestDispatcher("/views/member/chkPwdPage-deleteMember.jsp").forward(request, response);
 	}
 
 	/**
@@ -38,8 +37,6 @@ public class MemberChkPwdController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//비밀번호 확인 페이지로 위임(회원 탈퇴) 
-		request.getRequestDispatcher("/views/member/chkPwdPage-deleteMember.jsp").forward(request, response);
 		
 	}
 

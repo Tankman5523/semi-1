@@ -72,6 +72,18 @@ public class QuestionService {
 		return qa;
 	}
 
+	//로그인하지 않은 사용자의 1대1문의글 조회
+	public Question selectQuestion(int qno) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		Question qa = new QuestionDao().selectQuestion(conn, qno);
+		
+		JDBCTemplate.close(conn);	
+		
+		return qa;
+	}
+	
 	//1대1문의 관리자 답글 메소드 
 	public int insertAnswer(int qno, String answer ) {
 
@@ -114,6 +126,23 @@ public class QuestionService {
 		}
 		
 		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
+	//1대1문의 수정 
+	public int updateQuestion(Question updateQa) {
+
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new QuestionDao().updateQuestion(conn, updateQa);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+
 		
 		return result;
 	}
