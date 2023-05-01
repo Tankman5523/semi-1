@@ -16,26 +16,33 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>해결된 영상 게시글</title>
 <style>
         div{
-            border: 1px solid black;
             box-sizing: border-box;
         }
-        .outer{
-            width: 1200px;
+        #content{
+            width: 1300px;
             height: 1200px;
             margin: auto;
+            color:white;
         }
 
         /*헤더파트*/
         .accidentBoardDetailHeader{
             height: 10%;
+            color: rgb(255, 236, 173);
         }
-
+		.accidentBoardDetailHeader>h1{
+			display:inline-block;
+			margin:0;
+			margin-left:30px;
+			padding-top:20px;
+		}
         /*바디파트*/
         .accidentBoardDetailBody{
             height: 90%;
+            overflow-y: scroll; 
         }
         .accidentBoardDetailBody>div{
             float: left;
@@ -45,7 +52,7 @@
             width: 70%;
         }
         .bodyLeft>div{
-            width: 100%;
+        
         }
 
         /*비디오영역*/
@@ -62,10 +69,14 @@
 
         /*게시글 영역*/
         .contentArea{
-            height: 30%;
+            height: 40%;
+            
         }
         .contentArea>div{
-            width: 100%;
+           width: 90%;
+           margin-left:30px;
+           margin-right:30px;
+           background-color: rgba(50, 50, 50, 0.6);
         }
         .infoArea{
             height: 40%;
@@ -73,6 +84,9 @@
         .infoArea>div{
             float: left;
             height: 100%;
+        }
+        .infoArea>div>*{
+            margin-left:20px;
         }
         .detail{
             width: 80%;
@@ -101,10 +115,21 @@
         .content{
             height: 60%;
         }
+        .content>*{
+        	margin-left:20px;
+        	margin-right:20px;
+        }
 
         /*리뷰 영역*/
         .reviewArea{
             height: 10%;
+            width: 90%;
+            margin-left:30px;
+            margin-right:30px;
+            border-top:1px solid white;
+            border-bottom:1px solid white;
+            border-left:1px solid white;
+            background-color: rgba(50, 50, 50, 0.6);
         }
         .reviewArea>div{
             float: left;
@@ -129,6 +154,11 @@
         /*댓글작성영역*/
         .replyWriteArea{
             height: 10%;
+            width: 90%;
+            margin-left:30px;
+            margin-right:30px;
+            background-color: rgba(50, 50, 50, 0.6);
+        	
         }
         .replyWriteArea>*{
             float: left;
@@ -137,11 +167,13 @@
         }
         .replyWriteArea>table{
             border: 1px solid black;
+            text-align:center;
         }
 
         /*댓글영역*/
         .bodyRight{
             width: 30%;
+            background-color: rgba(50, 50, 50, 0.6);
         }
         .bodyRight>div{
             width: 100%;
@@ -156,7 +188,7 @@
     </style>
 </head>
 <body>
-<%@include file="../common/mainMenu.jsp" %>
+<%@include file="../common/header.jsp" %>
 	<%	
 	//로그인 안됬으면 홈으로 보내기
 	if(loginUser==null){
@@ -164,7 +196,7 @@
 		response.sendRedirect(contextPath);
 	}
 	%>	
-    <div class="outer">
+    <div id="content">
         <div class="accidentBoardDetailHeader">
             <h1>해결된 영상</h1>
         </div>
@@ -189,7 +221,7 @@
                                 <span>제보일 | <%=b.getCreateDate()%></span>
                                 <span>조회수 | <%=b.getCount()%></span>
                                 <span>추천수 | </span><span id="liked_count"><%=b.getLiked()%></span>
-                                <span>신고수 | </span><span id="disike_count"><%=b.getReportCount()%></span>
+                                <span>비추천 | </span><span id="disike_count"><%=b.getReportCount()%></span>
                                 <%if(b.getReportCount()>10){ %>
                                 	<span><i class="fa-solid fa-diamond-exclamation" style="color: #e6d519;"></i></span>
                                 <%}else if(b.getReportCount()>20){ %>
@@ -199,13 +231,15 @@
                                 <span>제보자 | <%=b.getBoardWriter()%></span>
                                 <span>지역 | <%=ac.getRegion()%></span>
                         <%if(loginUser!=null){ %>
-                            <div id="updateBtnArea" style="text-align:right;">
-                           		<input type="button" value="좋아요" id="good">
-                           		<input type="button" value="싫어요" id="bad">
+                            <div id="updateBtnArea" style="text-align:right; margin-right:5px;">
+                           		<i id="good" class="fa-regular fa-thumbs-up"></i>
+                           		<!-- <i class="fa-solid fa-thumbs-up"></i> -->
+                           		<i id="bad" class="fa-regular fa-thumbs-down"></i>
+                           		<!-- <i class="fa-solid fa-thumbs-down"></i> -->
                             <%if(loginUser.getUserId().equals(b.getBoardWriter())||loginUser.getAdmin().equals("Y")) {%>
                             	<!-- 나중에 이미지로 바꿔서 onclick 이벤트 -->
-                            	<input type="button" value="게시글 수정" onclick="location.href='<%=contextPath%>/update.ac?bno='+<%=b.getBoardNo()%>">
-                            	<input type="button" value="게시글 삭제" onclick="location.href='<%=contextPath%>/delete.ac?bno='+<%=b.getBoardNo()%>">
+                           		<i onclick="location.href='<%=contextPath%>/update.ac?bno='+<%=b.getBoardNo()%>" class="fa-sharp fa-solid fa-gear"></i>
+                           		<i onclick="location.href='<%=contextPath%>/delete.ac?bno='+<%=b.getBoardNo()%>" class="fa-sharp fa-solid fa-trash"></i>
                             <%} %>
                             </div>
                         <%} %>
@@ -231,19 +265,26 @@
                 <div class="reviewArea">
                     <div class="reviewContent">
                         <span><%=ar.getLawName() %> 변호사</span>
-                        <%{ %>
-                        <form action="delete.ar" style="float:right;">
+                        <%if(loginUser!=null&&loginUser.getLawyer().equals("Y")&&loginUser.getUserName().equals(ar.getLawName())){%>
+                        	<i onclick="location.href='<%=contextPath%>/update.ar?bno='+<%=b.getBoardNo()%>+'&arNo='+<%=ar.getArNo()%>" class="fa-sharp fa-solid fa-gear"></i>
+                        	<i onclick="location.href='<%=contextPath%>/delete.ar?bno='+<%=b.getBoardNo()%>+'&arNo='+<%=ar.getArNo()%>+'&accNo='+<%=ac.getAccNo()%>" class="fa-sharp fa-solid fa-trash"></i>
+                       	 <%}%>
+                        <form action="delete.ar" style="text-align:right;">
+                        	<!-- 
                         	<input type="hidden" name="arNo" value="<%=ar.getArNo()%>">
                         	<input type="hidden" name="bno" value="<%=b.getBoardNo()%>">
                         	<input type="hidden" name="accNo" value="<%=ac.getAccNo()%>">
                         	<input type="submit" value="리뷰 삭제">
+                        	 -->
                         </form>
-                        <form action="update.ar" style="float:right;">
+                        <form action="update.ar" style="text-align:right;">
+                        	<!-- 
                         	<input type="hidden" name="arNo" value="<%=ar.getArNo()%>">
                         	<input type="hidden" name="bno" value="<%=b.getBoardNo()%>">
                         	<input type="submit" value="리뷰 수정">
+                        	 -->
                         </form>
-                        <%} %>
+                        
                         <br>
                         <span><%=ar.getContent() %> </span>
                     </div>
@@ -270,7 +311,7 @@
                             <td><%=loginUser.getUserId()%></td>
                         </tr>
                     </table>
-                    <textarea name="" id="reply_input" cols="70" rows="5" style="resize: none;" placeholder="댓글을 입력해주세요."></textarea>
+                    <textarea name="" id="reply_input" cols="60" rows="3" style="resize: none;" placeholder="댓글을 입력해주세요."></textarea>
                     <input type="button" id="reply_btn" value="댓글등록">
                 <%}else{ %>
                 	<table>
@@ -281,17 +322,25 @@
                             <td>비회원</td>
                         </tr>
                     </table>
-                    <textarea name="" id="" cols="70" rows="5" style="resize: none;" placeholder="로그인한 유저만 이용 가능합니다." disabled></textarea>
-                    <input type="button" value="댓글작성" disabled>
+                    <textarea name="" id="reply_input" cols="60" rows="3" style="resize: none;" placeholder="로그인한 유저만 이용 가능합니다." disabled></textarea>
+                    <input type="button" id="reply_btn" value="댓글등록" disabled>
                 <%} %>    
                 </div>
             </div>
             <div class="bodyRight">
-           		<div><span><b>댓글</b></span></div>
                 <div id="replyViewArea">
-                        <table>
-	                       
-                        </table>
+                   <table style="width:400px;">
+                    	<thead>
+	                    	<tr>
+	                    		<th style="width:50px">작성자</th>
+	                    		<th style="width:300px;word-break: break-all">내용</th>
+	                    		<th style="width:50px" >작성일</th>
+	                    	</tr>
+                    	</thead>
+                    	<tbody>
+                    		
+                    	</tbody>
+                   </table>
                 </div>
             </div>
         </div>
@@ -334,6 +383,8 @@
 				<%if(loginUser == null){%>
 					alert("로그인 후 이용해 주세요.");
 				<%}else{%>
+				var control = confirm("싫어요는 취소할 수 없습니다. 계속 진행하시겠습니까?");
+				if(control){
 					$.ajax({
 						url:"dislike.bo",
 						data:{
@@ -343,6 +394,7 @@
 						success:function(result2){
 							if(result2>0){
 								alert("이 게시글을 싫어합니다.");
+								$('.info').load(location.reload());
 							}else{
 								alert("이미 싫어요한 게시글입니다.");
 							}
@@ -351,6 +403,7 @@
 							alert("통신 에러");
 						}
 					});
+				}
 				<%}%>
 			});
 		});
@@ -386,7 +439,7 @@
        							//댓글 리스트 최신화
        							viewRpList();
        						}else{
-       							alert("댓글 등록 실패");
+       							alert("댓글을 입력해주세요.");
        						}
        					},
        					error:function(){
@@ -407,9 +460,9 @@
        				var str = "";
        				if(list.length!=0){
 	       				for(var i in list){
-	       					str += "<tr><td>"+list[i].rpWriter+"</td>"
-							  +"<td style='text-align:left; padding-left: 5px;'>"+list[i].content+"</td>"
-							  +"<td>"+list[i].createDate+"</td></tr>";
+	       					str += "<tr  style='padding-top:15px;padding-bottom:15px;'><td>"+list[i].rpWriter+"</td>"
+							  +"<td style='word-break: break-all'>"+list[i].content+"</td>"
+							  +"<td style='font-size:8px;'>"+list[i].createDate+"</td></tr>";
 	       				}
        				}else{
        					str +="<tr><td>댓글이 없습니다.</td></tr>"
@@ -422,6 +475,6 @@
        		});
        	}
    </script>
-    
+    <%@include file="../common/footer.jsp" %>
 </body>
 </html>

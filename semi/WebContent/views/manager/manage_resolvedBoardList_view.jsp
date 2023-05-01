@@ -14,54 +14,64 @@
 <meta charset="UTF-8">
 <title>해결 영상 게시판 관리</title>
     <style>
-        div{
-            box-sizing: border-box;
-        }
-        .outer{
-            width: 1200px;
+        #content{
+            border:none;
+            width: 1300px;
             height: 1200px;
             margin: auto;
+            color:white;
         }
-		.outer>div{
+		#content>div{
            border:none;
         }
         /*헤더 영역*/
         #accidentBoardHead{
             height: 10%;
-            position: relative;
         }
         #accidentBoardbody{
             height: 90%;
+            display:inline-block;
+            width:100%;
         }
         #accidentBoardHead>div{
-            float: left;
+        
         }
 
         /*게시판 이름 영역*/
         .boardName{
-            width: 300px;
+            width: 350px;
+            float: left;
+            height:100%;
+            color: rgb(255, 236, 173);
         }
         .boardName>*{
             float: left;
             margin-left: 20px;
         }
-        .boardName>p{
-            font-size: 20px;
-            font-weight: bold;
+        .boardName>h2{
+           margin:0;
+            margin-top:20px;
+            margin-left:30px;
         }
 
         /*서치 영역*/
         .search{
-            width: 600px;
-            position: absolute;
-            top: 60px;
-            left: 595px;
-            
+           width: 600px;
+            float:right;
+            margin-top:20px;
+        }
+        .search>form{
+        	height:30%;
         }
         .search>form>div{
             width: 50%;
+            height:30px;
             float: left;
         }
+        .search>form>div *{
+            height:30px;
+        }
+        
         .typeFilter>*{
             width: 30%;
             height: 30px;
@@ -86,19 +96,28 @@
         #accidentBoardList-area{
             width: 100%;
             height: 95%;
-            overflow-y: scroll; 
+            overflow-y: auto; 
+            text-align:center;
         }
-        #accidentBoardList-area>table{
-            float: left;
-            margin: 14px;
-            border: 1px solid black;
+        #accidentBoardList-area table{
+        	text-align:center;
+            width:100%;
+            margin:0;
+            table-layout: fixed;
         }
+        .controlBtn{
+        	width:90%;
+        	display:inline-block;
+        }
+        .controlBtn>*{
+        	float:left;
+        }
+        
         /*게시글 호버시*/
-        #accidentBoardList-area>table>tbody tr:hover{
+        .tbl-content tr:hover{
             cursor: pointer;
             background-color: bisque;
         }
-        
         .accidentBoardList{
         }
         
@@ -115,26 +134,73 @@
         .pageMover{
             height: 5%;
         }
-
+        /*버튼 커스텀*/
+		.yellowBtn{
+        	background-color: #f9d700;
+        	border-radius: 0;
+		    border-top-left-radius: 0px;
+		    border-bottom-left-radius: 0px;
+		    padding: 8px 12px;
+		    border: 0;
+        }
+        .searchKeywordInput{
+        	border:none;
+        	height:100%;
+        	padding:0;
+        	margin:0;
+		}	
+		/*테이블 사이징*/
+        .tbl-header{
+	        background-color: rgb(92, 91, 91);
+	        border: 1px solid rgb(255, 255, 255);
+	        
+	        display:inline-block;
+	        width:90%;
+    	}
+        .tbl-content{
+	        background-color: rgb(43, 41, 41);
+	        border: 1px solid rgb(255, 255, 255);
+	        overflow-x:auto;
+	        margin-top: 0px;
+	        
+	        display:inline-block;
+	        width:90%;
+    	}
+    	
+    	th{
+	        padding: 10px 10px;
+	        text-align: center;
+	        font-weight: 1000;
+	        font-size: 13px;
+	        color: #fff;
+	        text-transform: uppercase;
+    	}
+    	
+	    td{
+	        padding:5px 10px;
+	        text-align: center;
+	        vertical-align:middle;
+	        font-weight: 300;
+	        font-size: 12px;
+	        color: #fff;
+	    }
+        /**/	
+		.delBtn{
+			font-size:10px;
+			width:40px;
+			height:20px;
+			background-color:red;
+			color:white;
+		}
     </style>
 </head>
 <body>
-<%@ include file="manager_menu.jsp" %>
-    <div class="outer">
+<%@ include file="managerMainPage.jsp" %>
+    <div id="content">
         <div id="accidentBoardHead">
             <div class="boardName">
-                <p>해결된 영상 게시판 관리</p>
+                <h2>해결된 영상 게시판 관리</h2>
             </div>
-            <!-- 기준별 순서 정렬 -->
-            <div class="sort" style="float: right;margin-top: 20px;" >
-                <form action="list.mrb">
-                <input type="radio" name="searchSort" id="sortRecommend" value="recommend"><label for="sortRecommend">추천순</label>
-                <input type="radio" name="searchSort" id="sortDislike" value="dislike"><label for="sortDislike">비추순</label>
-                <input type="radio" name="searchSort" id="sortView" value="view"><label for="sortView">조회순</label>
-                <input type="radio" name="searchSort" id="sortNew" value="date"><label for="sortNew">최신순</label>
-                <input type="submit" value="정렬">
-                </form>
-            </div> 
             <!-- 검색 필터 및 검색바 -->
             <div class="search">
                 <form action="search.mrb">
@@ -173,91 +239,107 @@
                                 </select>
                             </div>
                             <div class="searchBar">
-                                    <div style="width: 15%; height: 23px;"><button type="submit" style="height: 100%; width:100%">?</button></div>
-                                    <div style="width: 85%;"><input type="text" name="keyword" placeholder="검색어를 입력해주세요" required></div>
+                                    <div style="width: 15%; height: 23px;"><button type="submit" class="yellowBtn"><i class="fa-sharp fa-solid fa-magnifying-glass" style="color: #000000;"></i></button></div>
+                                    <div style="width: 85%;" ><input type="text" class="searchKeywordInput" name="keyword" placeholder="검색어를 입력해주세요" required></div>
                             </div>
                         </div>
                      </div>
                 </form>
             </div>
+            <!-- 기준별 순서 정렬 -->
+            <div class="sort" style="float: left;margin-top: 20px;margin-right:10px;" >
+                <form action="list.mrb">
+                <input type="radio" name="searchSort" id="sortRecommend" value="recommend"><label for="sortRecommend">추천순</label>
+                <input type="radio" name="searchSort" id="sortDislike" value="dislike"><label for="sortDislike">비추순</label>
+                <input type="radio" name="searchSort" id="sortView" value="view"><label for="sortView">조회순</label>
+                <input type="radio" name="searchSort" id="sortNew" value="date"><label for="sortNew">최신순</label>
+                <input type="submit" class="yellowBtn" value="정렬" style="margin-left:5px;">
+                </form>
+            </div> 
         </div>
         <div id="accidentBoardbody">
-            
+            <!-- 게시글 정보 테이블 -->
             <div id="accidentBoardList-area">
-                <input type="button" id="statusShiftOn" value="일괄게시">
-                <input type="button" id="statusShiftOff" value="일괄회수">
-                <input type="button" id="deleteAllReview" value="리뷰일괄삭제">
-                <input type="button" id="deleteAll" value="일괄삭제">
-                
+            	<div class="controlBtn">
+	                <input type="button" id="statusShiftOn" value="일괄게시">
+	                <input type="button" id="statusShiftOff" value="일괄회수">
+	                <input type="button" id="deleteAllReview" value="리뷰일괄삭제">
+	                <input type="button" id="deleteAll" value="일괄삭제">
+                </div>
                 <br>
-                <table class="accidentBoardList" style="text-align: center; display: inline-table;" >
-                    <thead style="background-color: lightgray;">
-                    	<tr>
-                            <th><input type="checkbox" name="selectBoard" id="allCheck" ></th>
-                            <th>글번호</th>
-                            <th>작성자</th>
-                            <th>제목</th>
-                            <th>조회수</th>
-                            <th>제보일</th>
-                            <th>사고유형</th>
-                            <th>보험유형</th>
-                            <th>지역</th>
-                            <th>추천</th>
-                            <th>비추천</th>
-                            <th>담당변호사</th>
-                            <th>상태변경</th>
-                            <th>리뷰삭제</th>
-                            <th>영구삭제</th>
-                        </tr>
-                    </thead>
-	                <tbody id="boardList" style="box-sizing: border-box;">
-	                	<!-- 게시글 정보 띄우기 -->
-	                	<%if(blist!=null){ %>
-		                	<%for(int i=0;i<blist.size();i++){ %>
-		                    <tr onclick="location.href='<%=contextPath%>/detail.rb?bno='+<%=blist.get(i).getBoardNo()%>">
-		                        <th class="noEvent">
-		                        	<input type="checkbox" name="selectBoard">
-		                        </th>
-		                        <td><%=blist.get(i).getBoardNo()%></td>
-		                        <td><%=blist.get(i).getBoardWriter()%></td>
-		                        <td><%=blist.get(i).getTitle()%></td>
-		                        <td><%=blist.get(i).getCount()%></td>
-		                        <td><%=blist.get(i).getCreateDate()%></td>
-		                        <td><%=blist.get(i).getRef_pno()%></td>
-		                        <td><%=blist.get(i).getInsuranceType()%></td>
-		                        <td><%=blist.get(i).getRegion()%></td>
-		                        <td><%=blist.get(i).getLiked()%></td>
-		                        <td><%=blist.get(i).getReportCount()%></td>
-		                        <td><%=blist.get(i).getCategoryName()%></td>
-	                        	<td id="statusShift" class="noEvent statusShift">
-	                        		<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
-		                        	<%if(blist.get(i).getStatus().equals("N")) {%>
-		                        		<!-- 아직 게시되지 않았다면 -->
-		                        		<button name="statusOn" class="statusOn" style="background-color: red; color: white;width:100%;height:100%">OFF</button>
-		                        	<%}else{ %>
-		                        		<!-- 글이 게시 되어있다면 -->
-		                        		<button name="statusOff" class="statusOff" style="background-color: green; color: white;width:100%;height:100%">ON</button>
-		                        <%} %>
-	                        	</td>
-		                        <th class="noEvent">
-		                        	<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
-		                        	<button name="delRev" class="deleteReviewBtn">리뷰삭제</button>
-		                        </th>
-		                        <th class="noEvent">
-		                        	<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
-		                        	<button name="delete" class="deleteBoardBtn">글삭제</button>
-		                        </th>
-		                    </tr>
-		                    <%} %>
-		                    
-		                 <%}else if(blist.size()==0){ %>
+                <div class="tbl-header">
+	                <table style="border:0;">
+	                    <thead>
 	                    	<tr>
-	                    		<td colspan="11">데이터가 없습니다.</td>
-	                    	</tr>
-	                    <%} %>   
-	                    
-	                </tbody>    
-            	</table>
+	                    		<th width="20"><input type="checkbox" name="selectBoard" id="allCheck" ></th>
+	                            <th width="40">글번호</th>
+	                            <th width="100">작성자</th>
+	                            <th width="300">제목</th>
+	                            <th width="40">조회수</th>
+	                            <th width="80">제보일</th>
+	                            <th width="30">사고<br>유형</th>
+	                            <th width="30">보험<br>유형</th>
+	                            <th width="30">지역</th>
+	                            <th width="30">추천</th>
+	                            <th width="40">비추천</th>
+	                            <th width="50">담당<br>변호사</th>
+	                            <th width="40">상태<br>변경</th>
+	                            <th width="40">리뷰<br>삭제</th>
+	                            <th width="40">영구<br>삭제</th>
+	                        </tr>
+	                    </thead>
+                   </table>
+                 </div>
+                 <div class="tbl-content" align="center">
+                 <table class="tbl-content" align="center" style="text-align: center; display: inline-table; border:0;">
+		                <tbody id="boardList" style="border:0;">
+		                	<!-- 게시글 정보 띄우기 -->
+		                	<%if(blist!=null){ %>
+			                	<%for(int i=0;i<blist.size();i++){ %>
+			                    <tr onclick="location.href='<%=contextPath%>/detail.rb?bno='+<%=blist.get(i).getBoardNo()%>">
+			                        <th width="20" class="noEvent">
+			                        	<input type="checkbox" name="selectBoard">
+			                        </th>
+			                        <td width="40"><%=blist.get(i).getBoardNo()%></td>
+			                        <td width="100"><%=blist.get(i).getBoardWriter()%></td>
+			                        <td width="300"><%=blist.get(i).getTitle()%></td>
+			                        <td width="40"><%=blist.get(i).getCount()%></td>
+			                        <td width="80"><%=blist.get(i).getCreateDate()%></td>
+			                        <td width="30"><%=blist.get(i).getRef_pno()%></td>
+			                        <td width="30"><%=blist.get(i).getInsuranceType()%></td>
+			                        <td width="30"><%=blist.get(i).getRegion()%></td>
+			                        <td width="30"><%=blist.get(i).getLiked()%></td>
+			                        <td width="40"><%=blist.get(i).getReportCount()%></td>
+			                        <td width="50"><%=blist.get(i).getCategoryName()%></td>
+		                        	<td id="statusShift" class="noEvent statusShift" width="40">
+		                        		<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
+			                        	<%if(blist.get(i).getStatus().equals("N")) {%>
+			                        		<!-- 아직 게시되지 않았다면 -->
+			                        		<button name="statusOn" class="statusOn" style="background-color: red; color: white;width:100%;height:100%">OFF</button>
+			                        	<%}else{ %>
+			                        		<!-- 글이 게시 되어있다면 -->
+			                        		<button name="statusOff" class="statusOff" style="background-color: green; color: white;width:100%;height:100%">ON</button>
+			                        <%} %>
+		                        	</td>
+			                        <th class="noEvent" width="40">
+			                        	<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
+			                        	<button name="delRev" class="deleteReviewBtn delBtn"><i class="fa-sharp fa-solid fa-trash"></i></button>
+			                        </th>
+			                        <th class="noEvent" width="40">
+			                        	<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
+			                        	<button name="delete" class="deleteBoardBtn delBtn"><i class="fa-sharp fa-solid fa-trash"></i></button>
+			                        </th>
+			                    </tr>
+			                    <%} %>
+			                    
+			                 <%}else if(blist.size()==0){ %>
+		                    	<tr>
+		                    		<td colspan="11">데이터가 없습니다.</td>
+		                    	</tr>
+		                    <%} %>   
+		                </tbody>    
+	            	</table>
+            	</div>
 	         </div>
             <!-- 페이징바 -->
             <div class="pageMover" align="center">
@@ -265,7 +347,7 @@
             </div>
         </div>
     </div>
-	        <script>
+    <script>
 	     	 //게시판 이름 누르면 새로고침
 	        $(function(){
 	        	$(".boardName>p").on("click",function(){
@@ -537,5 +619,4 @@
 	        });
 	        
     </script>       
-</body>
-</html>   
+<%@ include file="../common/footer.jsp" %>  

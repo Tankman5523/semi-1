@@ -20,49 +20,57 @@
         input{
             box-sizing: border-box;
         }
-        div{
-            border: 1px solid black;
-            box-sizing: border-box;
-        }
         
-        .outer{
-            width: 1200px;
+        #content{
+            width: 1300px;
             height: 1000px;
             margin: auto;
+            color:white;
+            text-align:center;
         }
-        .outer>form{
+        #content div{
+       		border:none;
+       	}
+        
+        #content>form{
             height: 100%;
             width: 100%;
         }
-        .outer>form *{
+        #content>form *{
             text-align: center;
         }
-        .outer>form>div{
+        #content>form>div{
             width: 100%;
         }
-        .outer>form>div>table{
+        #content>form>div>table{
             margin: 20px;
+            color:black;
         }
-        .outer>form>div>table *{
+        #content>form>div>table th{
+        	
+        }
+        #content>form>div>table *{
             background-color: white;
+            border:0;
         }
-        .outer>form>div>table input{
+        #content>form>div>table input{
             width: 100%;
             height: 100%;
         }
-        .outer>form>div>table select{
+        #content>form>div>table select{
             width: 100%;
             height: 100%;
         }
         .title{
-            height: 5%;
+            height: 7%;
+            color: rgb(255, 236, 173);
         }
         .inputTitle{
             font-size: 20px;
             font-weight: bold;
         }
         .privateInfo{
-            height: 25%;
+            height: 23%;
         }
         .privateInfo>table{
             display: inline-table;
@@ -81,7 +89,6 @@
             display: inline-table;
             width: 600px;
             height: 300px;
-            
         }
         .submitArea{
             height: 15%;
@@ -91,11 +98,32 @@
             margin-top: 20px;
         }
         
+         /*버튼 커스텀*/
+        .yellowBtn{
+        	background-color: #f9d700;
+        	border-radius: 0;
+		    border-top-left-radius: 0px;
+		    border-bottom-left-radius: 0px;
+		    padding: 8px 12px;
+		    border: 0;
+        }
+        .yellowBtn:hover{
+        	cursor: pointer;
+        }
+        .grayBtn{
+        	background-color: gray;
+        	border-radius: 0;
+		    border-top-left-radius: 0px;
+		    border-bottom-left-radius: 0px;
+		    padding: 8px 12px;
+		    border: 0;
+        }
+        
     </style>
    
 </head>
 <body>
-<%@ include file="../common/mainMenu.jsp"%>
+<%@ include file="../common/header.jsp"%>
 	<%	
 	//로그인 안됬으면 홈으로 보내기
 	if(loginUser==null){
@@ -103,37 +131,17 @@
 		response.sendRedirect(contextPath);
 	}
 	%>	
-    <div class="outer">
+    <div id="content">
         <div class="title" style="text-align: center;">
-            <h1>영상 제보게시판 게시글 수정</h1>
+            <div style="padding-top:10px">
+        		<h2 style="margin:0;">제보 영상 게시글 수정</h2>
+        	</div>
         </div>
         <form action="<%=contextPath%>/update.ac" method="post" enctype="multipart/form-data">
             <!-- 작성자 아이디 숨겨서 가져가주세요 -->
             <input type="hidden" name="userNo" value="<%=loginUser.getUserNo()%>">
             <input type="hidden" name="bno" value="<%=b.getBoardNo()%>">
             <input type="hidden" name="cno" value="3">
-            <div class="privateInfo">
-                <br>
-                <span class="inputTitle">개인 정보</span>
-                
-                <br>
-                <table>
-                    <tr>
-                        <th>이름</th>
-                        <td><input type="text" name="userName" id="" placeholder="로그인된 정보 자동입력" value="<%=loginUser.getUserName()%>"></td>
-                    </tr>
-                    <tr>
-                        <th>휴대폰 번호</th>
-                        <td><input type="text" name="phone" id="" placeholder="- 포함입력" value="<%=loginUser.getPhone()%>"></td>
-                    </tr>
-                    <tr>
-                        <th>이메일</th>
-                        <td><input type="email" name="email" id="" placeholder="로그인된 정보 자동입력" value="<%=loginUser.getEmail()%>"></td>
-                    </tr>
-                </table>
-                <br>
-                
-            </div>
             <div class="accidentInfo">
                 <br>
                 <span class="inputTitle">사건 정보 수정</span>
@@ -193,31 +201,35 @@
                     <tr>
                         <th><span style="color: red;">*</span> 상세내용</th>
                         <td>
-                            <textarea name="content" id="" cols="30" rows="10" style="resize: none;width: 100%;height: 100%;" placeholder="사고상황에 대하여 입력해주세요" required><%=b.getContent()%></textarea>
+                            <textarea name="content" cols="30" rows="10" style="resize: none;width: 95%;height: 95%;" placeholder="사고상황에 대하여 입력해주세요" required><%=b.getContent()%></textarea>
                         </td>
                     </tr>
                     <tr>
                         <th><span style="color: red;">*</span> 첨부영상 <br> (50MB 이내) </th>
                         <td>
-                        	<a href="<%=contextPath + b.getFilePath()%>">동영상_<%=b.getChangeName()%></a>
-                    		 <input type="hidden" name="oldFileName" value="<%=b.getChangeName()%>"><!-- 기존 체인지네임. -->
+                    		<input type="hidden" name="oldFileName" value="<%=b.getChangeName()%>"><!-- 기존 체인지네임. -->
                             <input type="file" name="newVideo">
+                            <!-- <a href="<%=contextPath + b.getFilePath()%>" style="text-decoration:none;">기존_동영상</a> -->
                         </td>
                     </tr>
                 </table>
+                <br>
+            </div>
+            <div class="privateInfo">
+                <br>
                 <br>
                 <span>
                     - 정확하고 자세한 내용을 입력하여 변호사의 신속한 컨텍에 도움이 될수 있도록 하십시오.<br><br>
                     - 제보하신 영상은 관리자의 확인 후 3일 내로 영상제보 게시판에 게시됩니다. <br><br>
                     - 영상 외에 다른 첨부파일을 선택하시면 게시물이 삭제됩니다. <br>
-                    
                 </span>
             </div>
+            
             <div class="submitArea">
                 <input type="checkbox" name="accept" id="accept"><label for="accept"> <span style="color:red">*</span> 개인정보 수집 및 이용에 동의합니다.</label>
                 <br>
                 <!--동의해야만 활성화 되도록 조건처리-->
-                <button type="submit" id="submitBtn" disabled>제보하기</button>
+                <button type="submit" id="submitBtn" class="grayBtn" disabled>제보하기</button>
             </div>
         </form>
     </div>
@@ -227,14 +239,16 @@
         $("#accept").click(function(){
             if($("#accept").is(":checked")==true){
                 $("#submitBtn").attr("disabled",false);
+                $("#submitBtn").attr("class","yellowBtn");
             }else{
                 $("#submitBtn").attr("disabled",true);
+                $("#submitBtn").attr("class","grayBtn");
             }
         });
         
     });
     
     </script>
-
+<%@ include file="../common/footer.jsp"%>
 </body>
 </html>
