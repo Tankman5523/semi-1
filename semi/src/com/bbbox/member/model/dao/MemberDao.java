@@ -778,9 +778,66 @@ public class MemberDao {
 		
 		return result;
 	}
-	
-	
 
+	//변호사 회원정보 수정 메소드
+	public int updateLawyer(Connection conn, Lawyer l) {
+		
+		int result = 0 ;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("updateLawyer");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+		
+			pstmt.setString(1, l.getCompanyName());
+			pstmt.setString(2, l.getCompanyAddress());
+			pstmt.setString(3, l.getCompanyPn());
+			pstmt.setString(4, l.getLawComment());
+			pstmt.setString(5, l.getCareer());
+			pstmt.setString(6, l.getRefUno());
+			
+			result=pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+	//변호사 사진 업데이트 	
+	public int updateProfile(Connection conn, LawAttachment lat) {
+
+		int result2 = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("updateProfile");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, lat.getOriginName());
+			pstmt.setString(2, lat.getChangeName());
+			pstmt.setString(3, lat.getFilePath());
+			pstmt.setString(4, lat.getRefUno());
+			
+			result2=pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result2;
+	}
+	
 	
 
 }

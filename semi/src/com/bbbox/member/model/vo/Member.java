@@ -92,15 +92,8 @@ public class Member {
 	}
 
 	//관리자_ 전체 회원 조회 생성자 
-	
-	
-	
-	public int getUserNo() {
-		return userNo;
-	}
-
 	public Member(int userNo, String userId, String userName, String lawyer, Date enrollDate, String status, 
-			 int boardCount, int replyCount) {
+			int boardCount, int replyCount) {
 		super();
 		this.userNo = userNo;
 		this.userId = userId;
@@ -111,6 +104,25 @@ public class Member {
 		this.boardCount = boardCount;
 		this.replyCount = replyCount;
 	}
+	
+	//관리자_탈퇴회원 조회 생성자 
+	public Member(int userNo, String userId, String userName, String lawyer ,Date enrollDate, String status) {
+		super();
+		this.userNo = userNo;
+		this.userId = userId;
+		this.userName = userName;
+		this.lawyer = lawyer;
+		this.enrollDate = enrollDate;
+		this.status = status;
+	}
+	
+
+	
+	public int getUserNo() {
+		return userNo;
+	}
+
+
 
 
 	public int getBoardCount() {

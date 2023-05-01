@@ -235,17 +235,15 @@
     		});
     		
     	})	
-    	
     /*주소 잘라서 보여주기 */
     $(function(){
     	
     	var address = '<%=lawInfo.getCompanyAddress()%>' //전체 주소 
-    	console.log(address);
     	
     	//지역
     	var region = address.substring(0,2);
     	$('#userRegion').val(region);
-   		$('#userRegion').text(region);
+    	$('#userRegion').text(region);
     	
     	//상세주소 
     	var detailaddress = address.substring(2); 

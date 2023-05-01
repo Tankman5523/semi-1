@@ -274,7 +274,7 @@
 				
 				var $email = $('#inputEmail');
 				
-				if(($email.val()) == "" || $email.val().indexOf('@') ){
+				if(($email.val()) == "" || !($email.val().includes("@"))){
 					alert("올바른 형식의 이메일을 작성해 주세요");
 					return false;
 				}

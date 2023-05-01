@@ -163,6 +163,15 @@ public class Board {
 		this.categoryName = categoryName;
 	}
 	
+	
+	public int getAccNo() {
+		return accNo;
+	}
+
+	public void setAccNo(int accNo) {
+		this.accNo = accNo;
+	}
+
 	//사건필드 게터세터
 	public int getRef_pno() {
 		return ref_pno;

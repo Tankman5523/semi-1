@@ -19,23 +19,30 @@
 <title>제보영상 게시글</title>
 <style>
         div{
-            border: 1px solid black;
             box-sizing: border-box;
         }
-        .outer{
-            width: 1200px;
+        #content{
+            width: 1300px;
             height: 1200px;
             margin: auto;
+            color:white;
         }
 
         /*헤더파트*/
         .accidentBoardDetailHeader{
             height: 10%;
+            color: rgb(255, 236, 173);
         }
-
+		.accidentBoardDetailHeader>h1{
+			display:inline-block;
+			margin:0;
+			margin-left:30px;
+			padding-top:20px;
+		}
         /*바디파트*/
         .accidentBoardDetailBody{
             height: 90%;
+            overflow-y: scroll; 
         }
         .accidentBoardDetailBody>div{
             float: left;
@@ -45,7 +52,6 @@
             width: 70%;
         }
         .bodyLeft>div{
-            width: 100%;
         }
 
         /*비디오영역*/
@@ -57,7 +63,6 @@
             height: 90%;
             border: 1px solid brown;
             margin: 30px
-            
         }
 
         /*게시글 영역*/
@@ -65,7 +70,9 @@
             height: 40%;
         }
         .contentArea>div{
-            width: 100%;
+            width: 90%;
+            margin-left:30px;
+            margin-right:30px;
         }
         .infoArea{
             height: 40%;
@@ -103,6 +110,9 @@
 
         .replyWriteArea{
             height: 10%;
+            width: 90%;
+            margin-left:30px;
+            margin-right:30px;
         }
         .replyWriteArea>*{
             float: left;
@@ -130,7 +140,7 @@
     </style>
 </head>
 <body>
-<%@include file="../common/mainMenu.jsp" %>
+<%@include file="../common/header.jsp" %>
 	<%	
 	//로그인 안됬으면 홈으로 보내기
 	if(loginUser==null){
@@ -138,7 +148,7 @@
 		response.sendRedirect(contextPath);
 	}
 	%>	
-    <div class="outer">
+    <div id="content">
         <div class="accidentBoardDetailHeader">
             <h1>사건제보영상</h1>
         </div>
@@ -163,7 +173,7 @@
                                 <span>제보일 | <%=b.getCreateDate()%></span>
                                 <span>조회수 | <%=b.getCount() %></span>
                                 <span>추천수 | </span><span id="liked_count"><%=b.getLiked()%></span>
-                                <span>신고수 | <%=b.getReportCount()%> </span>
+                                <span>비추천 | <%=b.getReportCount()%> </span>
                                 <%if(b.getReportCount()>10){ %>
                                 	<span><i class="fa-solid fa-diamond-exclamation" style="color: #e6d519;"></i></span>
                                 <%}else if(b.getReportCount()>20){ %>
@@ -174,28 +184,27 @@
                                 <span>지역 | <%=ac.getRegion()%></span>
                             </div>
                             <%if(loginUser!=null){ %>
-	                            <div id="updateBtnArea" style="text-align:right;">
-	                            		<input type="button" value="좋아요" id="good">
-	                            		<input type="button" value="싫어요" id="bad">
-		                            <%if(loginUser.getUserId().equals(b.getBoardWriter())||loginUser.getAdmin().equals("Y")) {%>
-		                            	<!-- 나중에 이미지로 바꿔서 onclick 이벤트 -->
-		                            	<input type="button" value="게시글 수정" onclick="location.href='<%=contextPath%>/update.ac?bno='+<%=b.getBoardNo()%>">
-		                            	<input type="button" value="게시글 삭제" onclick="location.href='<%=contextPath%>/delete.ac?bno='+<%=b.getBoardNo()%>">
-	                            <%} %>
-	                            </div>
-                            <%} %>
-                            <%if(loginUser!=null){ %>
+	                            <div id="updateBtnArea" style="text-align:right; margin-right:5px;">
 	                            <%if(loginUser.getLawyer().equals("Y")){ %>
-	                            	<div id="accidentReviewBtn">
-	                            		<form action="enroll.ar">
+	                            		<form action="enroll.ar" style="display:inline;">
 	                            			<input type="hidden" name="oldFileChangeName" value="<%=b.getChangeName()%>">
 	                            			<input type="hidden" name="bno" value="<%=b.getBoardNo()%>">
 	                            			<input type="hidden" name="accNo" value="<%=ac.getAccNo()%>">
-	                            			<input type="submit" value="해결완료하려면 리뷰를 작성하세요">
+	                            			<input type="submit" value="사건리뷰작성">
 	                            		</form>
-	                            	</div>
+	                        	<%} %>
+	                            		<i id="good" class="fa-regular fa-thumbs-up"></i>
+	                            		<!-- <i class="fa-solid fa-thumbs-up"></i> -->
+	                            		<i id="bad" class="fa-regular fa-thumbs-down"></i>
+	                            		<!-- <i class="fa-solid fa-thumbs-down"></i> -->
+		                            <%if((loginUser.getUserId().equals(b.getBoardWriter())||loginUser.getAdmin().equals("Y"))) {%>
+		                            	<!-- 나중에 이미지로 바꿔서 onclick 이벤트 -->
+		                            	<i onclick="location.href='<%=contextPath%>/update.ac?bno='+<%=b.getBoardNo()%>" class="fa-sharp fa-solid fa-gear"></i>
+	                            		<i onclick="location.href='<%=contextPath%>/delete.ac?bno='+<%=b.getBoardNo()%>" class="fa-sharp fa-solid fa-trash"></i>
 	                            <%} %>
-	                        <%} %>
+	                            </div>
+                            <%} %>
+                            
                         </div>
                         <!-- 과실비율 -->
                         <div class="rate">
@@ -228,8 +237,9 @@
                             <td><%=loginUser.getUserId()%></td>
                         </tr>
                     </table>
-                    <textarea name="" id="reply_input" cols="70" rows="5" style="resize: none;" placeholder="댓글을 입력해주세요."></textarea>
+                    <textarea name="" id="reply_input" cols="60" rows="3" style="resize: none;" placeholder="댓글을 입력해주세요." required></textarea>
                     <input type="button" id="reply_btn" value="댓글등록">
+                    
                 <%}else{ %>
                 	<table>
                         <tr>
@@ -239,9 +249,10 @@
                             <td>비회원</td>
                         </tr>
                     </table>
-                    <textarea name="" id="" cols="70" rows="5" style="resize: none;" placeholder="로그인한 유저만 이용 가능합니다." disabled></textarea>
-                    <input type="button" value="댓글작성" disabled>
-                <%} %>    
+                    <textarea name="" id="reply_input" cols="60" rows="3" style="resize: none;" placeholder="로그인한 유저만 이용 가능합니다." disabled></textarea>
+                    <input type="button" id="reply_btn" value="댓글등록" disabled>
+                <%} %> 
+                <br>   
                 </div>
             </div>
             <div class="bodyRight">
@@ -292,23 +303,27 @@
 						<%if(loginUser == null){%>
 							alert("로그인 후 이용해 주세요.");
 						<%}else{%>
-							$.ajax({
-								url:"dislike.bo",
-								data:{
-									bno:<%=b.getBoardNo()%>,
-									uno:<%=loginUser.getUserNo()%>
-								},
-								success:function(result2){
-									if(result2>0){
-										alert("이 게시글을 싫어합니다.");
-									}else{
-										alert("이미 싫어요한 게시글입니다.");
+							var control = confirm("싫어요는 취소할 수 없습니다. 계속 진행하시겠습니까?");
+							if(control){
+								$.ajax({
+									url:"dislike.bo",
+									data:{
+										bno:<%=b.getBoardNo()%>,
+										uno:<%=loginUser.getUserNo()%>
+									},
+									success:function(result2){
+										if(result2>0){
+											alert("이 게시글을 싫어합니다.");
+											$("#bad").attr("class","fa-solid fa-thumbs-down");
+										}else{
+											alert("이미 싫어요한 게시글입니다.");
+										}
+									},
+									error:function(){
+										alert("통신 에러");
 									}
-								},
-								error:function(){
-									alert("통신 에러");
-								}
-							});
+								});
+							}
 						<%}%>
 					});
 				});
@@ -345,7 +360,7 @@
 	        							//댓글 리스트 최신화
 	        							viewRpList();
 	        						}else{
-	        							alert("댓글 등록 실패");
+	        							alert("댓글을 입력해주세요.");
 	        						}
 	        					},
 	        					error:function(){
@@ -381,5 +396,6 @@
 	        		});
 	        	}
 	        </script>
+<%@include file="../common/footer.jsp" %>
 </body>
 </html>

@@ -121,6 +121,7 @@
                         <td></td>
                     </tr>
                     <tr>
+
                         <th>비밀번호 변경</th>
                         <td><input type="password" name="newPwd" id="pwd" value=<%=loginUser.getUserPwd()%>></td> <!-- 회원가입이랑 동일하게 keyup 사용-->
                     </tr>

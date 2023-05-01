@@ -42,6 +42,12 @@ public class Attachment {
 	
 	
 	
+	public Attachment(int fileNo, String changeName) {
+		super();
+		this.fileNo = fileNo;
+		this.changeName = changeName;
+	}
+	
 	public int getFileNo() {
 		return fileNo;
 	}

@@ -293,9 +293,7 @@
 					var bno = $(this).children().eq(0).val();
 					
 					location.href = "<%=contextPath%>/detail.bo?bno="+bno;
-					
-					
-					
+
 				});
 			});
 			
