@@ -199,4 +199,8 @@
 		</div>
 	</div>
 </div>		
+<<<<<<< HEAD
 <%@ include file = "../common/footer.jsp"%>
+=======
+<%@ include file = "../common/footer.jsp"%>
+>>>>>>> refs/remotes/origin/master

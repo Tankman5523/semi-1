@@ -165,11 +165,11 @@ public class ManagerService {
 	}
 
 	//자유게시판 게시글 리스트조회
-	public ArrayList<Board> selectFreeBoardList(PageInfo pi, int[] cArr) {
+	public ArrayList<Board> selectFreeBoardList(int[] cArr) {
 		
 		Connection conn = JDBCTemplate.getConnection();
 		
-		ArrayList<Board> list = new ManagerDao().selectFreeBoardList(conn, pi, cArr);
+		ArrayList<Board> list = new ManagerDao().selectFreeBoardList(conn, cArr);
 		
 		JDBCTemplate.close(conn);
 		
@@ -200,6 +200,127 @@ public class ManagerService {
 		return memberList;
 	}
 
+
+	//자유게시판 게시글 정렬 조회
+	public ArrayList<Board> selectFreeBoardList(int[] cArr, String sort) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Board> list = new ManagerDao().selectFreeBoardList(conn, cArr, sort);
+		
+		JDBCTemplate.close(conn);
+		
+		return list;
+	}
+
+	
+	//자유게시판 해당 게시글 첨부파일 있는지 여부 조회
+	public Attachment selectAt(int bno) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		Attachment at = new ManagerDao().selectAt(conn, bno);
+		
+		JDBCTemplate.close(conn);
+		
+		return at;
+	}
+		
+	//삭제할 게시글 정보 조회
+	public Board selectBoard(int bno) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		Board b = new ManagerDao().selectBoard(conn, bno);
+		
+		JDBCTemplate.close(conn);
+		
+		return b;
+	}
+		
+	//자유게시판 게시글 관리 ->삭제
+	public int freeBoardDelete(int bno, Attachment at, Board b) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		//해당 게시글 관련 첨부파일 삭제
+		int result1 = 1;
+		if(at!=null) { //있으면 삭제
+			result1 = new ManagerDao().freeBoardAtDelete(conn, bno);
+			System.out.println("해당 게시글 첨부파일 삭제완료");
+		}
+		
+		//해당 게시글 관련 댓글 삭제
+		int result2 = 1;
+		if(b.getRpCount()!=0) {
+			result2 = new ManagerDao().freeBoardRpDelete(conn, bno);			
+			System.out.println("해당 게시글 댓글 삭제완료");
+		}
+
+		
+		//해당 게시글 관련 좋아요 삭제
+		int result3 = 1;
+		if(b.getLiked()!=0) {
+			result3 = new ManagerDao().freeBoardLikedDelete(conn, bno);
+			System.out.println("해당 게시글 좋아요 삭제완료");			
+		}
+	
+		//해당 게시글 관련 신고 삭제
+		int result4 = 1;
+		if(b.getReportCount()!=0) {
+			result4 = new ManagerDao().freeBoardReportDelete(conn, bno);
+		}
+		
+		//최종 - 해당 게시글 영구삭제
+		int result = new ManagerDao().freeBoardDelete(conn, bno);
+		
+		if(result1*result2*result3*result4*result == 1) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);			
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result1*result2*result3*result4*result;
+	}
+
+	//공지사항 게시글 리스트조회
+	public ArrayList<Board> selectFreeBoardNoticeList() {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Board> list = new ManagerDao().selectFreeBoardNoticeList(conn);
+		
+		JDBCTemplate.close(conn);
+		
+		return list;
+	}
+
+	//삭제대기 게시글 리스트 조회
+	public ArrayList<Board> selectFreeDWBoardList(int[] cArr) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Board> list = new ManagerDao().selectFreeDWBoardList(conn, cArr);
+		
+		JDBCTemplate.close(conn);
+		
+		return list;
+	}
+
+	//정렬에의한 삭제대기 게시글 리스트 조회
+	public ArrayList<Board> selectFreeDWBoardList(int[] cArr, String sort) {
+
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Board> list = new ManagerDao().selectFreeDWBoardList(conn, cArr, sort);
+		
+		JDBCTemplate.close(conn);
+		
+		return list;
+	}
+
 	public ArrayList<Board> searchAccidentBoard(String searchFilter, String region, int partType, String insuranceType,
 			String keyword, int categoryNo) {
 
@@ -222,6 +343,7 @@ public class ManagerService {
 		JDBCTemplate.close(conn);		
 		
 		return deleteMemList;
+
 	}
 	
 	

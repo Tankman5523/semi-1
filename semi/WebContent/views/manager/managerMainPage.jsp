@@ -2,15 +2,15 @@
     pageEncoding="UTF-8" import ="com.bbbox.member.model.vo.Member"%>
 
 <%
+	int mode = 2;
+	
 	String contextPath = request.getContextPath();
 	Member loginUser = (Member)session.getAttribute("loginUser");
 
 	String alertMsg = (String)session.getAttribute("alertMsg");
 	
 	String errorMsg = (String)session.getAttribute("errorMsg");
-	
-%>    
-
+%>        
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,6 +25,10 @@
     
     <style>
         /* ============================================전체 영역 */
+        *{
+        	margin: 0;
+        	padding: 0;
+        }
         .wrap{
             width: 100%;
             height: 1000px;
@@ -36,7 +40,7 @@
             height: 2%;
         }
         #outer{
-            width: 1400px;
+            width: 1300px;
             height: 96%;
             margin: auto;
         }
@@ -53,7 +57,7 @@
         }
         #content{
             height: 80%;
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: rgba(0, 0, 0, 0.7);
         }
         #footer{
             height: 10%;
@@ -67,13 +71,13 @@
         }
         #logo-area{
             height: 100%;
-            width: 20%;
+            width: 30%;
             font-size: 50px;
             font-weight: 900;
         }
         #navi-area{
             height: 100%;
-            width: 80%;
+            width: 70%;
             position: relative;
         }
         #navibar{
@@ -82,7 +86,6 @@
             color: white;
             position: absolute;
             margin: auto;
-            /* bottom: 0; */
         }
 
         /* ============================================ 네비바 */
@@ -101,7 +104,7 @@
         #navi a{
             text-decoration: none;
             color: white;
-            font-size: 20px;
+            font-size: 19px;
             font-weight: 800;
 
             width: 100%;
@@ -112,18 +115,19 @@
         }
         #navi a:hover{
             color: rgb(248, 245, 63);
-            font-size: 22px;
+            font-size: 20px;
         }
         #navi>li>ul{
+        	background-color: rgba(0, 0, 0, 0.7);
             list-style-type: none;
             padding: 0;
             display: none;
         }
         #navi>li>ul a{
-            font-size: 18px;
+            font-size: 17px;
         }
         #navi>li>ul a:hover{
-            font-size: 20px;
+            font-size: 18px;
         }
         #navi>li>a:hover+ul{
             display: block;
@@ -182,7 +186,7 @@
                             <li><a href="<%=contextPath %>/lawyerList.ma">변호사</a>
                                 <ul>
                                     <li><a href="<%=contextPath %>/lawyerList.ma">변호사 관리</a></li>
-                                    <li><a href="">상담 게시판 관리</a></li>
+                                    <li><a href="<%=contextPath %>/counselList.ma">상담 게시판 관리</a></li>
                                 </ul>
             
                             </li>    
@@ -207,15 +211,7 @@
                     </div>
                 </div>
             </div>
-         
-        <script>
-        	/*메인으로 이동*/
-        	$(function(){
-        		
-        		$('#logo-area').on('click',function(){
-    				location.href="<%=contextPath%>/views/manager/manager_index.jsp";
-    			})	
-        		
-        	});
-        	
-        </script> 
+            <div id="content">
+            </div>
+
+ <%@ include file = "../common/footer.jsp" %>

@@ -13,47 +13,51 @@
         input{
             box-sizing: border-box;
         }
-        .outer div{
+        #content{
+            width: 1300px;
+            height: 1200px;
+            margin: auto;
+            color:white;
+        } 
+        #content div{
        		border:none;
        	}
-        .outer{
-            width: 1200px;
-            height: 1000px;
-            margin: auto;
-        }
-        .outer>form{
+        #content>form{
             height: 100%;
             width: 100%;
         }
-        .outer>form *{
+        #content>form *{
             text-align: center;
         }
-        .outer>form>div{
+        #content>form>div{
             width: 100%;
+            
         }
-        .outer>form>div>table{
+        #content>form>div>table{
             margin: 20px;
+            color:black;
         }
-        .outer>form>div>table *{
+        #content>form>div>table *{
             background-color: white;
         }
-        .outer>form>div>table input{
+        #content>form>div>table input{
             width: 100%;
             height: 100%;
         }
-        .outer>form>div>table select{
+        #content>form>div>table select{
             width: 100%;
             height: 100%;
         }
         .title{
-            height: 5%;
+            height: 7%;
+            color: rgb(255, 236, 173);
         }
         .inputTitle{
             font-size: 20px;
             font-weight: bold;
         }
         .privateInfo{
-            height: 25%;
+            height: 23%;
         }
         .privateInfo>table{
             display: inline-table;
@@ -77,16 +81,39 @@
         .submitArea{
             height: 15%;
             text-align: center;
+            
         }
         .submitArea>*{
             margin-top: 20px;
+            
         }
+        
+        .yellowBtn{
+        	background-color: #f9d700;
+        	border-radius: 0;
+		    border-top-left-radius: 0px;
+		    border-bottom-left-radius: 0px;
+		    padding: 8px 12px;
+		    border: 0;
+        }
+        .yellowBtn:hover{
+        	cursor: pointer;
+        }
+        .grayBtn{
+        	background-color: gray;
+        	border-radius: 0;
+		    border-top-left-radius: 0px;
+		    border-bottom-left-radius: 0px;
+		    padding: 8px 12px;
+		    border: 0;
+        }
+        
         
     </style>
    
 </head>
 <body>
-<%@ include file="../common/mainMenu.jsp"%>
+<%@ include file="../common/header.jsp"%>
 
 	<%	
 	//로그인 안됬으면 홈으로 보내기
@@ -97,39 +124,16 @@
 	%>	
 	<!-- 비로그인시 오류방지 -->
 	<%if(loginUser!=null){ %>
-    <div class="outer">
+    <div id="content">
         <div class="title" style="text-align: center;">
-            <h1>영상 제보하기</h1>
+        	<div style="padding-top:10px">
+        		<h2 style="margin:0;">영상 제보하기</h2>
+        	</div>
+            
         </div>
         <form action="<%=contextPath%>/enroll.ac" method="post" enctype="multipart/form-data">
             <!-- 작성자 아이디 숨겨서 가져가주세요 -->
             <input type="hidden" name="userNo" value="<%=loginUser.getUserNo()%>">
-            <div class="privateInfo">
-                <br>
-                <span class="inputTitle">개인 정보 입력</span>
-                <!-- 
-                    로그인정보에 다 있는데 굳이 다시 물어봐야하는건지..?
-                    가져와도 담을 DB가 없음, 굳이 테이블을 만들 이유가 없는데?
-                -->
-                
-                <br>
-                <table>
-                    <tr>
-                        <th>이름</th>
-                        <td><input type="text" name="userName" id="" placeholder="로그인된 정보 자동입력" value="<%=loginUser.getUserName()%>"></td>
-                    </tr>
-                    <tr>
-                        <th>휴대폰 번호</th>
-                        <td><input type="text" name="phone" id="" placeholder="- 포함입력" value="<%=loginUser.getPhone()%>"></td>
-                    </tr>
-                    <tr>
-                        <th>이메일</th>
-                        <td><input type="email" name="email" id="" placeholder="로그인된 정보 자동입력" value="<%=loginUser.getEmail()%>"></td>
-                    </tr>
-                </table>
-                <br>
-                <span>회원정보에 입력하지 않으신 사항에 대해서는 반드시 입력바랍니다.</span>
-            </div>
             <div class="accidentInfo">
                 <br>
                 <span class="inputTitle">사건 정보 입력</span>
@@ -179,13 +183,15 @@
                     <tr>
                         <th><span style="color: red;">*</span> 과실비율</th>
                         <td>
-                            <input type="number" name="accidentRateMe" class="rate" style="float:left;width: 50%;" placeholder="제보자 과실비율" required><input type="number" name="accidentRateYou" class="rate" style="float:left;width: 50%;" placeholder="상대방 과실비율" required>
+                            <input type="number" name="accidentRateMe" class="rate" style="float:left;width: 50%;" placeholder="제보자 과실비율" required>
+                            <input type="number" name="accidentRateYou" class="rate" style="float:left;width: 50%;" placeholder="상대방 과실비율" required>
                         </td>
                     </tr>
                     <tr>
                         <th><span style="color: red;">*</span> 상세내용</th>
                         <td>
-                            <textarea name="content" id="" cols="30" rows="10" style="resize: none;width: 100%;height: 100%;" placeholder="사고상황에 대하여 입력해주세요" required></textarea>
+                            <textarea name="content" id="" cols="30" rows="10" style="resize: none;width: 95%;height: 95%;" 
+                            placeholder="사고상황에 대하여 입력해주세요 " required></textarea>
                         </td>
                     </tr>
                     <tr>
@@ -196,18 +202,21 @@
                     </tr>
                 </table>
                 <br>
+            </div>
+            <div class="privateInfo">
+                <br>
+                <br>
                 <span>
                     - 정확하고 자세한 내용을 입력하여 변호사의 신속한 컨텍에 도움이 될수 있도록 하십시오.<br><br>
                     - 제보하신 영상은 관리자의 확인 후 3일 내로 영상제보 게시판에 게시됩니다. <br><br>
                     - 영상 외에 다른 첨부파일을 선택하시면 게시물이 삭제됩니다. <br>
-                    
                 </span>
             </div>
             <div class="submitArea">
                 <input type="checkbox" name="accept" id="accept"><label for="accept"> <span style="color:red">*</span> 개인정보 수집 및 이용에 동의합니다.</label>
                 <br>
                 <!--동의해야만 활성화 되도록 조건처리-->
-                <button type="submit" id="submitBtn" disabled>제보하기</button>
+                <button type="submit" id="submitBtn" class="grayBtn" disabled>제보하기</button>
             </div>
         </form>
     </div>
@@ -217,14 +226,15 @@
         $("#accept").click(function(){
             if($("#accept").is(":checked")==true){
                 $("#submitBtn").attr("disabled",false);
+                $("#submitBtn").attr("class","yellowBtn");
             }else{
                 $("#submitBtn").attr("disabled",true);
+                $("#submitBtn").attr("class","grayBtn");
             }
         });
-        
     });
     
     </script>
-
+<%@ include file="../common/footer.jsp"%>	
 </body>
 </html>

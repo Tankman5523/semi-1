@@ -293,9 +293,7 @@ public class Board {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
-	
-	
+
 	@Override
 	public String toString() {
 		return "Board [boardNo=" + boardNo + ", boardWriter=" + boardWriter + ", categoryNo=" + categoryNo + ", title="

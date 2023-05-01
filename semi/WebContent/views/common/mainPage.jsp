@@ -13,18 +13,20 @@
 <head>
 <meta charset="UTF-8">
 <title>MainPage</title>
-
 <!-- 아이콘 CDN (font-awesome Copy Link Tag) -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-
   
     <style>
         /* ============================================전체 영역 */
+        *{
+        	margin: 0;
+        	padding: 0;
+        }
         .wrap{
             width: 100%;
-            height: 1000px;
+            height: 1000px;  /* 100vh로 변경하면 더 좋을듯 */
             background-image: url("https://cdn.pixabay.com/photo/2016/10/03/14/24/car-1711788_1280.jpg");
             background-size: cover;
         }
@@ -33,12 +35,12 @@
             height: 2%;
         }
         #outer{
-            width: 1400px;
+            width: 1300px;
             height: 96%;
             margin: auto;
         }
         #outer div{
-            border : 1px solid white; /* 구역 확인용 나중에 지우기*/
+            /* border : 1px solid white; 구역 확인용 */
             box-sizing: border-box;
         }
         #outer>div{
@@ -50,7 +52,7 @@
         }
         #content{
             height: 80%;
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: rgba(0, 0, 0, 0.7);
         }
         #footer{
             height: 10%;
@@ -63,13 +65,13 @@
         }
         #logo-area{
             height: 100%;
-            width: 20%;
+            width: 30%;
             font-size: 50px;
             font-weight: 900;
         }
         #navi-area{
             height: 100%;
-            width: 80%;
+            width: 70%;
             position: relative;
         }
         #navibar{
@@ -78,7 +80,6 @@
             color: white;
             position: absolute;
             margin: auto;
-            /* bottom: 0; */
         }
         /* ============================================컨텐트 영역 */
         #content>div{
@@ -87,7 +88,6 @@
         }
         #content-left-area{
             width: 50%;
-            position: relative;
         }
         #content-right-area{
             width: 50%;
@@ -96,33 +96,9 @@
             width: 100%;
             height: 50%;
         }
-        
-        #right-top, #right-bottom{
-        	position: relative;
-        	
-        }
-        
-        #post1, #post2{
-        	width:70%;
-        	height: 80%;
-        	position: absolute;
-        	margin: auto;
-        	top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-        }
-        
         #left{
-            background-color: rgba(240, 218, 16, 0.76);
-            width: 80%;
-            height: 70%;
-            position: absolute;
-            margin: auto;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
+        	width: 100%;
+        	height: 100%;
         }
         /* ============================================ 네비바 */
         #navi{
@@ -140,29 +116,29 @@
         #navi a{
             text-decoration: none;
             color: white;
-            font-size: 20px;
+            font-size: 19px;
             font-weight: 800;
 
             width: 100%;
             height: 100%;
             display: block;
-            line-height: 50px;
-            margin: 0px 20px;
+            line-height: 60px;
         }
         #navi a:hover{
-            color: rgb(248, 245, 63);
-            font-size: 22px;
+            color: rgb(255, 230, 0);
+            font-size: 20px;
         }
         #navi>li>ul{
+        	background-color: rgba(0, 0, 0, 0.7);
             list-style-type: none;
             padding: 0;
             display: none;
         }
         #navi>li>ul a{
-            font-size: 18px;
+            font-size: 17px;
         }
         #navi>li>ul a:hover{
-            font-size: 20px;
+            font-size: 18px;
         }
         #navi>li>a:hover+ul{
             display: block;
@@ -192,12 +168,7 @@
 		
 	
 	</script>
-
-	
 <body>
-<%if(loginUser!=null&&loginUser.getAdmin().equals("Y")){ %>
-<button onclick="location='<%=contextPath%>/views/manager/manager_index.jsp'" style="background-color:red; color:white;"><b>관리자 모드</b></button>
-<%} %>
     <div class="wrap">
         <div id="line"><img src="<%=contextPath%>/resources/common/menu-top.jpg" alt="" style="width: 100%; height: 100%;"></div>
         <div id="outer">
@@ -205,6 +176,7 @@
                 <div id="logo-area">블변<span style="font-size: 40px;">의</span> 법칙</div>
                 <div id="navi-area">
                     <div id="navibar">
+                    	<div>
                         <ul id="navi">
                             <li><a href="<%=contextPath%>/list.ac?currentPage=1">블랙박스 영상</a>
                                 <ul>
@@ -216,7 +188,7 @@
                             <li><a href="<%=contextPath %>/list.la">변호사</a>
                                 <ul>
                                     <li><a href="<%=contextPath %>/list.la">변호사 검색</a></li>
-                                    <li><a href="">소송 가이드</a></li>
+                                    <li><a href="<%=contextPath %>/guide.la">소송 가이드</a></li>
                                 </ul>
             
                             </li>    
@@ -237,51 +209,35 @@
     	               			<li><a href="<%=contextPath%>/logout.me">로그아웃</a></li>
 							<%} %>
                         </ul>
+                        </div>
                     </div>
                 </div>
             </div>
             <div id="content">
                 <div id="content-left-area">
-                   
-                   <div id= left>
-	                   <img src="<%=contextPath%>/resources/common/introImg1.jpg" style ="width:100%; height:100%;">
-                   </div>
-                   
+                    <div id="left">
+                    	<img src="<%=contextPath%>/resources/common/introImg1.jpg" alt="" style="width: 100%; height: 100%;">
+                    </div>
                 </div>
                 <div id="content-right-area">
                     <div id="right-top">
-						<div id="post1">
-							
-						</div>
+
                     </div>
                     <div id="right-bottom">
-						<div id="post2">
-						
-						</div>
+
                     </div>
                 </div>
             </div>
             <div id="footer">
-                푸터영역 <br>
-                Whether you enjoy city breaks or extended holidays in the sun,<br>
-                you can always  improve your travel experiences by staying in a small.<br>
-            </div>
-        </div>
-        <div id="line"><img src="<%=contextPath%>/resources/common/menu-top.jpg" alt="" style="width: 100%; height: 100%;"></div>
-    </div>
-    
-    <script>
-        	/*메인으로 이동*/
-        	$(function(){
-        		
-        		$('#logo-area').on('click',function(){
-    				location.href="<%=contextPath%>/views/manager/manager_index.jsp";
-    			})	
-        		
-        	});
-        	
-    </script> 
-    
-    
+                <!-- 푸터영역 -->
+               <div style="text-align:center;"><br>@Copyright By 일석일조
+            		<%if(loginUser!=null&&loginUser.getAdmin().equals("Y")){ %>
+                		<button onclick="location='<%=contextPath%>/views/manager/manager_index.jsp'" style="background-color:red; color:white;"><b>관리자 모드</b></button>
+              	 	<%} %>
+               </div>
+	        </div>
+	    </div>
+    <div id="line"><img src="<%=contextPath%>/resources/common/menu-top.jpg" alt="" style="width: 100%; height: 100%;"></div>
+</div>    
 </body>
 </html>

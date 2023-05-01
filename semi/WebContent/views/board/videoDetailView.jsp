@@ -35,7 +35,7 @@
 </head>
 <body>
 
-	<%@include file="../common/mainMenu.jsp" %>
+<%@include file="../common/header.jsp" %>
 	
 	<div class="outer">
 		

@@ -53,10 +53,9 @@
         width: 1200px;
         height : 550px;
         margin: auto;
-        
     }
-
-	thead{
+    
+	thead {
 		background-color: gainsboro;
 	}
 	
@@ -81,7 +80,8 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
-	<div id="content" style="overflow: auto">
+
+<div id="content" style="overflow: auto">
 		<h2 align="center" style="border: none;">1:1 문의 게시판</h2>
 		<hr>
 		<div id="board">

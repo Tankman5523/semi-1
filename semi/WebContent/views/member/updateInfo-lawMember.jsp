@@ -78,8 +78,7 @@
 		 height: 36px;
 		 font-size: 18px;
 	} 
-	
-	
+
 	a{
 	    text-decoration: none;
 	    color: black;
@@ -91,6 +90,7 @@
 	    margin-right: 20px;
         }
     </style>
+    
 <%@ include file="../common/header.jsp" %>
 <!-- Popper JS -->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>

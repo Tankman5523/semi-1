@@ -1,4 +1,4 @@
-package com.bbbox.manager.controller;
+package com.bbbox.lawyer.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class BoardManager
+ * Servlet implementation class LawsuitGuideController
  */
-@WebServlet("/manage.bo")
-public class BoardManager extends HttpServlet {
+@WebServlet("/guide.la")
+public class LawsuitGuideController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardManager() {
+    public LawsuitGuideController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -26,8 +26,9 @@ public class BoardManager extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		request.getRequestDispatcher("views/manager/managerBoard.jsp").forward(request, response);
+		//소송가이드 페이지 이동
+		
+		request.getRequestDispatcher("views/lawyer/lawsuitGuide.jsp").forward(request, response);
 	}
 
 	/**

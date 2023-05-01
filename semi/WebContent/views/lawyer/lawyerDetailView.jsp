@@ -190,6 +190,7 @@
    <div id="space"></div>
    <div id="head"> <!-- 뒤로가기 버튼 -->
       <a href="<%=contextPath %>/list.la" style="margin-left:50px;"><i class="fa-solid fa-angle-left fa-2xl" style="color: #878787;"></i></a>
+      <a href="<%=contextPath %>/review.la?accNo=1">리뷰작성</a> <!-- 확인용(삭제 예정) -->
    </div>
    <div id="content-area">
        <div id="left">

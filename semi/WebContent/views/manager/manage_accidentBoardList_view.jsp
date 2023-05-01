@@ -17,50 +17,59 @@
         div{
             box-sizing: border-box;
         }
-        .outer{
-            width: 1200px;
+        #content{
+        	border:none;
+            width: 1300px;
             height: 1200px;
             margin: auto;
+            color:white;
         }
-		.outer>div{
+		#content>div{
            border:none;
         }
         /*헤더 영역*/
         #accidentBoardHead{
             height: 10%;
-            position: relative;
         }
         #accidentBoardbody{
             height: 90%;
         }
         #accidentBoardHead>div{
-            float: left;
         }
 
         /*게시판 이름 영역*/
         .boardName{
             width: 300px;
+            float: left;
+            height:100%;
+            color: rgb(255, 236, 173);
         }
         .boardName>*{
             float: left;
             margin-left: 20px;
         }
-        .boardName>p{
-            font-size: 20px;
-            font-weight: bold;
+        .boardName>h2{
+            margin:0;
+            margin-top:20px;
+            margin-left:30px;
         }
 
         /*서치 영역*/
         .search{
             width: 600px;
-            position: absolute;
-            top: 60px;
-            left: 595px;
-            
+            float:right;
+            margin-top:20px;
+        }
+        .search>form{
+        	height:30%;
         }
         .search>form>div{
             width: 50%;
+            height:30px;
             float: left;
+        }
+        .search>form>div *{
+            height:30px;
         }
         .typeFilter>*{
             width: 30%;
@@ -115,26 +124,32 @@
         .pageMover{
             height: 5%;
         }
-
+       	
+       	/*버튼 커스텀*/
+		.yellowBtn{
+        	background-color: #f9d700;
+        	border-radius: 0;
+		    border-top-left-radius: 0px;
+		    border-bottom-left-radius: 0px;
+		    padding: 8px 12px;
+		    border: 0;
+        }
+        .searchKeywordInput{
+        	border:none;
+        	height:100%;
+        	padding:0;
+        	margin:0;
+        }
     </style>
 </head>
 <body>
-<%@ include file="manager_menu.jsp" %>
-    <div class="outer">
+<%@ include file="managerMainPage.jsp" %>
+    <div id="content">
         <div id="accidentBoardHead">
             <div class="boardName">
-                <p>제보 영상 게시판 관리</p>
+                <h2>제보 영상 게시판 관리</h2>
             </div>
-          	<!-- 기준별 순서 정렬 -->
-            <div class="sort" style="float: right;margin-top: 20px;" >
-                <form action="list.mac">
-                <input type="radio" name="searchSort" id="sortRecommend" value="recommend"><label for="sortRecommend">추천순</label>
-                <input type="radio" name="searchSort" id="sortDislike" value="dislike"><label for="sortDislike">비추순</label>
-                <input type="radio" name="searchSort" id="sortView" value="view"><label for="sortView">조회순</label>
-                <input type="radio" name="searchSort" id="sortNew" value="date"><label for="sortNew">최신순</label>
-                <input type="submit" value="정렬">
-                </form>
-            </div>
+          	
             <!-- 검색 필터 및 검색바 -->
             <div class="search">
                 <form action="search.mac">
@@ -173,11 +188,21 @@
                                 </select>
                             </div>
                             <div class="searchBar">
-                                    <div style="width: 15%; height: 23px;"><button type="submit" style="height: 100%; width:100%">?</button></div>
-                                    <div style="width: 85%;"><input type="text" name="keyword" placeholder="검색어를 입력해주세요" required></div>
+                                    <div style="width: 15%; height: 23px;"><button type="submit" class="yellowBtn"><i class="fa-sharp fa-solid fa-magnifying-glass" style="color: #000000;"></i></button></div>
+                                    <div style="width: 85%;"><input type="text" class="searchKeywordInput" name="keyword" placeholder="검색어를 입력해주세요" required></div>
                             </div>
                         </div>
                      </div>
+                </form>
+            </div>
+            <!-- 기준별 순서 정렬 -->
+            <div class="sort" style="float:left;margin-top: 20px;margin-right:10px;" >
+                <form action="list.mac">
+                <input type="radio" name="searchSort" id="sortRecommend" value="recommend"><label for="sortRecommend">추천순</label>
+                <input type="radio" name="searchSort" id="sortDislike" value="dislike"><label for="sortDislike">비추순</label>
+                <input type="radio" name="searchSort" id="sortView" value="view"><label for="sortView">조회순</label>
+                <input type="radio" name="searchSort" id="sortNew" value="date"><label for="sortNew">최신순</label>
+                <input type="submit" class="yellowBtn" value="정렬" style="margin-left:5px;">
                 </form>
             </div>
         </div>
@@ -472,5 +497,4 @@
         });
         
    </script>       
-</body>
-</html>   
+<%@ include file="../common/footer.jsp" %>
