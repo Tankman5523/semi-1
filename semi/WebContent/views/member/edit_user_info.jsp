@@ -1,43 +1,114 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@include file="../common/header.jsp" %>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>회원정보 수정</title>
-<!-- jquery CDN -->
-<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 
 <style>
-        .content{
-            width: 800px;
-            box-sizing: border-box;
-            margin: auto;
-            margin-top:10px;
-        }
-        #info{
-            width: 70%;
-            margin-left: 200px;
-        }
-        #address{
-        	width : 350px
-        }
-        a{
-            text-decoration: none;
-            color: black;
-            display: block;
-        }
 
-        #btn button{
-            margin-left: 20px;
-            margin-right: 20px;
-        }
+	/* 폰트 */
+   	@font-face{
+   		font-family: 'SBAggroB';
+ 		src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');	
+   		font-weight: normal;
+  		font-style: normal;
+	}    
+	
+	@font-face {
+	    font-family: 'Cafe24Ohsquare';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/Cafe24Ohsquare.woff') format('woff');
+	    font-weight: normal;
+	    font-style: normal;
+	}
+	
+	@font-face {
+	    font-family: 'HallymGothic-Regular';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2204@1.0/HallymGothic-Regular.woff2') format('woff2');
+	    font-weight: 400;
+	    font-style: normal;
+	}
+		
+	
+	#update_Info{
+		
+		width: 1000px;
+		height : 550px;
+		margin: auto;
+	
+	}
+	
+	#update_Info>h2{
+		font-family: 'SBAggroB';
+		font-size: 30px;
+		font-weight:300;
+		color: white;
+		
+		padding-top: 70px;
+	}
+	
+	#update_Info>h4{
+		
+		font-family: 'SBAggroB';
+		font-size: 20px;
+		font-weight:300;
+		color: white;
+		padding-top: 15px;	
+		text-align:center;
+		
+	}
+
+	#info{
+		width: 70%;
+		margin-left: 250px;
+    }
+    
+    #info th{
+    	font-family: 'SBAggroB';
+    	color: white;
+    	font-weight:300;
+    	height : 36px;
+    
+    }
+    
+    #info td{
+    	
+    	font-family : HallymGothic-Regular;
+    	color:white;
+    	
+    }
+    
+	#address{
+		width : 500px;
+	}
+	
+    a{
+        text-decoration: none;
+        color: black;
+        display: block;
+    }
+
+    #btn button{
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    
     </style>
 </head>
 <body>
-<%@include file="../common/header.jsp" %>
 
-    <div class="content">
+<!-- Popper JS -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<div id="content">
     <form id="update_Info" action="<%=contextPath%>/update_info.me" method="post">
         <h2 align ="center">마이페이지</h2>
         <h4>회원정보 수정</h4>
@@ -45,16 +116,16 @@
             <table id="info">
                 <tbody>
                     <tr>
-                        <td width="150">아이디 </td>
+                        <th width="150">아이디 </th>
                         <td><%=loginUser.getUserId()%></td> <!-- loginUser Session에 저장된 정보 불러오기-->
                         <td></td>
                     </tr>
                     <tr>
-                        <td>비밀번호 변경</td>
+                        <th>비밀번호 변경</th>
                         <td><input type="password" name="newPwd" id="pwd" value=<%=loginUser.getUserPwd()%>></td> <!-- 회원가입이랑 동일하게 keyup 사용-->
                     </tr>
                     <tr>
-                        <td>비밀번호 확인</td>
+                        <th>비밀번호 확인</th>
                         <td><input type="password" name="chkPwd" id="chkPwd"></td>
                     </tr>
                     <tr>
@@ -62,24 +133,28 @@
                         <td><div class="match" style="color: blue">비밀번호가 일치합니다</div><div class="nomatch" style="color: red;">비밀번호가 일치하지 않습니다.</div></td>
                     </tr>
                     <tr>
-                        <td>이름</td>
+                        <th>이름</th>
                         <td><input type="text" id="name" name="newName" value="<%=loginUser.getUserName()%>"></td>
                         <td></td>
                     </tr>
                     <tr>
-                        <td>핸드폰</td>
+                        <th>핸드폰</th>
                         <td><input type="text" id="phone" name="newPhone" placeholder="-포함하여 입력해주세요" value="<%=loginUser.getPhone()%>"></td>
                     </tr>
                     <tr>
-                        <td>email</td>
-                        <td><input type="email" id="email" name="newEmail" value="<%=loginUser.getEmail()%>"> <button type="button" disabled>이메일 인증</button> </td>
+                        <th>email</th>
+                        <td><input type="email" id="email" name="newEmail" value="<%=loginUser.getEmail()%>"> <button class="btn btn-light btn-sm "type="button" id="applyEmail">이메일 인증</button> </td>
                     </tr>
+                    <tr>
+                    	<th></th>
+                    	<td><input type="text" id="authentication" name="authentication" placeholder="인증번호를 입력해주세요"> <button class="btn btn-light btn-sm "type="button" id="authEmail">확인</button></td>
+                    </tr>	
                     <tr>
                         <td></td>
-                        <td><p style="font-size: 10px; color: red;">이메일주소는 개인정보찾기에 사용되어지니 정확한 이메일주소를 입력해주세요</p></td>
+                        <td><p style="font-family: HallymGothic-Regular; font-size: 14px; color: yellow;">이메일주소는 개인정보찾기에 사용되어지니 정확한 이메일주소를 입력해주세요</p></td>
                     </tr>
                     <tr>
-                        <td>주소</td>
+                        <th>주소</th>
                         <td><input type="text" name="newAddress" id="address" value="<%=loginUser.getAddress()%>"></td>
                     </tr>
                     <tr>
@@ -92,12 +167,11 @@
             <!-- 버튼 -->
             <br><br>
             <div id="btn" align="center">
-                <button type="button" onclick="back();">취소</button>
-                <button type="submit" onclick="return access();">수정하기</button>
+                <button class="btn btn-light" type="button" onclick="back();">취소</button>
+                <button class="btn btn-primary" type="submit" onclick="return access();">수정하기</button>
             </div>
             
 	    </form>
-	</div>
         <br><br>
         
         <script>
@@ -106,7 +180,7 @@
         	location.href="<%=contextPath%>/"
         }
         
-        	/* 비밀번호 유효성 검사 script*/
+        /* 비밀번호 유효성 검사 script*/
         $(function(){
             $(".match").css("color","blue").hide();
             $(".nomatch").css("color","red").hide();
@@ -168,10 +242,128 @@
        			
        			
        		}
+       	
+       	/* 이메일 변경시 이메일 재 인증 script */
+       	var autKey = ""; // 인증번호 담을 변수 
+       	
+       	$(function(){
+	       	$('#email').on('click', function(){
+	       		
+	       		if(confirm('이메일 변경시, 이메일을 재인증 해야합니다 변경하시겠습니까?')){
+	       			
+	       			$('#email').val("");
+	       		}
+	       	
+	       	});
        		
+       	});
        	
-        
+       	/*인증창 키업*/
+       	$(function(){
+       		/*인증창 숨겨두기*/
+       		$('#info tr:eq(7)').hide()
+       		
+       		$('#applyEmail').on('click',function(){
+       			
+	       		var $email = $('#email').val();
+    	   		console.log($email);
+       			
+    	   		if($email =="" ||!($email.includes("@"))){
+       				
+       				alert("올바른 형식의 이메일을 작성해주세요");
+       				return false;
+       				
+       			}else{
+       				
+       				/*이메일 중복 체크*/
+       				$.ajax({
+       					url : "email.chk.me",
+       					
+       					data :{testEmail : $email},
+       					
+       					type : "post",
+    					
+    					success : function(result){
+    						console.log(result);
+    						
+    						if(result == "YYYYY" ){
+    								Authentication(); // 인증번호 발송 함수 호출
+    						}else{
+    							alert("이미 사용중인 이메일 입니다. 다시 입력해주세요");
+    						}
+    								
+    					},
+    					
+    					error : function(){
+    						console.log("통신 실패");
+    					}
+       				
+       				})
+	       		}
+       		})
+       });
        	
+       	/* 이메일 발송 함수 */
+			function Authentication(){
+				
+				var $sendEmail = $('#email');
+				
+				$.ajax({
+					url : "authentication.me",
+					
+					data : {sendEmail : $sendEmail.val()},
+					
+					type: "post",
+					
+					success: function (key){
+						
+						console.log(key);
+						
+						if(key.using == 'Y'){
+							
+							authKey = key.chord;
+							
+							console.log(authKey);
+							
+							$('#info tr:eq(7)').show()
+							
+							alert("이메일 인증번호 발송 완료! 이메일을 확인해주세요");
+							
+						}
+						
+						
+					},
+					
+					error: function(){
+						console.log("통신실패");
+					}
+				
+				});
+				
+			}	
+       	
+       	/*인증번호 확인 함수*/
+       	$(function(){
+       		
+       		$('#authEmail').on('click', function(){
+       			
+       			if("" == authKey){
+					alert("인증번호를 입력해주세요");
+					return false;
+        		
+        		}else if(($("#authentication").val()) == authKey){
+        			
+        			if(confirm("이메일 인증이 완료되었습니다.!")){
+	        			$("#authentication").attr("readonly",true);
+        			}	
+        			
+        		}else{
+        			alert("이메일 인증에 실패하였습니다. 다시 시도해 주세요");
+        			return false;
+        		}
+       			
+       		});
+       	});
         </script>
-</body>
-</html>
+</div>        
+<%@include file="../common/footer.jsp" %>        

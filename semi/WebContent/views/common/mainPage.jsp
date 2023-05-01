@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import ="com.bbbox.member.model.vo.Member"%>
-    
+    pageEncoding="UTF-8" import ="com.bbbox.member.model.vo.Member" %>
 <%
 	String contextPath = request.getContextPath();
 	Member loginUser = (Member)session.getAttribute("loginUser");
@@ -8,20 +7,19 @@
 	String alertMsg = (String)session.getAttribute("alertMsg");
 	
 	String errorMsg = (String)session.getAttribute("errorMsg");
-%>     
-
+%>        
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Including</title>
+<title>MainPage</title>
 
- 	<!-- 아이콘 CDN (font-awesome Copy Link Tag) -->
+<!-- 아이콘 CDN (font-awesome Copy Link Tag) -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 
-    
+  
     <style>
         /* ============================================전체 영역 */
         .wrap{
@@ -40,7 +38,7 @@
             margin: auto;
         }
         #outer div{
-            /* border : 1px solid white; 구역 확인용 */
+            border : 1px solid white; /* 구역 확인용 나중에 지우기*/
             box-sizing: border-box;
         }
         #outer>div{
@@ -59,7 +57,6 @@
             background-color: rgba(0, 0, 0, 0.7);
             color: white;
         }
-
         /* ============================================헤더 영역 */
         #header>div{
             float: left;
@@ -83,7 +80,50 @@
             margin: auto;
             /* bottom: 0; */
         }
-
+        /* ============================================컨텐트 영역 */
+        #content>div{
+            height: 100%;
+            float: left;
+        }
+        #content-left-area{
+            width: 50%;
+            position: relative;
+        }
+        #content-right-area{
+            width: 50%;
+        }
+        #content-right-area>div{
+            width: 100%;
+            height: 50%;
+        }
+        
+        #right-top, #right-bottom{
+        	position: relative;
+        	
+        }
+        
+        #post1, #post2{
+        	width:70%;
+        	height: 80%;
+        	position: absolute;
+        	margin: auto;
+        	top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+        
+        #left{
+            background-color: rgba(240, 218, 16, 0.76);
+            width: 80%;
+            height: 70%;
+            position: absolute;
+            margin: auto;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
         /* ============================================ 네비바 */
         #navi{
             list-style-type: none;
@@ -130,11 +170,9 @@
         #navi>li>ul:hover{
             display: block;
         }
-
     </style>
 
 </head>
-
 <script>
 		var msg = "<%=alertMsg%>";
 		
@@ -154,7 +192,12 @@
 		
 	
 	</script>
+
+	
 <body>
+<%if(loginUser!=null&&loginUser.getAdmin().equals("Y")){ %>
+<button onclick="location='<%=contextPath%>/views/manager/manager_index.jsp'" style="background-color:red; color:white;"><b>관리자 모드</b></button>
+<%} %>
     <div class="wrap">
         <div id="line"><img src="<%=contextPath%>/resources/common/menu-top.jpg" alt="" style="width: 100%; height: 100%;"></div>
         <div id="outer">
@@ -187,18 +230,46 @@
                             	<a href="<%=contextPath%>/list.qa">1:1 문의</a>
                             </li>
                             <%if(loginUser == null) {%>
-                            <li><a href="<%=contextPath%>/enroll.me">회원가입</a></li>
                             <li><a href="<%=contextPath%>/login.me"><i class="fa-solid fa-door-open fa-xl" style="color: #ffffff;"></i></a></li>
+                            <li><a href="<%=contextPath%>/enroll.me">회원가입</a></li>
                             <%}else{ %>
-	                            <li><a href="<%=contextPath%>/entry.me">마이페이지</a></li>
+	                        	<li><a href="<%=contextPath%>/entry.me">마이페이지</a></li>
     	               			<li><a href="<%=contextPath%>/logout.me">로그아웃</a></li>
 							<%} %>
                         </ul>
                     </div>
                 </div>
             </div>
+            <div id="content">
+                <div id="content-left-area">
+                   
+                   <div id= left>
+	                   <img src="<%=contextPath%>/resources/common/introImg1.jpg" style ="width:100%; height:100%;">
+                   </div>
+                   
+                </div>
+                <div id="content-right-area">
+                    <div id="right-top">
+						<div id="post1">
+							
+						</div>
+                    </div>
+                    <div id="right-bottom">
+						<div id="post2">
+						
+						</div>
+                    </div>
+                </div>
+            </div>
+            <div id="footer">
+                푸터영역 <br>
+                Whether you enjoy city breaks or extended holidays in the sun,<br>
+                you can always  improve your travel experiences by staying in a small.<br>
+            </div>
+        </div>
+        <div id="line"><img src="<%=contextPath%>/resources/common/menu-top.jpg" alt="" style="width: 100%; height: 100%;"></div>
+    </div>
     
-        
     <script>
         	/*메인으로 이동*/
         	$(function(){
@@ -209,4 +280,8 @@
         		
         	});
         	
-    </script>      
+    </script> 
+    
+    
+</body>
+</html>

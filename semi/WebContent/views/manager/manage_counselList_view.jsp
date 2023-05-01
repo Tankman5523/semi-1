@@ -1,49 +1,55 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.ArrayList,com.bbbox.lawyer.model.vo.Counsel"%>
+    pageEncoding="UTF-8" import="java.util.ArrayList,com.bbbox.lawyer.model.vo.*"%>
 <%
 	ArrayList<Counsel> cList = (ArrayList<Counsel>)request.getAttribute("cList");
 %>
-<%@ include file="manager_menu.jsp" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<%@ include file = "../manager/manager_header.jsp" %>
 <style>
+
+	/* 폰트, 색상 */
+    @font-face {
+	    font-family: 'Pretendard-Regular';
+	    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+	    font-weight: 400;
+	    font-style: normal;
+	}
+
     /* 영역잡기 */
-    .wrap div{
-        /* border: 1px solid black; */
-        border: 0px;
-        box-sizing: border-box;
-    }
-    .wrap{
-        /* border: 1px solid black; */
-        width: 1200px;
-        height: 600px;
+    #content *{
+    	color: white;
+    	font-family: 'Pretendard-Regular';
+    	font-size: 18px;
         margin: auto;
     }
-    .wrap>div{
+	#content>div{
         width: 100%;
     }
-    #head{
-        height: 15%;
+    #space{
+    	height: 10%;
     }
-    #content{
-        height: 85%;
+	#title{
+        height: 10%;
     }
-    #content>div{
+    #list-area{
+        height: 80%;
+        border-collapse: collapse;
+    }
+    #list-area>div{
         height: 100%;
     }
     #lawList{
-        width: 80%;
+        width: 90%;
         overflow-y: scroll;
         margin: auto;
     }
+    #lawList button{
+    	color: black;
+    }
 
     /* 대표 문구 */
-    #head>p{
+    #title>p{
         text-align: center;
-        font-size: 20px;
+        font-size: 30px;
         font-weight: 900;
         line-height: 50px;
     }
@@ -53,8 +59,15 @@
         width: 100%;
         text-align: center;
     }
-    #List-title{
+    #list-title{
         background-color: rgb(223, 220, 220);
+    }
+    #lawList th{
+    	color: black;
+    	height: 40px;
+    }
+    #lawList td{
+    	height: 40px;
     }
     a{
         text-decoration: none;
@@ -63,27 +76,25 @@
     }
 
 </style>
-</head>
-<body>
-    <div class="wrap">
-        <div id="head">
-            <p>상담 관리 [관리자용]</p>
-        </div>
-        <div id="content">
+
+<div id="content">
+        <div id="space"></div>
+        <div id="title"><p>상담 관리 페이지</p></div>
+        <div id="list-area">
             <div id="lawList" >
                 <table>
-                    <thead id="List-title">
+                    <thead id="list-title">
                         <tr>
-                            <td width="10">No.</td>
-                            <td width="10">상담번호</td>
-                            <td width="30">변호사</td>
-                            <td width="30">회원ID</td>
-                            <td width="50">상담제목</td>
-                            <td width="50">상담내용</td>
-                            <td width="40">작성날짜</td>
-                            <td width="40">변호사답변</td>
-                            <td width="40">상태값</td>
-                            <td width="40">삭제</td>
+                            <th width="80px">No.</th>
+                            <th width="80px">상담번호</th>
+                            <th width="100px">변호사</th>
+                            <th width="100px">회원ID</th>
+                            <th width="200px">상담제목</th>
+                            <th width="150px">상담내용</th>
+                            <th width="150px">작성날짜</th>
+                            <th width="80px">변호사답변</th>
+                            <th width="150px">상태값</th>
+                            <th width="80px">삭제</th>
                         </tr>
                     </thead>
                     <!-- 찜한 변호사 리스트가 비어있지 않다면 -->
@@ -158,5 +169,5 @@
     	
     	
     </script>
-</body>
-</html>
+
+<%@ include file = "../common/footer.jsp" %>

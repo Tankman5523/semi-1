@@ -79,7 +79,8 @@ public class QuestionDao {
 									   rset.getString("USER_ID"),
 									   rset.getString("TITLE"),
 									   rset.getDate("CREATE_DATE"),
-									   rset.getString("OPEN")));
+									   rset.getString("OPEN"),
+									   rset.getString("ANSWER")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -199,7 +200,46 @@ public class QuestionDao {
 		
 		return qa;
 	}
-
+	
+	//로그인하지 않은 사용자의 게시글 조회 
+	public Question selectQuestion(Connection conn, int qno) {
+		
+		ResultSet rset = null;
+		
+		PreparedStatement pstmt = null;
+		
+		Question qa = new Question();
+		
+		String sql = prop.getProperty("selectQuestion3");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, qno);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				qa= new Question(rset.getInt("QNO"),
+								 rset.getString("USER_ID"),
+								 rset.getString("TITLE"),
+								 rset.getString("CONTENT"),
+								 rset.getString("ANSWER"),
+								 rset.getDate("CREATE_DATE"),
+								 rset.getString("OPEN"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+			
+		}
+		
+		return qa;
+	}
+	
 	//1대1문의 답변 메소드(관리자) -- 답변이 일회성으로 종료되기 때문에 update구문으로 작성 
 	public int insertAnswer(Connection conn, int qno, String answer) {
 		
@@ -286,6 +326,34 @@ public class QuestionDao {
 		}
 		
 		return result;
+	}
+
+	//1대1문의 수정 메소드
+	public int updateQuestion(Connection conn, Question updateQa) {
+
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("updateQuestion");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, updateQa.getOpen());
+			pstmt.setString(2, updateQa.getTitle());
+			pstmt.setString(3, updateQa.getContent());
+			pstmt.setInt(4, updateQa.getqNo());
+			
+			result = pstmt.executeUpdate(); 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+
 	}
 
 }

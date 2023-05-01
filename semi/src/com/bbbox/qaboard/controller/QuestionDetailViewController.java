@@ -32,27 +32,36 @@ public class QuestionDetailViewController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		int qno = Integer.parseInt(request.getParameter("qno"));
-
-		int userNo = ((Member)(request.getSession().getAttribute("loginUser"))).getUserNo();
-		
-		String admin = ((Member)(request.getSession().getAttribute("loginUser"))).getAdmin();
+		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 		
 		Question qa = new Question();
 		
-		if(admin.equals("Y")) {
-			qa = new QuestionService().selectQuestion(qno, admin);
+		
+		if(loginUser == null) {
+			
+			int qno = Integer.parseInt(request.getParameter("qno"));
+			
+			qa = new QuestionService().selectQuestion(qno);
+			
 		}else {
 			
-			qa = new QuestionService().selectQuestion(qno,userNo);
+			int qno = Integer.parseInt(request.getParameter("qno"));
+	
+			int userNo = ((Member)(request.getSession().getAttribute("loginUser"))).getUserNo();
+			
+			String admin = ((Member)(request.getSession().getAttribute("loginUser"))).getAdmin();
+			
+			
+			if(admin.equals("Y")) {
+				qa = new QuestionService().selectQuestion(qno, admin);
+			}else {
+				
+				qa = new QuestionService().selectQuestion(qno,userNo);
+			}
+		
 		}
-		
 		request.setAttribute("qa", qa);
-		
 		request.getRequestDispatcher("views/board/questionBoard/questionDetailView.jsp").forward(request, response);
-		
-		
-		
 		
 		
 		

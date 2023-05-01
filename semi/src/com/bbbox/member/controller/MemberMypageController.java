@@ -13,7 +13,9 @@ import com.bbbox.board.model.vo.Accident;
 import com.bbbox.board.model.vo.AccidentReview;
 import com.bbbox.board.model.vo.Board;
 import com.bbbox.board.model.vo.Reply;
+import com.bbbox.lawyer.model.service.LawyerService;
 import com.bbbox.lawyer.model.vo.Counsel;
+import com.bbbox.lawyer.model.vo.LawAttachment;
 import com.bbbox.lawyer.model.vo.LawReview;
 import com.bbbox.lawyer.model.vo.Lawyer;
 import com.bbbox.member.model.service.MemberService;
@@ -56,6 +58,9 @@ public class MemberMypageController extends HttpServlet {
 			//3. 나에게 온 상담 내역 조회해오기
 			ArrayList <Counsel> cListLaw = new MemberService().selectCounselListLaw(userNo);
 			
+			String lat = new LawyerService().selectLawAttachment(userNo);
+			
+			request.setAttribute("lat", lat); //변호사 사진 
 			request.setAttribute("accRev" , accRev); // 변호사가 작성하는 사건 리뷰 리스트 
 			request.setAttribute("accident", accident); //변호사가 맡은 사건 리스트 
 			request.setAttribute("cListLaw", cListLaw); //나에게 온 상담 내역 조회 (변호사)

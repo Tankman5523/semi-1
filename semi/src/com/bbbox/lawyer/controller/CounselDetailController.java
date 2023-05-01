@@ -35,8 +35,13 @@ public class CounselDetailController extends HttpServlet {
 		//상담 상세보기 (일반 회원용)
 		
 		int cno = Integer.parseInt(request.getParameter("cno"));
+		
+		
 		Counsel c = new LawyerService().selectCounsel(cno);
+	
 		Lawyer l = new LawyerService().selectLawyer(Integer.parseInt(c.getRefLno()));
+		
+		System.out.println("l:" + l);
 		
 		if(l != null) {
 			request.setAttribute("c", c);

@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import = "com.bbbox.lawyer.model.vo.Lawyer" %>
- 
 <%
 	
  	Lawyer lawInfo = (Lawyer)request.getAttribute("lawInfo");
@@ -8,51 +7,103 @@
 	String lat = (String)request.getAttribute("lat");
 
 %>    
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>변호사 회원정보 수정 페이지</title>
-<style>
-       .content{
-            width: 1200px;
-            box-sizing: border-box;
-            margin-top:10px;
-        }
-        
-        .law_content{
-        	width:1000px;
-            margin: auto;
-        }
-        #info, #lawInfo, #lawComent{
-            width: 70%;
-            margin-left: 200px;
-         }
-        a{
-            text-decoration: none;
-            color: black;
-            display: block;
-        }
 
-        #btn button{
-            margin-left: 20px;
-            margin-right: 20px;
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<style>
+	
+	/* 폰트 */
+   	@font-face{
+   		font-family: 'SBAggroB';
+ 		src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');	
+   		font-weight: normal;
+  		font-style: normal;
+	}    
+	
+	@font-face {
+	    font-family: 'Cafe24Ohsquare';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/Cafe24Ohsquare.woff') format('woff');
+	    font-weight: normal;
+	    font-style: normal;
+	}
+	
+	@font-face {
+	    font-family: 'HallymGothic-Regular';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2204@1.0/HallymGothic-Regular.woff2') format('woff2');
+	    font-weight: 400;
+	    font-style: normal;
+	}
+       
+	.law_content{
+		width:1000px;
+		height:100%;
+	    margin: auto;
+		overflow-y:scroll;
+	}
+	
+	hr{
+		background : white;
+		height: 1.5px;
+		border:0;
+	}
+	.law_content h2{
+		font-family: 'SBAggroB';
+		font-weight:300;
+		font-size: 30px;
+		color:white;
+	}	
+	
+	h4{
+		font-family: 'SBAggroB';
+		font-weight:300;
+		font-size: 20px;
+		color:white;
+		
+	}	
+	
+	#info, #lawInfo, #lawComent{
+	    width: 60%;
+	    margin-left: 250px;
+	 }
+	 
+	td{
+		 font-family: 'Cafe24Ohsquare';
+		 color: white;
+		 height: 36px;
+		 font-size: 18px;
+	} 
+	
+	
+	a{
+	    text-decoration: none;
+	    color: black;
+	    display: block;
+	}
+	
+	#btn button{
+	    margin-left: 20px;
+	    margin-right: 20px;
         }
     </style>
-</head>
-<body>
-	<%@ include file="../common/header.jsp" %>
-    <div class="content">
+<%@ include file="../common/header.jsp" %>
+<!-- Popper JS -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <div id="content">
     	<form class ="law_content" action="<%=contextPath%>/update_info.la" method="post" enctype="multipart/form-data">
 	        <h2 align="center">회원정보</h2>
 	        <hr>
 	        <!-- 기본정보 뷰 -->
+	      	<h4  align="center" >INFO</h4>
 	            <table id="info">
-	            	<thead>
-		            	<tr>
-		            		<td height ="30"><b>[기본회원 정보]</b></td>
-	    	        	</tr>
-	            	</thead>
 	                <tr>
 	                    <td width="150">아이디</td>
 	                    <td><%=loginUser.getUserId()%></td>
@@ -80,12 +131,16 @@
                         <td><input type="text" id="phone" name="newPhone" placeholder="-포함하여 입력해주세요" value="<%=loginUser.getPhone()%>"></td>
                     </tr>
                     <tr>
-                        <td>email</td>
-                        <td><input type="email" id="email" name="newEmail" value="<%=loginUser.getEmail()%>"> <button type="button" disabled>이메일 인증</button> </td>
+                        <th>email</th>
+                        <td><input type="email" id="email" name="newEmail" value="<%=loginUser.getEmail()%>"> <button class="btn btn-light btn-sm "type="button" id="applyEmail">이메일 인증</button> </td>
                     </tr>
                     <tr>
+                    	<th></th>
+                    	<td><input type="text" id="authentication" name="authentication" placeholder="인증번호를 입력해주세요"> <button class="btn btn-light btn-sm "type="button" id="authEmail">확인</button></td>
+                    </tr>	
+                    <tr>
                         <td></td>
-                        <td><p style="font-size: 10px; color: red;">이메일주소는 개인정보찾기에 사용되어지니 정확한 이메일주소를 입력해주세요</p></td>
+                        <td><p style="font-size: 13px; color: yellow;">이메일주소는 개인정보찾기에 사용되어지니 정확한 이메일주소를 입력해주세요</p></td>
                     </tr>
                     <tr>
                         <td>주소</td>
@@ -95,7 +150,7 @@
 	        <hr>
 	            <table id="lawInfo">
 	                <tr>
-	                    <td rowspan="4">사진</td>
+	                    <td rowspan="4" width="150">사진</td>
 	                    <td rowspan="4" colspan ="4" id="profile" ><img width="150" height="180" src="<%=contextPath+lat%>"></td>
 	                </tr>
 	                <tr>
@@ -104,6 +159,10 @@
 	                </tr>
 	                <tr>
 	                </tr>
+	                <tr>
+	                	<td></td>
+	                    <td><input type="file" name="profile"></td>
+	                </tr>    
 	                <tr>
 	                    <td>시험</td>
 	                    <td><%=lawInfo.getExam()%></td>
@@ -137,7 +196,7 @@
 	                        <option value="경상 ">경상도</option>
 	                        <option value="제주 ">제주도</option>
 	                    </select> <input type="text" name="address" id="companyaddress" required></td>
-	                    <td><input type="hidden" id="resultAddress" name="resultAddress" required></td>  <!-- 주소 합쳐서 문자열로 데이터베이스에 넘기기 -->
+	                    <td><input type="hidden" id="resultAddress" name="resultAddress" required></td> 
 	                </tr>
 	                <tr>
 	                    <td>사무소 이름</td>
@@ -152,25 +211,21 @@
 	            <table id="lawComent">
 	                <tr>
 	                    <td width="150">한줄소개</td>
-	                    <td><textarea name="comment" id="" cols="40" rows="3" style="resize: none;" required> <%=lawInfo.getLawComment()%> </textarea></td>
+	                    <td><textarea name="comment" cols="40" rows="3" style="resize: none;" required> <%=lawInfo.getLawComment()%> </textarea></td>
 	                </tr>
 	                <tr>
 	                    <td>경력</td>
-	                    <td><textarea name="career" id="" cols="40" rows="5" style="resize: none;" required><%=lawInfo.getCareer()%></textarea></td>
+	                    <td><textarea name="career" cols="40" rows="5" style="resize: none;" required><%=lawInfo.getCareer()%></textarea></td>
 	                </tr>
 	            </table>    
 	        <hr>    
 	        <!-- 버튼 -->
 	        <br><br>
 	        <div id="btn" align="center">
-	            <button onclick ="return cancel();">취소</button>
-	            <button type="submit" onclick ="intoUpdate();">저장하기</button>
+	            <button class = "btn btn-secondary" onclick ="return cancel();">취소</button>
+	            <button class = "btn btn-primary" type="submit" onclick ="intoUpdate();">저장하기</button>
 	        </div>
 	        <br><br>
-	        
-	        <div id="photo">
-	        	<input type="file" onchange ="loadImg(this,1);" id="file1" name = "file1" required>
-	        </div>
     	</form>
     </div>
     
@@ -185,15 +240,17 @@
     		});
     		
     	})	
+    	
     /*주소 잘라서 보여주기 */
     $(function(){
     	
     	var address = '<%=lawInfo.getCompanyAddress()%>' //전체 주소 
+    	console.log(address);
     	
     	//지역
     	var region = address.substring(0,2);
     	$('#userRegion').val(region);
-    	$('#userRegion').text(region);
+   		$('#userRegion').text(region);
     	
     	//상세주소 
     	var detailaddress = address.substring(2); 
@@ -292,6 +349,130 @@
        			
        		}
        	
+	</script>
+	<script>
+	/* 이메일 변경시 이메일 재 인증 script */
+   	var autKey = ""; // 인증번호 담을 변수 
+   	
+   	$(function(){
+       	$('#email').on('click', function(){
+       		
+       		if(confirm('이메일 변경시, 이메일을 재인증 해야합니다 변경하시겠습니까?')){
+       			
+       			$('#email').val("");
+       		}
+       	
+       	});
+   		
+   	});
+   	
+   	/*인증창 키업*/
+   	$(function(){
+   		/*인증창 숨겨두기*/
+   		$('#info tr:eq(7)').hide()
+   		
+   		$('#applyEmail').on('click',function(){
+   			
+       		var $email = $('#email').val();
+	   		console.log($email);
+   			
+	   		if($email =="" ||!($email.includes("@"))){
+   				
+   				alert("올바른 형식의 이메일을 작성해주세요");
+   				return false;
+   				
+   			}else{
+   				
+   				/*이메일 중복 체크*/
+   				$.ajax({
+   					url : "email.chk.me",
+   					
+   					data :{testEmail : $email},
+   					
+   					type : "post",
+					
+					success : function(result){
+						console.log(result);
+						
+						if(result == "YYYYY" ){
+								Authentication(); // 인증번호 발송 함수 호출
+						}else{
+							alert("이미 사용중인 이메일 입니다. 다시 입력해주세요");
+						}
+								
+					},
+					
+					error : function(){
+						console.log("통신 실패");
+					}
+   				
+   				})
+       		}
+   		})
+   });
+   	
+   	/* 이메일 발송 함수 */
+		function Authentication(){
+			
+			var $sendEmail = $('#email');
+			
+			$.ajax({
+				url : "authentication.me",
+				
+				data : {sendEmail : $sendEmail.val()},
+				
+				type: "post",
+				
+				success: function (key){
+					
+					console.log(key);
+					
+					if(key.using == 'Y'){
+						
+						authKey = key.chord;
+						
+						console.log(authKey);
+						
+						$('#info tr:eq(7)').show()
+						
+						alert("이메일 인증번호 발송 완료! 이메일을 확인해주세요");
+						
+					}
+					
+					
+				},
+				
+				error: function(){
+					console.log("통신실패");
+				}
+			
+			});
+			
+		}	
+   	
+   	/*인증번호 확인 함수*/
+   	$(function(){
+   		
+   		$('#authEmail').on('click', function(){
+   			
+   			if("" == authKey){
+				alert("인증번호를 입력해주세요");
+				return false;
+    		
+    		}else if(($("#authentication").val()) == authKey){
+    			
+    			if(confirm("이메일 인증이 완료되었습니다.!")){
+        			$("#authentication").attr("readonly",true);
+    			}	
+    			
+    		}else{
+    			alert("이메일 인증에 실패하였습니다. 다시 시도해 주세요");
+    			return false;
+    		}
+   			
+   		});
+   	});
+	
 	</script>
 	
 </body>
