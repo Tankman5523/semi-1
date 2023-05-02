@@ -80,6 +80,23 @@ public class Board {
 		this.rpCount = rpCount;
 	}
 	
+	//영상게시판 생성자
+	public Board(int boardNo, String boardWriter, int categoryNo, String title, int count, Date createDate, int liked,
+			int rpCount, String filePath, String changeName) {
+		super();
+		this.boardNo = boardNo;
+		this.boardWriter = boardWriter;
+		this.categoryNo = categoryNo;
+		this.title = title;
+		this.count = count;
+		this.createDate = createDate;
+		this.liked = liked;
+		this.rpCount = rpCount;
+		this.filePath = filePath;
+		this.changeName = changeName;
+	}
+	//영상게시판 생성자 끝
+	
 	//특정 게시글 하나 조회하는데 관련된 생성자
 	public Board(int boardNo, String boardWriter, int categoryNo, String title, String content, int count, Date createDate, int liked,
 			int rpCount) {
@@ -94,7 +111,6 @@ public class Board {
 		this.liked = liked;
 		this.rpCount = rpCount;
 	}
-	
 
 	//사건영상게시판 리스트 생성자
 	public Board(int boardNo, String boardWriter, String title, int count, Date createDate, int ref_pno,

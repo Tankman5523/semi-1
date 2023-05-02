@@ -58,7 +58,7 @@ public class VideoUpdateController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		request.setCharacterEncoding("UTF-8");
-		
+
 		if(ServletFileUpload.isMultipartContent(request)) {
 			
 			//파일사이즈 1Gb
@@ -81,7 +81,7 @@ public class VideoUpdateController extends HttpServlet {
 			b.setTitle(title);
 			b.setContent(content);
 			
-			
+	
 			//첨부파일 초기값 세팅
 			Attachment at = null;
 			
@@ -93,7 +93,9 @@ public class VideoUpdateController extends HttpServlet {
 			}
 			
 			int result = new BoardService().updateVideo(b,at);
-			
+
+
+
 			if(result>0) {
 				request.getSession().setAttribute("alertMsg", "수정됨");
 				

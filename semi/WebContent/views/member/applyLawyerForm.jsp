@@ -91,11 +91,7 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<<<<<<< HEAD
-    <div id="content" style = "overflow:auto">
-=======
     <div class="content">
->>>>>>> refs/remotes/origin/master
     	<form class ="law_content" action="<%=contextPath%>/apply_Lawyer.me" method="post" enctype="multipart/form-data">
 	        <h2 align="center">변호사 회원 신청</h2>
 	        <hr>
@@ -139,7 +135,6 @@
 	                        <option value="출신시험">출신시험 선택</option>
 	                        <option value="사법고시">사법고시</option>
 	                        <option value="변호사시험">변호사시험</option>
-	                        <option value="고등고시">고등고시</option>
 	                    </select></td>
 	                </tr>
 	                <tr>

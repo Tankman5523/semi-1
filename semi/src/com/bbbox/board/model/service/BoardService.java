@@ -176,12 +176,6 @@ public class BoardService {
 		
 		int result = new BoardDao().delAt(conn, fno);
 		
-		if(result>0) {
-			JDBCTemplate.commit(conn);
-		}else {
-			JDBCTemplate.rollback(conn);			
-		}
-		
 		JDBCTemplate.close(conn);
 		
 		return result;
@@ -417,13 +411,28 @@ public class BoardService {
 		
 		int result = new BoardDao().updateBoard(conn, b);
 		
-		int result2 = new BoardDao().updateVideoAttachment(conn, at, b.getBoardNo());
+		int result2 = 1;
+		if(at!=null) {
+			result2 = new BoardDao().updateVideoAttachment(conn, at, b.getBoardNo());			
+		}
 		
 		if(result>0 && result2>0) {
 			JDBCTemplate.commit(conn);
 		}else {
 			JDBCTemplate.rollback(conn);
 		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
+	//키워드에의한 총 게시글 개수(일반영상게시글)
+	public int videoKeywordCount(String kind, String keyword) {
+
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = new BoardDao().videoKeywordCount(conn, kind, keyword);
 		
 		JDBCTemplate.close(conn);
 		

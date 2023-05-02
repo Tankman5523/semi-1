@@ -53,8 +53,11 @@ public class AtDelController extends HttpServlet {
 		int result = new BoardService().delAt(fno);
 		
 		if(result>0) {
-			
-			response.sendRedirect(request.getContextPath()+"/update.vi?bno="+bno);
+			if(category==1) {
+				response.sendRedirect(request.getContextPath()+"/update.bo?bno="+bno);				
+			}else {
+				response.sendRedirect(request.getContextPath()+"/update.vi?bno="+bno);
+			}
 		}else {
 			request.setAttribute("errorMsg", "안될리가 없지만 혹시 모르니");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);

@@ -21,8 +21,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-
-    
+<!-- 부트스트랩 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <style>
         /* ============================================전체 영역 */
         *{
@@ -43,6 +43,7 @@
             width: 1300px;
             height: 96%;
             margin: auto;
+            
         }
         #outer div{
             /* border : 1px solid white; 구역 확인용 */
@@ -156,9 +157,16 @@
 			
 			<% session.removeAttribute("errorMsg"); %>
 		}
+	
+	
+		<% if(loginUser == null &&loginUser.getAdmin().equals("N")){  
+			
+			session.setAttribute("alertMsg", "로그인한 유저만 이용할 수 있습니다.");
+			response.sendRedirect(contextPath+"/index.jsp");
+		}%>
 		
 	
-	</script>
+</script>
 <body>
     <div class="wrap">
         <div id="line"><img src="<%=contextPath%>/resources/common/menu-top.jpg" alt="" style="width: 100%; height: 100%;"></div>
@@ -171,7 +179,6 @@
                             <li><a href="<%=contextPath%>/list.mac?currentPage=1">블랙박스 영상</a>
                                 <ul>
                                     <li><a href="<%=contextPath%>/list.mac?currentPage=1">사건 영상 관리</a></li>
-                                    <li><a href="<%=contextPath%>/list.rb?currentPage=1">해결 영상</a></li>
                                     <li><a href="<%=contextPath%>/list.mrb?currentPage=1">해결 영상 관리</a></li>
                                 </ul>
                             </li>    
