@@ -24,9 +24,7 @@
     
     #content{
         border: 1px solid white;
-        width: 1200px;
-        height: 800px;
-        margin: auto;
+        color : white;
     }
 
     
@@ -230,6 +228,7 @@
 				
 				<div id="page-area" align="center" style="height:20%; border: none;">
 					<div style="margin-top: 20px; border:none;">
+					<%if(pi.getMaxPage() != 0){ %>
 						<%if(a == 0){ %>
 						<!-- 전체 페이징 -->
 							<%if(pi.getCurrentPage()!=1){ %>
@@ -267,6 +266,9 @@
 								<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()+1%>&kind=<%=kind%>&keyword=<%=keyword%>'">next</button>
 							<%} %>
 						<%} %>
+					<%}else{%>
+					
+					<%} %>
 					</div>
 				</div>
 				
