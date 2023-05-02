@@ -142,23 +142,18 @@
 
 <script>
 		var msg = "<%=alertMsg%>";
-		
 		var errmsg ="<%=errorMsg%>";
 		
 		if(msg != "null"){
 			alert(msg);	
-			
 			<% session.removeAttribute("alertMsg"); %>
 		}
-		
 		if(errmsg != "null"){
 			alert(errmsg);
-			
 			<% session.removeAttribute("errorMsg"); %>
 		}
-		
-	
-	</script>
+</script>
+
 <!-- 관리자 아니면 뒤로 날려버리기 -->
 
 <% if(loginUser == null &&loginUser.getAdmin().equals("N")){  
@@ -172,7 +167,7 @@
         <div id="line"><img src="<%=contextPath%>/resources/common/menu-top.jpg" alt="" style="width: 100%; height: 100%;"></div>
         <div id="outer">
             <div id="header">
-                <div id="logo-area">블변<span style="font-size: 40px;">의 </span>법칙<i class="fa-sharp fa-solid fa-gear fa-l" style="color: #bd0000;"></i></div>
+                <div id="logo-area">블변<span style="font-size: 40px;">의 </span> 법칙<i class="fa-sharp fa-solid fa-gear fa-l" style="color: #bd0000;"></i></div>
                 <div id="navi-area">
                     <div id="navibar">
                         <ul id="navi">
@@ -185,7 +180,7 @@
                             <li><a href="<%=contextPath %>/lawyerList.ma">변호사</a>
                                 <ul>
                                     <li><a href="<%=contextPath %>/lawyerList.ma">변호사 관리</a></li>
-                                    <li><a href="<%=contextPath %>/counselList.ma">상담 게시판 관리</a></li>
+                                    <li><a href="<%=contextPath %>/counselList.ma">상담게시판 관리</a></li>
                                 </ul>
             
                             </li>    
@@ -210,17 +205,8 @@
                     </div>
                 </div>
             </div>
-        <script>
+            <div id="content">
+            </div>
+
+<%@ include file="../common/footer.jsp" %>
         
-       	/*메인으로 이동*/
-       	$(function(){
-       		$('#logo-area').on('click',function(){
-   				location.href="<%=contextPath%>/views/manager/managerMainPage.jsp";
-   			})	
-       	});
-        </script> 
-        
-        <div id="content">
-        </div>
-        
-<%@ include file="../common/footer.jsp"%>

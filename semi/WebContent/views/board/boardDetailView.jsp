@@ -59,7 +59,7 @@
 
 	<%@include file="../common/header.jsp" %>
 
-	
+
 	<div id="content">
 		
 		<div align="center" style="height:10%; width:100%;">

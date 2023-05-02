@@ -30,12 +30,15 @@ public class ReviewEnrollController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//변호사 리뷰 작성 폼 띄우기 위한 정보 조회
+		//변호사리뷰 작성폼 띄우기 위한 정보 조회
 		
 		//사건번호로 사건정보 조회 & 참조변호사번호로 변호사 정보 조회
 		Accident ac = new LawyerService().selectAccident(Integer.parseInt(request.getParameter("accNo")));
+		System.out.println(ac);
+		
 		Lawyer l = new LawyerService().selectLawyer(ac.getRefLno());
 		
+		System.out.println(l);
 		request.setAttribute("ac", ac);
 		request.setAttribute("l", l);
 		request.getRequestDispatcher("views/lawyer/reviewEnrollForm.jsp").forward(request, response);
@@ -48,8 +51,10 @@ public class ReviewEnrollController extends HttpServlet {
 		//변호사 리뷰 작성 등록
 		
 		request.setCharacterEncoding("UTF-8");
-		
 		int accNo = Integer.parseInt(request.getParameter("accNo"));
+		
+		System.out.println("con:"+ accNo);
+		
 		String star = request.getParameter("star");
 		String content = request.getParameter("content");
 		

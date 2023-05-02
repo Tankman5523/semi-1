@@ -331,6 +331,16 @@ public class LawyerService {
 		
 		return cList;
 	}
-	
+
+	//변호사번호로 회원번호 조회 (관리자용)
+	public int selectUserNo(int lno) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int userNo = new LawyerDao().selectUserNo(conn, lno);
+		
+		JDBCTemplate.close(conn);
+		
+		return userNo;
+	}
 	
 }

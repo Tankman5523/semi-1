@@ -224,9 +224,8 @@
                             <li><a href="<%=contextPath%>/login.me">로그인</a></li>
                             <li><a href="<%=contextPath%>/enroll.me">회원가입</a></li>
                             <%}else{ %>
-	                            <li><form action="<%=contextPath%>/confirm.me" method = "post">
-	                            	<button type="submit" style = "margin-top: 12px;"> 마이페이지 </button></form></li>
-    	               		<li><a href="<%=contextPath%>/logout.me">로그아웃</a></li>
+	                            <li><a href="<%=contextPath%>/entry.me">마이페이지</a></li>
+    	               			<li><a href="<%=contextPath%>/logout.me">로그아웃</a></li>
 							<%} %>
                         </ul>
                     </div>

@@ -65,10 +65,8 @@
 </head>
 <body>
 
-
 	<%@include file="../common/header.jsp" %>
 
-	
 	<div id="content">
 		
 		<div align="center" style="height:7%; width:100%;">
