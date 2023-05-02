@@ -180,14 +180,11 @@
 
 	</div>
 	
-	<%@include file="../common/footer.jsp" %>
-	
 	<script>
 		$(function(){
 			$("input").attr("autocomplete", "off");
 		});
 	</script>
-	
-		
+<%@include file="../common/footer.jsp" %>
 </body>
 </html>

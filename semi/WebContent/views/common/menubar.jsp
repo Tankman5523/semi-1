@@ -10,6 +10,7 @@
 <title>메뉴바</title>
 
     <style>
+    	
         .menubar{ /*메뉴바 높이 고정*/
             width: 1200px;
             height: 80px;

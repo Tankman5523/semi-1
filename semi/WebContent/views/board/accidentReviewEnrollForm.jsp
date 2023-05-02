@@ -21,6 +21,7 @@
             height: 800px;
             margin: auto;
             color:white;
+            text-align:center;
         }
         #content div{
             text-align: center;

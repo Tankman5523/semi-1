@@ -8,9 +8,7 @@
 <%
 	Board b = (Board)request.getAttribute("board");
 	Accident ac = (Accident)request.getAttribute("accident");
-	ArrayList<Reply> rplist = (ArrayList<Reply>)request.getAttribute("rplist");
 	AccidentReview ar = (AccidentReview)request.getAttribute("review");
-	
 %>
 <!DOCTYPE html>
 <html>
@@ -75,6 +73,7 @@
            width: 90%;
            margin-left:30px;
            margin-right:30px;
+           background-color: rgba(50, 50, 50, 0.6);
         }
         .infoArea{
             height: 40%;
@@ -82,6 +81,9 @@
         .infoArea>div{
             float: left;
             height: 100%;
+        }
+        .infoArea>div>*{
+            margin-left:20px;
         }
         .detail{
             width: 80%;
@@ -110,6 +112,10 @@
         .content{
             height: 60%;
         }
+        .content>*{
+        	margin-left:20px;
+        	margin-right:20px;
+        }
 
         /*리뷰 영역*/
         .reviewArea{
@@ -119,6 +125,8 @@
             margin-right:30px;
             border-top:1px solid white;
             border-bottom:1px solid white;
+            border-left:1px solid white;
+            background-color: rgba(50, 50, 50, 0.6);
         }
         .reviewArea>div{
             float: left;
@@ -146,7 +154,7 @@
             width: 90%;
             margin-left:30px;
             margin-right:30px;
-        
+            background-color: rgba(50, 50, 50, 0.6);
         }
         .replyWriteArea>*{
             float: left;
@@ -155,11 +163,13 @@
         }
         .replyWriteArea>table{
             border: 1px solid black;
+            text-align:center;
         }
 
         /*댓글영역*/
         .bodyRight{
             width: 30%;
+            background-color: rgba(50, 50, 50, 0.6);
         }
         .bodyRight>div{
             width: 100%;
@@ -169,6 +179,17 @@
         }
         .recommendArea{
             height: 40%;
+        }
+        
+        .rpDelBtn{
+        	background-color:red;
+        	color:white;
+        	font-size:10px;
+        	width:30px;
+        }
+        i:hover{
+        	cursor:pointer;
+        	color:gray;
         }
         
     </style>
@@ -195,7 +216,7 @@
                     <div class="infoArea">
                         <div class="detail">
                             <div class="title">
-                                <span><%=b.getTitle()%></span>
+                                <span style="font-size:20px;font-weight:1000;"><%=b.getTitle()%></span>
                                 <%if(ac.getSolve().equals("N")) {%>
                                 	<span>#미해결</span>
                                 <%}else{ %>
@@ -314,11 +335,20 @@
                 </div>
             </div>
             <div class="bodyRight">
-           		<div><span><b>댓글</b></span></div>
                 <div id="replyViewArea">
-                        <table>
-	                       
-                        </table>
+                   <table style="width:400px;">
+                    	<thead>
+	                    	<tr>
+	                    		<th style="width:50px">작성자</th>
+	                    		<th style="width:260px;word-break: break-all">내용</th>
+	                    		<th style="width:50px">작성일</th>
+	                    		<th style="width:40px">삭제</th>
+	                    	</tr>
+                    	</thead>
+                    	<tbody>
+                    		
+                    	</tbody>
+                   </table>
                 </div>
             </div>
         </div>
@@ -390,7 +420,8 @@
         $(document).ready(function(){
         	viewRpList();
         });
-       
+       	
+       	//댓글 입력
        	$(function(){
        		$("#reply_input").on("keydown",function(e){
        			//엔터키를 눌렀을때
@@ -428,30 +459,69 @@
        		});
        	});
        	
+      	//댓글 삭제기능
+		$(function(){
+			$("#replyViewArea").on("click", ".rpDelBtn", function(){
+				<%if(loginUser != null){%>
+				$.ajax({
+					url:"delRp",
+					data:{
+						rpNo:$(this).parent().siblings("input[type=hidden]").val(),
+						bno:<%=b.getBoardNo()%>
+					},
+					success:function(result){
+						if(result>0){
+							alert("댓글삭제가 완료되었습니다.");
+							
+							viewRpList();
+						}else{
+							alert("댓글삭제 실패!");
+						}
+					},
+					error:function(){
+						alert("댓글 삭제 통신실패!")
+					}
+				});
+				<%}else{%>
+				alert("댓글 삭제 권한이 없습니다.");
+				<%}%>
+			});
+		});
+       	
+       	//댓글 최신화
        	function viewRpList(){
-       		$.ajax({
-       			url:"listRp",
-       			data:{
-  						bno:<%=b.getBoardNo()%>
-  					},
-       			success:function(list){
-       				var str = "";
+    		$.ajax({
+    			url:"listRp",
+    			data:{
+					bno:<%=b.getBoardNo()%>
+				},
+    			success:function(list){
+    				var str = "";
        				if(list.length!=0){
 	       				for(var i in list){
-	       					str += "<tr><td>"+list[i].rpWriter+"</td>"
-							  +"<td style='text-align:left; padding-left: 5px;'>"+list[i].content+"</td>"
-							  +"<td>"+list[i].createDate+"</td></tr>";
+	       					str += "<tr style='padding-top:15px;padding-bottom:15px;'><input type='hidden' id='rpNo' name='rpNo' value="+list[i].rpNo+">"
+	       					  +"<td>"+list[i].rpWriter+"</td>"
+							  +"<td style='word-break: break-all'>"+list[i].content+"</td>"
+							  +"<td style='font-size:8px;'>"+list[i].createDate+"</td>";
+							  var rpWriter = list[i].rpWriter;
+							  var loginUserId="<%=loginUser.getUserId()%>";
+	       					  if(rpWriter==loginUserId||<%=loginUser.getAdmin().equals("Y")%>){
+							  	str+= "<td><button class='rpDelBtn'><i class='fa-sharp fa-solid fa-trash'></i></button></td></tr>";
+							  }else{
+								str+= "<td></td></tr>";  
+							  }
+							  
 	       				}
        				}else{
-       					str +="<tr><td>댓글이 없습니다.</td></tr>"
+       					str +="<tr><td colspan='3'>댓글이 없습니다.</td></tr>"
        				}
-       				$("#replyViewArea>table").html(str);
-       			},
-       			error:function(){
-   					alert("댓글리스트 조회 통신 실패");
-   				}
-       		});
-       	}
+       				$("#replyViewArea>table>tbody").html(str);
+    			},
+    			error:function(){
+					alert("댓글리스트 조회 통신 실패");
+				}
+    		});
+    	}
    </script>
     <%@include file="../common/footer.jsp" %>
 </body>

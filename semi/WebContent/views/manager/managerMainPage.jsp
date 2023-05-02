@@ -25,7 +25,7 @@
     
     <style>
         /* ============================================전체 영역 */
-        *{
+        body{
         	margin: 0;
         	padding: 0;
         }
@@ -179,7 +179,6 @@
                             <li><a href="<%=contextPath%>/list.mac?currentPage=1">블랙박스 영상</a>
                                 <ul>
                                     <li><a href="<%=contextPath%>/list.mac?currentPage=1">사건 영상 관리</a></li>
-                                    <li><a href="<%=contextPath%>/list.rb?currentPage=1">해결 영상</a></li>
                                     <li><a href="<%=contextPath%>/list.mrb?currentPage=1">해결 영상 관리</a></li>
                                 </ul>
                             </li>    
@@ -211,7 +210,17 @@
                     </div>
                 </div>
             </div>
-            <div id="content">
-            </div>
-
- <%@ include file = "../common/footer.jsp" %>
+        <script>
+        
+       	/*메인으로 이동*/
+       	$(function(){
+       		$('#logo-area').on('click',function(){
+   				location.href="<%=contextPath%>/views/manager/managerMainPage.jsp";
+   			})	
+       	});
+        </script> 
+        
+        <div id="content">
+        </div>
+        
+<%@ include file="../common/footer.jsp"%>
