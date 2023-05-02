@@ -7,7 +7,6 @@
 <title>관리자 메인 페이지</title>
 </head>
 <body>
-
 <%@ include file="managerMainPage.jsp" %>
 
 <div id="content"></div>

@@ -7,8 +7,6 @@
 <%
 	Board b = (Board)request.getAttribute("board");
 	Accident ac = (Accident)request.getAttribute("accident");
-	ArrayList<Reply> rplist = (ArrayList<Reply>)request.getAttribute("rplist");
-	
 %>
 <!DOCTYPE html>
 <html>
@@ -162,6 +160,11 @@
         	font-size:10px;
         	width:30px;
         }
+        i:hover{
+        	cursor:pointer;
+        	color:gray;
+        }
+        
         
     </style>
 </head>
@@ -187,7 +190,7 @@
                     <div class="infoArea">
                         <div class="detail">
                             <div class="title">
-                                <span><%=b.getTitle()%></span>
+                                <span style="font-size:20px;font-weight:1000;"><%=b.getTitle()%></span>
                                 <%if(ac.getSolve().equals("N")) {%>
                                 	<span>#미해결</span>
                                 <%}else{ %>
@@ -219,14 +222,14 @@
 	                            			<input class="yellowBtn" type="submit" value="사건리뷰작성">
 	                            		</form>
 	                        	<%} %>
-	                            		<i id="good" class="fa-regular fa-thumbs-up"></i>
+	                            		<i id="good" class="fa-regular fa-thumbs-up fa-2x"></i>
 	                            		<!-- <i class="fa-solid fa-thumbs-up"></i> -->
-	                            		<i id="bad" class="fa-regular fa-thumbs-down"></i>
+	                            		<i id="bad" class="fa-regular fa-thumbs-down fa-2x"></i>
 	                            		<!-- <i class="fa-solid fa-thumbs-down"></i> -->
 		                            <%if((loginUser.getUserId().equals(b.getBoardWriter())||loginUser.getAdmin().equals("Y"))) {%>
 		                            	<!-- 나중에 이미지로 바꿔서 onclick 이벤트 -->
-		                            	<i onclick="location.href='<%=contextPath%>/update.ac?bno='+<%=b.getBoardNo()%>" class="fa-sharp fa-solid fa-gear"></i>
-	                            		<i onclick="location.href='<%=contextPath%>/delete.ac?bno='+<%=b.getBoardNo()%>" class="fa-sharp fa-solid fa-trash"></i>
+		                            	<i onclick="location.href='<%=contextPath%>/update.ac?bno='+<%=b.getBoardNo()%>" class="fa-sharp fa-solid fa-gear fa-2x"></i>
+	                            		<i onclick="location.href='<%=contextPath%>/delete.ac?bno='+<%=b.getBoardNo()%>" class="fa-sharp fa-solid fa-trash fa-2x"></i>
 	                            <%} %>
 	                            </div>
                             <%} %>
@@ -409,7 +412,7 @@
 	        	//댓글 삭제기능
 	    		$(function(){
 	    			$("#replyViewArea").on("click", ".rpDelBtn", function(){
-	    				<%if(loginUser != null && loginUser.getUserId().equals(b.getBoardWriter())){%>
+	    				<%if(loginUser != null){%>
 	    				$.ajax({
 	    					url:"delRp",
 	    					data:{
@@ -449,14 +452,16 @@
 	    	       					  +"<td>"+list[i].rpWriter+"</td>"
 	    							  +"<td style='word-break: break-all'>"+list[i].content+"</td>"
 	    							  +"<td style='font-size:8px;'>"+list[i].createDate+"</td>";
-	    							  var rpWriter = list[i].rpWriter;
-	    							  var loginUserId="<%=loginUser.getUserId()%>";
-	    	       					  if(rpWriter==loginUserId||<%=loginUser.getAdmin().equals("Y")%>){
-	    							  	str+= "<td><button class='rpDelBtn'><i class='fa-sharp fa-solid fa-trash'></i></button></td></tr>";
-	    							  }else{
-	    								str+= "<td></td></tr>";  
-	    							  }
 	    							  
+	    							  <%if(loginUser!=null){%>
+		    							  var rpWriter = list[i].rpWriter;
+		    							  var loginUserId="<%=loginUser.getUserId()%>";
+		    	       					  if(rpWriter==loginUserId||<%=loginUser.getAdmin().equals("Y")%>){
+		    							  	str+= "<td><button class='rpDelBtn'><i class='fa-sharp fa-solid fa-trash'></i></button></td></tr>";
+		    							  }else{
+		    								str+= "<td></td></tr>";  
+		    							  }
+	    							  <%}%>
 	    	       				}
 	           				}else{
 	           					str +="<tr><td colspan='3'>댓글이 없습니다.</td></tr>"

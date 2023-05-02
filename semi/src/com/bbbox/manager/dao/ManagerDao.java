@@ -240,7 +240,7 @@ Properties prop = new Properties();
 		
 		int result = 0;
 		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("accidentAttachmentDelete");
+		String sql = prop.getProperty("attachmentDelete");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);

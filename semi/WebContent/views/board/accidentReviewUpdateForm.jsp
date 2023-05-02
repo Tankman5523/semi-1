@@ -5,7 +5,6 @@
 <%
 	AccidentReview ar = (AccidentReview)request.getAttribute("ar");
 	Attachment at = (Attachment)request.getAttribute("at");
-	
 %>
 <!DOCTYPE html>
 <html lang="en">

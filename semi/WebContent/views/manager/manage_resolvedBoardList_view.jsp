@@ -199,7 +199,7 @@
     </style>
 </head>
 <body>
-<%@ include file="managerMainPage.jsp" %>
+<%@ include file = "manager_header.jsp" %>
 
     <div id="content">
         <div id="accidentBoardHead">
@@ -280,7 +280,7 @@
 	                    		<th width="20"><input type="checkbox" name="selectBoard" id="allCheck" ></th>
 	                            <th width="40">글번호</th>
 	                            <th width="100">작성자</th>
-	                            <th width="300">제목</th>
+	                            <th width="220">제목</th>
 	                            <th width="40">조회수</th>
 	                            <th width="80">제보일</th>
 	                            <th width="30">사고<br>유형</th>
@@ -303,12 +303,12 @@
 		                	<%if(blist!=null){ %>
 			                	<%for(int i=0;i<blist.size();i++){ %>
 			                    <tr onclick="location.href='<%=contextPath%>/detail.rb?bno='+<%=blist.get(i).getBoardNo()%>">
-			                        <th width="20" class="noEvent">
+			                        <td width="20" class="noEvent">
 			                        	<input type="checkbox" name="selectBoard">
-			                        </th>
+			                        </td>
 			                        <td width="40"><%=blist.get(i).getBoardNo()%></td>
 			                        <td width="100"><%=blist.get(i).getBoardWriter()%></td>
-			                        <td width="300"><%=blist.get(i).getTitle()%></td>
+			                        <td width="220" style="word-break: break-all"><%=blist.get(i).getTitle()%></td>
 			                        <td width="40"><%=blist.get(i).getCount()%></td>
 			                        <td width="80"><%=blist.get(i).getCreateDate()%></td>
 			                        <td width="30"><%=blist.get(i).getRef_pno()%></td>
@@ -327,14 +327,14 @@
 			                        		<button name="statusOff" class="statusOff" style="background-color: green; color: white;width:100%;height:100%">ON</button>
 			                        <%} %>
 		                        	</td>
-			                        <th class="noEvent" width="40">
+			                        <td class="noEvent" width="40">
 			                        	<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
 			                        	<button name="delRev" class="deleteReviewBtn delBtn"><i class="fa-sharp fa-solid fa-trash"></i></button>
-			                        </th>
-			                        <th class="noEvent" width="40">
+			                        </td>
+			                        <td class="noEvent" width="40">
 			                        	<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
 			                        	<button name="delete" class="deleteBoardBtn delBtn"><i class="fa-sharp fa-solid fa-trash"></i></button>
-			                        </th>
+			                        </td>
 			                    </tr>
 			                    <%} %>
 			                    
@@ -386,8 +386,8 @@
 	        	$("#deleteAll").click(function(){
 	        		var control = confirm("선택된 게시물을 모두 삭제하시겠습니까?");
 	        		
-	        		if(confirm){
-	        			$("#boardList>tr>th>input:checkbox:checked").each(function(index){
+	        		if(control){
+	        			$("#boardList>tr>td>input:checkbox:checked").each(function(index){
       						var bno = $(this).parent().siblings(".statusShift").children().eq(0).val();
 	        				
       						$.ajax({
@@ -397,9 +397,9 @@
     			        		},
     			        		success: function(result){
     			        			if(result>0){
-    			        				console.log("성공");
+    			        				
     			        			}else{
-    			        				console.log("실패");
+    			        				alert("선택된 게시물 삭제에 실패했습니다. 에러메시지를 확인해주세요.");
     			        			}
     			        		},
     			        		error: function(){
@@ -419,8 +419,8 @@
 	        	$("#deleteAllReview").click(function(){
 	        		var control = confirm("선택된 게시물의 리뷰를 모두 삭제하고 제보 영상 게시판으로 이동시키겠습니까?");
 	        		
-	        		if(confirm){
-	        			$("#boardList>tr>th>input:checkbox:checked").each(function(index){
+	        		if(control){
+	        			$("#boardList>tr>td>input:checkbox:checked").each(function(index){
       						var bno = $(this).parent().siblings(".statusShift").children().eq(0).val();
 	        				
       						$.ajax({
@@ -430,9 +430,9 @@
     			        		},
     			        		success: function(result){
     			        			if(result>0){
-    			        				console.log("성공");
+
     			        			}else{
-    			        				console.log("실패");
+    			        				alert("선택된 게시물 리뷰 삭제에 실패했습니다. 에러메시지를 확인해주세요.");
     			        			}
     			        		},
     			        		error: function(){
@@ -453,9 +453,9 @@
 	        	$("#statusShiftOn").click(function(){
 	        		var control = confirm("선택된 게시물을 모두 게시하시겠습니까?");
 	        			
-	        		if(confirm){
+	        		if(control){
 	        			//체크되어있는 박스 모두 확인
-	        			$("#boardList>tr>th>input:checkbox:checked").each(function(index){
+	        			$("#boardList>tr>td>input:checkbox:checked").each(function(index){
       						var bno = $(this).parent().siblings(".statusShift").children().eq(0).val();
 	        			
 	      					$.ajax({
@@ -465,9 +465,9 @@
 	    		        		},
 	    		        		success: function(result){
 	    		        			if(result>0){
-	    		        				console.log("상태값 변경 성공!");
+	    		        				
 	    		        			}else{
-	    		        				console.log("상태값 변경 실패!");
+	    		        				alert("선택된 게시물 게시에 실패했습니다. 에러메시지를 확인해주세요.");
 	    		        			}
 	    		        		},
 	    		        		error: function(){
@@ -488,9 +488,9 @@
 	        	$("#statusShiftOff").click(function(){
 	        		var control = confirm("선택된 게시물을 모두 회수하시겠습니까?");
 	        			
-	        		if(confirm){
+	        		if(control){
 	        			//체크되어있는 박스 모두 확인
-	        			$("#boardList>tr>th>input:checkbox:checked").each(function(index){
+	        			$("#boardList>tr>td>input:checkbox:checked").each(function(index){
       						var bno = $(this).parent().siblings(".statusShift").children().eq(0).val();
       					
 	      					$.ajax({
@@ -500,9 +500,9 @@
 	    		        		},
 	    		        		success: function(result){
 	    		        			if(result>0){
-	    		        				console.log("상태값 변경 성공!");
+	    		        				
 	    		        			}else{
-	    		        				console.log("상태값 변경 실패!");
+	    		        				alert("선택된 게시물 게시에 실패했습니다. 에러메시지를 확인해주세요.");
 	    		        			}
 	    		        		},
 	    		        		error: function(){

@@ -205,15 +205,11 @@
 	        -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.8); 
 	    }
         
-        /*하단 페이징*/
-        .pageMover{
-            height: 5%;
-        }
 
     </style>
 </head>
 <body>
-<%@ include file="managerMainPage.jsp" %>
+<%@ include file = "manager_header.jsp" %>
     <div id="content">
         <div id="accidentBoardHead">
             <div class="boardName">
@@ -292,7 +288,7 @@
 	                        	<th width="20px;"><input type="checkbox" name="selectBoard" id="allCheck" ></th>
 	                            <th width="40px">글번호</th>
 	                            <th width="100px">작성자</th>
-	                            <th width="350px">제목</th>
+	                            <th width="300px">제목</th>
 	                            <th width="40px">조회수</th>
 	                            <th width="80px">작성일</th>
 	                            <th width="30px">보험<br>유형</th>
@@ -318,7 +314,7 @@
 				                        </td>
 				                        <td width="40px"><%=blist.get(i).getBoardNo()%></td>
 				                        <td width="100px"><%=blist.get(i).getBoardWriter()%></td>
-				                        <td width="350px"><%=blist.get(i).getTitle()%></td>
+				                        <td width="300px" style="word-break: break-all"><%=blist.get(i).getTitle()%></td>
 				                        <td width="40px"><%=blist.get(i).getCount()%></td>
 				                        <td width="80px"><%=blist.get(i).getCreateDate()%></td>
 				                        <td width="30px"><%=blist.get(i).getChangeName()%></td>
@@ -395,8 +391,8 @@
         	$("#deleteAll").click(function(){
         		var control = confirm("선택된 게시물을 모두 삭제하시겠습니까?");
         		
-        		if(confirm){
-        			$("#boardList>tr>th>input:checkbox:checked").each(function(index){
+        		if(control){
+        			$("#boardList>tr>td>input:checkbox:checked").each(function(index){
      						var bno = $(this).parent().siblings(".statusShift").children().eq(0).val();
         				
      						$.ajax({
@@ -406,9 +402,9 @@
    			        		},
    			        		success: function(result){
    			        			if(result>0){
-   			        				console.log("성공");
+   			        				
    			        			}else{
-   			        				console.log("실패");
+   			        				alert("선택된 게시물 삭제에 실패했습니다. 에러메시지를 확인해주세요.");
    			        			}
    			        		},
    			        		error: function(){
@@ -429,9 +425,9 @@
         	$("#statusShiftOn").click(function(){
         		var control = confirm("선택된 게시물을 모두 게시하시겠습니까?");
         			
-        		if(confirm){
+        		if(control){
         			//체크되어있는 박스 모두 확인
-        			$("#boardList>tr>th>input:checkbox:checked").each(function(index){
+        			$("#boardList>tr>td>input:checkbox:checked").each(function(index){
      						var bno = $(this).parent().siblings(".statusShift").children().eq(0).val();
         			
       					$.ajax({
@@ -441,9 +437,9 @@
     		        		},
     		        		success: function(result){
     		        			if(result>0){
-    		        				console.log("상태값 변경 성공!");
+    		        				
     		        			}else{
-    		        				console.log("상태값 변경 실패!");
+    		        				alert("선택된 게시물 게시에 실패했습니다. 에러메시지를 확인해주세요.");
     		        			}
     		        		},
     		        		error: function(){
@@ -458,16 +454,14 @@
         		}
         	});
         });
-      //체크된 게시글 일괄 회수
+      	//체크된 게시글 일괄 회수
         $(function(){
         	$("#statusShiftOff").click(function(){
         		var control = confirm("선택된 게시물을 모두 회수하시겠습니까?");
-        			
-        		if(confirm){
+        		if(control){
         			//체크되어있는 박스 모두 확인
-        			$("#boardList>tr>th>input:checkbox:checked").each(function(index){
+        			$("#boardList>tr>td>input:checkbox:checked").each(function(index){
      						var bno = $(this).parent().siblings(".statusShift").children().eq(0).val();
-     					
       					$.ajax({
     		        		url: "statusOff.mac",
     		        		data:{
@@ -475,9 +469,9 @@
     		        		},
     		        		success: function(result){
     		        			if(result>0){
-    		        				console.log("상태값 변경 성공!");
+    		        				
     		        			}else{
-    		        				console.log("상태값 변경 실패!");
+    		        				alert("선택된 게시물 게시에 실패했습니다. 에러메시지를 확인해주세요.");
     		        			}
     		        		},
     		        		error: function(){

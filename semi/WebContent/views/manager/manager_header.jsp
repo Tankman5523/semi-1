@@ -156,9 +156,16 @@
 			
 			<% session.removeAttribute("errorMsg"); %>
 		}
+	
+		<!-- 관리자 아니면 뒤로 날려버리기 -->
+		<% if(loginUser == null &&loginUser.getAdmin().equals("N")){  
+			
+			session.setAttribute("alertMsg", "로그인한 유저만 이용할 수 있습니다.");
+			response.sendRedirect(contextPath+"/index.jsp");
+		}%>
 		
 	
-	</script>
+</script>
 <body>
     <div class="wrap">
         <div id="line"><img src="<%=contextPath%>/resources/common/menu-top.jpg" alt="" style="width: 100%; height: 100%;"></div>
@@ -171,7 +178,6 @@
                             <li><a href="<%=contextPath%>/list.mac?currentPage=1">블랙박스 영상</a>
                                 <ul>
                                     <li><a href="<%=contextPath%>/list.mac?currentPage=1">사건 영상 관리</a></li>
-                                    <li><a href="<%=contextPath%>/list.rb?currentPage=1">해결 영상</a></li>
                                     <li><a href="<%=contextPath%>/list.mrb?currentPage=1">해결 영상 관리</a></li>
                                 </ul>
                             </li>    

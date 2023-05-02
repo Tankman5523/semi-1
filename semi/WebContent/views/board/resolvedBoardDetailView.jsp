@@ -8,9 +8,7 @@
 <%
 	Board b = (Board)request.getAttribute("board");
 	Accident ac = (Accident)request.getAttribute("accident");
-	ArrayList<Reply> rplist = (ArrayList<Reply>)request.getAttribute("rplist");
 	AccidentReview ar = (AccidentReview)request.getAttribute("review");
-	
 %>
 <!DOCTYPE html>
 <html>
@@ -189,6 +187,10 @@
         	font-size:10px;
         	width:30px;
         }
+        i:hover{
+        	cursor:pointer;
+        	color:gray;
+        }
         
     </style>
 </head>
@@ -214,7 +216,7 @@
                     <div class="infoArea">
                         <div class="detail">
                             <div class="title">
-                                <span><%=b.getTitle()%></span>
+                                <span style="font-size:20px;font-weight:1000;"><%=b.getTitle()%></span>
                                 <%if(ac.getSolve().equals("N")) {%>
                                 	<span>#미해결</span>
                                 <%}else{ %>
@@ -460,7 +462,7 @@
       	//댓글 삭제기능
 		$(function(){
 			$("#replyViewArea").on("click", ".rpDelBtn", function(){
-				<%if(loginUser != null && loginUser.getUserId().equals(b.getBoardWriter())){%>
+				<%if(loginUser != null){%>
 				$.ajax({
 					url:"delRp",
 					data:{

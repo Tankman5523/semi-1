@@ -279,7 +279,7 @@
 		WHERE REGION LIKE ?
 		AND AC.REF_PNO LIKE ?
 		AND INSURANCE_TYPE LIKE ?
-		AND USER_ID LIKE ? 
+		AND M.USER_ID LIKE ? 
 		AND CATEGORY_NO = ?
 		
 		ORDER BY B.CREATE_DATE DESC
@@ -423,4 +423,11 @@
 		ORDER BY CREATE_DATE ASC
 	</entry>
 	<!-- 자유게시판 관리 영역 end -->
+	
+	<entry key="selectAccidentReviewForManage">
+		SELECT *
+		FROM ACCI_REVIEW
+		WHERE REF_ACCNO = ?
+	</entry>	
+	
 </properties>
