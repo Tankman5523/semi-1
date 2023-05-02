@@ -11,10 +11,8 @@
 <title>Insert title here</title>
 <style>
 	#content{
-        border: 1px solid black;
-        width: 1200px;
-        height: 450px;
-        margin: auto;
+        border: 1px solid white;
+        color : white;
     }
     
     #updateForm-area>#submit-area{

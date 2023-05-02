@@ -14,9 +14,11 @@
 <style>
 	
 	#content{
-       border: 1px solid white;
-       overflow: auto;
-       margin: auto;
+       	border: 1px solid white;
+      	overflow: auto;
+      	margin: auto;
+		border: 1px solid white;
+		color : white;
     }
     
     .comment{
@@ -54,7 +56,10 @@
 </head>
 <body>
 
-<%@include file="../common/header.jsp" %>
+
+	<%@include file="../common/header.jsp" %>
+
+
 	<div id="content">
 		
 		<div align="center" style="height:10%; width:100%;">
@@ -62,23 +67,23 @@
 		</div>
 	
 		<table align="center" border="1" id="detail-area" style="height:40%; width:100%">
-			<tr>
-				<th height="50">글번호</th>
-				<td width="100"><%=b.getBoardNo()%></td>
+			<tr style="text-align: center;">
+				<th height="50" width="100">글번호</th>
+				<td width="50"><%=b.getBoardNo()%></td>
 				<th>제목</th>
-				<td width="400" colspan="5"><%=b.getTitle()%></td>
-				<th>작성자</th>
-				<td><%=b.getBoardWriter()%></td>
-				<th>작성일</th>
-				<td><%=b.getCreateDate()%></td>
-				<th>추천수</th>
-				<td id="liked_count"><%=b.getLiked()%></td>
-				<th>조회수</th>
-				<td><%=b.getCount()%></td>
+				<td width="250" colspan="5" style="text-align: left;"><%=b.getTitle()%></td>
+				<th width="100">작성자</th>
+				<td width="100"><%=b.getBoardWriter()%></td>
+				<th width="100">작성일</th>
+				<td width="130"><%=b.getCreateDate()%></td>
+				<th width="100">추천수</th>
+				<td width="50" id="liked_count"><%=b.getLiked()%></td>
+				<th width="100">조회수</th>
+				<td width="50"><%=b.getCount()%></td>
 			</tr>
 			
 			<tr>
-				<th>내용</th>
+				<th style="text-align: center;">내용</th>
 				<td colspan="7">
 					<%if(at != null){ %>
 						<img src="<%=contextPath+at.getFilePath()+at.getChangeName()%>">
@@ -98,7 +103,7 @@
 		</div>
 		
 		
-		<%if(loginUser != null && loginUser.getUserId().equals(b.getBoardWriter())){%>
+		<%if(loginUser != null && (loginUser.getUserId().equals(b.getBoardWriter()) || loginUser.getAdmin().equals("Y"))){%>
 		<div id="update-area" align="center" style="border:none; padding:10px; hieght:5%;">
 			<button class="btn btn-warning" onclick="location.href='<%=contextPath%>/update.bo?bno=<%=b.getBoardNo()%>'" style="margin:5px;">수정하기</button>
 			<button class="btn btn-danger" onclick="location.href='<%=contextPath%>/delete.bo?bno=<%=b.getBoardNo()%>'" style="margin:5px;">삭제하기</button>
@@ -261,12 +266,12 @@
 						<%if(loginUser != null){%>
 						
 							if(rpWriter=="<%=loginUser.getUserId()%>"||<%=loginUser.getAdmin().equals("Y")%>){
-							 	str+= "<td width='40px'><button id='delRp'>삭제</button></td></tr>";
+							 	str+= "<td width='50px'><button id='delRp'>삭제</button></td></tr>";
 							}else{
-								str+= "<td width='40px'></td></tr>";
+								str+= "<td width='50px'></td></tr>";
 							}
 						<%}else{%>
-							str+= "<td width='40px'></td></tr>";		
+							str+= "<td width='50px'></td></tr>";		
 						<%}%>
 					}
 					

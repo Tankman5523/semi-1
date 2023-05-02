@@ -28,6 +28,11 @@
     	cursor: pointer;
     	color: gray;
     }
+    
+    #content{
+        border: 1px solid white;
+        color : white;
+    }
 
 	/*전체 영역잡기*/    
     #content>div{
@@ -88,13 +93,19 @@
     	height: 5%;
     }
     
+    #content{
+    	color: white;
+    }
     
     
 </style>
 </head>
 <body>
 	
-<%@include file="../common/header.jsp" %>
+
+	<%@include file="../common/header.jsp" %>
+
+
 	<div id="content">
  		<div id="header">
 			<h2 align="center" style="border: none;">
@@ -138,11 +149,11 @@
 			</table>
 		</div>
 			
-		<div id="video-area">
+		<div id="video-area" style="border: 1px solid white;">
 			<div id="videoBody" style="margin:auto;">
 				<%if(vlist.isEmpty()){ %>
 					<div align="center">
-						<span>작성된 게시글이 없습니다.</span>
+						<span style="color: white;">작성된 게시글이 없습니다.</span>
 					</div>
 				<%}else{ %>
 					<%for(Board b : vlist){ %>
@@ -180,43 +191,47 @@
 				
 		<div id="page-area" align="center">
 			<div style="margin-top: 20px; border:none;">
+			<%if(pi.getMaxPage() != 0){ %>
 				<%if(a == 0){ %>
 				<!-- 전체 페이징 -->
 					<%if(pi.getCurrentPage()!=1){ %>
-						<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()-1%>'">prev</button>
+						<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.vi?currentPage=<%=pi.getCurrentPage()-1%>'">prev</button>
 					<%} %>
 				
 					<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++){ %>
 						<%if(i != pi.getCurrentPage()){ %>
-							<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=i%>'"><%=i%></button>			 		
+							<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.vi?currentPage=<%=i%>'"><%=i%></button>			 		
 						<%}else{ %>
 							<button class="btn btn-light" disabled><%=i%></button>
 							<%} %>
 					<%} %>
 						
 					<%if(pi.getCurrentPage()!=pi.getMaxPage()){ %>
-						<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()+1%>'">next</button>
+						<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.vi?currentPage=<%=pi.getCurrentPage()+1%>'">next</button>
 					<%} %>
 				
 				<%}else if(a == 1){ %>
 					<!-- 키워드에 의한 페이징 -->
 					<!-- semi/list.bo?currentPage=1&kind=title&keyword=DM -->
 					<%if(pi.getCurrentPage()!=1){ %>
-						<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()-1%>&kind=<%=kind%>&keyword=<%=keyword%>'">prev</button>
+						<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.vi?currentPage=<%=pi.getCurrentPage()-1%>&kind=<%=kind%>&keyword=<%=keyword%>'">prev</button>
 					<%} %>
 					
 					<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++){ %>
 						<%if(i != pi.getCurrentPage()){ %>
-							<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=i%>&kind=<%=kind%>&keyword=<%=keyword%>'"><%=i%></button>			 		
+							<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.vi?currentPage=<%=i%>&kind=<%=kind%>&keyword=<%=keyword%>'"><%=i%></button>			 		
 						<%}else{ %>
 							<button class="btn btn-light" disabled><%=i%></button>
 						<%} %>
 					<%} %>
 					
 					<%if(pi.getCurrentPage()!=pi.getMaxPage()){ %>
-						<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()+1%>&kind=<%=kind%>&keyword=<%=keyword%>'">next</button>
+						<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.vi?currentPage=<%=pi.getCurrentPage()+1%>&kind=<%=kind%>&keyword=<%=keyword%>'">next</button>
 					<%} %>
 				<%} %>
+			<%}else { %>
+				
+			<%} %>
 			</div>
 		</div>
 		

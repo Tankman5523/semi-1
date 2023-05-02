@@ -6,13 +6,11 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	.outer{
-        border: 1px solid black;
-        width: 1200px;
-        height: 450px;
-        margin: auto;
-    }
-    
+	#content{
+        border: 1px solid white;
+        color : white;
+    }   
+     
     #insertForm-area>#submit-area{
     	text-align: center;
     	margin: 15px; 
