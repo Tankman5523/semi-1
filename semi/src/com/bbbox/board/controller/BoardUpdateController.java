@@ -67,6 +67,7 @@ public class BoardUpdateController extends HttpServlet {
 			int maxSize = 10 * 1024 * 1024;
 			
 			
+			
 			String savePath = request.getSession().getServletContext().getRealPath("/resources/1_board/");
 			
 

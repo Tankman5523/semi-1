@@ -10,12 +10,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	.outer{
-        border: 1px solid black;
-        width: 1200px;
-        height: 450px;
-        margin: auto;
-    }
+	
     
     #updateForm-area>#submit-area{
     	text-align: center;
@@ -33,9 +28,9 @@
 </head>
 <body>
 
-<%@include file="../common/header.jsp" %>
+	<%@include file="../common/header.jsp" %>
 	
-	<div class="outer">
+	<div id="content">
 		<h2 align="center" style="height:10%">수정 페이지</h2>
 		
 		<form action="update.vi" method="post" id="updateForm-area" enctype="multipart/form-data">
@@ -69,7 +64,7 @@
 			</table>
 			
 			<div id="submit-area" style="border:none; padding:10px; hieght:10%;">
-				<button type="submit">수정완료</button>
+				<button type="submit" class="btn btn-primary">수정완료</button>
 			</div>
 		</form>
 	
@@ -86,5 +81,7 @@
 		 	});
 		 </script>
 	 <%} %>
+	 
+	 <%@include file="../common/footer.jsp" %>
 </body>
 </html>
