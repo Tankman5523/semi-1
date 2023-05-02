@@ -42,6 +42,7 @@ public class Board {
 	//마이페이지로 가져갈 categoryName 
 	private String categoryName;
 	private int accNo;
+	private String revNo;
 
 	//생성자
 	public Board() {
@@ -79,6 +80,23 @@ public class Board {
 		this.rpCount = rpCount;
 	}
 	
+	//영상게시판 생성자
+	public Board(int boardNo, String boardWriter, int categoryNo, String title, int count, Date createDate, int liked,
+			int rpCount, String filePath, String changeName) {
+		super();
+		this.boardNo = boardNo;
+		this.boardWriter = boardWriter;
+		this.categoryNo = categoryNo;
+		this.title = title;
+		this.count = count;
+		this.createDate = createDate;
+		this.liked = liked;
+		this.rpCount = rpCount;
+		this.filePath = filePath;
+		this.changeName = changeName;
+	}
+	//영상게시판 생성자 끝
+	
 	//특정 게시글 하나 조회하는데 관련된 생성자
 	public Board(int boardNo, String boardWriter, int categoryNo, String title, String content, int count, Date createDate, int liked,
 			int rpCount) {
@@ -93,7 +111,6 @@ public class Board {
 		this.liked = liked;
 		this.rpCount = rpCount;
 	}
-	
 
 	//사건영상게시판 리스트 생성자
 	public Board(int boardNo, String boardWriter, String title, int count, Date createDate, int ref_pno,
@@ -129,13 +146,14 @@ public class Board {
 	}
 	
 	//마이페이지에서 내가쓴글 보여주기 위한 리스트 생성자 
-	public Board(int boardNo, String title, Date createDate, String categoryName, int accNo) {
+	public Board(int boardNo, String title, Date createDate, String categoryName, int accNo, String revNo) {
 		super();
 		this.boardNo = boardNo;
 		this.title = title;
 		this.createDate = createDate;
 		this.categoryName = categoryName;
 		this.accNo = accNo;
+		this.revNo = revNo;
 	}
 	
 	//관리자 자유게시판 글관리위한 생성자
@@ -170,6 +188,15 @@ public class Board {
 
 	public void setAccNo(int accNo) {
 		this.accNo = accNo;
+	}
+	
+
+	public String getRevNo() {
+		return revNo;
+	}
+
+	public void setRevNo(String revNo) {
+		this.revNo = revNo;
 	}
 
 	//사건필드 게터세터
@@ -292,13 +319,6 @@ public class Board {
 	}
 	public void setStatus(String status) {
 		this.status = status;
-	}
-	public int getAccNo() {
-		return accNo;
-	}
-
-	public void setAccNo(int accNo) {
-		this.accNo = accNo;
 	}
 
 	@Override

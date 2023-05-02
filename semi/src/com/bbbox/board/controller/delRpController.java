@@ -32,7 +32,6 @@ public class delRpController extends HttpServlet {
 		
 		int rpNo = Integer.parseInt(request.getParameter("rpNo"));
 		int bno = Integer.parseInt(request.getParameter("bno"));
-		System.out.println(rpNo);
 		
 		//RP테이블에서 삭제
 		int result = new BoardService().delRp(rpNo);

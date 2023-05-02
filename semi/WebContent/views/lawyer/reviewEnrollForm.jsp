@@ -2,8 +2,13 @@
     pageEncoding="UTF-8" import="com.bbbox.lawyer.model.vo.Lawyer,com.bbbox.board.model.vo.Accident"%>
 <%
 	Accident ac = (Accident)request.getAttribute("ac");
+	System.out.println(ac);
+	
 	Lawyer l = (Lawyer)request.getAttribute("l");
+	System.out.println("jsp " +l);
 %>
+
+
 <%@ include file = "../common/header.jsp" %>
 
 <style>
@@ -96,6 +101,7 @@
 </style>
 
 <div id="content">
+<<<<<<< HEAD
 	<div id="enroll-area">
 		<div id="title">
 			<h2>리뷰 작성</h2>
@@ -140,6 +146,51 @@
 				</div>
 			</form>
 		</div>
+=======
+	   <div id="enroll-area">
+	       <div id="title"><h2>리뷰 작성</h2></div>
+	       <div id="comment">나의 사건을 해결해준 변호사님께 간단한 리뷰를 남겨주세요.</div>
+	       <div id="enroll">
+	           <form id="enroll-form" action="review.la" method="post">
+	               <input type="hidden" name="accNo" value="<%=ac.getAccNo() %>">
+	               <input type="hidden" name="star" value=""><!-- 별점 히든으로 보내기 -->
+	               <table align="center">
+	                   <tr>
+	                       <th width="100px" height="50px">사건 제목</th>
+	                       <td width="400px"><%=ac.getTitle() %></td>
+	                   </tr>
+	                   <tr>
+	                       <th height="50px">변호사</th>
+	                       <td><%=l.getRefUno() %></td>
+	                   </tr>
+	                   <tr>
+	                       <th height="50px">별점</th>
+	                       <td>
+	                       	<div class="star-box">
+		                       	<span class="star">☆</span>
+		                       	<span class="star">☆</span>
+		                       	<span class="star">☆</span>
+		                       	<span class="star">☆</span>
+		                       	<span class="star">☆</span>
+	                       	</div>
+	                       </td>
+	                   </tr>
+	                   <tr>
+	                       <th>내용</th>
+	                       <td>
+	                       	<textarea name="content" cols="40" rows="4" maxlength="80" style="resize:none" required></textarea>
+	                       	<br><p style="color:rgb(1, 63, 134);"><span id="count">0</span>/80자</p>
+	                       </td>
+	                   </tr>
+	               </table>
+	               <div id="button">
+	                   <button type="submit">작성하기</button>
+	                   <button onclick="history.back()">취소</button>
+	               </div>
+	           </form>
+	       </div>
+	   </div>
+>>>>>>> refs/remotes/origin/master
 	</div>
 </div>
 

@@ -699,7 +699,9 @@ public class BoardDao {
 								   rset.getInt("COUNT"),
 								   rset.getDate("CREATE_DATE"),
 								   rset.getInt("LIKED"),
-								   rset.getInt("RP_COUNT")));
+								   rset.getInt("RP_COUNT"),
+								   rset.getString("FILE_PATH"),
+								   rset.getString("CHANGE_NAME")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -891,6 +893,43 @@ public class BoardDao {
 		
 		return result;
 	}
+
+	public int videoKeywordCount(Connection conn, String kind, String keyword) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = "";
+		
+		if(kind.equals("title")) {
+			sql = prop.getProperty("searchTitleCountV");
+		}else if(kind.equals("content")){
+			sql = prop.getProperty("searchContentCountV");
+		}else if(kind.equals("userId")) {
+			sql = prop.getProperty("searchUserCountV");
+		}
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, keyword);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("COUNT");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
 
 	
 

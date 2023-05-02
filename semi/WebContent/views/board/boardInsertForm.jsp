@@ -29,9 +29,10 @@
 </head>
 <body>
 
-	<%@include file="../common/mainMenu.jsp" %>
+	<%@include file="../common/header.jsp" %>
+
 	
-	<div class="outer">
+	<div id="content">
 		<h2 align="center" style="height:10%">글작성</h2>
 		
 		<form action="insert.bo" method="post" id="insertForm-area" enctype="multipart/form-data">
@@ -58,16 +59,19 @@
 				<tr>
 					<th>첨부파일</th>
 					<td>
-						<input type="file" name="upFile">
+						<input type="file" name="upFile"><br>
+						<span><sub>* 파일 최대 크기 10Mb</sub></span>
 					</td>
 				</tr>
 			</table>
 			
 			<div id="submit-area" style="border:none; padding:10px; hieght:10%;">
-				<button type="submit">작성하기</button>
+				<button type="submit" class="btn btn-primary">작성하기</button>
 			</div>
 		</form>
 	
 	</div>
+	
+	<%@include file="../common/footer.jsp" %>
 </body>
 </html>

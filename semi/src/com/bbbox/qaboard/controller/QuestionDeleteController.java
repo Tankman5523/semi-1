@@ -39,7 +39,7 @@ public class QuestionDeleteController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		int qno = Integer.parseInt(request.getParameter("qno"));
-		
+		System.out.println(qno);
 		int result = new QuestionService().deletQuestion(qno);
 		
 		if(result>0) {

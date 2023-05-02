@@ -8,7 +8,7 @@
 	</entry>
 	
 	<entry key="selectQuestionBoardList">
-		SELECT QNO, USER_ID, TITLE, CREATE_DATE, OPEN
+		SELECT QNO, USER_ID, TITLE, CREATE_DATE, OPEN, ANSWER
 		FROM QUESTION Q
 		JOIN MEMBER ON (Q_WRITER = USER_NO)
 		WHERE Q.STATUS = 'Y'
@@ -38,6 +38,14 @@
 
 	</entry>
 	
+	<entry key="selectQuestion3">
+		SELECT QNO,USER_ID,TITLE,CONTENT,ANSWER,CREATE_DATE,OPEN
+		FROM QUESTION Q
+		JOIN MEMBER ON (USER_NO = Q_WRITER)
+		WHERE QNO = ?
+		AND Q.STATUS = 'Y'
+	</entry>
+	
 	<entry key="insertAnswer">
 		UPDATE QUESTION 
 	       	   SET ANSWER = ?
@@ -56,5 +64,12 @@
 		SET STATUS = 'N'
 		WHERE QNO = ?
 	</entry>
-
+	
+	<entry key="updateQuestion">
+		UPDATE QUESTION
+		SET OPEN = ?,
+		  	TITLE =?,
+			CONTENT =?
+		WHERE QNO = ?	
+	</entry>
 </properties>

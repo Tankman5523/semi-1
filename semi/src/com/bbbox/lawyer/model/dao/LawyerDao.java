@@ -377,7 +377,7 @@ public class LawyerDao {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("insertReview");
-		
+		System.out.println(accNo+","+star+","+content);
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, accNo);

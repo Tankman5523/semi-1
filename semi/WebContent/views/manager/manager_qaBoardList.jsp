@@ -144,16 +144,12 @@
 			</table>
 				
 				<script>
-				<%if(loginUser != null){ %>
 					$(function(){
-						var loginUser ='<%=loginUser.getUserId()%>';
 						var admin = '<%=loginUser.getAdmin()%>';
 						
 						$("#qa-list").on('click','tr' ,function(){
 							
-							var qWriter = $(this).children().eq(2).text();
-						
-							if(loginUser == qWriter || admin =="Y"){
+							if(admin =="Y"){
 								var qno = $(this).children().eq(0).text(); //글번호	
 								
 								location.href="<%=contextPath%>/detail.qa?qno="+qno; //해당 글 상세페이지로 이동 
@@ -166,37 +162,10 @@
 						})
 						
 					}); //함수 끝  
-				<%}else{ %>
-					$(function(){
-						
-						$("#qa-list").on('click','tr',function(){z
-							alert("해당 게시글은 비공개 글입니다.");
-						});
-
-					});	//함수 끝			
-					
-				<%}%>
 				</script>
 		</div>
 		<br><br>
-		<div align ="center" class = "paging-area">
-			<%if(pi.getCurrentPage() != 1) {%>
-			<button onclick = "location.href='<%=contextPath%>/list.qa?currentPage=<%=pi.getCurrentPage()-1%>'">&lt;</button>
-			<%} %>
-			
-			<%for (int i=pi.getStartPage() ;  i<=pi.getEndPage() ; i++){%>
-			<!-- 내가 보고있는 페이지 버튼은 비활성화 시키기 -->
-				<%if(i !=pi.getCurrentPage()) {%>
-					<button onclick = "location.href='<%=contextPath%>list.qa?currentPage=<%=i%>';"><%=i%></button>				
-				<%}else{ %> <!-- 내가 보고있는 페이지와 페이징바 버튼의 수가 같으면 i와 currenPage -->
-					<button  disabled><%=i %></button>
-				<%} %>
-			<%} %>
-			
-			<%if(pi.getCurrentPage() != pi.getMaxPage()){ %>
-			<button onclick = "location.href='<%=contextPath%>/list.qa?currentPage=<%=pi.getCurrentPage()+1%>'">&gt;</button>
-			<%}%>
-		</div>
-	</div>
-</div>		
+</div>
+		
 <%@ include file = "../common/footer.jsp"%>
+

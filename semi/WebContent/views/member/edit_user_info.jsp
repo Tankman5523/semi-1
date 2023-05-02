@@ -121,7 +121,6 @@
                         <td></td>
                     </tr>
                     <tr>
-
                         <th>비밀번호 변경</th>
                         <td><input type="password" name="newPwd" id="pwd" value=<%=loginUser.getUserPwd()%>></td> <!-- 회원가입이랑 동일하게 keyup 사용-->
                     </tr>
@@ -144,8 +143,12 @@
                     </tr>
                     <tr>
                         <th>email</th>
-                        <td><input type="email" id="email" name="newEmail" value="<%=loginUser.getEmail()%>"> <button class="btn btn-light btn-sm "type="button">이메일 인증</button> </td>
+                        <td><input type="email" id="email" name="newEmail" value="<%=loginUser.getEmail()%>"> <button class="btn btn-light btn-sm "type="button" id="applyEmail">이메일 인증</button> </td>
                     </tr>
+                    <tr>
+                    	<th></th>
+                    	<td><input type="text" id="authentication" name="authentication" placeholder="인증번호를 입력해주세요"> <button class="btn btn-light btn-sm "type="button" id="authEmail">확인</button></td>
+                    </tr>	
                     <tr>
                         <td></td>
                         <td><p style="font-family: HallymGothic-Regular; font-size: 14px; color: yellow;">이메일주소는 개인정보찾기에 사용되어지니 정확한 이메일주소를 입력해주세요</p></td>
@@ -177,7 +180,7 @@
         	location.href="<%=contextPath%>/"
         }
         
-        	/* 비밀번호 유효성 검사 script*/
+        /* 비밀번호 유효성 검사 script*/
         $(function(){
             $(".match").css("color","blue").hide();
             $(".nomatch").css("color","red").hide();
@@ -239,6 +242,128 @@
        			
        			
        		}
+       	
+       	/* 이메일 변경시 이메일 재 인증 script */
+       	var autKey = ""; // 인증번호 담을 변수 
+       	
+       	$(function(){
+	       	$('#email').on('click', function(){
+	       		
+	       		if(confirm('이메일 변경시, 이메일을 재인증 해야합니다 변경하시겠습니까?')){
+	       			
+	       			$('#email').val("");
+	       		}
+	       	
+	       	});
+       		
+       	});
+       	
+       	/*인증창 키업*/
+       	$(function(){
+       		/*인증창 숨겨두기*/
+       		$('#info tr:eq(7)').hide()
+       		
+       		$('#applyEmail').on('click',function(){
+       			
+	       		var $email = $('#email').val();
+    	   		console.log($email);
+       			
+    	   		if($email =="" ||!($email.includes("@"))){
+       				
+       				alert("올바른 형식의 이메일을 작성해주세요");
+       				return false;
+       				
+       			}else{
+       				
+       				/*이메일 중복 체크*/
+       				$.ajax({
+       					url : "email.chk.me",
+       					
+       					data :{testEmail : $email},
+       					
+       					type : "post",
+    					
+    					success : function(result){
+    						console.log(result);
+    						
+    						if(result == "YYYYY" ){
+    								Authentication(); // 인증번호 발송 함수 호출
+    						}else{
+    							alert("이미 사용중인 이메일 입니다. 다시 입력해주세요");
+    						}
+    								
+    					},
+    					
+    					error : function(){
+    						console.log("통신 실패");
+    					}
+       				
+       				})
+	       		}
+       		})
+       });
+       	
+       	/* 이메일 발송 함수 */
+			function Authentication(){
+				
+				var $sendEmail = $('#email');
+				
+				$.ajax({
+					url : "authentication.me",
+					
+					data : {sendEmail : $sendEmail.val()},
+					
+					type: "post",
+					
+					success: function (key){
+						
+						console.log(key);
+						
+						if(key.using == 'Y'){
+							
+							authKey = key.chord;
+							
+							console.log(authKey);
+							
+							$('#info tr:eq(7)').show()
+							
+							alert("이메일 인증번호 발송 완료! 이메일을 확인해주세요");
+							
+						}
+						
+						
+					},
+					
+					error: function(){
+						console.log("통신실패");
+					}
+				
+				});
+				
+			}	
+       	
+       	/*인증번호 확인 함수*/
+       	$(function(){
+       		
+       		$('#authEmail').on('click', function(){
+       			
+       			if("" == authKey){
+					alert("인증번호를 입력해주세요");
+					return false;
+        		
+        		}else if(($("#authentication").val()) == authKey){
+        			
+        			if(confirm("이메일 인증이 완료되었습니다.!")){
+	        			$("#authentication").attr("readonly",true);
+        			}	
+        			
+        		}else{
+        			alert("이메일 인증에 실패하였습니다. 다시 시도해 주세요");
+        			return false;
+        		}
+       			
+       		});
+       	});
         </script>
 </div>        
 <%@include file="../common/footer.jsp" %>        

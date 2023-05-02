@@ -25,6 +25,7 @@
             height: 1000px;
             margin: auto;
             color:white;
+            text-align:center;
         }
         
         #content div{
@@ -47,6 +48,7 @@
         }
         #content>form>div>table *{
             background-color: white;
+            border:0;
         }
         #content>form>div>table input{
             width: 100%;

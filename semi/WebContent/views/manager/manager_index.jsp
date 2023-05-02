@@ -8,9 +8,7 @@
 </head>
 <body>
 
-<%@ include file="managerMainPage.jsp" %>
+<%@ include file="managerMainPage.jsp" %> <!-- 삭제예정 -->
 
-<!-- 기본통계나 신규? 등등 띄우기 / 시간없으면 노노 -->
 </body>
-
 </html>
