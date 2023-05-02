@@ -34,6 +34,7 @@ public class ReviewDetailController extends HttpServlet {
 		//변호사 리뷰 상세보기
 		
 		int reNo = Integer.parseInt(request.getParameter("reNo"));
+		
 		LawReview re = new LawyerService().selectReview(reNo);
 		Accident ac = new LawyerService().selectAccident(re.getRefAno());
 		Lawyer l = new LawyerService().selectLawyer(ac.getRefLno());

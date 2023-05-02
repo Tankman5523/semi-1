@@ -33,8 +33,19 @@ public class MemberApplyLawyerDetailController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
-		int userNo = Integer.parseInt(request.getParameter("uno"));
+
+		int userNo = 0;
+		int lawNo = 0;
+		String page = ""; //변호사 신청 or 변호사 상세보기 -페이지 구분-
+		
+		if(request.getParameter("lno")==null) { //변호사 신청관리로 클릭한 경우
+			userNo = Integer.parseInt(request.getParameter("uno"));
+			page = "apply";
+		}else { //관리자용 변호사 리스트에서 클릭한 경우
+			lawNo = Integer.parseInt(request.getParameter("lno"));
+			userNo = new LawyerService().selectUserNo(lawNo);
+			page = "view";
+		}
 		
 		Lawyer lawInfo = new LawyerService().selectApply(userNo); //변호사 정보 
 		
@@ -42,6 +53,7 @@ public class MemberApplyLawyerDetailController extends HttpServlet {
 		
 		Member applyMem = new MemberService().selectMemberInfo(userNo);
 		
+		request.setAttribute("page", page);
 		request.setAttribute("lawInfo", lawInfo);
 		request.setAttribute("applyMem", applyMem);
 		request.setAttribute("lat", lat);

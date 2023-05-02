@@ -263,24 +263,18 @@
 <body>
 	<script>
 		var msg = "<%=alertMsg%>";
-		
 		var errmsg ="<%=errorMsg%>";
 		
 		if(msg != "null"){
 			alert(msg);	
-			
 			<% session.removeAttribute("alertMsg"); %>
 		}
-		
 		if(errmsg != "null"){
 			alert(errmsg);
-			
 			<% session.removeAttribute("errorMsg"); %>
 		}
-		
-	
 	</script>
-	
+<body>
     <div class="wrap">
         <div id="line"><img src="<%=contextPath%>/resources/common/menu-top.jpg" alt="" style="width: 100%; height: 100%;"></div>
         <div id="outer">
@@ -303,24 +297,21 @@
                                 </ul>
             
                             </li>    
-                            <li><a href="">자유게시판</a>
+                            <li><a href="<%=contextPath%>/list.bo?currentPage=1">자유게시판</a>
                                 <ul>
                                     <li><a href="<%=contextPath%>/list.bo?currentPage=1">일반 게시판</a></li>
                                     <li><a href="<%=contextPath%>/list.vi?currentPage=1">영상 게시판</a></li>
                                 </ul>
                             </li>    
-                            <li><a href="">고객문의</a>
-                                <ul>
-                                    <li><a href="<%=contextPath%>/list.qa">1:1 문의</a></li>
-                                    <li><a href="">FQA</a></li>
-                                </ul>
+                            <li>
+                            	<a href="<%=contextPath%>/list.qa">1:1 문의</a>
                             </li>
                             <%if(loginUser == null) {%>
-                            <li><a href="<%=contextPath%>/login.me">로그인</a></li>
-                            <li><a href="<%=contextPath%>/enroll.me">회원가입</a></li>
+	                            <li><a href="<%=contextPath%>/enroll.me">회원가입</a></li>
+	                            <li><a href="<%=contextPath%>/login.me">로그인</a></li>
                             <%}else{ %>
-	                        <li><a href="<%=contextPath%>/entry.me">마이페이지</a></li>
-    	               		<li><a href="<%=contextPath%>/logout.me">로그아웃</a></li>
+		                        <li><a href="<%=contextPath%>/entry.me">마이페이지</a></li>
+	    	               		<li><a href="<%=contextPath%>/logout.me">로그아웃</a></li>
 							<%} %>
                         </ul>
                     </div>.

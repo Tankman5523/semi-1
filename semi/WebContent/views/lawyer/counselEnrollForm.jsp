@@ -79,96 +79,123 @@
 	#content *{
 		font-family: 'Pretendard-Regular';
 	}
-	</style>
+	#lawName{
+		width: 80%;
+		text-align: center;
+	}
+	button{
+		width: 90px;
+		padding: 7px;
+		margin: 40px 5px;
+		border-radius: 7px;
+		border: 2px solid gray;
+	}
+	button:hover{
+		background-color: rgb(255, 243, 218);
+		border: 2px solid rgb(255, 229, 173);
+		transition: 0.3s;
+		cursor: pointer;
+	}
+</style>
 
 <div id="content">
 	<div id="enroll-area">
-	       <div id="title"><h2>상담신청</h2></div>
-	       <div id="comment">온라인 상담 신청을 해주시면 전문가가 신속히 답변 드리겠습니다.</div>
-	       <div id="enroll">
-	           <form  id="enroll-form" action="<%=contextPath%>/counselEnroll.la" method="post">
-	               <input type="hidden" name="userNo" value="<%=loginUser.getUserNo() %>">
-	               <table align="center">
-	                   <tr>
-	                       <th width="100px">분야</th>
-	                       <td width="400px">
-	                           <select name="partKey" id="part" onchange="partChange();">
-			                    	<option value="전체">전체</option>
-			                    	<%for(PartCategory p : pList) { %>
-			                    		<option value="<%=p.getPartName() %>"><%=p.getPartName() %></option>
-			                    	<%} %>
-			                    </select>
-	                       </td>
-	                   </tr>
-	                   <tr>
-	                       <th>변호사</th>
-	                       <td>
-	                           <select name="lawNameKey" id="lawName" onchange="lawChange();">
-	                               <%for(Lawyer l : lawList) { %>
-			                    		<option value="<%=l.getLawNo() %>"><%=l.getRefUno() %> 변호사</option>
-			                    	<%} %>
-	                           </select>
-	                       </td>
-	                   </tr>
-	                   <tr>
-	                       <th>제목</th>
-	                       <td><input type="text" name="title" required></td>
-	                   </tr>
-	                   <tr>
-	                       <th>내용</th>
-	                       <td><textarea name="content" cols="45" rows="15" style="resize:none;" placeholder="해결을 원하는 사건에 대해 간단한 상담을 남겨주시면 담당 변호사가 확인 후 상담 가능여부에 대한 답변을 남겨드립니다." required></textarea></td>
-	                   </tr>
-	               </table>
-	               <div id="button">
-	                   <button type="submit">신청하기</button>
-	                   <button onclick="history.back()">취소</button>
-	               </div>
-	           </form>
-	       </div>
-	   </div>
-	
+		<div id="title">
+			<h2>상담신청</h2>
+		</div>
+		<div id="comment">온라인 상담 신청을 해주시면 전문가가 신속히 답변 드리겠습니다.</div>
+		<div id="enroll">
+			<form id="enroll-form" action="<%=contextPath%>/counselEnroll.la" method="post">
+				<input type="hidden" name="userNo" value="<%=loginUser.getUserNo()%>">
+				<table align="center">
+					<tr>
+						<th width="100px" height="40px">분야</th>
+						<td width="400px">
+							<select name="partKey" id="part" onchange="partChange();">
+								<option value="전체">전체</option>
+								<%for (PartCategory p : pList) {%>
+									<option value="<%=p.getPartName()%>"><%=p.getPartName()%></option>
+								<%}%>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th height="40px">변호사</th>
+						<td>
+							<select name="lawNameKey" id="lawName" onchange="lawChange();" required>
+								<%for (Lawyer l : lawList) {%>
+									<option value="<%=l.getLawNo()%>"><%=l.getRefUno()%> 변호사</option>
+								<%}%>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th height="40px">제목</th>
+						<td><input type="text" name="title" required></td>
+					</tr>
+					<tr>
+						<th>내용</th>
+						<td>
+							<textarea name="content" cols="45" rows="15" style="resize: none;"
+							placeholder="해결을 원하는 사건에 대해 간단한 상담을 남겨주시면 담당 변호사가 확인 후 상담 가능여부에 대한 답변을 남겨드립니다."
+							required></textarea>
+						</td>
+					</tr>
+				</table>
+				<div id="button">
+					<button type="submit">신청하기</button>
+					<button type="button" onclick="back();">취&nbsp;&nbsp;&nbsp;소</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
 	<script>
-	//해당 변호사의 분야/이름 이 선택되어 있도록 하는 함수
-	// ((Lawyer)request.getAttribute("l")) %> 가 null이 아닌 경우로 해서 거부된 상담내역에서 내용들고 바로 상담신청으로 갈 수 있도록 ? update로 가야하나..
-	$(function(){
-		var $part = "<%=((Lawyer)request.getAttribute("l")).getRefPno() %>";
-		var $lno = <%=((Lawyer)request.getAttribute("l")).getLawNo() %>; 
-		$("#part").val($part).prop("selected",true);
-		$("#lawName").val($lno).prop("selected",true);
-	});
-	
-	//분야 옵션을 바꿨을 경우
-	function partChange(){
-		$.ajax({
-			url : "counselOption.la",
-			data : {partKey:$("#part").val()},
-			type : "get",
-			success : function(list){
-				var str= "";
-				if(list.length==0){ //해당 분야의 변호사가 없으면
-					str="<option>해당 분야의 변호사가 존재하지 않습니다.</option>"
-				}else{ //있으면 해당 분야의 변호사만 옵션에 넣기
-					for(var i=0; i<list.length; i++){
-						str+= "<option value=\""+list[i].lawNo+"\">"
-								+list[i].refUno+" 변호사</option>"
+		$(function(){ //해당 변호사의 분야/이름 이 선택되어 있도록 하는 함수
+			var $part = "<%=((Lawyer) request.getAttribute("l")).getRefPno()%>";
+			var $lno = <%=((Lawyer) request.getAttribute("l")).getLawNo()%>;
+			$("#part").val($part).prop("selected", true);
+			$("#lawName").val($lno).prop("selected", true);
+		});
+		
+		function partChange() { //분야 옵션을 바꿨을 경우
+			$.ajax({
+				url: "counselOption.la",
+				data: { partKey : $("#part").val() },
+				type: "get",
+				success: function(list) {
+					var str = "";
+					if(list.length == 0) { //해당 분야의 변호사가 없으면
+						str = "<option disabled>해당 분야의 변호사가 존재하지 않습니다.</option>"
+					}else { //있으면 해당 분야의 변호사만 옵션에 넣기
+						for(var i = 0; i < list.length; i++) {
+							str += "<option value=\""+list[i].lawNo+"\">" + list[i].refUno + " 변호사</option>"
+						}
 					}
+					$("#lawName").html(str);
 				}
-				$("#lawName").html(str);
+			});
+		};
+
+		//변호사 옵션을 바꿨을 경우 해당분야 selected 되도록
+		function lawChange() {
+			$.ajax({
+				url: "counselOption.la",
+				data: { lawNameKey : $("#lawName").val() },
+				type : "post",
+				success : function(result) {
+					$("#part").val(result.partName).prop("selected", true);
+				}
+			});
+		};
+		
+		//취소 버튼 클릭 시
+		function back(){
+			if(confirm("취소하면 작성된 내용이 삭제됩니다. 진행하시겠습니까?")){
+				history.back();
 			}
-		});
-	};
-	
-	//변호사 옵션을 바꿨을 경우 해당분야 selected 되도록
-	function lawChange(){
-		$.ajax({
-			url : "counselOption.la",
-			data : {lawNameKey:$("#lawName").val()},
-			type : "post",
-			success : function(result){
-				$("#part").val(result.partName).prop("selected",true);
-			}
-		});
-	};
+		};
+		
 	</script>
 </div>
 
