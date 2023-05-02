@@ -88,7 +88,7 @@
 		AND REF_UNO = ?
 	</entry>
 	
-	<!-- 상담신청 내용 등록 -->
+	<!-- 상담신청 등록 -->
 	<entry key="insertCounsel">
 		INSERT INTO COUNSEL(CS_NO,
 							REF_LNO,
@@ -98,7 +98,7 @@
 		VALUES(SEQ_CSNO.NEXTVAL,?,?,?,?)
 	</entry>
 	
-	<!-- 선택된 분야의 변호사 번호/이름 리스트 조회 (상담신청 폼) -->
+	<!-- 선택된 분야의 변호사 리스트 조회 (상담신청 폼) -->
 	<entry key="partOptionChange">
 		SELECT LAW_NO,
 		       USER_NAME
@@ -135,11 +135,9 @@
 		AND A.REF_LNO = ?
 	</entry>
 	
-	<!-- 리뷰 작성 등록 --><!-- 테스트 해봐야함 -->
+	<!-- 리뷰 작성 등록 -->
 	<entry key="insertReview">
-		INSERT INTO LAW_REVIEW (REVIEW_NO, REF_ANO, REVIEW_CONTENT, STAR, STATUS)
-					VALUES(SEQ_RNO.NEXTVAL,?,?,?,'Y')
-							
+		INSERT INTO LAW_REVIEW VALUES(SEQ_RNO.NEXTVAL,?,?,?,DEFAULT)
 	</entry>
 	
 	<!-- 상담 정보 조회 -->
@@ -228,7 +226,7 @@
 		AND CS_NO = ?
 	</entry>
 	
-	<!-- 상담 번호로 상담 정보 조회 (변호사리뷰용) -->
+	<!-- 상담 정보 조회 (변호사리뷰용) -->
 	<entry key="selectAccident">
         SELECT ACC_NO,
         	   REF_LNO,
@@ -458,6 +456,13 @@
 		JOIN MEMBER M ON (C.CS_WRITER = M.USER_NO)
 		WHERE M.STATUS = 'Y'
 		ORDER BY CREATE_DATE DESC
+	</entry>
+	
+	<!-- 변호사 번호로 회원번호 조회  (관리자용) -->
+	<entry key="selectUserNo">
+		SELECT REF_UNO
+		FROM LAW_USER
+		WHERE LAW_NO = ?
 	</entry>
 	
 </properties>

@@ -7,10 +7,8 @@
 <title>관리자 메인 페이지</title>
 </head>
 <body>
-<%@ include file="managerMainPage.jsp" %>
 
-<div id="content"></div>
+<%@ include file="managerMainPage.jsp" %> <!-- 삭제예정 -->
 
-<%@ include file="../common/footer.jsp" %>
 </body>
 </html>

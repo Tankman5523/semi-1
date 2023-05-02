@@ -1,15 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="java.util.ArrayList,com.bbbox.lawyer.model.vo.*"%>
 <%
-Counsel c = (Counsel)request.getAttribute("c");
-Lawyer l = (Lawyer)request.getAttribute("l");
+	Counsel c = (Counsel)request.getAttribute("c");
+	Lawyer l = (Lawyer)request.getAttribute("l");
 %>
 <%@ include file = "../common/header.jsp" %>
-	<style>
+<style>
     /* 영역잡기 */
     #content *{
-   	color: white;
-   	margin: auto;
+	   	color: white;
+	   	margin: auto;
     }
 	#enroll-area{
 	   width: 60%;
@@ -74,47 +74,63 @@ Lawyer l = (Lawyer)request.getAttribute("l");
 	#content *{
 		font-family: 'Pretendard-Regular';
 	}
-	</style>
+	#button>button{
+		width: 90px;
+		padding: 7px;
+		margin: 40px 5px;
+		border-radius: 7px;
+		border: 2px solid gray;
+	}
+	#button>button:hover{
+		background-color: rgb(255, 243, 218);
+		border: 2px solid rgb(255, 229, 173);
+		transition: 0.3s;
+		cursor: pointer;
+	}
+</style>
 
-	<div id="content">
-	   <div id="enroll-area">
-	       <div id="title"><h2>상담내용 수정</h2></div>
-	       <div id="comment">변호사님이 답변을 남기기 전까지 수정이 가능합니다.</div>
-	       <div id="enroll">
-	           <form  id="enroll-form" action="<%=contextPath%>/counselUpdate.la" method="post">
-	               <input type="hidden" name="cno" value="<%=c.getCsNo() %>">
-	               <table align="center">
-	                   <tr>
-	                       <th width="100px">분야</th>
-	                       <td width="400px"><%=l.getRefPno() %></td>
-	                   </tr>
-	                   <tr>
-	                       <th>변호사</th>
-	                       <td><%=l.getRefUno() %></td>
-	                   </tr>
-	                   <tr>
-	                       <th>제목</th>
-	                       <td><input type="text" name="title" value="<%=c.getCsTitle() %>" required></td>
-	                   </tr>
-	                   <tr>
-	                       <th>내용</th>
-	                       <td><textarea name="content" cols="45" rows="15" style="resize:none" required><%=c.getCsContent() %></textarea></td>
-	                   </tr>
-	               </table>
-	               <div id="button">
-	                   <button type="submit">수정하기</button>
-	                   <button type="button" onclick="back();">취소</button> <!-- 마이페이지 이동으로 변경하기 -->
-	               </div>
-	           </form>
-	       </div>
-	   </div>
+<div id="content">
+	<div id="enroll-area">
+		<div id="title">
+			<h2>상담내용 수정</h2>
+		</div>
+		<div id="comment">변호사님이 답변을 남기기 전까지 수정이 가능합니다.</div>
+		<div id="enroll">
+			<form id="enroll-form" action="<%=contextPath%>/counselUpdate.la" method="post">
+				<input type="hidden" name="cno" value="<%=c.getCsNo()%>">
+				<table align="center">
+					<tr>
+						<th width="100px" height="40px">분야</th>
+						<td width="400px"><%=l.getRefPno()%></td>
+					</tr>
+					<tr>
+						<th height="40px">변호사</th>
+						<td><%=l.getRefUno()%></td>
+					</tr>
+					<tr>
+						<th height="40px">제목</th>
+						<td><input type="text" name="title" value="<%=c.getCsTitle()%>" required></td>
+					</tr>
+					<tr>
+						<th>내용</th>
+						<td><textarea name="content" cols="45" rows="15" style="resize: none" required><%=c.getCsContent()%></textarea></td>
+					</tr>
+				</table>
+				<div id="button">
+					<button type="submit">수정하기</button>
+					<button type="button" onclick="back();">취소</button> <!-- 마이페이지 이동으로 변경하기 -->
+				</div>
+			</form>
+		</div>
 	</div>
-	<script>
-		function back(){
-			if(confirm("취소하시면 작성 내용이 저장되지 않습니다.")){
-				history.back();
-			}
-		};
-	</script>
+</div>
+
+<script>
+	function back() {
+		if (confirm("취소하시면 작성 내용이 저장되지 않습니다.")) {
+			history.back();
+		}
+	};
+</script>
 
 <%@ include file = "../common/footer.jsp" %>

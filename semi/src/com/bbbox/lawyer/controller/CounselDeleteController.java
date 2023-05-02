@@ -28,9 +28,10 @@ public class CounselDeleteController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//상담내역 삭제
+		//상담 내역 삭제
 		
-		int cno = Integer.parseInt(request.getParameter("cno")); //상담번호
+		int cno = Integer.parseInt(request.getParameter("cno"));
+		
 		int result = new LawyerService().deleteCounsel(cno);
 		
 		if(result>0) {
