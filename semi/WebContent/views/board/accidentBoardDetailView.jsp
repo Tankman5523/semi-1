@@ -156,6 +156,12 @@
 		    border: 1px solid red;
 		    font-weight:1000;
         }
+        .rpDelBtn{
+        	background-color:red;
+        	color:white;
+        	font-size:10px;
+        	width:30px;
+        }
         
     </style>
 </head>
@@ -281,8 +287,9 @@
                     	<thead>
 	                    	<tr>
 	                    		<th style="width:50px">작성자</th>
-	                    		<th style="width:300px;word-break: break-all">내용</th>
-	                    		<th style="width:50px" >작성일</th>
+	                    		<th style="width:260px;word-break: break-all">내용</th>
+	                    		<th style="width:50px">작성일</th>
+	                    		<th style="width:40px">삭제</th>
 	                    	</tr>
                     	</thead>
                     	<tbody>
@@ -361,7 +368,7 @@
 		        $(document).ready(function(){
 		        	viewRpList();
 		        });
-	        
+	        	//댓글 입력
 	        	$(function(){
 	        		$("#reply_input").on("keydown",function(e){
 	        			//엔터키를 눌렀을때
@@ -399,6 +406,35 @@
 	        		});
 	        	});
 	        	
+	        	//댓글 삭제기능
+	    		$(function(){
+	    			$("#replyViewArea").on("click", ".rpDelBtn", function(){
+	    				<%if(loginUser != null && loginUser.getUserId().equals(b.getBoardWriter())){%>
+	    				$.ajax({
+	    					url:"delRp",
+	    					data:{
+	    						rpNo:$(this).parent().siblings("input[type=hidden]").val(),
+	    						bno:<%=b.getBoardNo()%>
+	    					},
+	    					success:function(result){
+	    						if(result>0){
+	    							alert("댓글삭제가 완료되었습니다.");
+	    							
+	    							viewRpList();
+	    						}else{
+	    							alert("댓글삭제 실패!");
+	    						}
+	    					},
+	    					error:function(){
+	    						alert("댓글 삭제 통신실패!")
+	    					}
+	    				});
+	    				<%}else{%>
+	    				alert("댓글 삭제 권한이 없습니다.");
+	    				<%}%>
+	    			});
+	    		});
+	        	
 	        	function viewRpList(){
 	        		$.ajax({
 	        			url:"listRp",
@@ -409,9 +445,18 @@
 	        				var str = "";
 	           				if(list.length!=0){
 	    	       				for(var i in list){
-	    	       					str += "<tr style='padding-top:15px;padding-bottom:15px;'><td>"+list[i].rpWriter+"</td>"
+	    	       					str += "<tr style='padding-top:15px;padding-bottom:15px;'><input type='hidden' id='rpNo' name='rpNo' value="+list[i].rpNo+">"
+	    	       					  +"<td>"+list[i].rpWriter+"</td>"
 	    							  +"<td style='word-break: break-all'>"+list[i].content+"</td>"
-	    							  +"<td style='font-size:8px;'>"+list[i].createDate+"</td></tr>";
+	    							  +"<td style='font-size:8px;'>"+list[i].createDate+"</td>";
+	    							  var rpWriter = list[i].rpWriter;
+	    							  var loginUserId="<%=loginUser.getUserId()%>";
+	    	       					  if(rpWriter==loginUserId||<%=loginUser.getAdmin().equals("Y")%>){
+	    							  	str+= "<td><button class='rpDelBtn'><i class='fa-sharp fa-solid fa-trash'></i></button></td></tr>";
+	    							  }else{
+	    								str+= "<td></td></tr>";  
+	    							  }
+	    							  
 	    	       				}
 	           				}else{
 	           					str +="<tr><td colspan='3'>댓글이 없습니다.</td></tr>"
