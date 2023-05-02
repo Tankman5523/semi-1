@@ -215,7 +215,7 @@
        	/*메인으로 이동*/
        	$(function(){
        		$('#logo-area').on('click',function(){
-   				location.href="<%=contextPath%>/views/manager/manager_index.jsp";
+   				location.href="<%=contextPath%>/views/manager/managerMainPage.jsp";
    			})	
        	});
         </script> 
