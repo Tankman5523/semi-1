@@ -103,7 +103,7 @@
 		</div>
 		
 		
-		<%if(loginUser != null && loginUser.getUserId().equals(b.getBoardWriter()) || loginUser.getAdmin().equals("Y")){%>
+		<%if(loginUser != null && (loginUser.getUserId().equals(b.getBoardWriter()) || loginUser.getAdmin().equals("Y"))){%>
 		<div id="update-area" align="center" style="border:none; padding:10px; hieght:5%;">
 			<button class="btn btn-warning" onclick="location.href='<%=contextPath%>/update.bo?bno=<%=b.getBoardNo()%>'" style="margin:5px;">수정하기</button>
 			<button class="btn btn-danger" onclick="location.href='<%=contextPath%>/delete.bo?bno=<%=b.getBoardNo()%>'" style="margin:5px;">삭제하기</button>
