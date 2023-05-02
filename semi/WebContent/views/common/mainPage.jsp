@@ -87,19 +87,113 @@
             float: left;
         }
         #content-left-area{
-            width: 50%;
-        }
-        #content-right-area{
-            width: 50%;
-        }
-        #content-right-area>div{
-            width: 100%;
-            height: 50%;
+            width: 60%;
+            position : relative;
         }
         #left{
-        	width: 100%;
-        	height: 100%;
+        	width: 90%;
+        	height: 80%;
+        	position : absolute;
+        	margin:auto;
+        	top: 0;
+        	right: 0;
+        	left:0;
+        	bottom:0;
         }
+        #content-right-area{
+            width: 40%;
+            box-sizing: border-box;
+        }
+        
+        #lawyer-area{
+        	width: 80%;
+        	height:100%;
+        	background-color: red;
+        	float:left;
+        }
+        
+        #lawyer-area>div{
+        	width: 100%;
+        	height:50%;
+        	position : relative;
+        	
+        }
+        
+        #right-top>div{
+        	width:90%;
+        	height:60%;
+        	background-color: yellow;
+        	position : absolute;
+        	margin:auto;
+        	top: 0;
+        	right: 0;
+        	left:0;
+        	bottom:0;
+        }
+        
+         #right-bottom>div{
+        	width:90%;
+        	height:60%;
+        	background-color: yellow;
+        	position : absolute;
+        	margin:auto;
+        	top: 0;
+        	right: 0;
+        	left:0;
+        }
+        #content-top{
+        	width: 100%;
+        }
+        #content-top>div{
+        	height:90%;
+        	float:left;
+        	margin-top: 20px;
+        }
+        #content-top>#content-top-img{
+        	width:50%;
+        }
+        
+        #content-top>#content-top-comment{
+        	width:50%;
+        	margin-left: 50px;
+        }
+        
+        #content-bottom{
+        	width: 100%;
+        }
+        #content-bottom>div{
+        	height:90%;
+        	float:left;
+        	margin-top: 20px;
+        }
+        #content-bottom>#content-bottom-img{
+        	width:50%;
+        }
+        
+        #content-bottom>#content-bottom-comment{
+        	width:50%;
+        	margin-left: 50px;
+        }
+        
+        #counsel-area{
+        	width:20%;
+        	height:100%;
+        	background-color:gray;
+        	float:right;
+        }
+        
+        #counsel-area>div{
+        	width:100%;
+        	height:50%;
+        }
+        
+        #togo-counsel{
+        	background-color:green;
+        }
+        
+       
+	
+        
         /* ============================================ 네비바 */
         #navi{
             list-style-type: none;
@@ -220,11 +314,43 @@
                     </div>
                 </div>
                 <div id="content-right-area">
-                    <div id="right-top">
-
+                    <div id="lawyer-area">
+	                    <div id="right-top">
+							<div id="content-top">
+								<div id="content-top-img">
+									<img src="<%=contextPath%>/resources/common/IMG_6301.JPG" width= "150" height="180" >
+								</div>
+								<div id="content-top-coment">
+									<span>
+										가나다라 마바사 아자차카 
+									
+									</span>
+								</div>
+							</div>
+	                    </div>
+	                    <div id="right-bottom">
+							<div id="content-bottom">
+								<div id="content-bottom-img">
+									<img src="<%=contextPath%>/resources/common/IMG_6323.JPG" width= "150" height="180" >
+								</div>
+								<div id="content-bottom-coment">
+									<span>
+										가나다라 마바사 아자차카 
+									
+									</span>
+								</div>
+							</div>
+	                    </div>
                     </div>
-                    <div id="right-bottom">
-
+                    <div id="counsel-area">
+                    	<div id="togo-counsel">
+                    		<div id="counsel-icon">
+                    		</div>
+                    		<div id="report-icon">
+				            	<i class="fa-solid fa-camera fa-2xl" style="color: #f5b400;"></i>
+                    		</div>   
+                    	</div>
+                    	
                     </div>
                 </div>
             </div>

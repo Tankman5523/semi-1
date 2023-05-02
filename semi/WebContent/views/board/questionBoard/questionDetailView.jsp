@@ -145,14 +145,14 @@
 		</div>
 		<%} %>
 		<br>	
-		<%if(loginUser.getAdmin().equals("Y")){ %>	
-        <!-- 관리자만 작성 가능, 답변이 비어있지 않을 경우만 보여지게,  -->
+		<%if(loginUser.getAdmin().equals("Y")){ %>
+			<%if(qa.getAnswer()==null){ %>	
             <table id="reply_admin" align="center">
             	<tbody>
 	                <tr>
 	                	<th width="">관리자</th>
 	                    <td>
-	                       <textarea name="reply-content" id="reply-content" cols="80" rows="5" style="resize:none;"><%=qa.getAnswer()%></textarea>
+	                       <textarea name="reply-content" id="reply-content" cols="80" rows="5" style="resize:none;"></textarea>
 	                    </td>
 			             <td>
 	                        <button class="btn btn-secondary" id="reply-btn">등록</button>
@@ -160,6 +160,20 @@
 	                </tr>
                 </tbody>
             </table>
+            <%}else{%>
+	            <table id="reply_admin" align="center">
+	            	<tbody>
+		                <tr>
+		                	<th width="">관리자</th>
+		                    <td>
+		                       <textarea name="reply-content" id="reply-content" cols="80" rows="5" style="resize:none;" readonly><%=qa.getAnswer()%></textarea>
+		                    </td>
+				             <td>
+		                    </td>
+		                </tr>
+	                </tbody>
+	            </table>
+            <%} %>
         <%}else if(qa.getAnswer() != null){ %>
         <!-- 사용자에게 보이는 화면 -->
         	<table id="reply_user" align="center">

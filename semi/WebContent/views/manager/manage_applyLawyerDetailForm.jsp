@@ -105,7 +105,8 @@
 	    margin-right: 20px;
     }
     </style>
-<%@ include file="../common/header.jsp" %>
+    
+<%@ include file="manager_header.jsp" %>
 <!-- Popper JS -->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 

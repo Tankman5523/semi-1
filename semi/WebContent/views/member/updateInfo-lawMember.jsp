@@ -131,7 +131,7 @@
                         <td><input type="text" id="phone" name="newPhone" placeholder="-포함하여 입력해주세요" value="<%=loginUser.getPhone()%>"></td>
                     </tr>
                     <tr>
-                        <th>email</th>
+                        <td>email</th>
                         <td><input type="email" id="email" name="newEmail" value="<%=loginUser.getEmail()%>"> <button class="btn btn-light btn-sm "type="button" id="applyEmail">이메일 인증</button> </td>
                     </tr>
                     <tr>

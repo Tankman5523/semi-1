@@ -162,7 +162,7 @@
         <div id="line"><img src="<%=contextPath%>/resources/common/menu-top.jpg" alt="" style="width: 100%; height: 100%;"></div>
         <div id="outer">
             <div id="header">
-                <div id="logo-area" onclick="location='views/common/mainPage.jsp'">블변<span style="font-size: 40px;">의</span> 법칙<i class="fa-sharp fa-solid fa-gear fa-l" style="color: #bd0000;"></i></div>
+                <div id="logo-area" onclick="location='views/common/mainPage.jsp'">블변<span style="font-size: 40px;">의</span> 법칙</div>
                 <div id="navi-area">
                     <div id="navibar">
                         <ul id="navi">

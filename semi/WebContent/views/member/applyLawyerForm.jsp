@@ -186,11 +186,11 @@
 	            <table id="lawComent">
 	                <tr>
 	                    <td width="150">한줄소개</td>
-	                    <td><textarea name="comment" id="" cols="40" rows="3" style="resize: none;" required></textarea></td>
+	                    <td><textarea name="comment" id="" cols="40" rows="3" maxlength="30" style="resize: none;" placeholder="30자 이하로 작성해주세요" required></textarea></td>
 	                </tr>
 	                <tr>
 	                    <td>경력</td>
-	                    <td><textarea name="career" id="" cols="40" rows="5" style="resize: none;" required></textarea></td>
+	                    <td><textarea name="career" id="" cols="40" rows="5" maxlength="80" style="resize: none;" placeholder="80자 이하로 작성해주세요" required></textarea></td>
 	                </tr>
 	            </table>    
 	        <hr>    

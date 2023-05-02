@@ -437,7 +437,8 @@ public class MemberDao {
 										rset.getString("TITLE"),
 										rset.getDate("CREATE_DATE"),
 										rset.getString("CATEGORY_NAME"),
-										rset.getInt("ACC_NO")));
+										rset.getInt("ACC_NO"),
+										rset.getString(String.valueOf("REV_NO"))));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -562,7 +563,6 @@ public class MemberDao {
 		return lawRev;
 	}
 
-	
 	public ArrayList<AccidentReview> selectAccidentReviewList(Connection conn, int userNo) {
 		
 		ResultSet rset = null;
@@ -837,6 +837,8 @@ public class MemberDao {
 		
 		return result2;
 	}
+	
+	
 	
 	
 

@@ -137,10 +137,9 @@
 	
 	<!-- 리뷰 작성 등록 --><!-- 테스트 해봐야함 -->
 	<entry key="insertReview">
-		INSERT INTO LAW_REVIEW VALUES(SEQ_RNO.NEXTVAL,?,?,?,DEFAULT);
-		UPDATE ACCIDENT
-		SET SOLVE = 'Y'
-		WHERE ACC_NO = ?
+		INSERT INTO LAW_REVIEW (REVIEW_NO, REF_ANO, REVIEW_CONTENT, STAR, STATUS)
+					VALUES(SEQ_RNO.NEXTVAL,?,?,?,'Y')
+							
 	</entry>
 	
 	<!-- 상담 정보 조회 -->
