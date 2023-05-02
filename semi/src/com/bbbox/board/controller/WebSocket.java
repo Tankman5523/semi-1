@@ -24,6 +24,7 @@ public class WebSocket {
         clients.add(session);
         
         System.out.println("클라이언트 접속");
+        System.out.println(clients.hashCode());
     }
 
     @OnMessage
