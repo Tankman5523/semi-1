@@ -329,7 +329,7 @@
             <div id="content">
                 <div id="content-left-area">
                     <div id="left">
-                    	<img src="../../resources/common/introImg1.jpg" style="width:100%;height:100%">
+                    	<img src="/resources/common/introImg1.jpg" style="width:100%;height:100%">
                     </div>
                 </div>
                 <div id="content-right-area">
