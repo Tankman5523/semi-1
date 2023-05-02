@@ -114,14 +114,20 @@
 	
 	<entry key="selectBoardList">
         
-		SELECT BOARD_NO, TITLE, CREATE_DATE, CATEGORY_NAME, 
-		       (SELECT ACC_NO
-		        FROM ACCIDENT A
-		        WHERE B.BOARD_NO = A.REF_BNO) AS "ACC_NO"
+      SELECT BOARD_NO, TITLE, CREATE_DATE, CATEGORY_NAME, 
+       (SELECT ACC_NO
+        FROM ACCIDENT A
+        WHERE B.BOARD_NO = A.REF_BNO) AS "ACC_NO",
+        (SELECT REVIEW_NO
+        FROM LAW_REVIEW
+        JOIN ACCIDENT A ON (A.ACC_NO = REF_ANO)
+        WHERE REF_ANO = (SELECT ACC_NO
+                            FROM ACCIDENT A
+                            WHERE B.BOARD_NO = A.REF_BNO)) AS "REV_NO"
 		FROM BOARD B
 		JOIN BOARD_CATEGORY USING(CATEGORY_NO)
 		WHERE BOARD_WRITER = ?
-		AND B.STATUS = 'Y'  
+		AND B.STATUS = 'Y'
 	                       
 	</entry>
 	
@@ -165,7 +171,7 @@
 	
 	</entry>
 	
-		<entry key="selectAccidentList">
+	<entry key="selectAccidentList">
 		SELECT ACC_NO, REF_BNO, REF_LNO, PART_NAME, TITLE, SOLVE
 		FROM ACCIDENT
 		JOIN BOARD ON (REF_BNO = BOARD_NO)

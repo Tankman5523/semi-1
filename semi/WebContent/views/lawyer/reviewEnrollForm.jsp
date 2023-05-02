@@ -2,8 +2,13 @@
     pageEncoding="UTF-8" import="com.bbbox.lawyer.model.vo.Lawyer,com.bbbox.board.model.vo.Accident"%>
 <%
 	Accident ac = (Accident)request.getAttribute("ac");
+	System.out.println(ac);
+	
 	Lawyer l = (Lawyer)request.getAttribute("l");
+	System.out.println("jsp " +l);
 %>
+
+
 <%@ include file = "../common/header.jsp" %>
 
 	<style>
@@ -88,8 +93,8 @@
 	       <div id="title"><h2>리뷰 작성</h2></div>
 	       <div id="comment">나의 사건을 해결해준 변호사님께 간단한 리뷰를 남겨주세요.</div>
 	       <div id="enroll">
-	           <form  id="enroll-form" action="<%=contextPath%>/review.la" method="post">
-	               <input type="hidden" name="accNO" value="<%=ac.getAccNo() %>">
+	           <form id="enroll-form" action="review.la" method="post">
+	               <input type="hidden" name="accNo" value="<%=ac.getAccNo() %>">
 	               <input type="hidden" name="star" value=""><!-- 별점 히든으로 보내기 -->
 	               <table align="center">
 	                   <tr>

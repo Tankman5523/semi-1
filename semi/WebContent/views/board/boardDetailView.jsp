@@ -54,12 +54,7 @@
 </head>
 <body>
 
-<<<<<<< HEAD
-	<%@include file="../common/header.jsp" %>
-=======
 <%@include file="../common/header.jsp" %>
->>>>>>> refs/remotes/origin/master
-	
 	<div id="content">
 		
 		<div align="center" style="height:10%; width:100%;">

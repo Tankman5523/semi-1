@@ -94,12 +94,7 @@
 </head>
 <body>
 	
-<<<<<<< HEAD
-	<%@include file="../common/header.jsp" %>
-=======
 <%@include file="../common/header.jsp" %>
->>>>>>> refs/remotes/origin/master
-	
 	<div id="content">
  		<div id="header">
 			<h2 align="center" style="border: none;">
@@ -152,12 +147,12 @@
 				<%}else{ %>
 					<%for(Board b : vlist){ %>
 					<div id="videos" align="center">
-						<table "border="1" class="video" onclick="location.href='<%=contextPath%>/detail.vi?bno='+<%=b.getBoardNo()%>">
+						<table border="1" class="video" onclick="location.href='<%=contextPath%>/detail.vi?bno='+<%=b.getBoardNo()%>">
 							<tr>
 								<td colspan="6"><video style="height:200px; width:100%" preload="metadata" src="<%=contextPath+b.getFilePath()+b.getChangeName()%>#t=1.0"></video></td>
 							</tr>
 							<tr>
-								<th>제목</th>
+								<th>제목</th>	
 								<td colspan="6"><%=b.getTitle()%></td>
 							</tr>
 							<tr>

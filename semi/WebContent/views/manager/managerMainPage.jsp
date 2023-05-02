@@ -220,7 +220,3 @@
        	});
         </script> 
         
-        <div id="content">
-        </div>
-        
-<%@ include file="../common/footer.jsp"%>
