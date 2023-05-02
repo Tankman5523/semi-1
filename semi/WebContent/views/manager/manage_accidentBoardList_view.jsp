@@ -14,9 +14,6 @@
 <meta charset="UTF-8">
 <title>제보 영상 게시판 관리</title>
     <style>
-        div{
-            box-sizing: border-box;
-        }
         #content{
         	border:none;
             width: 1300px;
@@ -33,6 +30,8 @@
         }
         #accidentBoardbody{
             height: 90%;
+            display:inline-block;
+            width:100%;
         }
         #accidentBoardHead>div{
         }
@@ -95,39 +94,85 @@
         #accidentBoardList-area{
             width: 100%;
             height: 95%;
-            overflow-y: scroll; 
+            overflow-y: auto; 
+            text-align:center;
         }
-        #accidentBoardList-area>table{
-            float: left;
-            margin: 14px;
-            border: 1px solid black;
+        #accidentBoardList-area table{
+        	text-align:center;
+            width:100%;
+            margin:0;
+            table-layout: fixed;
         }
+        .controlBtn{
+        	width:90%;
+        	display:inline-block;
+        }
+        .controlBtn>*{
+        	float:left;
+        }
+        
         /*게시글 호버시*/
-        #accidentBoardList-area>table>tbody tr:hover{
+        #boardList>tr:hover{
             cursor: pointer;
             background-color: bisque;
         }
         
-        .accidentBoardList{
-        }
+        /*테이블 사이징*/
+        .tbl-header{
+	        background-color: rgb(92, 91, 91);
+	        display:inline-block;
+	        width:90%;
+	        
+	        border: 1px solid rgb(255, 255, 255);
+    	}
+        .tbl-content{
+	        background-color: rgb(43, 41, 41);
+	        display:inline-block;
+	        width:90%;
+	        
+	        overflow-x:auto;
+	        margin-top: 0px;
+	        border: 1px solid rgb(255, 255, 255);
+    	}
+    	
+    	th{
+	        padding: 10px 10px;
+	        text-align: center;
+	        font-weight: 1000;
+	        font-size: 13px;
+	        color: #fff;
+	        text-transform: uppercase;
+    	}
+    	
+	    td{
+	        padding:5px 10px;
+	        text-align: center;
+	        vertical-align:middle;
+	        font-weight: 300;
+	        font-size: 12px;
+	        color: #fff;
+	    }
+        /**/
         
-        /*썸네일 */
-        .accidentBoardList video{
-            border: 1px solid black;
-            width: 200px;
-            height: 200px;
-        }
-        .accidentBoardList video:hover{
-		
-		}
-        /*하단 페이징*/
-        .pageMover{
-            height: 5%;
-        }
-       	
        	/*버튼 커스텀*/
 		.yellowBtn{
         	background-color: #f9d700;
+        	border-radius: 0;
+		    border-top-left-radius: 0px;
+		    border-bottom-left-radius: 0px;
+		    padding: 8px 12px;
+		    border: 0;
+        }
+        .redBtn{
+        	background-color: red;
+        	border-radius: 0;
+		    border-top-left-radius: 0px;
+		    border-bottom-left-radius: 0px;
+		    padding: 8px 12px;
+		    border: 0;
+        }
+        .greenBtn{
+        	background-color: green;
         	border-radius: 0;
 		    border-top-left-radius: 0px;
 		    border-bottom-left-radius: 0px;
@@ -140,10 +185,31 @@
         	padding:0;
         	margin:0;
         }
+        .delBtn{
+			font-size:10px;
+			width:40px;
+			height:20px;
+			background-color:red;
+			color:white;
+		}
+
+        /* 스크롤바 스타일 적용 */
+
+	    ::-webkit-scrollbar {
+	        width: 6px;
+	    } 
+	    ::-webkit-scrollbar-track {
+	        -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.8); 
+	    } 
+	    ::-webkit-scrollbar-thumb {
+	        -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.8); 
+	    }
+        
+
     </style>
 </head>
 <body>
-<%@ include file="managerMainPage.jsp" %>
+<%@ include file = "manager_header.jsp" %>
     <div id="content">
         <div id="accidentBoardHead">
             <div class="boardName">
@@ -209,73 +275,80 @@
         <div id="accidentBoardbody">
             <!-- 게시글 정보 테이블 -->
             <div id="accidentBoardList-area">
-                <input type="button" id="statusShiftOn" value="일괄게시">
-                <input type="button" id="statusShiftOff" value="일괄회수">
-                <input type="button" id="deleteAll" value="일괄삭제">
+            	<div class="controlBtn">
+	                <input type="button" class="" id="statusShiftOn" value="일괄게시">
+	                <input type="button" class="" id="statusShiftOff" value="일괄회수">
+	                <input type="button" class="" id="deleteAll" value="일괄삭제">
+                </div>
                 <br>
-                <table class="accidentBoardList" style="text-align: center; display: inline-table;" >
-                    <thead style="background-color: lightgray;">
-                    	<tr>
-                            <th><input type="checkbox" name="selectBoard" id="allCheck" ></th>
-                            <th>글번호</th>
-                            <th>작성자</th>
-                            <th>제목</th>
-                            <th>조회수</th>
-                            <th>제보일</th>
-                            <th>사고유형</th>
-                            <th>보험유형</th>
-                            <th>지역</th>
-                            <th>추천</th>
-                            <th>비추천</th>
-                            <th>상태변경</th>
-                            <th>영구삭제</th>
-                        </tr>
-                    </thead>
-	                <tbody id="boardList" style="box-sizing: border-box;">
-	                	<!-- 게시글 정보 띄우기 -->
-	                	<%if(blist!=null){ %>
-		                	<%for(int i=0;i<blist.size();i++){ %>
-			                  	<tr onclick="location.href='<%=contextPath%>/detail.ac?bno='+<%=blist.get(i).getBoardNo()%>">
-			                        <th class="noEvent">
-			                        	<input type="checkbox" name="selectBoard">
-			                        </th>
-			                        <td><%=blist.get(i).getBoardNo()%></td>
-			                        <td><%=blist.get(i).getBoardWriter()%></td>
-			                        <td><%=blist.get(i).getTitle()%></td>
-			                        <td><%=blist.get(i).getCount()%></td>
-			                        <td><%=blist.get(i).getCreateDate()%></td>
-			                        <td><%=blist.get(i).getChangeName()%></td>
-			                        <td><%=blist.get(i).getInsuranceType()%></td>
-			                        <td><%=blist.get(i).getRegion()%></td>
-			                        <td><%=blist.get(i).getLiked()%></td>
-			                        <td><%=blist.get(i).getReportCount()%></td>
-		                        	<th id="statusShift" class="noEvent statusShift">
-                        				<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
-			                        	<%if(blist.get(i).getStatus().equals("N")) {%>
-					                        <!-- 아직 게시되지 않았다면 -->
-			                        		<button  name="statusOn" class="statusOn" style="background-color: red; color: white; width:100%;height:100%">OFF</button>
-			                        		<!-- <input type="button" class="statusOn" value="OFF" style="background-color: red; color: white; width:100%;height:100%"> -->
-				                        <%}else{ %>
-					                        <!-- 글이 게시 되어있다면 -->
-				                        	<button name="statusOff" class="statusOff" style="background-color: green; color: white; width:100%;height:100%">ON</button>
-				                        	<!-- <input type="button" class="statusOff" value="ON" style="background-color: green; color: white; width:100%;height:100%"> -->
-			                        	<%} %>
-			                        </th>
-			                        <th class="noEvent"><!-- DB에서 전부 날려버리기 -->
-			                        	<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
-			                        	<button name="delete" class="deleteBoardBtn" id="deleteBoardBtn" style="width:100%;height:100%">글삭제</button>
-		                        	</th>
-			                    </tr>
-		                    <%} %>
-		                    
-		                 <%}else if(blist.size()==0){ %>
-	                    	<tr>
-	                    		<td colspan="11">데이터가 없습니다.</td>
-	                    	</tr>
-	                    <%} %>   
-	                    
-	                </tbody>    
-            	</table>
+                <div class="tbl-header">
+                	<table style="border:0;">
+	                    <thead>
+	                        <tr>
+	                        	<th width="20px;"><input type="checkbox" name="selectBoard" id="allCheck" ></th>
+	                            <th width="40px">글번호</th>
+	                            <th width="100px">작성자</th>
+	                            <th width="300px">제목</th>
+	                            <th width="40px">조회수</th>
+	                            <th width="80px">작성일</th>
+	                            <th width="30px">보험<br>유형</th>
+	                            <th width="30px">사고<br>유형</th>
+	                            <th width="60px">지역</th>
+	                            <th width="30px">추천</th>
+	                            <th width="40px">비추천</th>
+	                            <th width="50px">상태<br>변경</th>
+	                            <th width="60px">영구<br>삭제</th>
+	                        </tr>
+	                    </thead>
+                	</table>
+            	</div>
+            	<div class="tbl-content" align="center">
+	                <table class="accidentBoardList tbl-content" style="text-align: center; display: inline-table; border:0;" >
+		                <tbody id="boardList" style="border:0;">
+		                	<!-- 게시글 정보 띄우기 -->
+		                	<%if(blist!=null){ %>
+			                	<%for(int i=0;i<blist.size();i++){ %>
+				                  	<tr onclick="location.href='<%=contextPath%>/detail.ac?bno='+<%=blist.get(i).getBoardNo()%>">
+				                        <td class="noEvent" width="20px">
+				                        	<input type="checkbox" name="selectBoard">
+				                        </td>
+				                        <td width="40px"><%=blist.get(i).getBoardNo()%></td>
+				                        <td width="100px"><%=blist.get(i).getBoardWriter()%></td>
+				                        <td width="300px" style="word-break: break-all"><%=blist.get(i).getTitle()%></td>
+				                        <td width="40px"><%=blist.get(i).getCount()%></td>
+				                        <td width="80px"><%=blist.get(i).getCreateDate()%></td>
+				                        <td width="30px"><%=blist.get(i).getChangeName()%></td>
+				                        <td width="30px"><%=blist.get(i).getInsuranceType()%></td>
+				                        <td width="60px"><%=blist.get(i).getRegion()%></td>
+				                        <td width="30px"><%=blist.get(i).getLiked()%></td>
+				                        <td width="40px"><%=blist.get(i).getReportCount()%></td>
+			                        	<td width="50px" id="statusShift" class="noEvent statusShift">
+	                        				<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
+				                        	<%if(blist.get(i).getStatus().equals("N")) {%>
+						                        <!-- 아직 게시되지 않았다면 -->
+				                        		<button  name="statusOn" class="statusOn" style="background-color: red; color: white; width:100%;height:100%">OFF</button>
+				                        		<!-- <input type="button" class="statusOn" value="OFF" style="background-color: red; color: white; width:100%;height:100%"> -->
+					                        <%}else{ %>
+						                        <!-- 글이 게시 되어있다면 -->
+					                        	<button name="statusOff" class="statusOff" style="background-color: green; color: white; width:100%;height:100%">ON</button>
+					                        	<!-- <input type="button" class="statusOff" value="ON" style="background-color: green; color: white; width:100%;height:100%"> -->
+				                        	<%} %>
+				                        </td>
+				                        <td class="noEvent" width="60px"><!-- DB에서 전부 날려버리기 -->
+				                        	<input type="hidden" class="hideBno" value="<%=blist.get(i).getBoardNo()%>">
+				                        	<button name="delete" class="deleteBoardBtn delBtn" id="deleteBoardBtn"><i class="fa-sharp fa-solid fa-trash"></i></button>
+			                        	</td>
+				                    </tr>
+			                    <%} %>
+			                    
+			                 <%}else if(blist.size()==0){ %>
+		                    	<tr>
+		                    		<td colspan="11">데이터가 없습니다.</td>
+		                    	</tr>
+		                    <%} %>   
+		                </tbody>   
+	            	</table>
+            	</div>
             </div>
             <!-- 페이징바 -->
             <div class="pageMover" align="center">
@@ -318,8 +391,8 @@
         	$("#deleteAll").click(function(){
         		var control = confirm("선택된 게시물을 모두 삭제하시겠습니까?");
         		
-        		if(confirm){
-        			$("#boardList>tr>th>input:checkbox:checked").each(function(index){
+        		if(control){
+        			$("#boardList>tr>td>input:checkbox:checked").each(function(index){
      						var bno = $(this).parent().siblings(".statusShift").children().eq(0).val();
         				
      						$.ajax({
@@ -329,9 +402,9 @@
    			        		},
    			        		success: function(result){
    			        			if(result>0){
-   			        				console.log("성공");
+   			        				
    			        			}else{
-   			        				console.log("실패");
+   			        				alert("선택된 게시물 삭제에 실패했습니다. 에러메시지를 확인해주세요.");
    			        			}
    			        		},
    			        		error: function(){
@@ -352,9 +425,9 @@
         	$("#statusShiftOn").click(function(){
         		var control = confirm("선택된 게시물을 모두 게시하시겠습니까?");
         			
-        		if(confirm){
+        		if(control){
         			//체크되어있는 박스 모두 확인
-        			$("#boardList>tr>th>input:checkbox:checked").each(function(index){
+        			$("#boardList>tr>td>input:checkbox:checked").each(function(index){
      						var bno = $(this).parent().siblings(".statusShift").children().eq(0).val();
         			
       					$.ajax({
@@ -364,9 +437,9 @@
     		        		},
     		        		success: function(result){
     		        			if(result>0){
-    		        				console.log("상태값 변경 성공!");
+    		        				
     		        			}else{
-    		        				console.log("상태값 변경 실패!");
+    		        				alert("선택된 게시물 게시에 실패했습니다. 에러메시지를 확인해주세요.");
     		        			}
     		        		},
     		        		error: function(){
@@ -381,16 +454,14 @@
         		}
         	});
         });
-      //체크된 게시글 일괄 회수
+      	//체크된 게시글 일괄 회수
         $(function(){
         	$("#statusShiftOff").click(function(){
         		var control = confirm("선택된 게시물을 모두 회수하시겠습니까?");
-        			
-        		if(confirm){
+        		if(control){
         			//체크되어있는 박스 모두 확인
-        			$("#boardList>tr>th>input:checkbox:checked").each(function(index){
+        			$("#boardList>tr>td>input:checkbox:checked").each(function(index){
      						var bno = $(this).parent().siblings(".statusShift").children().eq(0).val();
-     					
       					$.ajax({
     		        		url: "statusOff.mac",
     		        		data:{
@@ -398,9 +469,9 @@
     		        		},
     		        		success: function(result){
     		        			if(result>0){
-    		        				console.log("상태값 변경 성공!");
+    		        				
     		        			}else{
-    		        				console.log("상태값 변경 실패!");
+    		        				alert("선택된 게시물 게시에 실패했습니다. 에러메시지를 확인해주세요.");
     		        			}
     		        		},
     		        		error: function(){

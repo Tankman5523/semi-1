@@ -83,13 +83,14 @@ public class LawMemberUpdateController extends HttpServlet {
 			
 			Lawyer l = null;
 			
-			if(multiRequest.getOriginalFileName("file1") !=null) {
+			if(multiRequest.getOriginalFileName("profile") !=null) {
+				
 				
 				lat = new LawAttachment();
 				
 				lat.setRefUno(userNo);
-				lat.setOriginName(multiRequest.getOriginalFileName("file1"));
-				lat.setChangeName(multiRequest.getFilesystemName("file1"));
+				lat.setOriginName(multiRequest.getOriginalFileName("profile"));
+				lat.setChangeName(multiRequest.getFilesystemName("profile"));
 				lat.setFilePath("/resources/lawyer/");
 				
 			}

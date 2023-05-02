@@ -65,7 +65,11 @@
 </head>
 <body>
 
+<<<<<<< HEAD
 	<%@include file="../common/header.jsp" %>
+=======
+<%@include file="../common/header.jsp" %>
+>>>>>>> refs/remotes/origin/master
 	
 	<div id="content">
 		

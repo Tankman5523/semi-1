@@ -7,8 +7,6 @@
 <%
 	Board b = (Board)request.getAttribute("board");
 	Accident ac = (Accident)request.getAttribute("accident");
-	ArrayList<Reply> rplist = (ArrayList<Reply>)request.getAttribute("rplist");
-	
 %>
 <!DOCTYPE html>
 <html>
@@ -73,6 +71,7 @@
             width: 90%;
             margin-left:30px;
             margin-right:30px;
+            background-color: rgba(50, 50, 50, 0.7);
         }
         .infoArea{
             height: 40%;
@@ -80,6 +79,9 @@
         .infoArea>div{
             float: left;
             height: 100%;
+        }
+        .infoArea>div>*{
+            margin-left:20px;
         }
         .detail{
             width: 75%;
@@ -106,6 +108,10 @@
         .content{
             height: 60%;
         }
+        .content>*{
+        	margin-left:20px;
+        	margin-right:20px;
+        }
 
 
         .replyWriteArea{
@@ -113,6 +119,7 @@
             width: 90%;
             margin-left:30px;
             margin-right:30px;
+            background-color: rgba(50, 50, 50, 0.6);
         }
         .replyWriteArea>*{
             float: left;
@@ -121,11 +128,13 @@
         }
         .replyWriteArea>table{
             border: 1px solid black;
+            text-align:center;
         }
 
         /*댓글영역*/
         .bodyRight{
             width: 30%;
+            background-color: rgba(50, 50, 50, 0.6);
         }
         .bodyRight>div{
             width: 100%;
@@ -136,6 +145,26 @@
         .recommendArea{
             height: 40%;
         }
+        .yellowBtn{
+        	background-color: white;
+        	border-radius: 0;
+		    border-top-left-radius: 0px;
+		    border-bottom-left-radius: 0px;
+		    padding: 2px 10px;
+		    border: 1px solid red;
+		    font-weight:1000;
+        }
+        .rpDelBtn{
+        	background-color:red;
+        	color:white;
+        	font-size:10px;
+        	width:30px;
+        }
+        i:hover{
+        	cursor:pointer;
+        	color:gray;
+        }
+        
         
     </style>
 </head>
@@ -161,7 +190,7 @@
                     <div class="infoArea">
                         <div class="detail">
                             <div class="title">
-                                <span><%=b.getTitle()%></span>
+                                <span style="font-size:20px;font-weight:1000;"><%=b.getTitle()%></span>
                                 <%if(ac.getSolve().equals("N")) {%>
                                 	<span>#미해결</span>
                                 <%}else{ %>
@@ -190,17 +219,17 @@
 	                            			<input type="hidden" name="oldFileChangeName" value="<%=b.getChangeName()%>">
 	                            			<input type="hidden" name="bno" value="<%=b.getBoardNo()%>">
 	                            			<input type="hidden" name="accNo" value="<%=ac.getAccNo()%>">
-	                            			<input type="submit" value="사건리뷰작성">
+	                            			<input class="yellowBtn" type="submit" value="사건리뷰작성">
 	                            		</form>
 	                        	<%} %>
-	                            		<i id="good" class="fa-regular fa-thumbs-up"></i>
+	                            		<i id="good" class="fa-regular fa-thumbs-up fa-2x"></i>
 	                            		<!-- <i class="fa-solid fa-thumbs-up"></i> -->
-	                            		<i id="bad" class="fa-regular fa-thumbs-down"></i>
+	                            		<i id="bad" class="fa-regular fa-thumbs-down fa-2x"></i>
 	                            		<!-- <i class="fa-solid fa-thumbs-down"></i> -->
 		                            <%if((loginUser.getUserId().equals(b.getBoardWriter())||loginUser.getAdmin().equals("Y"))) {%>
 		                            	<!-- 나중에 이미지로 바꿔서 onclick 이벤트 -->
-		                            	<i onclick="location.href='<%=contextPath%>/update.ac?bno='+<%=b.getBoardNo()%>" class="fa-sharp fa-solid fa-gear"></i>
-	                            		<i onclick="location.href='<%=contextPath%>/delete.ac?bno='+<%=b.getBoardNo()%>" class="fa-sharp fa-solid fa-trash"></i>
+		                            	<i onclick="location.href='<%=contextPath%>/update.ac?bno='+<%=b.getBoardNo()%>" class="fa-sharp fa-solid fa-gear fa-2x"></i>
+	                            		<i onclick="location.href='<%=contextPath%>/delete.ac?bno='+<%=b.getBoardNo()%>" class="fa-sharp fa-solid fa-trash fa-2x"></i>
 	                            <%} %>
 	                            </div>
                             <%} %>
@@ -256,10 +285,19 @@
                 </div>
             </div>
             <div class="bodyRight">
-            	<div><span><b>댓글</b></span></div>
                 <div id="replyViewArea">
-                    <table>
-                    	
+                    <table style="width:400px;">
+                    	<thead>
+	                    	<tr>
+	                    		<th style="width:50px">작성자</th>
+	                    		<th style="width:260px;word-break: break-all">내용</th>
+	                    		<th style="width:50px">작성일</th>
+	                    		<th style="width:40px">삭제</th>
+	                    	</tr>
+                    	</thead>
+                    	<tbody>
+                    		
+                    	</tbody>
                     </table>
                 </div>
             </div>
@@ -333,7 +371,7 @@
 		        $(document).ready(function(){
 		        	viewRpList();
 		        });
-	        
+	        	//댓글 입력
 	        	$(function(){
 	        		$("#reply_input").on("keydown",function(e){
 	        			//엔터키를 눌렀을때
@@ -371,6 +409,35 @@
 	        		});
 	        	});
 	        	
+	        	//댓글 삭제기능
+	    		$(function(){
+	    			$("#replyViewArea").on("click", ".rpDelBtn", function(){
+	    				<%if(loginUser != null){%>
+	    				$.ajax({
+	    					url:"delRp",
+	    					data:{
+	    						rpNo:$(this).parent().siblings("input[type=hidden]").val(),
+	    						bno:<%=b.getBoardNo()%>
+	    					},
+	    					success:function(result){
+	    						if(result>0){
+	    							alert("댓글삭제가 완료되었습니다.");
+	    							
+	    							viewRpList();
+	    						}else{
+	    							alert("댓글삭제 실패!");
+	    						}
+	    					},
+	    					error:function(){
+	    						alert("댓글 삭제 통신실패!")
+	    					}
+	    				});
+	    				<%}else{%>
+	    				alert("댓글 삭제 권한이 없습니다.");
+	    				<%}%>
+	    			});
+	    		});
+	        	
 	        	function viewRpList(){
 	        		$.ajax({
 	        			url:"listRp",
@@ -381,14 +448,25 @@
 	        				var str = "";
 	           				if(list.length!=0){
 	    	       				for(var i in list){
-	    	       					str += "<tr><td>"+list[i].rpWriter+"</td>"
-	    							  +"<td style='text-align:left; padding-left: 5px;'>"+list[i].content+"</td>"
-	    							  +"<td>"+list[i].createDate+"</td></tr>";
+	    	       					str += "<tr style='padding-top:15px;padding-bottom:15px;'><input type='hidden' id='rpNo' name='rpNo' value="+list[i].rpNo+">"
+	    	       					  +"<td>"+list[i].rpWriter+"</td>"
+	    							  +"<td style='word-break: break-all'>"+list[i].content+"</td>"
+	    							  +"<td style='font-size:8px;'>"+list[i].createDate+"</td>";
+	    							  
+	    							  <%if(loginUser!=null){%>
+		    							  var rpWriter = list[i].rpWriter;
+		    							  var loginUserId="<%=loginUser.getUserId()%>";
+		    	       					  if(rpWriter==loginUserId||<%=loginUser.getAdmin().equals("Y")%>){
+		    							  	str+= "<td><button class='rpDelBtn'><i class='fa-sharp fa-solid fa-trash'></i></button></td></tr>";
+		    							  }else{
+		    								str+= "<td></td></tr>";  
+		    							  }
+	    							  <%}%>
 	    	       				}
 	           				}else{
-	           					str +="<tr><td>댓글이 없습니다.</td></tr>"
+	           					str +="<tr><td colspan='3'>댓글이 없습니다.</td></tr>"
 	           				}
-	           				$("#replyViewArea>table").html(str);
+	           				$("#replyViewArea>table>tbody").html(str);
 	        			},
 	        			error:function(){
 	    					alert("댓글리스트 조회 통신 실패");

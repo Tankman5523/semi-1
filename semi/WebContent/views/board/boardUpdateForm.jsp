@@ -34,6 +34,7 @@
 <body>
 
 	<%@include file="../common/header.jsp" %>
+
 	
 	<div id="content">
 		<h2 align="center" style="height:10%">수정 페이지</h2>

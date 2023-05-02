@@ -3,7 +3,8 @@
 <%
 	ArrayList<Counsel> cList = (ArrayList<Counsel>)request.getAttribute("cList");
 %>
-<%@ include file = "../manager/manager_header.jsp" %>
+
+<%@ include file = "manager_header.jsp" %>
 <style>
 
 	/* 폰트, 색상 */

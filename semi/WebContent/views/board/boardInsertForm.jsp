@@ -30,6 +30,7 @@
 <body>
 
 	<%@include file="../common/header.jsp" %>
+
 	
 	<div id="content">
 		<h2 align="center" style="height:10%">글작성</h2>

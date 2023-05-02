@@ -24,7 +24,9 @@
 </head>
 <body>
 
+
 	<%@include file="../common/header.jsp" %>
+
 	
 	<div id="content">
 		<h2 align="center" style="height:10%">일반영상 게시판 글작성</h2>
