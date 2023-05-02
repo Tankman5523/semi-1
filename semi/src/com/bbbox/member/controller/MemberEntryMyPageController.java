@@ -11,13 +11,13 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet implementation class MemberEnryMyPageController
  */
 @WebServlet("/entry.me")
-public class MemberEnryMyPageController extends HttpServlet {
+public class MemberEntryMyPageController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MemberEnryMyPageController() {
+    public MemberEntryMyPageController() {
         super();
         // TODO Auto-generated constructor stub
     }

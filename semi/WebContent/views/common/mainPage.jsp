@@ -147,23 +147,17 @@
 </head>
 <script>
 		var msg = "<%=alertMsg%>";
-		
 		var errmsg ="<%=errorMsg%>";
 		
 		if(msg != "null"){
 			alert(msg);	
-			
 			<% session.removeAttribute("alertMsg"); %>
 		}
-		
 		if(errmsg != "null"){
 			alert(errmsg);
-			
 			<% session.removeAttribute("errorMsg"); %>
 		}
-		
-	
-	</script>
+</script>
 <body>
     <div class="wrap">
         <div id="line"><img src="<%=contextPath%>/resources/common/menu-top.jpg" alt="" style="width: 100%; height: 100%;"></div>
@@ -197,12 +191,11 @@
                             <li><a href="">고객문의</a>
                                 <ul>
                                     <li><a href="<%=contextPath%>/list.qa">1:1 문의</a></li>
-                                    <li><a href="">FQA</a></li>
                                 </ul>
                             </li>
                             <%if(loginUser == null) {%>
-                            <li><a href="<%=contextPath%>/login.me">로그인</a></li>
                             <li><a href="<%=contextPath%>/enroll.me">회원가입</a></li>
+                            <li><a href="<%=contextPath%>/login.me">로그인</a></li>
                             <%}else{ %>
                             <li><a href="<%=contextPath%>/entry.me">마이페이지</a></li>
     	               		<li><a href="<%=contextPath%>/logout.me">로그아웃</a></li>

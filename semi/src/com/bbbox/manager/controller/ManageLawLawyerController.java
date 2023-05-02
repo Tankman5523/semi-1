@@ -28,6 +28,7 @@ public class ManageLawLawyerController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//변호사 권한 변경 (관리자용)
 		
 		int lno = Integer.parseInt(request.getParameter("lno"));
 		String button = request.getParameter("button");

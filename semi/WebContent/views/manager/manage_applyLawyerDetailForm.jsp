@@ -6,6 +6,8 @@
 	String lat = (String)request.getAttribute("lat"); 
 	
 	Member applyMem = (Member)request.getAttribute("applyMem");
+	
+	String pageType = (String)request.getAttribute("page");
 %>    
     
 <!DOCTYPE html>
@@ -40,7 +42,11 @@
 <body>
 	<%@ include file="../common/header.jsp" %>
     <div class="content">
-	        <h2 align="center">변호사 회원 신청</h2>
+    		<%if(pageType.equals("apply")){ %> <!-- 변호사 신청일 경우 -->
+	        	<h2 align="center">변호사 회원 신청</h2>
+	        <%}else{ %><!-- 상세보기일 경우 -->
+	        	<h2 align="center">변호사 상세보기 [관리자 전용]</h2>
+	        <%} %>
 	        <hr>
 	        <!-- 기본정보 뷰 -->
 	            <table id="info">
@@ -126,10 +132,14 @@
 	                </tr>
 	            </table>    
 	        <hr>
-	        
 	       <div class="applybtn" align="center">
-	       		<button id="accept">승인</button>
+	       <%if(pageType.equals("apply")){ %> <!-- 변호사 신청일 경우 -->
+	        	<button id="accept">승인</button>
 	       		<button id="refuse">거절</button>
+	        <%}else{ %> <!-- 상세보기일 경우 -->
+	        	<button onclick="history.back()">확인</button>
+	        <%} %>
+	       		
 	       </div>     
     </div>
   	<br><br><br>

@@ -771,7 +771,7 @@
 						<%for(int i = 0 ; i < lawRev.size() ; i++){ %>
 			            <tr>
 			                <td><%= i+1 %>.</td> <!-- 누를시에 어디로 이동할지 정하기  -->
-			                <td><a href="<%=contextPath%>/reviewDelete.la=ano?=<%=lawRev.get(i).getRefAno()%>"><%= lawRev.get(i).getReviewContent()%></a></td>
+			                <td><a href="<%=contextPath%>/reviewDetail.la?reNo=<%=lawRev.get(i).getReviewNo()%>"><%= lawRev.get(i).getReviewContent()%></a></td>
 			                <td><%= lawRev.get(i).getStar()%></td>
 			                <td><button class= "btn btn-outline-danger">삭제</button> <input type=hidden value = "<%=lawRev.get(i).getReviewNo()%>"></td>
 			            </tr>

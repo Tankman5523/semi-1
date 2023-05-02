@@ -917,4 +917,31 @@ public class LawyerDao {
 		
 		return cList;
 	}
+
+	//변호사 번호로 회원번호 조회 (관리자용)
+	public int selectUserNo(Connection conn, int lno) {
+
+		int userNo = 0;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectUserNo");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, lno);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				userNo = rset.getInt("REF_UNO");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return userNo;
+	}
 }

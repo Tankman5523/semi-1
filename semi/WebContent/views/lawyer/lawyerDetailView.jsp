@@ -10,7 +10,7 @@
 <!-- 구글맵 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-	<style>
+<style>
 	/* 영역잡기 */
     #content *{
    		color: white;
@@ -57,7 +57,6 @@
 	#left_bottom_right{
 	width: 40%;
 	}
-	
 	/* 기본정보 */
 	#info{
 	   border-collapse: collapse;
@@ -146,7 +145,7 @@
         height: 500px;
 		margin: auto;
 		margin-top: 200px;
-        box-shadow: 0px 0px 10px 10px rgb(160, 197, 253);
+        box-shadow: 0px 0px 12px 12px rgba(160, 197, 253, 0.7);
     }
     #map{
     	width: 100%;
@@ -155,7 +154,6 @@
     #review-content{
     	font-size: 13px;
     }
-    
     /* 폰트, 색상 */
     @font-face {
 	    font-family: 'Pretendard-Regular';
@@ -184,13 +182,12 @@
 		color: black;
 		font-size: 17px
 	}
-	</style>
+</style>
 
 <div id="content">
    <div id="space"></div>
    <div id="head"> <!-- 뒤로가기 버튼 -->
       <a href="<%=contextPath %>/list.la" style="margin-left:50px;"><i class="fa-solid fa-angle-left fa-2xl" style="color: #878787;"></i></a>
-      <a href="<%=contextPath %>/review.la?accNo=1">리뷰작성</a>
    </div>
    <div id="content-area">
        <div id="left">
@@ -284,33 +281,44 @@
 	
 	<!-- 구글맵 script -->
 	<script>
-		   
 	   function myMap(){
 		   
 			var address = "<%=law.getCompanyAddress()%>";
 			var local = address.substring(0,2); //주소에서 앞 두글자만 가져오기
-			var Lat = 0;
-			var Lng = 0;
+			var markerLat = 0;
+			var markerLng = 0;
+			var label = "";
 			
 			switch(local){
-			case "서울" : Lat=37.5518911; Lng=126.9917937; break;
-			case "경기" : Lat=37.5289145; Lng=127.1727772; break;
-			case "강원" : Lat=37.7249620; Lng=128.3009629; break;
-			case "충청" : Lat=36.5622940; Lng=126.9541070; break;
-			case "전라" : Lat=35.3564250; Lng=126.9541070; break;
-			case "경상" : Lat=35.8059055; Lng=128.9876741; break;
-			case "제주" : Lat=33.3846216; Lng=126.5534925; break;
+			case "서울" : markerLat=37.4961; markerLng=127.0113; label="서울중앙지방법원"; break;
+			case "경기" : markerLat=37.4431; markerLng=126.6676; label="인천지방법원"; break;
+			case "강원" : markerLat=37.8673; markerLng=127.7348; label="춘천지방법원"; break;
+			case "충청" : markerLat=36.7854; markerLng=127.155; label="대전지방법원"; break;
+			case "전라" : markerLat=35.1505; markerLng=126.9346; label="광주지방법원"; break;
+			case "경상" : markerLat=35.8622; markerLng=128.6285; label="대구지방법원"; break;
+			case "제주" : markerLat=33.494; markerLng=126.5355; label="제주지방법원"; break;
 			}
 		   
 	      var mapOptions = { //구글 맵의 옵션 
-	            
-	            center:new google.maps.LatLng(Lat, Lng), //지도의 중앙 위치
-	            zoom:9 // 줌 레벨 
+	            center:new google.maps.LatLng(markerLat, markerLng), //지도의 중앙 위치
+	            zoom:13 // 줌 레벨 
 	      };
 	      
 	      var map = new google.maps.Map( //구글 지도 생성 (맵캔버스, 맵옵션들 )
 	             document.getElementById("map") 
 	            , mapOptions );
+	      
+	      var MarkerPoint = { lat: markerLat, lng: markerLng};
+	      var subMarker = new google.maps.Marker({
+	          position: MarkerPoint,
+	          map: map,
+	          label: label,
+	          icon: {
+	            url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
+	            labelOrigin: new google.maps.Point(20, 47),
+	            anchor: new google.maps.Point(50,32)
+	          }
+	        });
 	   }
 	</script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJwp5ZEf5Vi5Gz_5RiU4Sxzt2IfSTeuDM&callback=myMap"></script>
@@ -379,7 +387,7 @@
 				location.href="<%=contextPath%>/counselEnroll.la?lno=<%=law.getLawNo() %>";
 			});
 			
-			$(function(){ //리뷰 상세보기로 이동   //table넣으면 오류 사라지는 이유?
+			$(function(){ //리뷰 상세보기로 이동
 				$("#review-area table").on("click", "tbody", function(){
 					var reNo = $(this).parent().prev().val();
 					location.href="<%=contextPath%>/reviewDetail.la?reNo="+reNo;
@@ -396,9 +404,14 @@
 	
 		<script>
 			$("#addFunction tr:eq(0),#addFunction tr:eq(1),#emptyReview").click(function(){
-				if(confirm("일반 회원만 이용가능한 메뉴입니다.")){
-					location.href="<%=contextPath%>/login.me";
-				}
+				alert("일반회원만 이용 가능한 메뉴입니다.");
+			});
+			
+			$(function(){ //리뷰 상세보기로 이동 (중복되는 메서드 조건 수정하면 삭제하기)
+				$("#review-area table").on("click", "tbody", function(){
+					var reNo = $(this).parent().prev().val();
+					location.href="<%=contextPath%>/reviewDetail.la?reNo="+reNo;
+				});
 			});
 		</script>
 		
