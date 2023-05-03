@@ -107,6 +107,7 @@
 
         .content{
             height: 60%;
+            margin-top:20px;
         }
         .content>*{
         	margin-left:20px;
@@ -164,7 +165,8 @@
         	cursor:pointer;
         	color:gray;
         }
-        
+        #updateBtnArea{
+        }
         
     </style>
 </head>

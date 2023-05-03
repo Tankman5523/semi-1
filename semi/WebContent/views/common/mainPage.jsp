@@ -101,8 +101,6 @@
         #left{
         	width: 90%;
         	height: 80%;
-        	position : absolute;
-        	margin:auto;
         	top: 0;
         	right: 0;
         	left:0;
@@ -205,12 +203,14 @@
             margin: 0px;
             padding: 0px;
             height: 100%;
+            z-index:100;
         }
         #navi>li{
             float: left;
             width: 15%;
             height: 100%;
             text-align: center;
+            z-index:100;
         }
         #navi a{
             text-decoration: none;
@@ -223,38 +223,42 @@
             display: block;
             line-height: 50px;
             margin: 0px 20px;
+            z-index:100;
         }
         #navi a:hover{
             color: rgb(248, 245, 63);
             font-size: 22px;
+            z-index:100;
         }
         #navi>li>ul{
             list-style-type: none;
             padding: 0;
             display: none;
             background-color:rgba(0,0,0,0.7);
+            z-index:100;
         }
         #navi>li>ul a{
             font-size: 18px;
+            z-index:100;
         }
         #navi>li>ul a:hover{
             font-size: 20px;
+            z-index:100;
         }
         #navi>li>a:hover+ul{
             display: block;
+            z-index:100;
+            
         }
         #navi>li>ul:hover{
             display: block;
+            z-index:100;
         }
         
         
         
         /*----좌측 홈페이지 소개----*/
         
-        #left{
-            width: 100%;
-            height:100%;
-        }
         
         
     </style>
@@ -320,7 +324,6 @@
             <div id="content">
                 <div id="content-left-area">
                     <div id="left">
-                    	<img src="../../resources/common/introImg1.jpg" style="width:100%;height:100%">
                     </div>
                 </div>
                 <div id="content-right-area">

@@ -85,11 +85,6 @@ public class ResolvedBoardListController extends HttpServlet {
 		//게시판 종류
 		int categoryNo = 4;
 		
-		//sort 키워드 가져오기
-//		String sort = null;
-//		if(request.getParameter("searchSort")!=null) {
-//			sort = request.getParameter("searchSort"); 
-//		}
 		
 		ArrayList<Board> blist = new AccidentBoardService().selectResolvedBoardList(pi);
 		
@@ -98,7 +93,6 @@ public class ResolvedBoardListController extends HttpServlet {
 			request.setAttribute("a", a);
 			request.setAttribute("pi", pi);
 			request.setAttribute("blist", blist);
-			//request.setAttribute("sort", sort);
 			request.getRequestDispatcher("views/board/resolvedBoardListView.jsp").forward(request, response);;
 		}else {
 			request.setAttribute("errorMsg", "해결영상 게시판 조회 실패");
