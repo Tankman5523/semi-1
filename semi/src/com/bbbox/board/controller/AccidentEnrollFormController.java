@@ -67,9 +67,6 @@ public class AccidentEnrollFormController extends HttpServlet {
 			
 			//개인정보
 			String userNo = multiRequest.getParameter("userNo"); //writer_no으로도 사용
-			String userName = multiRequest.getParameter("userName");
-			String phone = multiRequest.getParameter("phone");
-			String email = multiRequest.getParameter("email");
 			
 			//개인정보 3개 사용 안했음...
 			
