@@ -41,7 +41,7 @@
             height: 2%;
         }
         #outer{
-            width: 1400px;
+            width: 1300px;
             height: 96%;
             margin: auto;
         }
@@ -71,13 +71,13 @@
         }
         #logo-area{
             height: 100%;
-            width: 20%;
+            width: 30%;
             font-size: 50px;
             font-weight: 900;
         }
         #navi-area{
             height: 100%;
-            width: 80%;
+            width: 70%;
             position: relative;
         }
         #navibar{
@@ -90,8 +90,9 @@
         }
         /* ============================================컨텐트 영역 */
         #content>div{
-            height: 100%;
+            height: 80%;
             float: left;
+            margin-top:100px;
         }
         #content-left-area{
             width: 60%;
@@ -110,12 +111,9 @@
             width: 40%;
             box-sizing: border-box;
         }
-        
         #lawyer-area{
-        	width: 80%;
-        	height:100%;
-        	background-color: red;
-        	float:left;
+        	width: 85%;
+        	height:90%;
         }
         
         #lawyer-area>div{
@@ -126,9 +124,9 @@
         }
         
         #right-top>div{
-        	width:90%;
-        	height:60%;
-        	background-color: yellow;
+        	width:95%;
+        	height:70%;
+        	background-color: white;
         	position : absolute;
         	margin:auto;
         	top: 0;
@@ -138,65 +136,92 @@
         }
         
          #right-bottom>div{
-        	width:90%;
-        	height:60%;
-        	background-color: yellow;
+        	width:95%;
+        	height:70%;
+        	background-color: white;
         	position : absolute;
         	margin:auto;
-        	top: 0;
+        	top: 80px;
         	right: 0;
         	left:0;
         }
+        
+        
         #content-top{
         	width: 100%;
+        	height: 100%;
         }
         #content-top>div{
-        	height:90%;
+        	height:100%;
         	float:left;
-        	margin-top: 20px;
         }
         #content-top>#content-top-img{
         	width:50%;
+        	position: relative;
+        }
+        #content-top-img>img{
+        	position: absolute;
+        	margin: auto;
+        	left: 0;
+        	right: 0;
+        	top: 0;
+        	bottom: 0;
+        }
+        #content-top-comment{
+        	width:50%;
+        	position: relative;
+        }
+        #lawTable1{
+        	position: absolute;
+        	margin: auto;
+        	left: 0;
+        	top: 0;
+        	bottom: 0;
+        	text-align: center;
+        }
+        #lawTable1 th{
+        	font-size: 20px;
+        	font-weight: bold;
         }
         
-        #content-top>#content-top-comment{
-        	width:50%;
-        	margin-left: 50px;
-        }
         
         #content-bottom{
         	width: 100%;
+        	height: 100%;
         }
         #content-bottom>div{
-        	height:90%;
+        	height:100%;
         	float:left;
-        	margin-top: 20px;
         }
         #content-bottom>#content-bottom-img{
         	width:50%;
+        	position: relative;
         }
-        
-        #content-bottom>#content-bottom-comment{
+        #content-bottom-img>img{
+        	position: absolute;
+        	margin: auto;
+        	left: 0;
+        	right: 0;
+        	top: 0;
+        	bottom: 0;
+        }
+        #content-bottom-comment{
         	width:50%;
-        	margin-left: 50px;
+        	position: relative;
+        }
+        #lawTable2{
+        	position: absolute;
+        	margin: auto;
+        	left: 0;
+        	top: 0;
+        	bottom: 0;
+        	text-align: center;
+        }
+        #lawTable2 th{
+        	font-size: 20px;
+        	font-weight: bold;
         }
         
-        #counsel-area{
-        	width:20%;
-        	height:100%;
-        	background-color:gray;
-        	float:right;
-        }
-        
-        #counsel-area>div{
-        	width:100%;
-        	height:50%;
-        }
-        
-        #togo-counsel{
-        	background-color:green;
-        }
-       
         /* ============================================ 네비바 */
         #navi{
             list-style-type: none;
@@ -215,7 +240,7 @@
         #navi a{
             text-decoration: none;
             color: white;
-            font-size: 20px;
+            font-size: 19px;
             font-weight: 800;
 
             width: 100%;
@@ -227,40 +252,27 @@
         }
         #navi a:hover{
             color: rgb(248, 245, 63);
-            font-size: 22px;
-            z-index:100;
+            font-size: 20px;
         }
         #navi>li>ul{
             list-style-type: none;
             padding: 0;
             display: none;
             background-color:rgba(0,0,0,0.7);
-            z-index:100;
         }
         #navi>li>ul a{
-            font-size: 18px;
-            z-index:100;
+            font-size: 17px;
         }
         #navi>li>ul a:hover{
-            font-size: 20px;
-            z-index:100;
+            font-size: 18px;
         }
         #navi>li>a:hover+ul{
             display: block;
-            z-index:100;
             
         }
         #navi>li>ul:hover{
             display: block;
-            z-index:100;
         }
-        
-        
-        
-        /*----좌측 홈페이지 소개----*/
-        
-        
-        
     </style>
 
 </head>
@@ -318,12 +330,13 @@
 	    	               		<li><a href="<%=contextPath%>/logout.me">로그아웃</a></li>
 							<%} %>
                         </ul>
-                    </div>.
+                    </div>
                 </div>
             </div>
             <div id="content">
                 <div id="content-left-area">
                     <div id="left">
+                    	<img src="<%=contextPath%>/resources/common/introImg.png" style="width:75%;height:100%; margin-left: 80px;">
                     </div>
                 </div>
                 <div id="content-right-area">
@@ -333,37 +346,44 @@
 								<div id="content-top-img">
 									<img src="<%=contextPath%>/resources/common/IMG_6301.JPG" width= "150" height="180" >
 								</div>
-								<div id="content-top-coment">
-									<span>
-										가나다라 마바사 아자차카 
-									
-									</span>
+								<div id="content-top-comment">
+									<table id="lawTable1" align="center">
+										<tr><th height="50px">유지현 변호사</th></tr>
+										<tr><td height="30px">서울대 법대 수석 졸업</td></tr>
+										<tr><td height="30px">2022 리뷰 평점 1위</td></tr>
+										<tr><td height="30px">교통/뺑소니 전문 변호사</td></tr>
+									</table>
 								</div>
 							</div>
 	                    </div>
+	                    <script>
+	                    	//상담바로가기
+	                    	$(function(){
+	                    		$("#content-top").on("click", function(){
+	                    			location.href="<%=contextPath%>/detail.la?lno=7";
+	                    		});
+	                    		$("#content-bottom").on("click", function(){
+	                    			location.href="<%=contextPath%>/detail.la?lno=8";
+	                    		});
+	                    	});
+	                    </script>
 	                    <div id="right-bottom">
 							<div id="content-bottom">
 								<div id="content-bottom-img">
 									<img src="<%=contextPath%>/resources/common/IMG_6323.JPG" width= "150" height="180" >
 								</div>
-								<div id="content-bottom-coment">
-									<span>
-										가나다라 마바사 아자차카 
-									
-									</span>
+								<div id="content-bottom-comment">
+									<table id="lawTable2" align="center">
+										<tr><th height="50px">최현우변호사</th></tr>
+										<tr><td height="30px">2017 변호사시험 수석 합격</td></tr>
+										<tr><td height="30px">2022 상담률 1위 달성</td></tr>
+										<tr><td height="30px">교통/대인 전문 변호사</td></tr>
+									</table>
 								</div>
 							</div>
 	                    </div>
                     </div>
-                    <div id="counsel-area">
-                    	<div id="togo-counsel">
-                    		<div id="counsel-icon">
-                    		</div>
-                    		<div id="report-icon">
-				            	<i class="fa-solid fa-camera fa-2xl" style="color: #f5b400;"></i>
-                    		</div>   
-                    	</div>
-                    	
+                    <div id="icon-area">
                     </div>
                 </div>
             </div>

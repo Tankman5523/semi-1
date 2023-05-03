@@ -7,8 +7,6 @@
 <title>메인 페이지</title>
 </head>
 <body>
-
 <%@ include file="views/common/mainPage.jsp" %>
-
 </body>
 </html>
