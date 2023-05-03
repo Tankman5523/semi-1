@@ -39,21 +39,21 @@ public class LikedController extends HttpServlet {
 		
 		Liked l = new Liked(userNo, boardNo);
 		
-		//좋아요등록
+		//좋아요등록(LIKED 테이블)
 		int result = new LikedService().insertLiked(l);
 		
 		int result2 = 0;
 		
 		if(result==1) {
-			//보드에 좋아요카운트 갱신 ->1
+			//보드테이블에 좋아요카운트 갱신
 			result2 = new BoardService().insertLiked(boardNo);
 		}else if(result==2) {
 			
-			//좋아요취소
+			//좋아요취소(LIKED 테이블)
 			int result3 = new LikedService().deleteLiked(l);
 			
 			if(result3>0) {
-				//게시글에 좋아요카운트 감소 ->2
+				//보드테이블에  좋아요카운트 감소
 				result2 = new BoardService().deleteLiked(boardNo);
 			}
 		}
@@ -62,7 +62,6 @@ public class LikedController extends HttpServlet {
 		int cnt = new BoardService().LikedCount(boardNo);
 
 
-		
 		JSONObject jobj = new JSONObject();
 		jobj.put("result", result2);
 		jobj.put("cnt", cnt);
