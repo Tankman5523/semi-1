@@ -74,6 +74,7 @@
  	
  	table{
         width: 100%;
+        text-align : center;
     }
     
     
@@ -82,7 +83,7 @@
     	
     }
     #info>h2, h3{
-    	padding-top: 20px;
+    	padding-top: 50px;
     	font-family: 'SBAggroB';
     
     }
@@ -93,6 +94,10 @@
     	font-family: 'SBAggroB';
     	font-size: 20px;
     }
+    
+    #info h3{
+    	margin-left:20px;
+    }
 	
 	/*변호사 회원 정보*/
 	#law-info{
@@ -100,8 +105,6 @@
 		margin: auto;
 		font-family: SBAggroB; 
 		font-weight: 300;
-		
-		
 	}
 	
 	/*일반회원정보*/
@@ -110,6 +113,10 @@
 		margin-left:300px;
 		font-family: SBAggroB; 
 		font-weight: 300;
+	}
+	
+	#user-info td, #law-info td{
+		text-align: left;
 	}
 	
 	thead th{
@@ -128,11 +135,6 @@
         text-decoration: none;
         color: black;
         display: block;
-    }
-    
-    #counsel-list a{
-    	width : 50%;
-    	float : left;
     }
     
     #review-btn{
@@ -541,7 +543,7 @@
 	        					}
 	        				}
 	        				
-	        			}); // ajax 끝 
+	        			}); 
 	        		}
 	        		
 	        	})	
@@ -733,7 +735,7 @@
 		            <tbody id="counsel-list">
 		            	<% for(int i = 0 ; i < cList.size() ; i++){ %>
 			            <tr>
-			                <td><a href=""><%= i+1 %>.</a></td>
+			                <td><%= i+1 %>.</td>
 			                <td><a href="<%=contextPath %>/counselDetail.la?cno=<%=cList.get(i).getCsNo()%>"><%= cList.get(i).getCsTitle()%></a></td> 
 			                	<!-- 답변 상태값 영역 -->
 			                <% if(cList.get(i).getAccept().equals("W")){%>
@@ -811,7 +813,7 @@
 						<tbody id=user-review>
 						<%for(int i = 0 ; i < lawRev.size() ; i++){ %>
 			            <tr>
-			                <td><%= i+1 %>.</td> <!-- 누를시에 어디로 이동할지 정하기  -->
+			                <td><%= i+1 %>.</td>
 			                <td><a href="<%=contextPath%>/reviewDetail.la?reNo=<%=lawRev.get(i).getReviewNo()%>"><%= lawRev.get(i).getReviewContent()%></a></td>
 			                <td><%= lawRev.get(i).getStar()%></td>
 			                <td><button class= "btn btn-outline-danger">삭제</button> <input type=hidden value = "<%=lawRev.get(i).getReviewNo()%>"></td>

@@ -91,7 +91,7 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    <div class="content">
+    <div id="content" style="overflow : auto">
     	<form class ="law_content" action="<%=contextPath%>/apply_Lawyer.me" method="post" enctype="multipart/form-data">
 	        <h2 align="center">변호사 회원 신청</h2>
 	        <hr>

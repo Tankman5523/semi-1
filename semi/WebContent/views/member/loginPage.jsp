@@ -241,7 +241,7 @@
 	                    <button type="submit" class="btn btn-primary">로그인</button>
 	                </div>
 	                <div>
-	                    <button type="button" class="btn btn-light" onclick = "intoEnroll();">회원가입</button>
+	                    <button type="button" class="btn btn-warning" onclick = "intoEnroll();">회원가입</button>
 	                </div>
 			   </div>
 	        </form>
