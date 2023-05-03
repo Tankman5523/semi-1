@@ -62,21 +62,24 @@
 	   border-collapse: collapse;
 	   position: absolute;
 	   margin: auto;
-	   right: 5%;
 	   top: 0;
 	   bottom: 0;
+	   right: 100px;
+	   border: 5px solid rgb(255, 243, 218);
 	}
     #info td{
     	background-color: rgb(255, 243, 218);
     }
     #info *{
     	color: black;
+    	font-size: 18px;
     }
 	th>img{
 	   width: 100%;
 	   height: 100%;
 	   object-fit: cover;
 	   display: block;
+	   border: 0;
 	}
 	/* 추가 커리어 */
 	#career>li{
@@ -182,6 +185,14 @@
 		color: black;
 		font-size: 17px
 	}
+	#info h2{
+		margin: 0;
+		margin-top: 10px;
+		font-size: 27px;
+	}
+	#info h3{
+		margin: 0;
+	}
 </style>
 
 <div id="content">
@@ -195,16 +206,16 @@
                <table id="info"> <!-- 변호사 소개글 영역 -->
                    <tr>
                        <th rowspan="4" width="180px" height="220px"><img src="<%=contextPath + law.getLawImg()%>"></th>
-                       <td rowspan="4" width="40px"></td>
-                       <td width="450px"><h2><%=lawName %> 변호사</h2></td>
+                       <td rowspan="4" width="50px"></td>
+                       <td width="400px" height="70px"><h2><%=lawName %> 변호사</h2></td>
                    </tr>
                    <%if(law.getLawComment() != null ){ %>
 	                   <tr>
-	                       <td><h3>"<%=law.getLawComment() %>"</h3></td>
+	                       <td><h3 style="font-size:22px">"<%=law.getLawComment() %>"</h3></td>
 	                   </tr>
                    <%} %>
                    <tr>
-                       <td><b><%=law.getCompanyName()+"  "+law.getCompanyPn() %></b></td>
+                       <td height="17px"><b><%=law.getCompanyName()+"&nbsp;&nbsp;|&nbsp;&nbsp;"+law.getCompanyPn() %></b></td>
                    </tr>
                    <tr>
 						<td><%=law.getCompanyAddress() %></td>
@@ -227,9 +238,9 @@
                              <td><span>&nbsp;&nbsp;지도 보기</span></td>
                          </tr>
                      </table>
-                     <div style="margin-top:50px; margin-left:120px;">
+                     <div style="margin-top:50px; margin-left:180px;">
                      	<i class="fa-solid fa-quote-left"></i>
-                     	<a href="<%=contextPath%>/list.rb?currentPage=1"><%=lawName %> 변호사의 해결사례가 궁금하다면?</a>
+                     	<a href="<%=contextPath%>/list.rb?currentPage=1">변호사님의 해결사례가 궁금하다면?</a>
                      </div>
                </div>
                <div id="left_bottom_right">

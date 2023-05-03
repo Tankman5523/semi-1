@@ -146,6 +146,9 @@
     button{
     	margin-top: 5px;
     }
+    #pointer:hover{
+    	cursor: pointer;
+    }
 </style>
 <%@ include file = "../common/header.jsp" %>
 <!-- Popper JS -->
@@ -185,7 +188,7 @@
 		            </tr>
 		            <tr>
 		            	<th></th>
-			            <td height ="40"><a><i class="fa-solid fa-scale-balanced fa-xl" style="color: #fd7c26;"></i> 변호사회원 신청하기</a></td>
+			            <td height ="40" id="pointer"><a><i class="fa-solid fa-scale-balanced fa-xl" style="color: #fd7c26;"></i> 변호사회원 신청하기</a></td>
 					</tr>		        
 		        </table>
 	    	</form>
