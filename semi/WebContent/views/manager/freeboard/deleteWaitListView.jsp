@@ -159,9 +159,11 @@
 									<td width="50"><%=b.getBoardWriter()%></td>
 									<td width="70">
 										<%if(b.getCategoryNo()==1){%>
-										일반게시판
+											<input type="hidden" name="cno" value="1">
+											일반게시판
 										<%}else if(b.getCategoryNo()==2){ %>
-										영상게시판
+											<input type="hidden" name="cno" value="2">
+											영상게시판
 										<%} %>
 									</td>
 									<td width="230"><%=b.getTitle()%></td>
@@ -190,6 +192,24 @@
 					</table>
 
 					<script>
+					
+						//게시글 조회
+		    			$(function(){
+		    				$(".tbl-content>table>tbody>tr").on("click", function(){
+		    					
+		    					var bno = $(this).children().eq(0).text();
+		    					var cno = $(this).children().eq(2).children().val();
+		    					
+		    					if(cno==1){
+			    					location.href = "<%=contextPath%>/detail.bo?bno="+bno;	    						
+		    					}else{
+			    					location.href = "<%=contextPath%>/detail.vi?bno="+bno;
+		    					}
+		    					
+		    				});
+		    			});
+						
+						
 						$(function(){
 				        	$(".noEvent").on("click",function(){
 				        		event.cancelBubble = true;

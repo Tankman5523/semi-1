@@ -7,6 +7,10 @@
 <title>일반영상 게시판 글 작성</title>
 <style>
 	
+    #content{
+    	border: 1px solid white;
+    	color: white;
+    }
     
     #insertForm-area>#submit-area{
     	text-align: center;
@@ -52,7 +56,7 @@
 				<tr>
 					<th>첨부파일</th>
 					<td>
-						<input type="file" name="upFile" required>
+						<input type="file" name="upFile" required accept="video/*">
 					</td>
 				</tr>
 			</table>

@@ -60,7 +60,7 @@
 					<th>첨부파일</th>
 					<td>
 					<%if(at == null){ %>
-							<input type="file" name="upFile" required>
+							<input type="file" name="upFile" required accept="video/*">
 						<%}else{ %>
 							<a href="<%=contextPath+at.getFilePath()+at.getChangeName()%>"><%=at.getOriginName()%></a>
 							<button type="button" id="delAt">삭제</button>

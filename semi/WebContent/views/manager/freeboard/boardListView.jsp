@@ -195,7 +195,7 @@
 	                
 	                <script>
 	                
-		              //일반 게시글
+		             	//일반 게시글
 		    			$(function(){
 		    				$(".tbl-content>table>tbody>tr").on("click", function(){
 		    					
@@ -210,11 +210,13 @@
 		    					
 		    				});
 		    			});
-							$(function(){
-					        	$(".noEvent").on("click",function(){
-					        		event.cancelBubble = true;
-					        	});
-				        	});
+		              
+		              
+						$(function(){
+					        $(".noEvent").on("click",function(){
+					        	event.cancelBubble = true;
+					        });
+				        });
 						
 			        
 						//삭제 대기 게시글 관리로 이동시키기

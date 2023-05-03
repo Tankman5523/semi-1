@@ -114,9 +114,9 @@
 			    	</div>
 		    		<div style="height: 5%">
 		    			<%if(loginUser != null){ %>
-			    		<input type="text" id="chat_input" required placeholder="메세지를 입력하세요.">
+			    			<input type="text" id="chat_input" required placeholder="메세지를 입력하세요.">
 			    		<%}else{ %>
-			    		<input type="text" id="chat_input" required readonly placeholder="메세지를 입력하세요.">
+			    			<input type="text" id="chat_input" required readonly placeholder="메세지를 입력하세요.">
 			    		<%} %>
 			    		<button type="button" id="chat_btn">전송</button>
 			    		<button type="button" id="chat_exit">채팅 종료</button>
@@ -134,41 +134,39 @@
 						$("#chat_output").css("text-align", "center");
 						$("#chat_output").val("----채팅을 시작합니다----");
 					};
-					   
 					webSocket.onclose = function() {
 						$("#chat_output").css("text-align", "center");
 						$("#chat_output").val("----채팅을 종료합니다----");
 					};
-					
 					webSocket.onerror = function() {
 						$("#chat_output").html("----오류----");
 					};
-					// WebSocket 서버로 부터 메시지가 오면 호출되는 함수
 					webSocket.onmessage = function(message) {
 						$("#chat_output").css("text-align", "left");
 						
 						str += message.data+"\n";
 						$("#chat_output").val(str);
+						
 					};
-
 					
 					<%if(loginUser != null){%>
-					$("#chat_input").on("keydown", function(e){
-						if(e.keyCode == 13){
-							e.preventDefault();
-							$("#chat_btn").click();
-						}
-					});
-					
-					$("#chat_btn").on("click", function(){
-						var input = $("#chat_input").val();
+						$("#chat_input").on("keydown", function(e){
+							if(e.keyCode == 13){
+								e.preventDefault();
+								$("#chat_btn").click();
+							}
+						});
 						
-						
-						webSocket.send("<%=loginUser.getUserId()%> : "+input);
-						
-						$("#chat_input").val("");
-					});
+						$("#chat_btn").on("click", function(){
+							var input = $("#chat_input").val();
+							
+							
+							webSocket.send("<%=loginUser.getUserId()%> : "+input);
+							
+							$("#chat_input").val("");
+						});
 					<%}%>
+					
 					
 					$("#chat_exit").on("click", function(){
 						webSocket.close();
