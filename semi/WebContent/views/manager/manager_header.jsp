@@ -23,7 +23,7 @@
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
     <style>
         /* ============================================전체 영역 */
-        *{
+        body{
         	margin: 0;
         	padding: 0;
         }
@@ -153,7 +153,7 @@
 		}
 
 	
-		<% if(loginUser == null &&loginUser.getAdmin().equals("N")){  
+		<% if(loginUser == null ||loginUser.getAdmin().equals("N")){  
 			
 			session.setAttribute("alertMsg", "로그인한 유저만 이용할 수 있습니다.");
 			response.sendRedirect(contextPath+"/index.jsp");

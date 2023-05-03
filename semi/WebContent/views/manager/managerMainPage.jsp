@@ -34,6 +34,7 @@
             height: 1000px;
             background-image: url("https://cdn.pixabay.com/photo/2016/10/03/14/24/car-1711788_1280.jpg");
             background-size: cover;
+            
         }
         #line{
             width: 100%;

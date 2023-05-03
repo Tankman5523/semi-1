@@ -16,6 +16,9 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- 부트스트랩 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
 <style>
 	
     div, input, textarea, h2, table, video, span{
@@ -27,6 +30,11 @@
     .notice_line:hover{
     	cursor: pointer;
     	color: gray;
+    }
+    
+    #content{
+        border: 1px solid white;
+        color : white;
     }
 
 	/*전체 영역잡기*/    
@@ -88,13 +96,29 @@
     	height: 5%;
     }
     
+    #content{
+    	color: white;
+    }
+    
+    ::-webkit-scrollbar {
+        width: 6px;
+    } 
+    ::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.8); 
+    } 
+    ::-webkit-scrollbar-thumb {
+        -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.8); 
+    }
     
     
 </style>
 </head>
 <body>
 	
-<%@include file="../common/header.jsp" %>
+
+	<%@include file="../common/header.jsp" %>
+
+
 	<div id="content">
  		<div id="header">
 			<h2 align="center" style="border: none;">
@@ -121,16 +145,16 @@
 					<%for(Board b : nlist){ %>
 					<tr class="notice_line" align="center">
 						<input id="bno" type="hidden" name="bno" value="<%=b.getBoardNo() %>">
-						<th>공지</th>
-						<td style="text-align: left; padding-left: 5px;">
+						<th width="160">공지</th>
+						<td width="800" style="text-align: left; padding-left: 5px;">
 							<%=b.getTitle()%>	
 							<%if(b.getRpCount()>0){ %>
 								[<%=b.getRpCount()%>]
 							<%} %>
 						</td>
-						<td><%=b.getBoardWriter()%></td>
-						<td><%=b.getCreateDate()%></td>
-						<td><%=b.getCount()%></td>
+						<td width ="100"><%=b.getBoardWriter()%></td>
+						<td width ="100"><%=b.getCreateDate()%></td>
+						<td width ="100"><%=b.getCount()%></td>
 					</tr>
 					<%} %>
 				<%} %>
@@ -138,11 +162,11 @@
 			</table>
 		</div>
 			
-		<div id="video-area">
+		<div id="video-area" style="border: 1px solid white;">
 			<div id="videoBody" style="margin:auto;">
 				<%if(vlist.isEmpty()){ %>
 					<div align="center">
-						<span>작성된 게시글이 없습니다.</span>
+						<span style="color: white;">작성된 게시글이 없습니다.</span>
 					</div>
 				<%}else{ %>
 					<%for(Board b : vlist){ %>
@@ -180,43 +204,47 @@
 				
 		<div id="page-area" align="center">
 			<div style="margin-top: 20px; border:none;">
+			<%if(pi.getMaxPage() != 0){ %>
 				<%if(a == 0){ %>
 				<!-- 전체 페이징 -->
 					<%if(pi.getCurrentPage()!=1){ %>
-						<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()-1%>'">prev</button>
+						<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.vi?currentPage=<%=pi.getCurrentPage()-1%>'">prev</button>
 					<%} %>
 				
 					<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++){ %>
 						<%if(i != pi.getCurrentPage()){ %>
-							<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=i%>'"><%=i%></button>			 		
+							<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.vi?currentPage=<%=i%>'"><%=i%></button>			 		
 						<%}else{ %>
 							<button class="btn btn-light" disabled><%=i%></button>
 							<%} %>
 					<%} %>
 						
 					<%if(pi.getCurrentPage()!=pi.getMaxPage()){ %>
-						<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()+1%>'">next</button>
+						<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.vi?currentPage=<%=pi.getCurrentPage()+1%>'">next</button>
 					<%} %>
 				
 				<%}else if(a == 1){ %>
 					<!-- 키워드에 의한 페이징 -->
 					<!-- semi/list.bo?currentPage=1&kind=title&keyword=DM -->
 					<%if(pi.getCurrentPage()!=1){ %>
-						<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()-1%>&kind=<%=kind%>&keyword=<%=keyword%>'">prev</button>
+						<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.vi?currentPage=<%=pi.getCurrentPage()-1%>&kind=<%=kind%>&keyword=<%=keyword%>'">prev</button>
 					<%} %>
 					
 					<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++){ %>
 						<%if(i != pi.getCurrentPage()){ %>
-							<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=i%>&kind=<%=kind%>&keyword=<%=keyword%>'"><%=i%></button>			 		
+							<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.vi?currentPage=<%=i%>&kind=<%=kind%>&keyword=<%=keyword%>'"><%=i%></button>			 		
 						<%}else{ %>
 							<button class="btn btn-light" disabled><%=i%></button>
 						<%} %>
 					<%} %>
 					
 					<%if(pi.getCurrentPage()!=pi.getMaxPage()){ %>
-						<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()+1%>&kind=<%=kind%>&keyword=<%=keyword%>'">next</button>
+						<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.vi?currentPage=<%=pi.getCurrentPage()+1%>&kind=<%=kind%>&keyword=<%=keyword%>'">next</button>
 					<%} %>
 				<%} %>
+			<%}else { %>
+				
+			<%} %>
 			</div>
 		</div>
 		

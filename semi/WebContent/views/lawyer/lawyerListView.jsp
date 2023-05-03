@@ -42,13 +42,13 @@
         float: left;
     }
     #lawList{
-        width: 80%;
+        width: 75%;
         overflow-y: scroll;
         -ms-overflow-y-style: none;
     }
     #lawList::-webkit-scrollbar { 
-    display: none;
-    width: 0 !important;
+	    display: none;
+	    width: 0 !important;
 	}
     #manual-area{
         width: 20%;
@@ -66,7 +66,7 @@
     #search-form{
         width: 80%;
         height: 100%;
-        margin-left: 250px;
+        margin-left: 300px;
     }
     #search-form>div{
         height: 100%;
@@ -82,8 +82,8 @@
     }
     /* 변호사 나열 */
     #lawList div{
-        margin: auto;
         width: 50%;
+        margin-left: 350px;
         margin-top: 50px;
         margin-bottom: 50px;
         cursor: pointer;
@@ -96,7 +96,7 @@
         position: absolute;
         margin: auto;
         bottom: 5%;
-        left: 0;
+        left: 5%;
         text-align: center;
         background-color: rgb(255, 236, 173);
         color: black;
@@ -123,10 +123,14 @@
 		border: 2px solid rgb(255, 229, 173);
 		transition: 0.3s;
 		cursor: pointer;
+		background-color: rgb(255, 229, 173);
 	}
     td{
     	font-size: 18px;
     	font-weight: 500;
+    }
+    img{
+    	object-fit: cover;
     }
 	@font-face {
 	    font-family: 'Pretendard-Regular';

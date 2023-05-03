@@ -11,15 +11,18 @@
 <!--awesome 아이콘 cdn-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <title>자유 영상게시글</title>
+<!-- 부트스트랩 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
 <style>
 	*{
 		box-sizing: border-box;
 	}
 	#content{
-		
-		height: 1300px;
+        border: 1px solid white;
+
+        color : white;
 	}
-	
     
     .comment{
     	border: 1px solid black;
@@ -65,17 +68,17 @@
 </head>
 <body>
 
-<%@include file="../common/header.jsp" %>
-	
+	<%@include file="../common/header.jsp" %>
+
 	<div id="content">
 		
-		<div align="center" style="height:10%; width:100%;">
+		<div align="center" style="height:7%; width:100%;">
 			<h1>자유 영상게시글</h1>
 		</div>
 		
 		<div id="body_area" style="float:left; height:90%; width:100%;">
 			<div border="1" id="detail-area" style="height:100%; width:60%; display:inline-block;">	
-				<div class=video-area>
+				<div class="video-area">
 					<video style="height:300px; padding: 0px;" src="<%=contextPath+at.getFilePath()+at.getChangeName()%>" controls width="500px" height="500px"></video>
 				</div>
 				
@@ -144,13 +147,13 @@
 				
 				
 				<div id="liked-area" align="center" style="height: 10%; padding-top: 20px">
-					<i id="good" class="fa-regular fa-thumbs-up fa-2x" style="margin-right: 70px"></i>
+					<i id="good" class="fa-regular fa-thumbs-up fa-2x" style="margin-right: 50px"></i>
 					
 					<i id="bad" class="fa-regular fa-thumbs-down fa-2x"></i>
 				</div>
 				
 				
-				<%if(loginUser != null && loginUser.getUserId().equals(b.getBoardWriter())){%>
+				<%if(loginUser != null && (loginUser.getUserId().equals(b.getBoardWriter()) || loginUser.getAdmin().equals("Y"))	){%>
 				<div id="update-area" align="center" style="border:none; padding:10px; hieght:5%;">
 					<button class="btn btn-warning" onclick="location.href='<%=contextPath%>/update.vi?bno=<%=b.getBoardNo()%>'" style="margin:5px;">수정하기</button>
 					<button class="btn btn-danger" onclick="location.href='<%=contextPath%>/delete.vi?bno=<%=b.getBoardNo()%>'" style="margin:5px;">삭제하기</button>
@@ -162,15 +165,16 @@
 		
 	
 			<div class="comment" style="height:100%; width: 39%; display:inline-block;">
-				<div id="reply-area" align="center" style="height: 100%;">
+				<div id="reply-area" align="left" style="width: 100%; height: 100%;">
+					<div style="align:center; height:10%; width:100%;">
+						<span style="font-size: 20px; height:100%; width:100%; text-align:center">댓글</span>
+					</div>
 					<table>
 						<thead>
 							<tr>
-								<th colspan="4" style="font-size: 20px; border:none;">댓글</th>
-							</tr>
-							<tr>
-								<td colspan="2"><textarea id="reply_input" rows="3" cols="35" style="resize: none; padding: 0px;" placeholder="댓글을 입력하세요."></textarea></td>
-								<td colspan="2" style="border:none;"><button id="reply_btn" >댓글 등록</button></td>
+								<td colspan="2" width="50px"><textarea id="reply_input" rows="3" cols="35" style="resize: none; padding: 0px;" placeholder="댓글을 입력하세요."></textarea></td>
+								<td colspan="2" style="border:none;"><button id="reply_btn" class="btn btn-secondary btn-sm">댓글 등록</button></td>
+								<td ></td>
 							</tr>
 						</thead>
 						<tbody>
@@ -319,12 +323,12 @@
 								  
 						<%if(loginUser != null){%>
 							if(rpWriter=="<%=loginUser.getUserId()%>"||<%=loginUser.getAdmin().equals("Y")%>){
-							 	str+= "<td width='40px'><button id='delRp'>삭제</button></td></tr>";
+							 	str+= "<td width='50px'><button id='delRp' class='btn btn-secondary btn-sm'>삭제</button></td></tr>";
 							}else{
-								str+= "<td width='40px'></td></tr>";
+								str+= "<td width='50px'></td></tr>";
 							}
 						<%}else{%>
-							str+= "<td width='40px'></td></tr>";		
+							str+= "<td width='50px'></td></tr>";		
 						<%}%>
 					}
 					
@@ -362,7 +366,7 @@
 					}
 				});
 				<%}else{%>
-				alert("댓글 삭제 권한이 없습니다.");
+					alert("댓글 삭제 권한이 없습니다.");
 				<%}%>
 				
 			});

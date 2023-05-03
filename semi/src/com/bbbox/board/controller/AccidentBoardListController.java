@@ -95,7 +95,6 @@ public class AccidentBoardListController extends HttpServlet {
 			request.setAttribute("a", a);
 			request.setAttribute("pi", pi);
 			request.setAttribute("blist", blist);
-			//request.setAttribute("sort", sort);
 			request.getRequestDispatcher("views/board/accidentBoardListView.jsp").forward(request, response);
 		}else {
 			request.setAttribute("errorMsg", "사건게시판 조회 실패");

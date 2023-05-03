@@ -41,7 +41,7 @@
             height: 2%;
         }
         #outer{
-            width: 1400px;
+            width: 1300px;
             height: 96%;
             margin: auto;
         }
@@ -58,7 +58,7 @@
         }
         #content{
             height: 80%;
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: rgba(0, 0, 0, 0.7);
 
         }
         #footer{
@@ -73,13 +73,13 @@
         }
         #logo-area{
             height: 100%;
-            width: 20%;
+            width: 30%;
             font-size: 50px;
             font-weight: 900;
         }
         #navi-area{
             height: 100%;
-            width: 80%;
+            width: 70%;
             position: relative;
         }
         #navibar{
@@ -107,7 +107,7 @@
         #navi a{
             text-decoration: none;
             color: white;
-            font-size: 20px;
+            font-size: 19px;
             font-weight: 800;
 
             width: 100%;
@@ -118,7 +118,7 @@
         }
         #navi a:hover{
             color: rgb(248, 245, 63);
-            font-size: 22px;
+            font-size: 20px;
         }
         #navi>li>ul{
             list-style-type: none;
@@ -127,10 +127,10 @@
             background-color:rgba(0,0,0,0.7);
         }
         #navi>li>ul a{
-            font-size: 18px;
+            font-size: 17px;
         }
         #navi>li>ul a:hover{
-            font-size: 20px;
+            font-size: 18px;
         }
         #navi>li>a:hover+ul{
             display: block;
@@ -179,7 +179,7 @@
                                 </ul>
             
                             </li>    
-                            <li><a href="">자유게시판</a>
+                            <li><a href="<%=contextPath%>/list.bo?currentPage=1">자유게시판</a>
                                 <ul>
                                     <li><a href="<%=contextPath%>/list.bo?currentPage=1">일반 게시판</a></li>
                                     <li><a href="<%=contextPath%>/list.vi?currentPage=1">영상 게시판</a></li>

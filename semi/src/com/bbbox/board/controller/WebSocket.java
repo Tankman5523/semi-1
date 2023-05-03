@@ -42,6 +42,7 @@ public class WebSocket {
     @OnClose
     public void handleClose(Session session) {
         // 세션을 세션 리스트에서 제거
+    	
         clients.remove(session);
         
         System.out.println("클라이언트 접속 해제");;

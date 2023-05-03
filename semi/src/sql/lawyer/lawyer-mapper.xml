@@ -357,7 +357,7 @@
 		AND USER_NAME LIKE ?
 		AND REF_PNO LIKE ?
 		AND COMPANY_ADDRESS LIKE ?
-		ORDER BY "해결영상수" DESC, LAW_NO DESC
+		ORDER BY "해결영상수" DESC NULLS LAST
 	</entry>
 	<entry key="manageSearchLawListMatch"> <!-- 상담매칭수 -->
 		SELECT LAW_NO,
@@ -386,7 +386,7 @@
 		AND USER_NAME LIKE ?
 		AND REF_PNO LIKE ?
 		AND COMPANY_ADDRESS LIKE ?
-		ORDER BY "상담매칭수" DESC, LAW_NO DESC
+		ORDER BY "상담매칭수" DESC NULLS LAST
 	</entry>
 	<entry key="manageSearchLawListAverage"> <!-- 리뷰평점 -->
 		SELECT LAW_NO,
@@ -415,7 +415,7 @@
 		AND USER_NAME LIKE ?
 		AND REF_PNO LIKE ?
 		AND COMPANY_ADDRESS LIKE ?
-		ORDER BY "리뷰평점" DESC, LAW_NO DESC
+		ORDER BY "리뷰평점" DESC NULLS LAST
 	</entry>
 	
 	<!-- 변호사 권한 박탈 -->

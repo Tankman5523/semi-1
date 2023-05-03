@@ -9,8 +9,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- 부트스트랩 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
 <style>
-	
+	#content{
+        border: 1px solid white;
+        color : white;
+    }
     
     #updateForm-area>#submit-area{
     	text-align: center;
@@ -54,7 +60,9 @@
 					<th>첨부파일</th>
 					<td>
 					<%if(at == null){ %>
-							<input type="file" name="upFile" required>
+							<input type="file" name="upFile" required accept="video/*">
+							<br>
+							<span><sub>* 파일 최대 크기 1Gb </sub></span>
 						<%}else{ %>
 							<a href="<%=contextPath+at.getFilePath()+at.getChangeName()%>"><%=at.getOriginName()%></a>
 							<button type="button" id="delAt">삭제</button>

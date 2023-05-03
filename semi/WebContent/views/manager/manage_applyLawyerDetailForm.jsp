@@ -115,7 +115,11 @@
 <!-- Latest compiled JavaScript -->	
 <div id="content" style="overflow: auto;">
 	<div class="law_content">
-    	<h2 align="center">변호사 회원 신청</h2>
+    		<%if(pageType.equals("apply")){ %> <!-- 변호사 신청일 경우 -->
+	        	<h2 align="center">변호사 회원 신청</h2>
+	        <%}else{ %><!-- 상세보기일 경우 -->
+	        	<h2 align="center">변호사 상세보기 [관리자 전용]</h2>
+	        <%} %>
 	        <hr>
 	        <h4>INFO</h4>
 	        <!-- 기본정보 뷰 -->

@@ -104,7 +104,7 @@
 						<th width="200px">상담제목</th>
 						<th width="150px">상담내용</th>
 						<th width="150px">작성날짜</th>
-						<th width="80px">변호사답변</th>
+						<th width="100px">변호사답변</th>
 						<th width="150px">상태값</th>
 						<th width="80px">삭제</th>
 					</tr>

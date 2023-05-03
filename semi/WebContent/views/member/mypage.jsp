@@ -148,6 +148,9 @@
     button{
     	margin-top: 5px;
     }
+    #pointer:hover{
+    	cursor: pointer;
+    }
 </style>
 <%@ include file = "../common/header.jsp" %>
 <!-- Popper JS -->
@@ -163,7 +166,7 @@
 		<h4>INFO</h4>
 		<hr>
 	    <!-- 기본정보 뷰(일반회원) -->
-	    <%if(loginUser.getLawyer().equals("N")){ %>
+	    <%if((loginUser.getLawyer().equals("N")) || (loginUser.getLawyer().equals("W"))){ %>
 	    	<form action="<%=contextPath%>/apply_Lawyer.me" method ="get">
 		        <table id="user-info">
 		            <tr>
@@ -187,7 +190,7 @@
 		            </tr>
 		            <tr>
 		            	<th></th>
-			            <td height ="40"><a><i class="fa-solid fa-scale-balanced fa-xl" style="color: #fd7c26;"></i> 변호사회원 신청하기</a></td>
+			            <td height ="40" id="pointer"><a><i class="fa-solid fa-scale-balanced fa-xl" style="color: #fd7c26;"></i> 변호사회원 신청하기</a></td>
 					</tr>		        
 		        </table>
 	    	</form>
@@ -492,11 +495,11 @@
 		                <td><%=i+1 %>.</td>
 		                <td><a href="<%=contextPath%>/detail.bo?bno=<%=boardList.get(i).getBoardNo()%>"><%=boardList.get(i).getTitle()%></a></td>
 		                <%if(boardList.get(i).getCategoryName().equals("해결")){ %>
-		               	 	<%if(boardList.get(i).getRevNo()!= null){ %>
-		               	 		<td><%=boardList.get(i).getCategoryName()%> <span style="color: green">리뷰작성완료</span></td>
-		               	 	<%}else{ %>
+		               	 	<%if(boardList.get(i).getRevNo() == null){ %>
 			               	 	<td><%=boardList.get(i).getCategoryName()%> <a class="review-btn" style="color :blue" >리뷰작성</a> <input type=hidden name="refAccNo" value = <%=boardList.get(i).getAccNo()%>></td>
-		               	 	<%} %>	 
+		               	 	<%}else{ %>	 
+		               	 		<td><%=boardList.get(i).getCategoryName()%></td>
+		               	 	<%} %>	
 		                <%}else{ %>
 		                <td><%=boardList.get(i).getCategoryName()%></td>
 		                <%} %>
