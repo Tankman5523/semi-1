@@ -6,6 +6,8 @@
 	String lat = (String)request.getAttribute("lat"); 
 	
 	Member applyMem = (Member)request.getAttribute("applyMem");
+	
+	String pageType = (String)request.getAttribute("page");
 %>    
     
 <!DOCTYPE html>
@@ -105,7 +107,8 @@
 	    margin-right: 20px;
     }
     </style>
-<%@ include file="../common/header.jsp" %>
+
+<%@ include file="manager_header.jsp" %>
 <!-- Popper JS -->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 
@@ -196,10 +199,14 @@
 	                </tr>
 	            </table>    
 	        <hr>
-	        
-	       <div id="applybtn" align="center">
-	       		<button class= "btn btn-primary" id="accept">승인</button>
-	       		<button class= "btn btn-danger" id="refuse">거절</button>
+	       <div class="applybtn" align="center">
+	       <%if(pageType.equals("apply")){ %> <!-- 변호사 신청일 경우 -->
+	        	<button id="accept">승인</button>
+	       		<button id="refuse">거절</button>
+	        <%}else{ %> <!-- 상세보기일 경우 -->
+	        	<button onclick="history.back()">확인</button>
+	        <%} %>
+
 	       </div>     
     </div>
 </div>    

@@ -48,8 +48,7 @@ public class ReviewDeleteController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//마이페이지에서 리뷰 삭제하기 
+		//마이페이지에서 변호사 리뷰 삭제하기 
 		
 		int reNo = Integer.parseInt(request.getParameter("reNo"));
 	

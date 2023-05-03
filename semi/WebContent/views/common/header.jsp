@@ -24,7 +24,6 @@
 
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 
-    
     <style>
         /* ============================================전체 영역 */
         body{
@@ -60,6 +59,7 @@
         #content{
             height: 80%;
             background-color: rgba(0, 0, 0, 0.9);
+
         }
         #footer{
             height: 10%;
@@ -145,29 +145,23 @@
 
 <script>
 		var msg = "<%=alertMsg%>";
-		
 		var errmsg ="<%=errorMsg%>";
 		
 		if(msg != "null"){
 			alert(msg);	
-			
 			<% session.removeAttribute("alertMsg"); %>
 		}
-		
 		if(errmsg != "null"){
 			alert(errmsg);
-			
 			<% session.removeAttribute("errorMsg"); %>
 		}
-		
-	
-	</script>
+</script>
 <body>
     <div class="wrap">
         <div id="line"><img src="<%=contextPath%>/resources/common/menu-top.jpg" alt="" style="width: 100%; height: 100%;"></div>
         <div id="outer">
             <div id="header">
-                <div id="logo-area" onclick="location='views/common/mainPage.jsp'">블변<span style="font-size: 40px;">의</span> 법칙</div>
+            	<div id="logo-area" onclick="location='views/common/mainPage.jsp'" style="cursor:pointer">블변<span style="font-size: 40px;">의</span> 법칙</div>
                 <div id="navi-area">
                     <div id="navibar">
                         <ul id="navi">
@@ -195,8 +189,8 @@
                             	<a href="<%=contextPath%>/list.qa">1:1 문의</a>
                             </li>
                             <%if(loginUser == null) {%>
-                            <li><a href="<%=contextPath%>/enroll.me">회원가입</a></li>
-                            <li><a href="<%=contextPath%>/login.me"><i class="fa-solid fa-door-open fa-xl" style="color: #ffffff;"></i></a></li>
+	                            <li><a href="<%=contextPath%>/enroll.me">회원가입</a></li>
+	                            <li><a href="<%=contextPath%>/login.me">로그인</a></li>
                             <%}else{ %>
 	                            <li><a href="<%=contextPath%>/entry.me">마이페이지</a></li>
     	               			<li><a href="<%=contextPath%>/logout.me">로그아웃</a></li>

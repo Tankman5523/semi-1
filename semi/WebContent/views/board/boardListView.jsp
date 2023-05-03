@@ -19,15 +19,12 @@
 <style>
 	
     div, input, textarea, h2{
-        border: 1px solid black;
         box-sizing: border-box;
     }
     
-    .outer{
-        border: 1px solid black;
-        width: 1200px;
-        height: 800px;
-        margin: auto;
+    #content{
+        border: 1px solid white;
+        color : white;
     }
 
     
@@ -60,22 +57,30 @@
     	color: gray;
     }
     
+    table{
+    	color: white;
+    }
+    
+    
     
 </style>
 </head>
 <body>
 	
-<%@include file="../common/header.jsp" %>
-	
-	<div class="outer">
- 		<div id="header" style="height: 10%">
-		<h2 align="center" style="border: none;">
-			일반 게시판
-		</h2>
-		</div>
 
-		<div id="content" style="height: 90%">
+	<%@include file="../common/header.jsp" %>
+
+	
+
+
+		<div id="content">
     
+	 		<div id="header" style="height: 10%">
+				<h2 align="center" style="border: none;">
+					일반 게시판
+				</h2>
+			</div>
+			
 			<div id="sort-area" align="right"style="height: 10%;">
 
 				<form action="list.bo" id="search-area" style="border: none;">
@@ -92,7 +97,7 @@
 			
 			</div>
 	
-			<div id="content_1" style="display: inline-block; width: 20%; height: 90%;">
+			<div id="content_1" style="display: inline-block; width: 20%; height: 80%;">
 				<div id="chat-area">
 			    	<div style="height: 80%">			    	
 			    		<textarea style="resize: none;" id="chat_output" readonly></textarea>
@@ -169,7 +174,7 @@
 				});
 			</script>
 			
-			<div id="content_2" style="display: inline-block; width: 80%; height:90%;">
+			<div id="content_2" style="display: inline-block; width: 80%; height:80%;">
 				<table border="1" style="width:100%; box-sizing:border-box; text-align: center" id="board-list">
 					<thead>
 						<tr>
@@ -181,7 +186,7 @@
 						</tr>
 	            	<%if(!nlist.isEmpty()){ %>
 	            		<%for(Board b : nlist){ %>
-	            		<tr class="notice_line">
+	            		<tr class="notice_line" style="background-color: rgb(70, 0, 0);">
 	            			<input id="bno" type="hidden" name="bno" value="<%=b.getBoardNo() %>">
 							<td>공지</td>
 							<td style="text-align: left; padding-left: 5px;">
@@ -223,49 +228,53 @@
 				
 				<div id="page-area" align="center" style="height:20%; border: none;">
 					<div style="margin-top: 20px; border:none;">
+					<%if(pi.getMaxPage() != 0){ %>
 						<%if(a == 0){ %>
 						<!-- 전체 페이징 -->
 							<%if(pi.getCurrentPage()!=1){ %>
-								<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()-1%>'">prev</button>
+								<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()-1%>'">prev</button>
 							<%} %>
 						
 							<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++){ %>
 								<%if(i != pi.getCurrentPage()){ %>
-									<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=i%>'"><%=i%></button>			 		
+									<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=i%>'"><%=i%></button>			 		
 								<%}else{ %>
-									<button disabled><%=i%></button>
+									<button class="btn btn-light" disabled><%=i%></button>
 									<%} %>
 							<%} %>
 								
 							<%if(pi.getCurrentPage()!=pi.getMaxPage()){ %>
-								<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()+1%>'">next</button>
+								<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()+1%>'">next</button>
 							<%} %>
 						
 						<%}else if(a == 1){ %>
 							<!-- 키워드에 의한 페이징 -->
 							<!-- semi/list.bo?currentPage=1&kind=title&keyword=DM -->
 							<%if(pi.getCurrentPage()!=1){ %>
-								<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()-1%>&kind=<%=kind%>&keyword=<%=keyword%>'">prev</button>
+								<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()-1%>&kind=<%=kind%>&keyword=<%=keyword%>'">prev</button>
 							<%} %>
 							
 							<%for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++){ %>
 								<%if(i != pi.getCurrentPage()){ %>
-									<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=i%>&kind=<%=kind%>&keyword=<%=keyword%>'"><%=i%></button>			 		
+									<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=i%>&kind=<%=kind%>&keyword=<%=keyword%>'"><%=i%></button>			 		
 								<%}else{ %>
-									<button disabled><%=i%></button>
+									<button class="btn btn-light" disabled><%=i%></button>
 								<%} %>
 							<%} %>
 							
 							<%if(pi.getCurrentPage()!=pi.getMaxPage()){ %>
-								<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()+1%>&kind=<%=kind%>&keyword=<%=keyword%>'">next</button>
+								<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()+1%>&kind=<%=kind%>&keyword=<%=keyword%>'">next</button>
 							<%} %>
 						<%} %>
+					<%}else{%>
+					
+					<%} %>
 					</div>
 				</div>
 				
 				<div id="btn-area" style="height:10%; border:none;" align="right">
 				<%if(loginUser != null){ %>
-					<button onclick="boardWrite()" style="margin: 10px">글쓰기</button>
+					<button onclick="boardWrite()" class="btn btn-light" style="margin: 10px">글쓰기</button>
 				<%} %>
 				</div>
 			</div>
@@ -301,7 +310,7 @@
 		</script>
 
 
-	</div>
+	
 	
 	<%@include file="../common/footer.jsp"%>
 	
@@ -309,6 +318,7 @@
 		$(function(){
 			$("input").attr("autocomplete", "off");
 		});
+		
 		
 		
 		

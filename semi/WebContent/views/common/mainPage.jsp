@@ -94,17 +94,109 @@
             float: left;
         }
         #content-left-area{
-            width: 50%;
-            position: relative;
-            
+            width: 60%;
+            position : relative;
         }
         
-        #content-right-area{
-            width: 50%;
+        #left{
+        	width: 90%;
+        	height: 80%;
+        	position : absolute;
+        	margin:auto;
+        	top: 0;
+        	right: 0;
+        	left:0;
+        	bottom:0;
         }
-        #content-right-area>div{
-            width: 100%;
-            height: 50%;
+        #content-right-area{
+            width: 40%;
+            box-sizing: border-box;
+        }
+        
+        #lawyer-area{
+        	width: 80%;
+        	height:100%;
+        	background-color: red;
+        	float:left;
+        }
+        
+        #lawyer-area>div{
+        	width: 100%;
+        	height:50%;
+        	position : relative;
+        	
+        }
+        
+        #right-top>div{
+        	width:90%;
+        	height:60%;
+        	background-color: yellow;
+        	position : absolute;
+        	margin:auto;
+        	top: 0;
+        	right: 0;
+        	left:0;
+        	bottom:0;
+        }
+        
+         #right-bottom>div{
+        	width:90%;
+        	height:60%;
+        	background-color: yellow;
+        	position : absolute;
+        	margin:auto;
+        	top: 0;
+        	right: 0;
+        	left:0;
+        }
+        #content-top{
+        	width: 100%;
+        }
+        #content-top>div{
+        	height:90%;
+        	float:left;
+        	margin-top: 20px;
+        }
+        #content-top>#content-top-img{
+        	width:50%;
+        }
+        
+        #content-top>#content-top-comment{
+        	width:50%;
+        	margin-left: 50px;
+        }
+        
+        #content-bottom{
+        	width: 100%;
+        }
+        #content-bottom>div{
+        	height:90%;
+        	float:left;
+        	margin-top: 20px;
+        }
+        #content-bottom>#content-bottom-img{
+        	width:50%;
+        }
+        
+        #content-bottom>#content-bottom-comment{
+        	width:50%;
+        	margin-left: 50px;
+        }
+        
+        #counsel-area{
+        	width:20%;
+        	height:100%;
+        	background-color:gray;
+        	float:right;
+        }
+        
+        #counsel-area>div{
+        	width:100%;
+        	height:50%;
+        }
+        
+        #togo-counsel{
+        	background-color:green;
         }
        
         /* ============================================ 네비바 */
@@ -171,24 +263,18 @@
 <body>
 	<script>
 		var msg = "<%=alertMsg%>";
-		
 		var errmsg ="<%=errorMsg%>";
 		
 		if(msg != "null"){
 			alert(msg);	
-			
 			<% session.removeAttribute("alertMsg"); %>
 		}
-		
 		if(errmsg != "null"){
 			alert(errmsg);
-			
 			<% session.removeAttribute("errorMsg"); %>
 		}
-		
-	
 	</script>
-	
+<body>
     <div class="wrap">
         <div id="line"><img src="<%=contextPath%>/resources/common/menu-top.jpg" alt="" style="width: 100%; height: 100%;"></div>
         <div id="outer">
@@ -211,25 +297,21 @@
                                 </ul>
             
                             </li>    
-                            <li><a href="">자유게시판</a>
+                            <li><a href="<%=contextPath%>/list.bo?currentPage=1">자유게시판</a>
                                 <ul>
                                     <li><a href="<%=contextPath%>/list.bo?currentPage=1">일반 게시판</a></li>
                                     <li><a href="<%=contextPath%>/list.vi?currentPage=1">영상 게시판</a></li>
                                 </ul>
                             </li>    
-                            <li><a href="">고객문의</a>
-                                <ul>
-                                    <li><a href="<%=contextPath%>/list.qa">1:1 문의</a></li>
-                                    <li><a href="">FQA</a></li>
-                                </ul>
+                            <li>
+                            	<a href="<%=contextPath%>/list.qa">1:1 문의</a>
                             </li>
                             <%if(loginUser == null) {%>
-                            <li><a href="<%=contextPath%>/login.me">로그인</a></li>
-                            <li><a href="<%=contextPath%>/enroll.me">회원가입</a></li>
+	                            <li><a href="<%=contextPath%>/enroll.me">회원가입</a></li>
+	                            <li><a href="<%=contextPath%>/login.me">로그인</a></li>
                             <%}else{ %>
-	                            <li><form action="<%=contextPath%>/confirm.me" method = "post">
-	                            	<button type="submit" style = "margin-top: 12px;"> 마이페이지 </button></form></li>
-    	               		<li><a href="<%=contextPath%>/logout.me">로그아웃</a></li>
+		                        <li><a href="<%=contextPath%>/entry.me">마이페이지</a></li>
+	    	               		<li><a href="<%=contextPath%>/logout.me">로그아웃</a></li>
 							<%} %>
                         </ul>
                     </div>.
@@ -242,11 +324,43 @@
                     </div>
                 </div>
                 <div id="content-right-area">
-                    <div id="right-top">
-
+                    <div id="lawyer-area">
+	                    <div id="right-top">
+							<div id="content-top">
+								<div id="content-top-img">
+									<img src="<%=contextPath%>/resources/common/IMG_6301.JPG" width= "150" height="180" >
+								</div>
+								<div id="content-top-coment">
+									<span>
+										가나다라 마바사 아자차카 
+									
+									</span>
+								</div>
+							</div>
+	                    </div>
+	                    <div id="right-bottom">
+							<div id="content-bottom">
+								<div id="content-bottom-img">
+									<img src="<%=contextPath%>/resources/common/IMG_6323.JPG" width= "150" height="180" >
+								</div>
+								<div id="content-bottom-coment">
+									<span>
+										가나다라 마바사 아자차카 
+									
+									</span>
+								</div>
+							</div>
+	                    </div>
                     </div>
-                    <div id="right-bottom">
-
+                    <div id="counsel-area">
+                    	<div id="togo-counsel">
+                    		<div id="counsel-icon">
+                    		</div>
+                    		<div id="report-icon">
+				            	<i class="fa-solid fa-camera fa-2xl" style="color: #f5b400;"></i>
+                    		</div>   
+                    	</div>
+                    	
                     </div>
                 </div>
             </div>

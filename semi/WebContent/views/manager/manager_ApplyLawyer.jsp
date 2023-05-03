@@ -72,8 +72,11 @@
         background-color: rgb(223, 220, 220);
     }
     
+    #apply-list td{
+    	height : 30px;
+    }
     
-    a{
+    #apply-list a{
         text-decoration: none;
         display: block;
 		color : white;        
@@ -102,7 +105,7 @@
 	<h2 align="center">변호사회원 전환신청 관리</h2>
 	<hr>
         <table>
-            <thead id="List">
+            <thead id="List" align="center">
                 <tr>
                     <th width="50">No.</th>
                     <th width="100">이름</th>

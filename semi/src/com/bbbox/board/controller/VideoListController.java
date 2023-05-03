@@ -32,7 +32,9 @@ public class VideoListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		
+		int a = 0;
+		
 		int listCount = new BoardService().VideoListCount(); //현재 총 게시글의 갯수
 		int currentPage = 0; //현재 페이지
 		if(request.getParameter("currentPage")==null) { 
@@ -70,6 +72,7 @@ public class VideoListController extends HttpServlet {
 				if(nlist != null) {
 					request.setAttribute("noticeList", nlist);
 				}
+				request.setAttribute("a", a);
 				request.setAttribute("pageInfo", pi);
 				request.setAttribute("vlist", vlist);
 				request.getRequestDispatcher("views/board/videoListView.jsp").forward(request, response);
@@ -77,6 +80,20 @@ public class VideoListController extends HttpServlet {
 				System.out.println("게시글 리스트조회 실패");
 			}
 		}else { //검색에 관한 파라미터값이 넘어오면
+			
+			a = 1;
+			
+			listCount = new BoardService().videoKeywordCount(kind, keyword);
+			maxPage = (int)Math.ceil((double)listCount / boardLimit);	
+			endPage = startPage+pageLimit-1;
+			if(endPage>maxPage) {
+				endPage=maxPage; 
+			}
+			
+			pi.setListCount(listCount);
+			pi.setMaxPage(maxPage);
+			pi.setEndPage(endPage);
+			
 			ArrayList<Board> vlist = new BoardService().selectVideoList(pi, kind, keyword);
 			
 			ArrayList<Board> nlist = null;
@@ -87,6 +104,10 @@ public class VideoListController extends HttpServlet {
 				if(nlist != null) {
 					request.setAttribute("noticeList", nlist);
 				}
+				
+				request.setAttribute("a", a);
+				request.setAttribute("kind", kind);
+				request.setAttribute("keyword", keyword);
 				request.setAttribute("pageInfo", pi);
 				request.setAttribute("vlist", vlist);
 				request.getRequestDispatcher("views/board/videoListView.jsp").forward(request, response);

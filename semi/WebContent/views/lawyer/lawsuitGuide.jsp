@@ -3,7 +3,6 @@
 <%@ include file = "../common/header.jsp" %>
 
 <style>
-
    /* 폰트, 색상 */
     @font-face {
 	    font-family: 'Pretendard-Regular';
@@ -11,7 +10,6 @@
 	    font-weight: 400;
 	    font-style: normal;
 	}
-	
 	#content{
 		text-align: center;
 	}
@@ -25,7 +23,6 @@
 	#content>img{
 		border: 7px solid rgb(255, 236, 173);
 	}
-	
 </style>
 
 <div id="content">

@@ -10,11 +10,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	.outer{
-        border: 1px solid black;
-        width: 1200px;
-        height: 450px;
-        margin: auto;
+	#content{
+        border: 1px solid white;
+        color : white;
     }
     
     #updateForm-area>#submit-area{
@@ -33,9 +31,10 @@
 </head>
 <body>
 
-<%@include file="../common/header.jsp" %>
+	<%@include file="../common/header.jsp" %>
+
 	
-	<div class="outer">
+	<div id="content">
 		<h2 align="center" style="height:10%">수정 페이지</h2>
 		
 		<form action="update.bo" method="post" id="updateForm-area" enctype="multipart/form-data">
@@ -59,7 +58,8 @@
 					<th>첨부파일</th>
 					<td>
 					<%if(at == null){ %>
-							<input type="file" name="upFile">
+							<input type="file" name="upFile"><br>
+							<span><sub>* 파일 최대 크기 10Mb</sub></span>
 						<%}else{ %>
 							<a href="<%=contextPath+at.getFilePath()+at.getChangeName()%>"><%=at.getOriginName()%></a>
 							<button type="button" id="delAt">삭제</button>
@@ -69,7 +69,7 @@
 			</table>
 			
 			<div id="submit-area" style="border:none; padding:10px; hieght:10%;">
-				<button type="submit">수정완료</button>
+				<button type="submit" class="btn btn-primary">수정완료</button>
 			</div>
 		</form>
 	
@@ -84,5 +84,7 @@
 		 	});
 		 </script>
 	 <%} %>
+	 
+	 <%@include file="../common/footer.jsp" %>
 </body>
 </html>

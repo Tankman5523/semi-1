@@ -22,7 +22,6 @@
 
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 
-    
     <style>
         /* ============================================전체 영역 */
         *{
@@ -43,6 +42,7 @@
             width: 1300px;
             height: 96%;
             margin: auto;
+            
         }
         #outer div{
             /* border : 1px solid white; 구역 확인용 */
@@ -142,22 +142,18 @@
 
 <script>
 		var msg = "<%=alertMsg%>";
-		
 		var errmsg ="<%=errorMsg%>";
 		
 		if(msg != "null"){
 			alert(msg);	
-			
 			<% session.removeAttribute("alertMsg"); %>
 		}
-		
 		if(errmsg != "null"){
 			alert(errmsg);
-			
 			<% session.removeAttribute("errorMsg"); %>
 		}
+
 	
-		<!-- 관리자 아니면 뒤로 날려버리기 -->
 		<% if(loginUser == null &&loginUser.getAdmin().equals("N")){  
 			
 			session.setAttribute("alertMsg", "로그인한 유저만 이용할 수 있습니다.");
@@ -166,12 +162,13 @@
 		
 	
 </script>
+
 <body>
     <div class="wrap">
         <div id="line"><img src="<%=contextPath%>/resources/common/menu-top.jpg" alt="" style="width: 100%; height: 100%;"></div>
         <div id="outer">
             <div id="header">
-            <div id="logo-area" onclick="location='views/manager/managerMainPage.jsp'">블변<span style="font-size: 40px;">의</span> 법칙<i class="fa-sharp fa-solid fa-gear fa-l" style="color: #bd0000;"></i></div>
+                <div id="logo-area" onclick="location='views/manager/managerMainPage.jsp'" style="cursor:pointer">블변<span style="font-size: 40px;">의</span> 법칙<i class="fa-sharp fa-solid fa-gear fa-l" style="color: #bd0000;"></i></div>
                 <div id="navi-area">
                     <div id="navibar">
                       <ul id="navi">
@@ -184,7 +181,7 @@
                             <li><a href="<%=contextPath %>/lawyerList.ma">변호사</a>
                                 <ul>
                                     <li><a href="<%=contextPath %>/lawyerList.ma">변호사 관리</a></li>
-                                    <li><a href="<%=contextPath %>/counselList.ma">상담 게시판 관리</a></li>
+                                    <li><a href="<%=contextPath %>/counselList.ma">상담게시판 관리</a></li>
                                 </ul>
             
                             </li>    
@@ -209,4 +206,3 @@
                     </div>
                 </div>
             </div>
-    
