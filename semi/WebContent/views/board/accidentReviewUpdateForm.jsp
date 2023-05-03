@@ -23,6 +23,7 @@
             margin: auto;
             color:white;
             text-align:center;
+            overflow:auto;
         }
         #content div{
             text-align: center;

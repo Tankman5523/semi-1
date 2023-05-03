@@ -102,8 +102,6 @@
         #left{
         	width: 90%;
         	height: 80%;
-        	position : absolute;
-        	margin:auto;
         	top: 0;
         	right: 0;
         	left:0;
@@ -230,12 +228,14 @@
             margin: 0px;
             padding: 0px;
             height: 100%;
+            z-index:100;
         }
         #navi>li{
             float: left;
             width: 15%;
             height: 100%;
             text-align: center;
+            z-index:100;
         }
         #navi a{
             text-decoration: none;
@@ -248,6 +248,7 @@
             display: block;
             line-height: 50px;
             margin: 0px 20px;
+            z-index:100;
         }
         #navi a:hover{
             color: rgb(248, 245, 63);
@@ -267,21 +268,11 @@
         }
         #navi>li>a:hover+ul{
             display: block;
+            
         }
         #navi>li>ul:hover{
             display: block;
         }
-        
-        
-        
-        /*----좌측 홈페이지 소개----*/
-        
-        #left{
-            width: 100%;
-            height:100%;
-        }
-        
-        
     </style>
 
 </head>

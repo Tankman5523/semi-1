@@ -9,12 +9,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- 부트스트랩 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
 <style>
 	#content{
-        border: 1px solid black;
-        width: 1200px;
-        height: 450px;
-        margin: auto;
+        border: 1px solid white;
+        color : white;
     }
     
     #updateForm-area>#submit-area{

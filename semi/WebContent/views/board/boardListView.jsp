@@ -16,6 +16,9 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- 부트스트랩 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
 <style>
 	
     div, input, textarea, h2{
@@ -24,9 +27,7 @@
     
     #content{
         border: 1px solid white;
-        width: 1200px;
-        height: 800px;
-        margin: auto;
+        color : white;
     }
 
     
@@ -113,9 +114,9 @@
 			    	</div>
 		    		<div style="height: 5%">
 		    			<%if(loginUser != null){ %>
-			    		<input type="text" id="chat_input" required placeholder="메세지를 입력하세요.">
+			    			<input type="text" id="chat_input" required placeholder="메세지를 입력하세요.">
 			    		<%}else{ %>
-			    		<input type="text" id="chat_input" required readonly placeholder="메세지를 입력하세요.">
+			    			<input type="text" id="chat_input" required readonly placeholder="메세지를 입력하세요.">
 			    		<%} %>
 			    		<button type="button" id="chat_btn">전송</button>
 			    		<button type="button" id="chat_exit">채팅 종료</button>
@@ -133,41 +134,39 @@
 						$("#chat_output").css("text-align", "center");
 						$("#chat_output").val("----채팅을 시작합니다----");
 					};
-					   
 					webSocket.onclose = function() {
 						$("#chat_output").css("text-align", "center");
 						$("#chat_output").val("----채팅을 종료합니다----");
 					};
-					
 					webSocket.onerror = function() {
 						$("#chat_output").html("----오류----");
 					};
-					// WebSocket 서버로 부터 메시지가 오면 호출되는 함수
 					webSocket.onmessage = function(message) {
 						$("#chat_output").css("text-align", "left");
 						
 						str += message.data+"\n";
 						$("#chat_output").val(str);
+						
 					};
-
 					
 					<%if(loginUser != null){%>
-					$("#chat_input").on("keydown", function(e){
-						if(e.keyCode == 13){
-							e.preventDefault();
-							$("#chat_btn").click();
-						}
-					});
-					
-					$("#chat_btn").on("click", function(){
-						var input = $("#chat_input").val();
+						$("#chat_input").on("keydown", function(e){
+							if(e.keyCode == 13){
+								e.preventDefault();
+								$("#chat_btn").click();
+							}
+						});
 						
-						
-						webSocket.send("<%=loginUser.getUserId()%> : "+input);
-						
-						$("#chat_input").val("");
-					});
+						$("#chat_btn").on("click", function(){
+							var input = $("#chat_input").val();
+							
+							
+							webSocket.send("<%=loginUser.getUserId()%> : "+input);
+							
+							$("#chat_input").val("");
+						});
 					<%}%>
+					
 					
 					$("#chat_exit").on("click", function(){
 						webSocket.close();
@@ -230,6 +229,7 @@
 				
 				<div id="page-area" align="center" style="height:20%; border: none;">
 					<div style="margin-top: 20px; border:none;">
+					<%if(pi.getMaxPage() != 0){ %>
 						<%if(a == 0){ %>
 						<!-- 전체 페이징 -->
 							<%if(pi.getCurrentPage()!=1){ %>
@@ -267,6 +267,9 @@
 								<button class="btn btn-light" onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=pi.getCurrentPage()+1%>&kind=<%=kind%>&keyword=<%=keyword%>'">next</button>
 							<%} %>
 						<%} %>
+					<%}else{%>
+					
+					<%} %>
 					</div>
 				</div>
 				

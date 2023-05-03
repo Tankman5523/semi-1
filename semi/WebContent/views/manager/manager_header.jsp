@@ -21,7 +21,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-
     <style>
         /* ============================================전체 영역 */
         body{
@@ -154,7 +153,7 @@
 		}
 
 	
-		<% if(loginUser == null &&loginUser.getAdmin().equals("N")){  
+		<% if(loginUser == null ||loginUser.getAdmin().equals("N")){  
 			
 			session.setAttribute("alertMsg", "로그인한 유저만 이용할 수 있습니다.");
 			response.sendRedirect(contextPath+"/index.jsp");

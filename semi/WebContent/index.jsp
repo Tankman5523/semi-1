@@ -4,11 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자 메인 페이지</title>
+<title>메인 페이지</title>
 </head>
 <body>
-
-<%@ include file="views/common/mainPage.jsp" %> <!-- 삭제예정 -->
-
+<%@ include file="views/common/mainPage.jsp" %>
 </body>
 </html>
