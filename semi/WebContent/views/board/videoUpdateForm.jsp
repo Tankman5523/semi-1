@@ -61,6 +61,8 @@
 					<td>
 					<%if(at == null){ %>
 							<input type="file" name="upFile" required accept="video/*">
+							<br>
+							<span><sub>* 파일 최대 크기 1Gb </sub></span>
 						<%}else{ %>
 							<a href="<%=contextPath+at.getFilePath()+at.getChangeName()%>"><%=at.getOriginName()%></a>
 							<button type="button" id="delAt">삭제</button>

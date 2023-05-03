@@ -134,7 +134,7 @@
         
             float: left;
             margin: 14px;
-            margin-left:45px;
+            margin-left: 30px;
             border: 1px solid white;
         }
         /*게시글 호버시*/
@@ -247,12 +247,12 @@
 		            	<%for(int i=0;i<blist.size();i++){ %>  
 		                 <table class="accidentBoardList" onclick="location.href='<%=contextPath%>/detail.ac?bno='+<%=blist.get(i).getBoardNo()%>">
 		                    <tr>
-		                        <td colspan="2">
+		                        <td colspan="2" >
 		                        	<video preload="metadata" src="<%=contextPath%><%=blist.get(i).getFilePath()%>#t=1.0" style="width:100%"></video>
 		                        </td>
 		                    </tr>
 		                    <tr>
-		                        <td colspan="2"><%=blist.get(i).getTitle()%></td>
+		                        <td colspan="2" style="font-size: 14px;"><%=blist.get(i).getTitle()%></td>
 		                    </tr>
 		                    <tr>
 		                        <td>제보일</td>

@@ -57,6 +57,8 @@
 					<th>첨부파일</th>
 					<td>
 						<input type="file" name="upFile" required accept="video/*">
+						<br>
+						<span><sub>* 파일 최대 크기 1Gb </sub></span>
 					</td>
 				</tr>
 			</table>

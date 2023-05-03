@@ -47,7 +47,7 @@ public class MemberMypageController extends HttpServlet {
 		//변호사 권한조회
 		String lawGrant = new MemberService().selectLawyerGrant(userNo);
 		
-		if(lawGrant.equals("Y")) { //조회해온 변호사 권한이 Y일 경우에만 조회 
+		if(lawGrant.equals("Y")) { //조회해온 변호사 권한이 Y일 경우에만 조회(변호사 마이페이지) 
 			
 			//1. 내 사건 조회 해오기 리뷰(변호사)
 			ArrayList <AccidentReview> accRev = new MemberService().selectAccidentReviewList(userNo);
@@ -66,14 +66,13 @@ public class MemberMypageController extends HttpServlet {
 			request.setAttribute("accident", accident); //변호사가 맡은 사건 리스트 
 			request.setAttribute("cListLaw", cListLaw); //나에게 온 상담 내역 조회 (변호사)
 		}else {
-			//일반 회원일 경우에 조회 
+			//일반 회원일 경우에 조회(일반회원 마이페이지) 
 			
 			//1. 좋아요 변호사 리스트 조회해오기(변호사 번호, 변호사 이름) 
 			ArrayList <Lawyer> lawList = new MemberService().selectDibsLawyer(userNo);
 			
 			//2. 상담 신청 목록 조회해오기 
 			ArrayList <Counsel> cList = new MemberService().selectCounselList(userNo);
-			
 			
 			//3. 내가 남긴 리뷰 조회해오기(일반회원)
 			ArrayList <LawReview> lawRev = new MemberService().selectLawReviewList(userNo);
@@ -85,7 +84,7 @@ public class MemberMypageController extends HttpServlet {
 			
 		}
 		
-		//모든 회원 조회 
+		//일반,변호사 회원 모두 
 		
 		//1. 내가 쓴 글 조회해오기(게시글 넘버, 제목, 게시글 위치(카테고리))
 		ArrayList <Board>  boardList = new MemberService().selectBoardList(userNo);

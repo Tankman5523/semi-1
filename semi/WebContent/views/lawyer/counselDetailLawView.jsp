@@ -171,7 +171,7 @@
 
 		$("#declineBtn").click(function() {
 			$("#answer-form").css("display", "block");
-			var info = "상담내용 확인해보았으나, 현재 업무 스케쥴상 담당하기 어려운 사건으로 보입니다. 블라블라";
+			var info = "상담내용 확인해 보았으나, 현재 업무 스케줄상 담당하기 어려운 사건으로 보입니다. 사건이 원만히 해결되길 바랍니다. ";
 			$("#answer").html(info);
 			$("#button").css("display", "none");
 			$("#answer-form>input[name=result]").val("decline");

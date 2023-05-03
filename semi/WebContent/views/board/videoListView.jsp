@@ -79,7 +79,7 @@
     	height: 350px;
     	width: 300px;
     	float:left;
-    	margin: 35px;
+    	margin: 20px;
     	border: 1px solid white;
     }
     
@@ -145,16 +145,16 @@
 					<%for(Board b : nlist){ %>
 					<tr class="notice_line" align="center">
 						<input id="bno" type="hidden" name="bno" value="<%=b.getBoardNo() %>">
-						<th>공지</th>
-						<td style="text-align: left; padding-left: 5px;">
+						<th width="160">공지</th>
+						<td width="800" style="text-align: left; padding-left: 5px;">
 							<%=b.getTitle()%>	
 							<%if(b.getRpCount()>0){ %>
 								[<%=b.getRpCount()%>]
 							<%} %>
 						</td>
-						<td><%=b.getBoardWriter()%></td>
-						<td><%=b.getCreateDate()%></td>
-						<td><%=b.getCount()%></td>
+						<td width ="100"><%=b.getBoardWriter()%></td>
+						<td width ="100"><%=b.getCreateDate()%></td>
+						<td width ="100"><%=b.getCount()%></td>
 					</tr>
 					<%} %>
 				<%} %>

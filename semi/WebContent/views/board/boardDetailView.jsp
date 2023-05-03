@@ -89,7 +89,7 @@
 				<th style="text-align: center;">내용</th>
 				<td colspan="7">
 					<%if(at != null){ %>
-						<img src="<%=contextPath+at.getFilePath()+at.getChangeName()%>">
+						<img src="<%=contextPath+at.getFilePath()+at.getChangeName()%>"> <br>
 					<%} %>
 					<span>
 					<%=b.getContent()%>

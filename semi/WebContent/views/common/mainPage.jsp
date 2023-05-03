@@ -273,6 +273,12 @@
         #navi>li>ul:hover{
             display: block;
         }
+        
+        #left{
+            width: 100%;
+            height:100%;
+        }
+        
     </style>
 
 </head>

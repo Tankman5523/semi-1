@@ -68,6 +68,7 @@
     	font-size: 15px;
     	text-align: center;
     	color : white; 
+    	height: 30px;
     }	 
     #List{
         background-color: rgb(223, 220, 220);
@@ -101,16 +102,12 @@
 	
 <div id="content" style="overflow: auto;">	
 	<div id="delete_mem_list">
-		<h2 align="center">탈퇴 회원 관리</h2>
-		<div class="delete-btn-area">
-			<button class="btn btn-danger btn-sm" id="delete-btn">선택 삭제</button>
-		</div>
+		<h2 align="center">탈퇴 회원 조회</h2>
 		<hr>
 		
 	        <table>
 	            <thead id="List">
 	                <tr>
-	                	<th width="50">선택</th>
 	                    <th width="50">회원번호</th>
 	                    <th width="70">아이디</th>
 	                    <th width="70">이름</th>
@@ -124,7 +121,6 @@
 	            <tbody id="memberList">
 		          	<%for(Member deletMem : deleteMemList){ %>
 		            <tr>
-		            	<td id="chek-area" align="center" ><input type ="checkbox"></td>
 		                <td><%=deletMem.getUserNo()%></td>
 		                <td><%=deletMem.getUserId() %></td>
 		                <td><%=deletMem.getUserName() %></td>
@@ -147,28 +143,5 @@
 	            </tbody>
 	        </table>
 		</div>
-		
-		<script>
-		/*선택 삭제시, 데이터 완전 삭제 */
-		
-		$(function(){
-			
-			$('#memberList').on('click','input',function(){
-				
-				var chk_list = $(this);
-				
-				for(var i = 0 ; i<chk_list.length ; i++){
-					chk_list[i].check = this.chked;
-				}
-				
-				var userNo = $(this).parent().next().text(); //회원번호 
-				
-			
-			});
-			
-			
-		}); //함수 끝 
-		
-		</script>
 </div>
 <%@ include file = "../common/footer.jsp" %>		

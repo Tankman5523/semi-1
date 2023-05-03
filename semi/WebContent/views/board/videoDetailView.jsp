@@ -173,7 +173,7 @@
 						<thead>
 							<tr>
 								<td colspan="2" width="50px"><textarea id="reply_input" rows="3" cols="35" style="resize: none; padding: 0px;" placeholder="댓글을 입력하세요."></textarea></td>
-								<td colspan="2" style="border:none;"><button id="reply_btn" >댓글 등록</button></td>
+								<td colspan="2" style="border:none;"><button id="reply_btn" class="btn btn-secondary btn-sm">댓글 등록</button></td>
 								<td ></td>
 							</tr>
 						</thead>
@@ -323,7 +323,7 @@
 								  
 						<%if(loginUser != null){%>
 							if(rpWriter=="<%=loginUser.getUserId()%>"||<%=loginUser.getAdmin().equals("Y")%>){
-							 	str+= "<td width='50px'><button id='delRp'>삭제</button></td></tr>";
+							 	str+= "<td width='50px'><button id='delRp' class='btn btn-secondary btn-sm'>삭제</button></td></tr>";
 							}else{
 								str+= "<td width='50px'></td></tr>";
 							}

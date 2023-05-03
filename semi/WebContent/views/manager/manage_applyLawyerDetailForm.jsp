@@ -203,12 +203,12 @@
 	                </tr>
 	            </table>    
 	        <hr>
-	       <div class="applybtn" align="center">
+	       <div id="applybtn" align="center">
 	       <%if(pageType.equals("apply")){ %> <!-- 변호사 신청일 경우 -->
-	        	<button id="accept">승인</button>
-	       		<button id="refuse">거절</button>
+	        	<button id="accept" class="btn btn-primary">승인</button>
+	       		<button id="refuse" class="btn btn-danger">거절</button>
 	        <%}else{ %> <!-- 상세보기일 경우 -->
-	        	<button onclick="history.back()">확인</button>
+	        	<button onclick="history.back()" class="btn btn-primary">확인</button>
 	        <%} %>
 
 	       </div>     

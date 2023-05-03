@@ -111,7 +111,7 @@
                     <th width="70">이름</th>
                     <th width="70">회원 타입</th>
                     <th width="100">가입일</th>
-                    <th width="50">탈퇴여부</th>
+                    <th width="50">회원 권한</th>
                     <th width="50">작성 게시글 수</th>
                     <th width="50">작성 댓글 수</th>
                 </tr>

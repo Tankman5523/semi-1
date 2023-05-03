@@ -24,7 +24,6 @@ public class WebSocket {
         clients.add(session);
         
         System.out.println("클라이언트 접속");
-        System.out.println(clients.hashCode());
     }
 
     @OnMessage
@@ -44,7 +43,6 @@ public class WebSocket {
     public void handleClose(Session session) {
         // 세션을 세션 리스트에서 제거
     	
-    	System.out.println(clients.hashCode());
         clients.remove(session);
         
         System.out.println("클라이언트 접속 해제");;

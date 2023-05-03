@@ -335,7 +335,7 @@
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJwp5ZEf5Vi5Gz_5RiU4Sxzt2IfSTeuDM&callback=myMap"></script>
 	
 	<!-- 관리자일 경우는 관리자 만들 때  -->
-	<%if(loginUser != null && loginUser.getLawyer().equals("N")){ %> <!-- 일반회원일 경우 -->
+	<%if(loginUser != null && (loginUser.getLawyer().equals("N")||loginUser.getLawyer().equals("W"))){ %> <!-- 일반회원일 경우 -->
 	
 		<script>
 			 $(function(){ //현재 찜한 여부 확인

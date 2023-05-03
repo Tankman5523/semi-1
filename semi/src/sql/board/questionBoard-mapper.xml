@@ -12,6 +12,7 @@
 		FROM QUESTION Q
 		JOIN MEMBER ON (Q_WRITER = USER_NO)
 		WHERE Q.STATUS = 'Y'
+		ORDER BY CREATE_DATE DESC
 	</entry>
 	
 	<entry key="insertQuestion">
