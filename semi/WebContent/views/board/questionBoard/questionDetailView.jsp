@@ -121,72 +121,72 @@
 <div id="content">
 	<!-- 로그인 회원이 공개 개시글을 조회했을 때 -->
 	<%if(loginUser != null){ %>
-	<div class="outer">
-		<h2 align="center">1:1 문의</h2>
-			<br>
-			<table id="insertqa" align="center">
-				<tr>
-					<th> 제목</th>
-					<td>
-						<input type="text" name="title" value ="<%=qa.getTitle()%>" style="width: 100%;" readonly>
-					</td>
-				</tr>
-				<tr>
-					<th>내용</th>
-					<td>
-						<textarea rows="10" cols="90" name="content" style="resize:none;" readonly><%=qa.getContent()%></textarea>
-					</td>
-				</tr>
-			</table>
-		<%if(loginUser.getUserId().equals(qa.getqWriter())){%>
-		<div id=btn-area>
-			<button class="btn btn-secondary" onclick = "modify_qa();">수정하기</button>
-			<button class="btn btn-warning" id="question_del">삭제하기</button>
-		</div>
-		<%} %>
-		<br>	
-		<%if(loginUser.getAdmin().equals("Y")){ %>
-			<%if(qa.getAnswer()==null){ %>	
-            <table id="reply_admin" align="center">
-            	<tbody>
-	                <tr>
-	                	<th width="">관리자</th>
-	                    <td>
-	                       <textarea name="reply-content" id="reply-content" cols="80" rows="5" style="resize:none;"></textarea>
-	                    </td>
-			             <td>
-	                        <button class="btn btn-secondary" id="reply-btn">등록</button>
-	                    </td>
-	                </tr>
-                </tbody>
-            </table>
-            <%}else{%>
+		<div class="outer">
+			<h2 align="center">1:1 문의</h2>
+				<br>
+				<table id="insertqa" align="center">
+					<tr>
+						<th> 제목</th>
+						<td>
+							<input type="text" name="title" value ="<%=qa.getTitle()%>" style="width: 100%;" readonly>
+						</td>
+					</tr>
+					<tr>
+						<th>내용</th>
+						<td>
+							<textarea rows="10" cols="90" name="content" style="resize:none;" readonly><%=qa.getContent()%></textarea>
+						</td>
+					</tr>
+				</table>
+			<%if(loginUser.getUserId().equals(qa.getqWriter())){%>
+			<div id=btn-area>
+				<button class="btn btn-secondary" onclick = "modify_qa();">수정하기</button>
+				<button class="btn btn-warning" id="question_del">삭제하기</button>
+			</div>
+			<%} %>
+			<br>	
+			<%if(loginUser.getAdmin().equals("Y")){ %>
+				<%if(qa.getAnswer()==null){ %>	
 	            <table id="reply_admin" align="center">
 	            	<tbody>
 		                <tr>
 		                	<th width="">관리자</th>
 		                    <td>
-		                       <textarea name="reply-content" id="reply-content" cols="80" rows="5" style="resize:none;" readonly><%=qa.getAnswer()%></textarea>
+		                       <textarea name="reply-content" id="reply-content" cols="80" rows="5" style="resize:none;"></textarea>
 		                    </td>
 				             <td>
+		                        <button class="btn btn-secondary" id="reply-btn">등록</button>
 		                    </td>
 		                </tr>
 	                </tbody>
 	            </table>
-            <%} %>
-        <%}else if(qa.getAnswer() != null){ %>
-        <!-- 사용자에게 보이는 화면 -->
-        	<table id="reply_user" align="center">
-            	<tbody>
-	            	<tr>
-		                <th>관리자</th>
-		                    <td rowspan="2">
-		                       <textarea name="reply-content" id="reply-content" cols="90"  rows="5" style="resize:none;" readonly><%=qa.getAnswer()%></textarea>
-		                    </td>
-		                </tr>
-                </tbody>
-            </table>
-        <%} %>
+	            <%}else{%>
+		            <table id="reply_admin" align="center">
+		            	<tbody>
+			                <tr>
+			                	<th width="">관리자</th>
+			                    <td>
+			                       <textarea name="reply-content" id="reply-content" cols="80" rows="5" style="resize:none;" readonly><%=qa.getAnswer()%></textarea>
+			                    </td>
+					             <td>
+			                    </td>
+			                </tr>
+		                </tbody>
+		            </table>
+	            <%} %>
+	        <%}else if(qa.getAnswer() != null){ %>
+	        <!-- 사용자에게 보이는 화면 -->
+	        	<table id="reply_user" align="center">
+	            	<tbody>
+		            	<tr>
+			                <th>관리자</th>
+			                    <td rowspan="2">
+			                       <textarea name="reply-content" id="reply-content" cols="90"  rows="5" style="resize:none;" readonly><%=qa.getAnswer()%></textarea>
+			                    </td>
+			                </tr>
+	                </tbody>
+	            </table>
+	        <%} %>
 	<%}else{ %>
 <!-- 로그인하지 않은 사용자가 조회할 경우  -->
 		<div class="outer">
@@ -214,7 +214,7 @@
 	            	<tr>
 		                <th rowspan = "2" align="center">관리자</th>
 		                    <td rowspan="2">
-		                       <textarea name="reply-content" id="reply-content" cols="90" rows="5" style="resize:none; width: 100%; " readonly><%=qa.getAnswer()%></textarea>
+		                       <textarea name="reply-content" id="reply-content" cols="90" rows="5" style="resize:none; width: 100%; " readonly placeholder="답변은 게시글 작성자에게만 보입니다."></textarea>
 		                    </td>
 		                </tr>
                 </tbody>

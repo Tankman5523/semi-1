@@ -126,7 +126,7 @@
                     </tr>
                     <tr>
                         <th>비밀번호 확인</th>
-                        <td><input type="password" name="chkPwd" id="chkPwd"></td>
+                        <td><input type="password" name="chkPwd" id="chkPwd" value=<%=loginUser.getUserPwd()%>></td>
                     </tr>
                     <tr>
                         <td></td>

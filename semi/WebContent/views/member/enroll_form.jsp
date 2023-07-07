@@ -98,7 +98,9 @@
         	
     		var idCheck =/^[a-zA-Z]{1}[a-zA-Z0-9]{3,11}$/;
         	
-        	var $chkId = $('#join-form input[name=inputId]');
+        	var $chkId = $('#enroll-table input[name=inputId]');
+        	
+        	console.log($chkId.val());
         	
         	$.ajax({
         		url : "idCheck.me",
@@ -140,7 +142,7 @@
                 <tr> 
                     <th width="150" height="40"><label for="userId" >아이디</label></th>
                     <td width="500"><input class="input-group-sm" type="text" name="inputId" id="userId" maxlength="12" required placeholder = "아이디를 입력해주세요"> 
-                    	<button class="btn btn-light btn-sm" id ="check_btn" type="button" onclick = "return chkId();"> 중복확인 </button> <label id="checkResult"></label></td>
+                    	<button class="btn btn-light btn-sm" id ="check_btn" type="button" onclick = "return chkId();"> 중복확인 </button> <label id="checkResult" style="color : red"></label></td>
                 </tr>
                 <tr>
                 	<th></th>
@@ -183,8 +185,8 @@
             </table>
             
             <div id="enroll-btn" align="center">
-                    <button class="btn btn-outline-success" type="button" onclick = "reset();">취소</button> <!-- 클릭시 메인으로 돌아가기-->
-                    <button  class="btn btn-outline-warning" id="submit_btn" type="submit" onclick="return enroll_test();" disabled>가입하기</button>
+                    <button class="btn btn-outline-success" type="button" onclick = "location.href='<%=contextPath%>'">취소</button> <!-- 클릭시 메인으로 돌아가기-->
+                    <button  class="btn btn-outline-warning" id="submit_btn" type="submit" onclick="return enroll_bbox();" disabled>가입하기</button>
             </div>
             <br><br>
         </form>
@@ -193,12 +195,6 @@
     
         
 	<script>
-        /* 취소 버튼 script영역 */
-        function reset(){
-        	
-        	// location.href ="<%=request.getContextPath()%>/";
-        }
-        
         /* 비밀번호 확인 script, 비밀번호, 비밀번호 확인 일치 여부  */
         $(function(){
             $("#success").css("color","yellow").hide();
@@ -229,47 +225,45 @@
 	</script>
         
 	<script>
-        	
-            function enroll_test(){
-            	
-                var inputId = $('#userId').val();
-                var userPwd = $('#userPwd').val();
-                var checkPwd = $('#checkPwd').val();
-
-                var idCheck =/^[a-zA-Z0-9]{4,11}$/;
-                var pwdCheck = /^[a-zA-Z0-9!@#$%^&*]{8,15}$/;
-
-                if(!idCheck.test(inputId)){
-                    alert("아이디형식이 올바르지 않습니다. 다시 입력해주세요")
-                    userId.select();
-                    return false;
-                }
-
-                if(!pwdCheck.test(userPwd)){
-                    alert("비밀번호는 영문자,숫자,특수문자(!@#$%^&*)가 포함된 8~15를 입력해주세요.")
-                    return false;
-                  
-                }
-                
-                if(userPwd != "" || checkPwd !=""){
-                	if(userPwd != checkPwd){
-                		alert("비밀번호와 비밀번호 확인이 일치하지 않습니다 다시 입력해주세요.");
-                		return false;
-                	}
-                
-            	}else{
-            		alert("비밀번호엔 공백이 포함될 수 없습니다. 다시 입력해주세요.");
-            	}
-                
-                
-            } 	
-        </script>
+		function enroll_bbox(){
+		    var inputId = $('#userId').val();
+		    var userPwd = $('#userPwd').val();
+		    var checkPwd = $('#checkPwd').val();
+		
+		    var idCheck =/^[a-zA-Z0-9]{4,11}$/;
+		    var pwdCheck = /^[a-zA-Z0-9!@#$%^&*]{8,15}$/;
+		
+		    if(!idCheck.test(inputId)){
+		        alert("아이디형식이 올바르지 않습니다. 다시 입력해주세요")
+		        userId.select();
+		        return false;
+		    }
+		
+		    if(!pwdCheck.test(userPwd)){
+		        alert("비밀번호는 영문자,숫자,특수문자(!@#$%^&*)가 포함된 8~15를 입력해주세요.")
+		        return false;
+		      
+		    }
+		    
+		    if(userPwd != "" || checkPwd !=""){
+		    	if(userPwd != checkPwd){
+		    		alert("비밀번호와 비밀번호 확인이 일치하지 않습니다 다시 입력해주세요.");
+		    		return false;
+		    	}
+		    
+			}else{
+				alert("비밀번호엔 공백이 포함될 수 없습니다. 다시 입력해주세요.");
+			}
+		    
+		    
+		} 	
+	</script>
         
-        <script type="text/javascript">
+        <script>
         	
         	var authKey = ""; // 이메일 인증 번호 담을 변수 
+        	
         	/* 이메일 중복 확인  */
-			
         	function doubleChk(){
 				
 				var $email = $('#inputEmail');
@@ -342,7 +336,6 @@
 							
 						}
 						
-						
 					},
 					
 					error: function(){
@@ -371,9 +364,7 @@
         			return false;
         		}
         			
-        		
         	} 
-								
         </script>
 <%@include file="../common/footer.jsp" %>    
         

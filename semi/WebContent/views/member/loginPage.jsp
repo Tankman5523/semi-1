@@ -319,14 +319,14 @@
                 			
                 			if(result != null){
                 				Authentication2();
+                			}else{
+                				
+                				var msg = "없는 회원 정보입니다. 다시 입력해주세요";
+                    			
+                    			$('#resultemail').html(msg)
                 			}
                 		},
                 		
-                		error : function(){
-                			var msg = "없는 회원 정보입니다. 다시 입력해주세요";
-                			
-                			$('#resultemail').html(msg);
-                		}
                 	
                 	
                 	}); //ajax 끝 

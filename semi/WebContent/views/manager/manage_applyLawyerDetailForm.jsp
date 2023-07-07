@@ -7,6 +7,8 @@
 	
 	Member applyMem = (Member)request.getAttribute("applyMem");
 	
+	System.out.println(applyMem);
+	
 	String pageType = (String)request.getAttribute("page");
 %>    
     
