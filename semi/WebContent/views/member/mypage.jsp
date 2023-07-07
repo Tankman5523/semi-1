@@ -25,6 +25,7 @@
 	String lat =(String)request.getAttribute("lat");
 	
 	String arNo =(String)request.getAttribute("arNo");
+	
 %>  
     
 <!DOCTYPE html>
@@ -496,7 +497,8 @@
 		                <td><a href="<%=contextPath%>/detail.bo?bno=<%=boardList.get(i).getBoardNo()%>"><%=boardList.get(i).getTitle()%></a></td>
 		                <%if(boardList.get(i).getCategoryName().equals("해결")){ %>
 		               	 	<%if(boardList.get(i).getRevNo() == null){ %>
-			               	 	<td><%=boardList.get(i).getCategoryName()%> <a class="review-btn" style="color :blue" >리뷰작성</a> <input type=hidden name="refAccNo" value = <%=boardList.get(i).getAccNo()%>></td>
+			               	 	<td><%=boardList.get(i).getCategoryName()%> <a class="review-btn" style="color :blue" >리뷰작성</a> 
+			               	 	<input type=hidden name="refAccNo" value = <%=boardList.get(i).getAccNo()%>></td>
 		               	 	<%}else{ %>	 
 		               	 		<td><%=boardList.get(i).getCategoryName()%></td>
 		               	 	<%} %>	

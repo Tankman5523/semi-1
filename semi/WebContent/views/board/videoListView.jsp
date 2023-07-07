@@ -47,7 +47,7 @@
     }
     
     #sort-area{
-    	height: 10%;
+    	height: 5%;
     }
     
     /* 공지사항 영역 */

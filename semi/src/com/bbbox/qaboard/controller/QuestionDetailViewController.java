@@ -46,7 +46,7 @@ public class QuestionDetailViewController extends HttpServlet {
 		}else {
 			
 			int qno = Integer.parseInt(request.getParameter("qno"));
-	
+			
 			int userNo = ((Member)(request.getSession().getAttribute("loginUser"))).getUserNo();
 			
 			String admin = ((Member)(request.getSession().getAttribute("loginUser"))).getAdmin();

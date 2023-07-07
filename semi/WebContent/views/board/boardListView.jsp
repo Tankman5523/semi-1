@@ -103,7 +103,7 @@
 			<div id="content_1" style="display: inline-block; width: 20%; height: 80%;">
 				<div id="chat-area">
 			    	<div style="height: 80%">			    	
-			    		<textarea style="resize: none;" id="chat_output" readonly></textarea>
+			    		<textarea  id="chat_output" readonly></textarea>
 			    	</div>
 			    	<div id="loginInfo" style="height: 5%;">
 			    		<%if(loginUser != null){ %>
@@ -123,12 +123,20 @@
 		    		</div>
 				</div>
 			</div>
+			<script>
+				var chatOutput = $('#chat_output');
+				
+				function scrollChatToBottom() {
+				    chatOutput.scrollTop(chatOutput[0].scrollHeight);
+				}
+				
 			
+			</script>
 			<!-- 웹소켓 해보자!! -->
 			<script>
 				$(function(){
 					var str = "";
-					var webSocket = new WebSocket("ws://localhost:8888/<%=contextPath%>/webSocket");
+					var webSocket = new WebSocket("ws://192.168.150.14:8888/<%=contextPath%>/webSocket");
 					
 					webSocket.onopen = function() {
 						$("#chat_output").css("text-align", "center");
@@ -146,6 +154,7 @@
 						
 						str += message.data+"\n";
 						$("#chat_output").val(str);
+						scrollChatToBottom();
 						
 					};
 					

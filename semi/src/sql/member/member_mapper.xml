@@ -128,6 +128,7 @@
 		JOIN BOARD_CATEGORY USING(CATEGORY_NO)
 		WHERE BOARD_WRITER = ?
 		AND B.STATUS = 'Y'
+		ORDER BY CREATE_DATE DESC
 	                       
 	</entry>
 	
@@ -138,6 +139,7 @@
 		JOIN BOARD_CATEGORY BC ON(B.CATEGORY_NO = BC.CATEGORY_NO) 
 		WHERE RP_WRITER =?
 		AND R.STATUS = 'Y'
+		ORDER BY RP_CREATE_DATE DESC
 					
 	</entry>
 	
@@ -145,6 +147,7 @@
 		SELECT CS_NO, CS_TITLE, ACCEPT, CREATE_DATE, CS_ANSWER
 		FROM COUNSEL
 		WHERE CS_WRITER = ?
+		ORDER BY CREATE_DATE DESC
 	</entry>
 	
 	<entry key="selectLawReviewList">
@@ -156,7 +159,6 @@
 		                                   FROM BOARD
 		                                   WHERE BOARD_WRITER = ?))		
 	</entry>
-	
 
 	<entry key="selectAccidentReviewList">
 		SELECT AR_NO, LAW_NO, CONTENT
@@ -180,7 +182,7 @@
 		                  FROM LAW_USER
 		                  JOIN MEMBER ON(REF_UNO = USER_NO)
 		                  WHERE USER_NO = ?)
-		AND SOLVE = 'N'                       
+		AND SOLVE = 'N' 
 	</entry>
 	
 	<!-- 나에게 온 상담내역 조회 (변호사) -->
@@ -189,6 +191,7 @@
 		FROM COUNSEL C
         JOIN LAW_USER L ON (C.REF_LNO = L.LAW_NO) 
 		WHERE L.REF_UNO = ?
+		ORDER BY CREATE_DATE DESC
 	</entry>
 	
 	<entry key="selectQuestionList">
@@ -197,6 +200,7 @@
 		JOIN BOARD_CATEGORY ON(CATEGORY_NO = REF_CATNO)
 		WHERE Q_WRITER = ?
 		AND STATUS = 'Y'
+		ORDER BY CREATE_DATE DESC
 	</entry>
 	
 	<!-- 회원정보 조회(관리자,변호사신청) -->

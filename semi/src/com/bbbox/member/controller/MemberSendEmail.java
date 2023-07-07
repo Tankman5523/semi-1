@@ -186,8 +186,8 @@ public class MemberSendEmail extends HttpServlet {
 		PasswordAuthentication account;
 		 
 		public MyAuthentication() {
-			String id = "mmute96@naver.com";
-			String password = "dmadkrgkwk77";
+			String id = "";
+			String password = "";
 			account = new PasswordAuthentication(id,password);
 			
 	}
